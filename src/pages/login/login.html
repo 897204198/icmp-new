@@ -1,0 +1,23 @@
+<ion-content>
+  <img src="./assets/images/login_logo.png" (press)="pressEvent($event)" class="login-logo">
+
+  <ion-item>
+    <ion-label fixed>{{'ACCOUNT' | translate}}</ion-label>
+    <ion-input type="text" [ngModel]="userInfo.loginName" placeholder="{{'PLEASE_ENTER_ACCOUNT' | translate}}" #username></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label fixed>{{'PASSWORD' | translate}}</ion-label>
+    <ion-input type="password" [ngModel]="userInfo.password0" placeholder="{{'PLEASE_ENTER_PASSWORD' | translate}}" #password></ion-input>
+  </ion-item>
+
+  <ion-item no-lines>
+    <label item-right>{{'REMEMBER_PASSWORD' | translate}}</label>
+    <ion-toggle color="secondary" [(ngModel)]="userInfo.savePassword"></ion-toggle>
+  </ion-item>
+
+  <div padding>
+    <button ion-button block color="danger" (tap)="logIn(username, password)">
+      {{'LOGIN' | translate}}
+    </button>
+  </div>
+</ion-content>

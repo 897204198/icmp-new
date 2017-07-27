@@ -1,0 +1,16 @@
+{
+  "rows": [
+    {
+      "id": "1",
+      "name": "收藏的医生",
+      "icon": "http://pics.sc.chinaz.com/Files/pic/icons128/6010/f6.png",
+      "template": "pluginColldoctor"
+    },
+    {
+      "id": "2",
+      "name": "就诊提醒",
+      "icon": "http://pics.sc.chinaz.com/Files/pic/icons128/6010/f6.png",
+      "template": "pluginRegRemind"
+    }
+  ]
+}

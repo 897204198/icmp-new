@@ -1,0 +1,29 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+    <ion-buttons *ngIf="hasCondition" end>
+      <button ion-button clear color="primary" (click)="queryConditonOpen()">
+        {{'QUERY_CONDITON' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray">
+  <ion-refresher *ngIf="!isTabQuery" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="isTabQuery">
+    <button ion-item *ngFor="let item of queryList" (click)="goQuerySubList(item)">
+      {{item.tab_name}}
+    </button>
+  </ion-list>
+  <ion-list *ngIf="!isTabQuery">
+    <button ion-item *ngFor="let item of queryList" (click)="goQueryDetail(item)">
+      <div [innerHtml]="getSafeHtml(item.title)"></div>
+    </button>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

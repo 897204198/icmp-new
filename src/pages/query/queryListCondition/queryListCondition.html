@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button ion-button clear color="primary" (click)="dismiss()">
+        {{'CLOSE' | translate}}
+      </button>
+    </ion-buttons>
+    <ion-title>{{'QUERY_CONDITON' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="querySubmit()">
+        {{'QUERY' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="content-gray">
+  <ion-list>
+    <div *ngFor="let condition of conditionList">
+      <ion-item *ngIf="subCondition(condition)">
+        <ion-label *ngIf="condition.query_type == 'text'" fixed>{{condition.query_name}}</ion-label>
+        <ion-label *ngIf="condition.query_type != 'text'">{{condition.query_name}}</ion-label>
+        <ion-input *ngIf="condition.query_type == 'text'" type="text" placeholder="{{'PLEASE_ENTER_SEARCH' | translate}}" [(ngModel)]="queryInput[condition.query_value]"></ion-input>
+        <ion-datetime *ngIf="condition.query_type == 'date'" (ionCancel)="clearDatetime(condition)"
+                      placeholder="{{'PLEASE_SELECT_DATE' | translate}}"
+                      max="2100" (touchstart)="setDatetime(condition)"
+                      displayFormat="{{condition.query_formatter}}"
+                      [(ngModel)]="queryInput[condition.query_value]"
+                      cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}">
+        </ion-datetime>
+        <ion-select *ngIf="condition.query_type == 'single_select'" [(ngModel)]="queryInput[condition.query_value]" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+          <ion-option *ngFor="let item of condition.query_data" [value]="item.value">{{item.name}}</ion-option>
+        </ion-select>
+        <ion-select *ngIf="condition.query_type == 'more_select'" multiple="true" [(ngModel)]="queryInput[condition.query_value]" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+          <ion-option *ngFor="let item of condition.query_data" [value]="item.value">{{item.name}}</ion-option>
+        </ion-select>
+        <ion-input *ngIf="condition.query_type == 'select_searchbox' || condition.query_type == 'select_person'" class="searchbox-name" type="text" placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="searchboxSelect(condition)" [(ngModel)]="queryInput[condition.query_value + 'Name']" disabled="true"></ion-input>
+        <ion-input *ngIf="condition.query_type == 'select_searchbox' || condition.query_type == 'select_person'" class="searchbox-value" type="text" [(ngModel)]="queryInput[condition.query_value]"></ion-input>
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

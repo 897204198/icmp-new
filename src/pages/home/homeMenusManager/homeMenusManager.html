@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <ion-searchbar [formControl]="titleFilter" placeholder="{{'APP_NAME' | translate}}"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button color="primary" clear (click)="manageMenus()">
+        <span *ngIf="!isManage">{{'MANAGE' | translate}}</span>
+        <span *ngIf="isManage">{{'COMPLETE' | translate}}</span>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray">
+  <div class="menus">
+    <div class="menus-title">{{'MY_APPLICATION' | translate}}</div>
+    <div class="menus-content" [dragula]="'bag-one'" [dragulaModel]="myMenus">
+      <div *ngFor="let menu of myMenus" [style.width]="menuWidth" (press)="pressEvent($event)" tappable (tap)="openApp(menu)">
+        <div class="setting-menu" (contextmenu)="contextmenuEvent($event)" (touchstart)="touchstartEvent($event)" (touchend)="touchendEvent($event)" (touchmove)="dragulaMove($event)" (pointermove)="dragulaMove($event)">
+          <img [src]="menu.icon">
+          <div class="menu-text">{{menu.title}}</div>
+          <ion-icon *ngIf="isManage" name="remove-circle" class="menus-op" tappable (tap)="currentMenuRemove(menu)"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="menus row-division" *ngIf="!isManage">
+    <div *ngFor="let categoryMenu of categoryMenus, let i = index" (press)="pressEvent($event)">
+      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.title}}</div>
+      <div class="menus-content">
+        <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'title': keyword" tappable (tap)="openApp(menu)" [style.width]="menuWidth">
+          <img [src]="menu.icon">
+          <div class="menu-text">{{menu.title}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="menus row-division" *ngIf="isManage">
+    <div *ngFor="let categoryMenu of categoryMenus, let i = index">
+      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.title}}</div>
+      <div class="menus-content">
+        <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'title': keyword" [style.width]="menuWidth">
+          <img [src]="menu.icon">
+          <div class="menu-text">{{menu.title}}</div>
+          <ion-icon name="checkmark-circle" *ngIf="isManage && isMenuSelected(menu)" class="menus-op positive" (click)="listMenuRemove(menu)"></ion-icon>
+          <ion-icon name="radio-button-off" *ngIf="isManage && !isMenuSelected(menu)" class="menus-op" (click)="menuAdd(menu)"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

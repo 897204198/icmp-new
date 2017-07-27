@@ -1,0 +1,13 @@
+{
+  "name": "icmp",
+  "app_id": "com.proper.icmp",
+  "version": "30000",
+  "currentProject": "demo",
+  "type": "ionic-angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://localhost:8080/pep"
+    }
+  ]
+}

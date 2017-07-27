@@ -1,0 +1,62 @@
+{
+  "demo": {
+    "id": {
+      "android": "com.proper.icmp.demo",
+      "ios": "com.proper.icmp.demo"
+    },
+    "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公3.x演示版",
+    "updateUrl": {
+      "android": "https://www.baidu.com",
+      "ios": "https://www.baidu.com"
+    },
+    "server": {
+      "baseUrl": "https://server.propersoft.cn/icmp/app-dev/api",
+      "pushServer": "https://server.propersoft.cn/icmp/properpush",
+      "hcp": "https://server.propersoft.cn/icmp/app-dev"
+    }
+  },
+  "srm": {
+    "id": {
+      "android": "com.proper.icmp.srm",
+      "ios": "com.proper.icmp.srm"
+    },
+    "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公",
+    "updateUrl": {
+      "android": "https://www.baidu.com",
+      "ios": "https://www.baidu.com"
+    },
+    "server": {
+      "baseUrl": "http://202.199.100.174:29091/mobile-platform",
+      "pushServer": "http://202.199.100.174:29091/properpush",
+      "hcp": "http://202.199.100.174:29091/mobile-platform"
+    }
+  },
+  "nb": {
+    "id": {
+      "android": "com.proper.icmp.nb",
+      "ios": "com.proper.icmp.nb"
+    },
+    "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公",
+    "updateUrl": {
+      "android": "https://www.baidu.com",
+      "ios": "https://www.baidu.com"
+    },
+    "server": {
+      "baseUrl": "http://202.199.100.174:29091/mobile-platform",
+      "pushServer": "http://202.199.100.174:29091/properpush",
+      "hcp": "http://202.199.100.174:29091/mobile-platform"
+    }
+  }
+}

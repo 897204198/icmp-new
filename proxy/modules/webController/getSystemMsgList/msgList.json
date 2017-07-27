@@ -1,0 +1,133 @@
+{
+  "result_list": [
+    {
+      "id": "id__1",
+      "title": "<h2 style=\"color: blue;\" >His消息推送1</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__2",
+      "title": "<h2 style=\"color: blue;\" >His消息推送2</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__3",
+      "title": "<h2 style=\"color: blue;\" >His消息推送3</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__4",
+      "title": "<h2 style=\"color: blue;\" >His消息推送4</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__5",
+      "title": "<h2 style=\"color: blue;\" >His消息推送5</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__6",
+      "title": "<h2 style=\"color: blue;\" >His消息推送6</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__7",
+      "title": "<h2 style=\"color: blue;\" >His消息推送7</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__8",
+      "title": "<h2 style=\"color: blue;\" >His消息推送8</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__9",
+      "title": "<h2 style=\"color: blue;\" >His消息推送9</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__10",
+      "title": "<h2 style=\"color: blue;\" >His消息推送10</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__11",
+      "title": "<h2 style=\"color: blue;\" >His消息推送11</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__12",
+      "title": "<h2 style=\"color: blue;\" >His消息推送12</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__13",
+      "title": "<h2 style=\"color: blue;\" >His消息推送13</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__14",
+      "title": "<h2 style=\"color: blue;\" >His消息推送14</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__15",
+      "title": "<h2 style=\"color: blue;\" >His消息推送15</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__16",
+      "title": "<h2 style=\"color: blue;\" >His消息推送16</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__17",
+      "title": "<h2 style=\"color: blue;\" >His消息推送17</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__18",
+      "title": "<h2 style=\"color: blue;\" >His消息推送18</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__19",
+      "title": "<h2 style=\"color: blue;\" >His消息推送19</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "id__20",
+      "title": "<h2 style=\"color: blue;\" >His消息推送20</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    }
+  ],
+  "query_conditon": [],
+  "result_total": 53,
+  "tab_list": [
+    {
+      "tab_name": "消息推送",
+      "tab_value": "default"
+    }
+  ],
+  "default_tab": "default"
+}

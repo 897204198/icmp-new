@@ -1,0 +1,14 @@
+{
+  "id": "1",
+  "name": "于军",
+  "phone": "18600001111",
+  "email": "test@163.com",
+  "ascription": "院内",
+  "deptId": "11",
+  "deptName": "信息科",
+  "jobId": "22",
+  "jobName": "科员",
+  "jobNum": "1000002230",
+  "sexCode": "1",
+  "sexName": "男"
+}

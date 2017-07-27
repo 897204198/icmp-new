@@ -1,0 +1,223 @@
+{
+  "result_list": [
+    {
+      "id": "25c2ab07-1ba9-4985-8d88-bbf60e89b2f1",
+      "title": "<h2>123ssssssssssssssssssssssssssssssssssdddddddd</h2><p>[院办8]&nbsp;&nbsp;创建时间:2014-12-25</p>",
+      "style": ""
+    },
+    {
+      "id": "25c2ab07-1ba9-4985-8d88-bbf60e89b2f1",
+      "title": "<h2>123ssssssssssssssssssssssssssssssssssdddddddd</h2><p>[院办8]&nbsp;&nbsp;创建时间:2014-12-25</p>",
+      "style": ""
+    },
+    {
+      "id": "25c2ab07-1ba9-4985-8d88-bbf60e89b2f1",
+      "title": "<h2>123ssssssssssssssssssssssssssssssssssdddddddd</h2><p>[院办8]&nbsp;&nbsp;创建时间:2014-12-25</p>",
+      "style": ""
+    },
+    {
+      "id": "25c2ab07-1ba9-4985-8d88-bbf60e89b2f1",
+      "title": "<h2>123ssssssssssssssssssssssssssssssssssdddddddd</h2><p>[院办8]&nbsp;&nbsp;创建时间:2014-12-25</p>",
+      "style": ""
+    },
+    {
+      "id": "25c2ab07-1ba9-4985-8d88-bbf60e89b2f1",
+      "title": "<h2>123ssssssssssssssssssssssssssssssssssdddddddd</h2><p>[院办8]&nbsp;&nbsp;创建时间:2014-12-25</p>",
+      "style": ""
+    }
+  ],
+  "query_conditon": [
+    {
+      "query_type": "date",
+      "query_value": "date1",
+      "query_formatter": "YYYY-MM",
+      "query_name": "开始年月"
+    },
+    {
+      "query_type": "text",
+      "query_value": "serialNumberSr",
+      "query_name": "项目编号"
+    },
+    {
+      "query_type": "text",
+      "query_value": "serialNumberSr2",
+      "query_name": "项目编号",
+      "query_default": "hello",
+      "query_disabled": true
+    },
+    {
+      "query_data": [
+        {
+          "name": "全部",
+          "value": "ALL"
+        },
+        {
+          "name": "在研",
+          "value": "INPROGRESS",
+          "subforms": [
+            {
+              "query_type": "text",
+              "query_value": "subforms_date1",
+              "query_name": "ddddd",
+              "query_default": "这个是动态创建的"
+            }
+          ]
+        },
+        {
+          "name": "延期",
+          "value": "DELAY"
+        },
+        {
+          "name": "结题",
+          "value": "COMPLETE"
+        },
+        {
+          "name": "中期",
+          "value": "METAPHASE"
+        }
+      ],
+      "query_type": "single_select",
+      "query_value": "topicTypeSr",
+      "query_name": "课题状态2",
+      "query_default": "INPROGRESS"
+    },
+    {
+      "query_data": [
+        {
+          "name": "全部",
+          "value": "ALL"
+        },
+        {
+          "name": "在研",
+          "value": "INPROGRESS"
+        },
+        {
+          "name": "延期",
+          "value": "DELAY"
+        },
+        {
+          "name": "结题",
+          "value": "COMPLETE"
+        },
+        {
+          "name": "中期",
+          "value": "METAPHASE"
+        }
+      ],
+      "query_type": "single_select",
+      "query_value": "topicTypeSr2",
+      "query_name": "课题状态",
+      "query_default": "ALL",
+      "query_disabled": true
+    },
+    {
+      "query_data": [
+        {
+          "name": "全部",
+          "value": "ALL"
+        },
+        {
+          "name": "在研",
+          "value": "INPROGRESS"
+        },
+        {
+          "name": "延期",
+          "value": "DELAY"
+        },
+        {
+          "name": "结题",
+          "value": "COMPLETE"
+        },
+        {
+          "name": "中期",
+          "value": "METAPHASE"
+        }
+      ],
+      "query_type": "more_select",
+      "query_value": "topicTypeSrmore1",
+      "query_name": "课题状态more1"
+    },
+    {
+      "query_data": [
+        {
+          "name": "全部",
+          "value": "ALL"
+        },
+        {
+          "name": "在研",
+          "value": "INPROGRESS"
+        },
+        {
+          "name": "延期",
+          "value": "DELAY"
+        },
+        {
+          "name": "结题",
+          "value": "COMPLETE"
+        },
+        {
+          "name": "中期",
+          "value": "METAPHASE"
+        }
+      ],
+      "query_type": "more_select",
+      "query_value": "topicTypeSrmore2",
+      "query_name": "课题状态more",
+      "query_default": [
+        "ALL",
+        "METAPHASE"
+      ],
+      "query_disabled": true
+    },
+    {
+      "query_type": "select_searchbox",
+      "query_name": "选择城市",
+      "query_value": "selectsearch111",
+      "query_more": false,
+      "search_url": "/demo/selectSearchboxQuery",
+      "query_condition": [
+        {
+          "query_value": "titleColor",
+          "query_default": "#006699"
+        }
+      ],
+      "query_default": []
+    }
+  ],
+  "result_total": 18,
+  "tab_list": [
+    {
+      "tab_name": "纵向课题查询",
+      "tab_value": "longitudinal"
+    },
+    {
+      "tab_name": "横向课题查询",
+      "tab_value": "horizontal"
+    },
+    {
+      "tab_name": "论文查询",
+      "tab_value": "paper"
+    },
+    {
+      "tab_name": "科技奖励查询",
+      "tab_value": "scienceAward"
+    },
+    {
+      "tab_name": "成果鉴定查询",
+      "tab_value": "result"
+    },
+    {
+      "tab_name": "专利查询",
+      "tab_value": "patent"
+    },
+    {
+      "tab_name": "著作查询",
+      "tab_value": "book"
+    },
+    {
+      "tab_name": "学术活动查询",
+      "tab_value": "academic"
+    }
+  ],
+  "default_tab": "longitudinal"
+}

@@ -1,0 +1,90 @@
+{
+  "result": "0",
+  "rows": [
+    {
+      "appType": "category",
+      "title": "申请",
+      "rows": [
+        {
+          "appid": "1",
+          "title": "请假申请",
+          "systemId": "queryDetail",
+          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "style": "tododetail_style",
+          "bussinessId": "",
+          "defaultTab": "",
+          "serviceName": "",
+          "data": {
+            "webPath": "/demo/leaveApplyForm",
+            "otherParam": "这里是其它Data中的其它参数"
+          }
+        }
+      ]
+    },
+    {
+      "appType": "category",
+      "title": "查询",
+      "rows": [
+        {
+          "appid": "2",
+          "title": "公告通知",
+          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "systemId": "query",
+          "style": "notice_style",
+          "serviceName": "notifyPublishQueryService"
+        },
+        {
+          "appid": "3",
+          "title": "其它查询",
+          "style": "",
+          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "systemId": "query",
+          "serviceName": "otherQueryService"
+        },
+        {
+          "appid": "4",
+          "title": "推送查询",
+          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "systemId": "query",
+          "style": "notice_style",
+          "serviceName": "pushMsgQueryService"
+        }
+      ]
+    },
+    {
+      "appType": "category",
+      "title": "其它",
+      "rows": [
+        {
+          "appType": "folder",
+          "appid": "C28500F3-F93A-43E7-B6A8-6C27F551345A",
+          "title": "文件夹",
+          "icon": "http://pics.sc.chinaz.com/Files/pic/icons128/6010/f6.png",
+          "rows": [
+            {
+              "appid": "71",
+              "title": "上传及搜索组件demo",
+              "systemId": "queryDetail",
+              "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+              "style": "tododetail_style",
+              "bussinessId": "",
+              "defaultTab": "",
+              "serviceName": "",
+              "data": {
+                "webPath": "/demo/uploadAndSearch"
+              }
+            },
+            {
+              "appid": "72",
+              "title": "其它查询",
+              "style": "",
+              "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+              "systemId": "query",
+              "serviceName": "otherQueryService"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

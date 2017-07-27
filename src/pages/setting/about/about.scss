@@ -1,0 +1,19 @@
+page-about {
+  .user-head-image-div {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+    img {
+      height: 80px;
+      width: 80px;
+    }
+  }
+
+  p {
+    text-align: center;
+    color: gray;
+    font-size: 16px;
+    margin-top: -15px;
+  }
+}

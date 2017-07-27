@@ -1,0 +1,16 @@
+page-user-info {
+  .user-head-image-div {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+    img {
+      height: 80px;
+      width: 80px;
+    }
+  }
+
+  .item-ios [item-right] {
+    margin: 0 8px 0 0;
+  }
+}

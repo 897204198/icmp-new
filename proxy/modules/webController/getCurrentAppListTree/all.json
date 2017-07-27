@@ -1,0 +1,32 @@
+{
+  "result": "0",
+  "rows": [
+    {
+      "appid": "2",
+      "total": 3,
+      "title": "公告通知",
+      "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+      "systemId": "query",
+      "style": "notice_style",
+      "serviceName": "notifyPublishQueryService"
+    },
+    {
+      "appid": "3",
+      "total": 0,
+      "title": "其它查询",
+      "style": "",
+      "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+      "systemId": "query",
+      "serviceName": "otherQueryService"
+    },
+    {
+      "appid": "4",
+      "total": 0,
+      "title": "推送查询",
+      "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+      "systemId": "query",
+      "style": "notice_style",
+      "serviceName": "pushMsgQueryService"
+    }
+  ]
+}

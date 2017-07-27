@@ -1,0 +1,41 @@
+page-proper {
+  .proper-logo-div {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+    img {
+      height: 80px;
+      width: 80px;
+    }
+  }
+
+  h4 {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+    color: gray;
+  }
+
+  .ym-red-p {
+    font-size: larger;
+    font-weight: bold;
+    color: #e33633;
+  }
+
+  .ym-address-div {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .ym-red-line {
+    height: 2px;
+    background-color: #EE7942;
+  }
+
+  .item-ios [item-right] {
+    margin: 0 8px 0 0;
+  }
+}

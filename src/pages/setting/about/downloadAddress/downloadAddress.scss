@@ -1,0 +1,18 @@
+page-download-address {
+  .qrcode-image-div {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+    img {
+      height: 200px;
+      width: 200px;
+    }
+  }
+
+  p {
+    color: gray;
+    font-size: 16px;
+    text-align: center;
+  }
+}

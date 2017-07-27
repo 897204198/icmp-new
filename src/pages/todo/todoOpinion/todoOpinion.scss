@@ -1,0 +1,19 @@
+page-todo-opinion {
+  .opinion_other .item {
+    .text-input {
+      text-align: right;
+    }
+
+    .text-input[disabled] {
+      opacity: 1 !important;
+    }
+
+    .searchbox-name .text-input[disabled] {
+      opacity: 1 !important;
+    }
+
+    .searchbox-value {
+      display: none !important;
+    }
+  } 
+}
