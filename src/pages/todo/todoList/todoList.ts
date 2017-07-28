@@ -63,6 +63,9 @@ export class TodoListPage {
   initTodoList(): void {
     this.todoList = null;
     this.pageNo = 1;
+    if (this.infiniteScroll != null) {
+      this.infiniteScroll.enable(true);
+    }
     this.getTodoList(true);
   }
 

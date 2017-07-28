@@ -61,6 +61,9 @@ export class QueryListPage {
   initQueryList(): void {
     this.queryList = null;
     this.pageNo = 1;
+    if (this.infiniteScroll != null) {
+      this.infiniteScroll.enable(true);
+    }
     this.getQueryList(true);
   }
 

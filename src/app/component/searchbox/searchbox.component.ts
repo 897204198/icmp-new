@@ -65,6 +65,9 @@ export class SearchboxComponent {
   initSearchResults(): void {
     this.searchResults = null;
     this.pageNo = 1;
+    if (this.infiniteScroll != null) {
+      this.infiniteScroll.enable(true);
+    }
     this.getSearchResults(true);
   }
 
