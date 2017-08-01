@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { ModalController, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -35,7 +35,6 @@ export class LoginPage {
   constructor(private navCtrl: NavController,
               private pushService: PushService,
               private cryptoService: CryptoService,
-              private modalCtrl: ModalController,
               private backButtonService: BackButtonService,
               private platform: Platform,
               private alertCtrl: AlertController,
@@ -117,8 +116,7 @@ export class LoginPage {
         this.userService.login();
         this.pushService.bindUserid(data['userId'], loginName);
 
-        let modal = this.modalCtrl.create(TabsPage);
-        modal.present();
+        this.navCtrl.push(TabsPage);
       } else if (data.result === '2') {
         if (data.errMsg != null && data.errMsg !== '') {
           this.toastService.show(data.errMsg);

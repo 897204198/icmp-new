@@ -32,7 +32,7 @@ export class BackButtonService {
   registerBackButtonAction(tabRef: Tabs): void {
     this.platform.registerBackButtonAction(() => {
       let activeNav: NavController = this.appCtrl.getActiveNav();
-      if (activeNav.canGoBack()) {
+      if (activeNav.canGoBack() && tabRef != null) {
         activeNav.pop();
       } else {
         if (tabRef == null || tabRef._selectHistory[tabRef._selectHistory.length - 1] === tabRef.getByIndex(0).id) {

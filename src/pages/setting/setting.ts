@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { GeneralPage } from './general/general';
 import { AboutPage } from './about/about';
 import { LoginPage } from '../login/login';
@@ -41,10 +41,10 @@ export class SettingPage {
   /**
    * 构造函数
    */
-  constructor(private pushService: PushService,
+  constructor(private navCtrl: NavController,
+              private pushService: PushService,
               private userService: UserService,
               private deviceService: DeviceService,
-              public modalCtrl: ModalController,
               private translate: TranslateService,
               private appVersionUpdateService: AppVersionUpdateService) {
     this.userInfoPage = UserInfoPage;
@@ -89,7 +89,6 @@ export class SettingPage {
     // 取消自动登录
     this.userService.logout();
     // 退出
-    let modal = this.modalCtrl.create(LoginPage);
-    modal.present();
+    this.navCtrl.push(LoginPage);
   }
 }

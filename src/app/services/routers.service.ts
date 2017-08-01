@@ -20,9 +20,9 @@ export class RoutersService {
   /**
    * 构造函数
    */
-  constructor(@Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-              private toastService: ToastService,
-              private translate: TranslateService) {
+  constructor( @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private toastService: ToastService,
+    private translate: TranslateService) {
     this.translate.get(['NO_DETAILED_INFO']).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -44,6 +44,8 @@ export class RoutersService {
       }
     } else if (menu.systemId === this.icmpConstant.systemId.todoList) {
       navCtrl.push(TodoListPage, menu);
+    } else {
+      this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }
   }
 }
