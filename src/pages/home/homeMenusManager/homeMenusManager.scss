@@ -23,13 +23,13 @@ page-home-menus-manager {
 
       .setting-menu {
         text-align: center;
-        padding: 8px 6px;
+        padding: 2px 6px;
         position: relative;
 
         &.pressActive {
           img {
-            width: 40px;
-            height: 40px;
+            width: 55px;
+            height: 55px;
           }
         }
 
@@ -50,14 +50,15 @@ page-home-menus-manager {
         }
 
         img {
-          width: 30px;
-          height: 30px;
+          width: 45px;
+          height: 45px;
         }
 
         .menu-text {
+          margin-top: -4px;
           text-align: center;
-          font-size: 13px;
-          color: #777777;
+          font-size: 12px;
+          color: #555555;
           padding-top: 2px;
           overflow: hidden;
           text-overflow: ellipsis;

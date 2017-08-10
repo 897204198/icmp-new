@@ -1,7 +1,7 @@
 <icmp-spinner></icmp-spinner>
 <ion-header>
   <ion-navbar>
-    <ion-title>{{title}}</ion-title>
+    <ion-title id="e2e-todolist-title">{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
@@ -22,9 +22,9 @@
       <p *ngIf="item.otherInfo != null && item.otherInfo != ''">{{item.otherInfo}}</p>
       <p>{{'CREATE_TIME' | translate}}：{{item.createTime}}</p>
       <div class="item-buttons">
-        <button ion-button outline color="primary" (click)="doClaim(item)" [disabled]="item.assignee != null && item.assignee != ''">{{'CLAIM' | translate}}</button>
-        <button ion-button outline color="primary" (click)="doHandle(item)">{{'HANDLE' | translate}}</button>
-        <button ion-button outline color="primary" (click)="doGoback(item)" [disabled]="item.assignee == null || item.assignee == ''">{{'GOBACK' | translate}}</button>
+        <button id="e2e-claim-button" ion-button outline color="primary" (click)="doClaim(item)" [disabled]="item.assignee != null && item.assignee != ''">{{'CLAIM' | translate}}</button>
+        <button id="e2e-handle-button" ion-button outline color="primary" (click)="doHandle(item)">{{'HANDLE' | translate}}</button>
+        <button id="e2e-goback-button" ion-button outline color="primary" (click)="doGoback(item)" [disabled]="item.assignee == null || item.assignee == ''">{{'GOBACK' | translate}}</button>
       </div>
     </ion-item>
   </ion-list>

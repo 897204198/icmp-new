@@ -1,9 +1,9 @@
 <icmp-spinner></icmp-spinner>
 <ion-header>
   <ion-navbar>
-    <ion-title>{{'APPROVAL_OPINION' | translate}}</ion-title>
+    <ion-title id="e2e-todoopinion-title">{{'APPROVAL_OPINION' | translate}}</ion-title>
     <ion-buttons end>
-      <button ion-button clear color="primary" (click)="submitOpinion()">
+      <button id="e2e-submit-button" ion-button clear color="primary" (click)="submitOpinion()">
         {{'SUBMIT' | translate}}
       </button>
     </ion-buttons>
@@ -17,7 +17,7 @@
   </div>
   <ion-list class="opinion_other icmp-list-top-margin" *ngIf="opinionOtherList != null && opinionOtherList.length > 0">
     <div *ngFor="let item of opinionOtherList">
-      <ion-item *ngIf="isDisplayFormItem(item)">
+      <ion-item class="e2e-item" *ngIf="isDisplayFormItem(item)">
         <ion-label *ngIf="item.control_type == 'text'" fixed>{{item.control_label}}</ion-label>
         <ion-label *ngIf="item.control_type != 'text'">{{item.control_label}}</ion-label>
         <ion-input *ngIf="item.control_type == 'text'" type="text" [(ngModel)]="approvalInput[item.control_name]"></ion-input>

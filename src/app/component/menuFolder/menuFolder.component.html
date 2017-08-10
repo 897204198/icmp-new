@@ -6,7 +6,7 @@
         <ion-slide class="menus-carousel-li" *ngFor="let myMenu of folderMenus">
           <div class="folder-menu" *ngFor="let item of myMenu" tappable (tap)="menusClk(item, $event)"
                [ngClass]="{'folder-menu-nopager': !showPager}">
-            <img src="./assets/images/icon_default.png">
+            <img [src]="item.icon">
             <div class="menu-title"><span>{{item.title}}</span></div>
             <span class="menu-superscript-area"><span class="menu-superscript" *ngIf="item.total != null && item.total != 0">{{folder.total}}</span></span>
           </div>

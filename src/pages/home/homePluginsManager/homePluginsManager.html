@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-searchbar [formControl]="titleFilter" placeholder="{{'PLUGIN_NAME' | translate}}"></ion-searchbar>
     <ion-buttons end>
-      <button ion-button clear color="primary" (click)="manageMenus()">
+      <button id="e2e-edit-button" ion-button clear color="primary" (click)="manageMenus()">
         <span *ngIf="!isManage">{{'MANAGE' | translate}}</span>
         <span *ngIf="isManage">{{'COMPLETE' | translate}}</span>
       </button>

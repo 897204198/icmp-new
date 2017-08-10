@@ -9,7 +9,7 @@
           "appid": "1",
           "title": "请假申请",
           "systemId": "queryDetail",
-          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "icon": "http://chuantu.biz/t5/162/1502023631x2890149590.png",
           "style": "tododetail_style",
           "bussinessId": "",
           "defaultTab": "",
@@ -28,7 +28,7 @@
         {
           "appid": "2",
           "title": "公告通知",
-          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "icon": "http://chuantu.biz/t5/162/1502023340x3066592326.png",
           "systemId": "query",
           "style": "notice_style",
           "serviceName": "notifyPublishQueryService"
@@ -37,14 +37,14 @@
           "appid": "3",
           "title": "其它查询",
           "style": "",
-          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
           "systemId": "query",
           "serviceName": "otherQueryService"
         },
         {
           "appid": "4",
           "title": "推送查询",
-          "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+          "icon": "http://chuantu.biz/t5/162/1502023508x3066592326.png",
           "systemId": "query",
           "style": "notice_style",
           "serviceName": "pushMsgQueryService"
@@ -59,13 +59,13 @@
           "appType": "folder",
           "appid": "C28500F3-F93A-43E7-B6A8-6C27F551345A",
           "title": "文件夹",
-          "icon": "http://pics.sc.chinaz.com/Files/pic/icons128/6010/f6.png",
+          "icon": "http://chuantu.biz/t5/162/1502023538x2890149590.png",
           "rows": [
             {
               "appid": "71",
               "title": "上传及搜索组件demo",
               "systemId": "queryDetail",
-              "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+              "icon": "http://chuantu.biz/t5/162/1502023581x3066592326.png",
               "style": "tododetail_style",
               "bussinessId": "",
               "defaultTab": "",
@@ -78,7 +78,7 @@
               "appid": "72",
               "title": "其它查询",
               "style": "",
-              "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+              "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
               "systemId": "query",
               "serviceName": "otherQueryService"
             }

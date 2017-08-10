@@ -1,9 +1,9 @@
 <icmp-spinner></icmp-spinner>
 <ion-header>
   <ion-navbar>
-    <ion-title>{{'TODO_DETAIL' | translate}}</ion-title>
+    <ion-title id="e2e-tododetail-title">{{'TODO_DETAIL' | translate}}</ion-title>
     <ion-buttons end>
-      <button *ngIf="hasApprovalBtn" ion-button clear color="primary" (click)="approval()">
+      <button id="e2e-banli-button" *ngIf="hasApprovalBtn" ion-button clear color="primary" (click)="approval()">
         {{btnText}}
       </button>
     </ion-buttons>

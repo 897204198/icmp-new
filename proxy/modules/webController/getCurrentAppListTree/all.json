@@ -5,7 +5,7 @@
       "appid": "2",
       "total": 3,
       "title": "公告通知",
-      "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+      "icon": "http://chuantu.biz/t5/162/1502023340x3066592326.png",
       "systemId": "query",
       "style": "notice_style",
       "serviceName": "notifyPublishQueryService"
@@ -15,7 +15,7 @@
       "total": 0,
       "title": "其它查询",
       "style": "",
-      "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+      "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
       "systemId": "query",
       "serviceName": "otherQueryService"
     },
@@ -23,7 +23,7 @@
       "appid": "4",
       "total": 0,
       "title": "推送查询",
-      "icon": "http://himg.bdimg.com/sys/portrait/item/68ca4804.jpg?t=1470800293",
+      "icon": "http://chuantu.biz/t5/162/1502023508x3066592326.png",
       "systemId": "query",
       "style": "notice_style",
       "serviceName": "pushMsgQueryService"

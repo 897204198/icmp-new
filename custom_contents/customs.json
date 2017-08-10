@@ -30,6 +30,26 @@
     },
     "name": "掌上办公",
     "updateUrl": {
+      "android": "http://oa.lnph.com/mobile-platform",
+      "ios": "http://oa.lnph.com/mobile-platform"
+    },
+    "server": {
+      "baseUrl": "http://oa.lnph.com/mobile-platform",
+      "pushServer": "http://202.199.100.174:29091/properpush",
+      "hcp": "http://202.199.100.174:29091/mobile-platform"
+    }
+  },
+  "nb": {
+    "id": {
+      "android": "com.proper.icmp.nb",
+      "ios": "com.proper.icmp.nb"
+    },
+    "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公",
+    "updateUrl": {
       "android": "https://www.baidu.com",
       "ios": "https://www.baidu.com"
     },
@@ -39,10 +59,30 @@
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
   },
-  "nb": {
+  "ah": {
     "id": {
-      "android": "com.proper.icmp.nb",
-      "ios": "com.proper.icmp.nb"
+      "android": "com.proper.icmp",
+      "ios": "com.proper.icmp"
+    },
+    "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公",
+    "updateUrl": {
+      "android": "https://www.baidu.com",
+      "ios": "https://www.baidu.com"
+    },
+    "server": {
+      "baseUrl": "http://202.199.100.174:29091/mobile-platform",
+      "pushServer": "http://202.199.100.174:29091/properpush",
+      "hcp": "http://202.199.100.174:29091/mobile-platform"
+    }
+  },
+  "tc": {
+    "id": {
+      "android": "com.proper.icmp.tc",
+      "ios": "com.proper.icmp.tc"
     },
     "version": {
       "android": "10000",

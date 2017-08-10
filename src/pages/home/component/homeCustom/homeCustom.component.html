@@ -4,7 +4,7 @@
     <div class="menu-title">{{menu.title}}</div>
     <span class="menu-superscript-area"><span class="menu-superscript" *ngIf="menu.total != null && menu.total != 0">{{menu.total}}</span></span>
   </div>
-  <div class="main-menu" [style.width]="menuWidth" tappable (tap)="goHomeMenusManager()">
+  <div id="e2e-main-menu" class="main-menu" [style.width]="menuWidth" tappable (tap)="goHomeMenusManager()">
     <img src="./assets/images/icon_add.png">
     <div class="menu-title">{{'ALL' | translate}}</div>
   </div>
