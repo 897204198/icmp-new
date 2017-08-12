@@ -10,6 +10,9 @@ export interface SystemIdConstant {
 
   // 审批列表页面
   todoList: string;
+
+  // 随手拍页面
+  instaShot: string;
 }
 
 /**
@@ -38,7 +41,8 @@ export let ICMP_CONSTANT = new InjectionToken<IcmpConstant>('icmp.constant');
 export const systemIdConstant: SystemIdConstant = {
   queryList: 'query',
   queryDetail: 'queryDetail',
-  todoList: 'bpm'
+  todoList: 'bpm',
+  instaShot: 'instaShot'
 }
 
 export const icmpConstant: IcmpConstant = {

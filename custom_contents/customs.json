@@ -61,8 +61,8 @@
   },
   "ah": {
     "id": {
-      "android": "com.proper.icmp",
-      "ios": "com.proper.icmp"
+      "android": "com.proper.mobile.oa.shengjing.test",
+      "ios": "com.proper.mobile.oa.shengjing.test"
     },
     "version": {
       "android": "10000",

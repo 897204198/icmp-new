@@ -42,15 +42,15 @@ export class PushService {
    */
   getDeviceInfo(): Promise<any> {
     let self = this;
-    return new Promise<any>(function(resolve, reject) {
+    return new Promise<any>(function (resolve, reject) {
       if (self.targetObj) {
-        self.targetObj.getDeviceInfo(function(success) {
+        self.targetObj.getDeviceInfo(function (success) {
           resolve(success);
         }, function (error) {
           reject(error);
         });
       } else {
-        let kvs = {'uniqueId': '', 'type': 'web', 'jsonStr': '{}'};
+        let kvs = { 'uniqueId': '', 'type': 'web', 'jsonStr': '{}' };
         resolve(kvs);
       }
     });
@@ -65,7 +65,7 @@ export class PushService {
         userid: userid,
         otherInfo: otherInfo || ''
       };
-      this.targetObj.bindUserid(kvs, () => {}, () => {});
+      this.targetObj.bindUserid(kvs, () => { }, () => { });
     }
   }
 
@@ -74,8 +74,8 @@ export class PushService {
    */
   unBindUserid(): void {
     if (this.targetObj) {
-      let kvs = {'userid': '', 'otherInfo': ''};
-      this.targetObj.bindUserid(kvs, () => {}, () => {});
+      let kvs = { 'userid': '', 'otherInfo': '' };
+      this.targetObj.bindUserid(kvs, () => { }, () => { });
     }
   }
 

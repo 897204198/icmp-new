@@ -64,6 +64,7 @@ import { IcmpDblclickDirective } from './directives/dblclick.directive';
 import { Store, StoreModule } from '@ngrx/store';
 import { reducer } from './redux/app.reducer';
 import { IcmpSpinnerComponent } from './component/spinner/spinner.component';
+import { InstaShotPage } from '../pages/instaShot/instaShot';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -109,7 +110,8 @@ export function createTranslateLoader(http: Http) {
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
-    QueryDetailPage
+    QueryDetailPage,
+    InstaShotPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -159,7 +161,8 @@ export function createTranslateLoader(http: Http) {
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
-    QueryDetailPage
+    QueryDetailPage,
+    InstaShotPage
   ],
   providers: [
     StatusBar,
