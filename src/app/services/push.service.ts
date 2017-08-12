@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { AppConstant, APP_CONSTANT } from '../constants/app.constant';
+import { AppConstant, APP_CONSTANT, ProperPushConstant } from '../constants/app.constant';
+import { ConfigsService } from './configs.service';
 
 /**
  * 推送插件服务
@@ -13,7 +14,7 @@ export class PushService {
   /**
    * 构造函数
    */
-  constructor(@Inject(APP_CONSTANT) private appConstant: AppConstant) {}
+  constructor(@Inject(APP_CONSTANT) private appConstant: AppConstant, private configsService: ConfigsService) {}
 
   /**
    * 初始化目标对象
@@ -30,7 +31,9 @@ export class PushService {
   init(): void {
     this.initTargetObject();
     if (this.targetObj) {
-      this.targetObj.init(this.appConstant.properPushConstant, () => {}, () => {});
+      let properPushConstant: ProperPushConstant = this.appConstant.properPushConstant;
+      properPushConstant.pushUrl = this.configsService.getPushUrl();
+      this.targetObj.init(properPushConstant, () => {}, () => {});
     }
   }
 
