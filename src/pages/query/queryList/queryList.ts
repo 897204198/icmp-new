@@ -75,7 +75,7 @@ export class QueryListPage {
     params.append('pageNo', this.pageNo.toString());
     params.append('pageSize', this.icmpConstant.pageSize);
     params.append('serviceName', this.navParams.get('serviceName'));
-    params.append('defaultTab', this.navParams.get('defaultTab'));
+    params.append('default_tab', this.navParams.get('defaultTab'));
     if (this.queryInput != null) {
       for (let key in this.queryInput) {
         if (this.queryInput.hasOwnProperty(key)) {
