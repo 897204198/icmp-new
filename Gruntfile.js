@@ -137,8 +137,20 @@ module.exports = function(grunt) {
               replacement: 'baseUrl: \'' + customs[conf.currentProject].server.baseUrl + '\','
             },
             {
+              match: /'appId': '.*',/,
+              replacement: '\'appId\': \'' + customs[conf.currentProject].server.pushAppId + '\','
+            },
+            {
               match: /'pushUrl': '.*',/,
               replacement: '\'pushUrl\': \'' + customs[conf.currentProject].server.pushServer + '\','
+            },
+            {
+              match: /'theAppid': '.*',/,
+              replacement: '\'theAppid\': \'' + customs[conf.currentProject].server.pushXiaomi.theAppid + '\','
+            },
+            {
+              match: /'theAppkey': '.*'/,
+              replacement: '\'theAppkey\': \'' + customs[conf.currentProject].server.pushXiaomi.theAppkey + '\''
             },
             {
               match: /androidUpdateUrl: '.*',/,

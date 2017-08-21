@@ -13,15 +13,12 @@
     "build:releaseIOS": "npm run build:prepare && grunt build:releaseIOS",
     "clean": "ionic-app-scripts clean",
     "debugAndroid": "npm run build:releaseAndroid && ionic cordova build android",
-    "lint": "ionic-app-scripts lint",
+    "lint": "ionic-app-scripts lint --bailOnLintError true",
     "releaseAndroid": "npm run build:releaseAndroid && ionic cordova build android --release --buildConfig=build.json",
     "releaseIOS": "npm run build:releaseIOS && ionic cordova build ios",
     "serve": "grunt serveProxy --force && ionic-app-scripts serve",
     "serve:real": "grunt serveProxy:real && ionic-app-scripts serve",
     "serve:win": "ionic-app-scripts serve",
-    "build:e2e": "tsc -p e2e/",
-    "serve:e2e": "lite-server -c=bs-config.e2e.json",
-    "pree2e": "npm run build:e2e",
     "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./protractor.config.js"
   },
   "dependencies": {
