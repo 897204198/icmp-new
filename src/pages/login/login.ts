@@ -33,19 +33,19 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-              private pushService: PushService,
-              private cryptoService: CryptoService,
-              private backButtonService: BackButtonService,
-              private platform: Platform,
-              private alertCtrl: AlertController,
-              @Inject(APP_CONSTANT) private appConstant: AppConstant,
-              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-              private translate: TranslateService,
-              private toastService: ToastService,
-              private http: Http,
-              private userService: UserService,
-              private appVersionUpdateService: AppVersionUpdateService) {
-    let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN']
+    private pushService: PushService,
+    private cryptoService: CryptoService,
+    private backButtonService: BackButtonService,
+    private platform: Platform,
+    private alertCtrl: AlertController,
+    @Inject(APP_CONSTANT) private appConstant: AppConstant,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private translate: TranslateService,
+    private toastService: ToastService,
+    private http: Http,
+    private userService: UserService,
+    private appVersionUpdateService: AppVersionUpdateService) {
+    let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -69,7 +69,7 @@ export class LoginPage {
     }
     if (this.userInfo['savePassword'] === false) {
       this.userInfo['password0'] = '';
-     }
+    }
   }
 
   /**
@@ -178,7 +178,9 @@ export class LoginPage {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion();
     } else {
-      this.toastService.show(this.transateContent['PLEASE_LOGIN']);
+      if (!this.userService.isLogin()) {
+        this.toastService.show(this.transateContent['PLEASE_LOGIN']);
+      }
     }
   }
 }

@@ -21,9 +21,9 @@ export class HomeCustomComponent {
   constructor(public navCtrl: NavController,
               private modalCtrl: ModalController,
               private routersService: RoutersService) {
-    if (screen.width <= 320) {
+    if (screen.width <= 375) {
       this.menuWidth = 25 + '%';
-    } else if (screen.width > 320 && screen.width <= 375) {
+    } else if (screen.width > 375 && screen.width <= 590) {
       this.menuWidth = 20 + '%';
     } else {
       this.menuWidth = 16.6 + '%';

@@ -43,7 +43,7 @@ export const systemIdConstant: SystemIdConstant = {
   queryDetail: 'queryDetail',
   todoList: 'bpm',
   instaShot: 'instaShot'
-}
+};
 
 export const icmpConstant: IcmpConstant = {
   pageSize: '20',

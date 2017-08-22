@@ -12,17 +12,17 @@ icmp-home-custom {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 8px 6px;
+    padding: 8px 0px;
     border-top: 0 !important;
 
     .main-menu {
       text-align: center;
-      padding: 2px 6px;
+      padding: 2px;
       position: relative;
 
       img {
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
       }
 
       .menu-title {

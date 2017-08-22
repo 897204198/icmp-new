@@ -17,7 +17,7 @@ export let initUserInfo: UserInfoState = {
   password0: '',
   userId: '',
   savePassword: true
-}
+};
 
 /**
  * 用户服务

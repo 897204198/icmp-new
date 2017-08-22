@@ -49,7 +49,7 @@ export class UtilsService {
       HH : date.getHours(),
       mm : date.getMinutes(),
       ss : date.getSeconds()
-    }
+    };
     return format.replace(/([a-z])(\1)*/ig, function(m){return cfg[m]; });
   }
 }

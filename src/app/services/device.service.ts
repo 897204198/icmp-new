@@ -16,7 +16,7 @@ let initDeviceInfo: DeviceInfoState = {
   deviceId: '',
   versionCode: '',
   versionNumber: ''
-}
+};
 
 /**
  * 设备相关信息服务

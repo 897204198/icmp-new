@@ -24,7 +24,7 @@ export class AppVersionUpdateService {
               @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
               private deviceService: DeviceService,
               private translate: TranslateService) {
-    let translateKeys: string[] = ['APP_UPDATE_NOTE', 'PROMPT_INFO', 'UPDATE', 'NEXT_TIME']
+    let translateKeys: string[] = ['APP_UPDATE_NOTE', 'PROMPT_INFO', 'UPDATE', 'NEXT_TIME'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });

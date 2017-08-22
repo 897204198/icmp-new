@@ -26,6 +26,11 @@ page-todo-list {
     white-space: normal !important;
   }
 
+  .item h2 {
+    text-overflow: ellipsis; 
+    overflow: hidden;
+  }
+
   .todoList-prompt {
     z-index: 1;
     width: 100%;

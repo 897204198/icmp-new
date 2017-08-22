@@ -23,13 +23,13 @@ page-home-plugins-manager {
 
       .setting-menu {
         text-align: center;
-        padding: 8px 6px;
+        padding: 8px 0px;
         position: relative;
 
         &.pressActive {
           img {
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             margin-top: -5px;
           }
         }
@@ -51,8 +51,8 @@ page-home-plugins-manager {
         }
 
         img {
-          width: 30px;
-          height: 30px;
+          width: 55px;
+          height: 55px;
         }
 
         .menu-text {

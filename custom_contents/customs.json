@@ -35,11 +35,11 @@
     },
     "name": "掌上办公",
     "updateUrl": {
-      "android": "http://oa.lnph.com/mobile-platform",
-      "ios": "http://oa.lnph.com/mobile-platform"
+      "android": "http://218.25.115.50:80/mobile-platform",
+      "ios": "http://218.25.115.50:80/mobile-platform"
     },
     "server": {
-      "baseUrl": "http://oa.lnph.com/mobile-platform",
+      "baseUrl": "http://218.25.115.50:80/mobile-platform",
       "pushAppId": "MobileOA",
       "pushServer": "http://202.199.100.174:29091/properpush",
       "pushXiaomi": {

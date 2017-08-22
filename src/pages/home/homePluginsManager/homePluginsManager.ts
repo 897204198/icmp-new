@@ -34,9 +34,9 @@ export class HomePluginsManagerPage {
               private toastService: ToastService) {
 
     // 设置功能区列数
-    if (screen.width <= 320) {
+    if (screen.width <= 375) {
       this.menuWidth = 25 + '%';
-    } else if (screen.width > 320 && screen.width <= 375) {
+    } else if (screen.width > 375 && screen.width <= 590) {
       this.menuWidth = 20 + '%';
     } else {
       this.menuWidth = 16.6 + '%';

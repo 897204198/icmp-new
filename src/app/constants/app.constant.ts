@@ -71,7 +71,7 @@ const properPushConstant: ProperPushConstant = {
     'theAppid': '2882303761517583764',
     'theAppkey': '5691758319764'
   }
-}
+};
 
 export const appConstant: AppConstant = {
   oaConstant: oaConstant,
