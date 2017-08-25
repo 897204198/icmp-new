@@ -7,6 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { TodoDetailPage } from '../todoDetail/todoDetail';
 import { UserInfoState, UserService } from '../../../app/services/user.service';
 
+import { Store } from '@ngrx/store';
+import { TodoReplaceBadageAction } from '../../../app/redux/actions/todo.action';
+
 /**
  * 待办列表页面
  */
@@ -40,7 +43,8 @@ export class TodoListPage {
               private http: Http,
               private toastService: ToastService,
               private userService: UserService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private store: Store<string>) {
     this.title = navParams.get('title');
 
     let translateKeys: string[] = ['CLAIM_SUCCESS', 'GOBACK_SUCCESS'];
@@ -80,6 +84,9 @@ export class TodoListPage {
     this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
       let data = res.json();
       this.todoTotal = data.total;
+      // redux传值
+      this.store.dispatch(new TodoReplaceBadageAction(data.total));
+
       if (isInit) {
         this.todoList = data.rows;
       } else {

@@ -10,6 +10,13 @@ import { UserService, UserInfoState } from '../../app/services/user.service';
 import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TodoListPage } from '../todo/todoList/todoList';
+import { QueryDetailPage } from '../query/queryDetail/queryDetail';
+import { QueryNoticeDetailPage } from '../query/queryNoticeDetail/queryNoticeDetail';
+
+import { Store } from '@ngrx/store';
+import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
+import { TodoReplaceBadageAction } from '../../app/redux/actions/todo.action';
+
 
 @Component({
   templateUrl: 'tabs.html'
@@ -27,14 +34,15 @@ export class TabsPage {
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              public platform: Platform,
-              private http: Http,
-              private toastService: ToastService,
-              private userService: UserService,
-              private backButtonService: BackButtonService,
-              private appVersionUpdateService: AppVersionUpdateService,
-              public alertCtrl: AlertController,
-              private translate: TranslateService) {
+    public platform: Platform,
+    private http: Http,
+    private toastService: ToastService,
+    private userService: UserService,
+    private backButtonService: BackButtonService,
+    private appVersionUpdateService: AppVersionUpdateService,
+    public alertCtrl: AlertController,
+    private translate: TranslateService,
+    private store: Store<string>) {
     let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -45,7 +53,15 @@ export class TabsPage {
 
       // 通过推送通知打开应用事件
       document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+
+      // 获取待办数量
+      this.getTodoNumber();
+      // 待办角标绑定
+      this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+        this.tabRoots[1]['tabBadge'] = data;
+      });
     });
+
   }
 
   /**
@@ -62,6 +78,7 @@ export class TabsPage {
         root: TodoListPage,
         tabTitle: '待办',
         tabIcon: 'list-box',
+        tabBadge: '',
         params: {
           processName: '',
           title: '待办列表'
@@ -83,29 +100,33 @@ export class TabsPage {
       this.appVersionUpdateService.checkAppVersion();
     } else {
       if (event.properAlert) {
-          let messagesPrompt = this.alertCtrl.create({
-            title: this.transateContent['PROMPT_INFO'],
-            message: this.transateContent['PUSH_OPEN_PROMPT_ONE'] + event.properCustoms._proper_title + this.transateContent['PUSH_OPEN_PROMPT_TWO'],
-            buttons: [
-              {
-                text: this.transateContent['CANCEL']
-              },
-              {
-                text: this.transateContent['VIEW'],
-                handler: data => {
-                  if ('todotasks' === event.properCustoms.gdpr_mpage) {
-                    this.doOpenNotificationTodo(event.properCustoms);
-                  }
+        let messagesPrompt = this.alertCtrl.create({
+          title: this.transateContent['PROMPT_INFO'],
+          message: this.transateContent['PUSH_OPEN_PROMPT_ONE'] + event.properCustoms._proper_title + this.transateContent['PUSH_OPEN_PROMPT_TWO'],
+          buttons: [
+            {
+              text: this.transateContent['CANCEL']
+            },
+            {
+              text: this.transateContent['VIEW'],
+              handler: data => {
+                if ('todotasks' === event.properCustoms.gdpr_mpage) {
+                  this.doOpenNotificationTodo(event.properCustoms);
                 }
               }
-            ]
-          });
-          messagesPrompt.present();
-        } else {
-          if ('todotasks' === event.properCustoms.gdpr_mpage) {
-            this.doOpenNotificationTodo(event.properCustoms);
-          }
+            }
+          ]
+        });
+        messagesPrompt.present();
+      } else {
+        if ('todotasks' === event.properCustoms.gdpr_mpage) {
+          this.doOpenNotificationTodo(event.properCustoms);
+        } else if ('noticetasks' === event.properCustoms.gdpr_mpage) {
+          this.doOpenNotificationNoticeQuery(event.properCustoms);
+        } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
+          this.doOpenNotificationQuery(event.properCustoms);
         }
+      }
     }
   }
 
@@ -134,5 +155,29 @@ export class TabsPage {
     } else {
       this.navCtrl.push(TodoDetailPage, item);
     }
+  }
+
+  /** 
+   * 推送通知打开查询 
+   */
+  doOpenNotificationQuery(customsDic: any): void {
+    this.navCtrl.push(QueryDetailPage, customsDic);
+  }
+
+  /** 
+   * 推送通知打开通知查询 
+   */
+  doOpenNotificationNoticeQuery(customsDic: any): void {
+    this.navCtrl.push(QueryNoticeDetailPage, customsDic);
+  }
+
+  // 获取待办数量
+  getTodoNumber() {
+    let params: URLSearchParams = new URLSearchParams();
+    this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+      let data = res.json();
+      // redux传值
+      this.store.dispatch(new TodoReplaceBadageAction(data.total));
+    });
   }
 }

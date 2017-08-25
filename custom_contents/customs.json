@@ -76,8 +76,8 @@
   },
   "ah": {
     "id": {
-      "android": "com.proper.mobile.oa.shengjing.test",
-      "ios": "com.proper.mobile.oa.shengjing.test"
+      "android": "com.proper.mobile.oa.aydey.anhui",
+      "ios": "com.proper.mobile.oa.aydey.anhui"
     },
     "version": {
       "android": "10000",
@@ -89,12 +89,12 @@
       "ios": "https://www.baidu.com"
     },
     "server": {
-      "baseUrl": "http://202.199.100.174:29091/mobile-platform",
-      "pushAppId": "MobileOA",
-      "pushServer": "http://202.199.100.174:29091/properpush",
+      "baseUrl": "http://220.178.50.184:9051/mobile-platform-ayd",
+      "pushAppId": "AydeyOA",
+      "pushServer": "http://220.178.50.184:8080/properpush",
       "pushXiaomi": {
-        "theAppid": "2882303761517583764",
-        "theAppkey": "5691758319764"
+        "theAppid": "2882303761517608731",
+        "theAppkey": "5811760814731"
       },
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }

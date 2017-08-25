@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavParams, NavController, AlertController, Alert, ModalController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
-import { TodoListPage } from '../todoList/todoList';
 import { UtilsService } from '../../../app/services/utils.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchboxComponent } from '../../../app/component/searchbox/searchbox.component';
@@ -37,13 +36,13 @@ export class TodoOpinionPage {
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public alertCtrl: AlertController,
-              private http: Http,
-              private toastService: ToastService,
-              private utilsService: UtilsService,
-              private translate: TranslateService,
-              private modalCtrl: ModalController) {
+    public navParams: NavParams,
+    public alertCtrl: AlertController,
+    private http: Http,
+    private toastService: ToastService,
+    private utilsService: UtilsService,
+    private translate: TranslateService,
+    private modalCtrl: ModalController) {
     let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'CONFIRM', 'SUBMIT_OPINION_CONFIRM', 'SUBMIT_ERROR', 'REQUIRE_NOT'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -74,7 +73,7 @@ export class TodoOpinionPage {
     let approval: any[] = this.navParams.get('approval');
     if (approval[0] != null && approval[0].length > 0) {
       this.opinionList = approval[0];
-      for (let i = 0 ; i < this.opinionList.length ; i++) {
+      for (let i = 0; i < this.opinionList.length; i++) {
         this.controls[this.opinionList[i]['value']] = this.opinionList[i]['control_name'];
       }
       this.approvalInput['opinion'] = approval[0][0]['value'];
@@ -83,7 +82,7 @@ export class TodoOpinionPage {
     }
     if (approval[1] != null && approval[1].length > 0) {
       this.opinionOtherList = approval[1];
-      for (let i = 0 ; i < this.opinionOtherList.length ; i++) {
+      for (let i = 0; i < this.opinionOtherList.length; i++) {
         let item = this.opinionOtherList[i];
         if (item['value'] != null && item['value'] !== '') {
           this.approvalInput[item['control_name']] = item['value'];
@@ -129,7 +128,7 @@ export class TodoOpinionPage {
    */
   submitValidate(): boolean {
     if (this.controls[this.approvalInput['opinion']] != null && this.controls[this.approvalInput['opinion']].length > 0) {
-      for (let i = 0 ; i < this.controls[this.approvalInput['opinion']].length ; i++) {
+      for (let i = 0; i < this.controls[this.approvalInput['opinion']].length; i++) {
         let requireControl = this.controls[this.approvalInput['opinion']][i];
         if (this.approvalInput[requireControl] == null || this.approvalInput[requireControl] === '') {
           this.toastService.show('有必填项未填写');
@@ -158,7 +157,7 @@ export class TodoOpinionPage {
       this.http.post(submitUtl, params).subscribe((res: Response) => {
         let data = res.json();
         if (data.result === '0') {
-          this.navCtrl.popTo(this.navCtrl.getByIndex(this.utilsService.getPopToViewIndex(this.navCtrl, TodoListPage)));
+          this.navCtrl.popToRoot();
         } else {
           if (data.errMsg != null && data.errMsg !== '') {
             this.toastService.show(data.errMsg);
@@ -181,7 +180,7 @@ export class TodoOpinionPage {
     if (item['control_type'] === 'select_person') {
       searchUrl = '/webController/searchPerson';
     }
-    let params: Object = {'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl};
+    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {

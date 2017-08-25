@@ -1,4 +1,4 @@
 <ion-tabs #myTabs>
   <ion-tab *ngFor="let tabRoot of tabRoots" [root]="tabRoot.root" tabTitle="{{tabRoot.tabTitle}}"
-           tabIcon="{{tabRoot.tabIcon}}" [rootParams]="tabRoot.params"></ion-tab>
+           tabIcon="{{tabRoot.tabIcon}}" [rootParams]="tabRoot.params" tabBadge="{{tabRoot.tabBadge}}" tabBadgeStyle="danger"></ion-tab>
 </ion-tabs>
