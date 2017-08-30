@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
 import { TodoReplaceBadageAction } from '../../app/redux/actions/todo.action';
 
-
 @Component({
   templateUrl: 'tabs.html'
 })
@@ -174,10 +173,17 @@ export class TabsPage {
   // 获取待办数量
   getTodoNumber() {
     let params: URLSearchParams = new URLSearchParams();
+    params.append('pageNo', '1');
+    params.append('pageSize', '0');
+    params.append('processName', '');
     this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
       let data = res.json();
       // redux传值
-      this.store.dispatch(new TodoReplaceBadageAction(data.total));
+      if (data.total === 0) {
+        this.store.dispatch(new TodoReplaceBadageAction(''));
+      } else {
+        this.store.dispatch(new TodoReplaceBadageAction(data.total));
+      }
     });
   }
 }

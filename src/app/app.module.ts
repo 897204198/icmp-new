@@ -46,7 +46,7 @@ import { GeneralPage } from '../pages/setting/general/general';
 import { QueryNoticeDetailPage } from '../pages/query/queryNoticeDetail/queryNoticeDetail';
 import { FileTypeImageComponent } from './component/fileTypeImage/fileTypeImage.component';
 import { FileService } from './services/file.service';
-import { FileTransfer } from '@ionic-native/file-transfer';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { QueryListPage } from '../pages/query/queryList/queryList';
 import { QueryListConditionPage } from '../pages/query/queryListCondition/queryListCondition';
@@ -65,6 +65,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { reducer } from './redux/app.reducer';
 import { IcmpSpinnerComponent } from './component/spinner/spinner.component';
 import { InstaShotPage } from '../pages/instaShot/instaShot';
+import { FileOpener } from '@ionic-native/file-opener';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -168,6 +169,8 @@ export function createTranslateLoader(http: Http) {
     StatusBar,
     File,
     FileTransfer,
+    FileTransferObject,
+    FileOpener,
     SplashScreen,
     UniqueDeviceID,
     Device,

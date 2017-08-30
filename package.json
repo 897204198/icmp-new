@@ -35,6 +35,7 @@
     "@ionic-native/core": "3.7.0",
     "@ionic-native/device": "3.10.3",
     "@ionic-native/file": "4.0.0",
+    "@ionic-native/file-opener": "^4.2.0",
     "@ionic-native/file-transfer": "4.0.0",
     "@ionic-native/image-picker": "^4.1.0",
     "@ionic-native/in-app-browser": "3.12.1",

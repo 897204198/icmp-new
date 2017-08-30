@@ -85,7 +85,11 @@ export class TodoListPage {
       let data = res.json();
       this.todoTotal = data.total;
       // redux传值
-      this.store.dispatch(new TodoReplaceBadageAction(data.total));
+      if (data.total === 0) {
+        this.store.dispatch(new TodoReplaceBadageAction(''));
+      } else {
+        this.store.dispatch(new TodoReplaceBadageAction(data.total));
+      }
 
       if (isInit) {
         this.todoList = data.rows;
