@@ -60,7 +60,8 @@ module.exports = function(grunt) {
         files: [
           {expand: true, cwd: './custom_contents/' + conf.currentProject + '/resources', src: ['**'], dest: './resources/'},
           {expand: true, cwd: './custom_contents/' + conf.currentProject + '/images', src: ['**'], dest: '<%= app.src %>/assets/images/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/jsons', src: ['**'], dest: '<%= app.src %>/assets/jsons/'}
+          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/jsons', src: ['**'], dest: '<%= app.src %>/assets/jsons/'},
+          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages/login', src: ['**'], dest: '<%= app.src %>/pages/login/'}
         ]
       }
     },
