@@ -8,6 +8,7 @@ import { Platform } from 'ionic-angular';
 import { FileOpener } from '@ionic-native/file-opener';
 import { LoadingController } from 'ionic-angular';
 import { ToastService } from './toast.service';
+import { UtilsService } from './utils.service';
 
 /**
  * 文件服务
@@ -21,6 +22,7 @@ export class FileService {
     private transfer: FileTransfer,
     private fileOpener: FileOpener,
     public loadingCtrl: LoadingController,
+    private utilsService: UtilsService,
     private toastService: ToastService,
     public platform: Platform,
     private file: File) {
@@ -30,9 +32,14 @@ export class FileService {
    * 下载文件
    */
   downloadFile(fileId: string, fileName: string): void {
+    // 用户信息
     let userInfo: UserInfoState = this.userService.getUserInfo();
+    // 文件类型
     let fileType: string = this.getFileType(fileName);
+    // 文件 url
     let fileUrl: string = this.configsService.getBaseUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password;
+    // 本地文件保存位置
+    let filePlace: string = this.file.dataDirectory + this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + fileType;
     let loading = this.loadingCtrl.create({
       content: '下载中...'
     });
@@ -40,8 +47,8 @@ export class FileService {
     loading.present();
     this.platform.ready().then(() => {
       const fileTransfer: FileTransferObject = this.transfer.create();
-      fileTransfer.download(fileUrl, this.file.dataDirectory + fileId + fileType).then((entry) => {
-        this.fileOpener.open(entry.nativeURL, 'application/pdf')
+      fileTransfer.download(fileUrl, filePlace).then((entry) => {
+        this.fileOpener.open(entry.nativeURL, 'application/' + fileType)
           .then(() => {
             loading.dismiss();
           })
@@ -69,6 +76,7 @@ export class FileService {
    * 取得文件类型
    */
   getFileType(fileName: string): string {
-    return fileName.substring(fileName.indexOf('.'), fileName.length).toLowerCase();
+    return fileName.substring(fileName.indexOf('.') + 1, fileName.length).toLowerCase();
   }
+
 }

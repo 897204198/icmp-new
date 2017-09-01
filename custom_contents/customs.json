@@ -76,8 +76,8 @@
   },
   "ah": {
     "id": {
-      "android": "com.proper.mobile.oa.aydey.anhui",
-      "ios": "com.proper.mobile.oa.aydey.anhui"
+      "android": "com.proper.icmp.ah",
+      "ios": "com.proper.icmp.ah"
     },
     "version": {
       "android": "10000",
