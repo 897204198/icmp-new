@@ -9,13 +9,15 @@ export interface DeviceInfoState {
   deviceId: string;
   versionCode: string;
   versionNumber: string;
+  deviceVersion: string;
 }
 
 let initDeviceInfo: DeviceInfoState = {
   deviceType: '',
   deviceId: '',
   versionCode: '',
-  versionNumber: ''
+  versionNumber: '',
+  deviceVersion: ''
 };
 
 /**
@@ -31,9 +33,9 @@ export class DeviceService {
    * 构造函数
    */
   constructor(private appVersion: AppVersion,
-              private device: Device,
-              private pushService: PushService,
-              private secureStorageService: SecureStorageService) {}
+    private device: Device,
+    private pushService: PushService,
+    private secureStorageService: SecureStorageService) { }
 
   /**
    * 设置设备信息
@@ -45,6 +47,8 @@ export class DeviceService {
       deviceInfo.deviceType = deviceInfo.deviceType.toLowerCase();
     }
     if ((<any>window).plugins != null) {
+      // 手机系统版本
+      deviceInfo.deviceVersion = this.device.version;
       this.pushService.getDeviceInfo().then((info: any) => {
         deviceInfo.deviceId = info.uniqueId;
         this.secureStorageService.putObject(DeviceService.SEC_KEY_DEVICE_INFO, deviceInfo);

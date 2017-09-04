@@ -49,7 +49,7 @@ export class QueryNoticeDetailPage {
       if (this.notice['fileList'] != null) {
         for (let i = 0 ; i < this.notice['fileList'].length ; i++) {
           let file = this.notice['fileList'][i];
-          file.fileType = file.fileName.substring(file.fileName.indexOf('.') + 1, file.fileName.length).toLowerCase();
+          file.fileType = file.fileName.substring(file.fileName.lastIndexOf('.') + 1, file.fileName.length).toLowerCase();
         }
       }
     }, (res: Response) => {

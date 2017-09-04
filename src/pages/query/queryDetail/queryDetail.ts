@@ -75,6 +75,6 @@ export class QueryDetailPage {
    * 取得文件类型
    */
   getFileType(fileName: string): string {
-    return fileName.substring(fileName.indexOf('.') + 1, fileName.length).toLowerCase();
+    return fileName.substring(fileName.lastIndexOf('.') + 1, fileName.length).toLowerCase();
   }
 }
