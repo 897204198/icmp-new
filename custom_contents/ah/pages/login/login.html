@@ -1,6 +1,6 @@
 <ion-content>
   <div class="login-background"></div>
-  <div class="login-form">
+  <div class="login-form" [style.top]="customTop">
     <ion-item>
       <ion-label fixed>{{'ACCOUNT' | translate}}</ion-label>
       <ion-input id="e2e-username" type="text" [ngModel]="userInfo.loginName" placeholder="{{'PLEASE_ENTER_ACCOUNT' | translate}}" #username></ion-input>
