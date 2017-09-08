@@ -109,4 +109,7 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
     </plugin>
     <plugin name="cordova-plugin-file-opener2" spec="~2.0.19" />
+    <plugin name="com.synconset.imagepicker" spec="~2.1.8">
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="是否允许此App访问你的媒体资料库？" />
+    </plugin>
 </widget>

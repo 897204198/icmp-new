@@ -88,8 +88,7 @@
           "appid": "33",
           "title": "随手拍",
           "icon": "http://chuantu.biz/t5/166/1502331697x3066599431.png",
-          "systemId": "instaShot",
-          "serviceName": "notifyPublishQueryService"
+          "systemId": "instaShot"
         }
       ]
     }

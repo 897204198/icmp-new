@@ -65,6 +65,9 @@ import { Store, StoreModule } from '@ngrx/store';
 import { reducer } from './redux/app.reducer';
 import { IcmpSpinnerComponent } from './component/spinner/spinner.component';
 import { InstaShotPage } from '../pages/instaShot/instaShot';
+import { Camera } from '@ionic-native/camera';
+import { PhotoService } from './services/photo.service';
+import { ImagePicker } from '@ionic-native/image-picker';
 import { FileOpener } from '@ionic-native/file-opener';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
@@ -117,6 +120,7 @@ export function createTranslateLoader(http: Http) {
   imports: [
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: 'true',
+      swipeBackEnabled: 'false',
       platforms: {
         ios: {
           backButtonText: '返回'
@@ -188,6 +192,9 @@ export function createTranslateLoader(http: Http) {
     UserService,
     DeviceService,
     PushService,
+    Camera,
+    ImagePicker,
+    PhotoService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

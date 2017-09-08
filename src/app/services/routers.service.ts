@@ -46,7 +46,7 @@ export class RoutersService {
     } else if (menu.systemId === this.icmpConstant.systemId.todoList) {
       navCtrl.push(TodoListPage, menu);
     } else if (menu.systemId === this.icmpConstant.systemId.instaShot) {
-      navCtrl.push(InstaShotPage, menu);
+      navCtrl.push(InstaShotPage);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }
