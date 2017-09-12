@@ -91,10 +91,10 @@
     "server": {
       "baseUrl": "http://220.178.50.184:9051/mobile-platform-ayd",
       "pushAppId": "AydeyOA",
-      "pushServer": "http://220.178.50.184:8080/properpush",
+      "pushServer": "http://220.178.50.184:9052/properpush",
       "pushXiaomi": {
-        "theAppid": "2882303761517608731",
-        "theAppkey": "5811760814731"
+        "theAppid": "2882303761517615404",
+        "theAppkey": "5281761560404"
       },
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
