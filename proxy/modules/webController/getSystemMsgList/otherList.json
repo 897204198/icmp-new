@@ -174,14 +174,7 @@
       "query_name": "选择城市",
       "query_value": "selectsearch111",
       "query_more": false,
-      "search_url": "/demo/selectSearchboxQuery",
-      "query_condition": [
-        {
-          "query_value": "titleColor",
-          "query_default": "#006699"
-        }
-      ],
-      "query_default": []
+      "search_url": "/demo/selectSearchboxQuery"
     }
   ],
   "result_total": 18,

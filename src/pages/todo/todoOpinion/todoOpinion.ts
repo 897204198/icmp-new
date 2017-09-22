@@ -43,7 +43,7 @@ export class TodoOpinionPage {
     private utilsService: UtilsService,
     private translate: TranslateService,
     private modalCtrl: ModalController) {
-    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'CONFIRM', 'SUBMIT_OPINION_CONFIRM', 'SUBMIT_ERROR', 'REQUIRE_NOT'];
+    let translateKeys: string[] = ['VALI_REQUIRED', 'PROMPT_INFO', 'CANCEL', 'CONFIRM', 'SUBMIT_OPINION_CONFIRM', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'REQUIRE_NOT'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -54,6 +54,9 @@ export class TodoOpinionPage {
    */
   ionViewDidLoad(): void {
     this.hideComment = this.navParams.get('hideComment');
+    if (this.navParams.get('commentDefault') != null) {
+      this.approvalInput['comments'] = this.navParams.get('commentDefault');
+    }
     this.setApprovalItems();
   }
 
@@ -84,8 +87,8 @@ export class TodoOpinionPage {
       this.opinionOtherList = approval[1];
       for (let i = 0; i < this.opinionOtherList.length; i++) {
         let item = this.opinionOtherList[i];
-        if (item['value'] != null && item['value'] !== '') {
-          this.approvalInput[item['control_name']] = item['value'];
+        if (item['control_default'] != null && item['control_default'] !== '') {
+          this.approvalInput[item['control_name']] = item['control_default'];
         }
         if (item['control_formatter'] != null && item['control_formatter'] !== '') {
           item['control_formatter'] = item['control_formatter'].replace(new RegExp('y', 'gm'), 'Y').replace(new RegExp('d', 'gm'), 'D');
@@ -131,7 +134,7 @@ export class TodoOpinionPage {
       for (let i = 0; i < this.controls[this.approvalInput['opinion']].length; i++) {
         let requireControl = this.controls[this.approvalInput['opinion']][i];
         if (this.approvalInput[requireControl] == null || this.approvalInput[requireControl] === '') {
-          this.toastService.show('有必填项未填写');
+          this.toastService.show(this.transateContent['VALI_REQUIRED']);
           return false;
         }
       }
@@ -157,6 +160,7 @@ export class TodoOpinionPage {
       this.http.post(submitUtl, params).subscribe((res: Response) => {
         let data = res.json();
         if (data.result === '0') {
+          this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
           this.navCtrl.popToRoot();
         } else {
           if (data.errMsg != null && data.errMsg !== '') {

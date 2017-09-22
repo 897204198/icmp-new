@@ -35,7 +35,9 @@
         "@ionic-native/core": "3.7.0",
         "@ionic-native/device": "3.10.3",
         "@ionic-native/file": "4.0.0",
+        "@ionic-native/file-chooser": "4.2.0",
         "@ionic-native/file-opener": "4.2.0",
+        "@ionic-native/file-path": "4.2.0",
         "@ionic-native/file-transfer": "4.0.0",
         "@ionic-native/image-picker": "4.2.1",
         "@ionic-native/in-app-browser": "3.12.1",
@@ -52,16 +54,18 @@
         "cordova-ios": "4.4.0",
         "cordova-plugin-advanced-http-2": "1.6.1",
         "cordova-plugin-app-version": "0.1.9",
-        "cordova-plugin-camera": "~2.4.1",
+        "cordova-plugin-camera": "2.4.1",
         "cordova-plugin-compat": "1.1.0",
         "cordova-plugin-console": "1.0.7",
         "cordova-plugin-crosswalk-webview": "2.3.0",
         "cordova-plugin-device": "1.1.6",
         "cordova-plugin-file": "4.3.3",
-        "cordova-plugin-file-opener2": "~2.0.19",
+        "cordova-plugin-file-opener2": "2.0.19",
         "cordova-plugin-file-transfer": "1.6.3",
+        "cordova-plugin-filechooser": "1.0.1",
+        "cordova-plugin-filepath": "1.0.2",
         "cordova-plugin-inappbrowser": "1.7.1",
-        "cordova-plugin-photo-library": "~2.0.4",
+        "cordova-plugin-photo-library": "2.0.4",
         "cordova-plugin-proper-properpush": "1.1.1",
         "cordova-plugin-proper-update-version": "1.0.2",
         "cordova-plugin-splashscreen": "4.0.3",
@@ -129,11 +133,14 @@
                 "CAMERA_USAGE_DESCRIPTION": " ",
                 "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
             },
+            "cordova-plugin-filechooser": {},
+            "cordova-plugin-filepath": {},
             "cordova-plugin-file-opener2": {},
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-photo-library": {
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
-            }
+            },
+            "cordova-plugin-file": {}
         },
         "platforms": [
             "android",

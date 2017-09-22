@@ -123,6 +123,7 @@ export class TodoDetailPage {
         approval: this.todoDetail['approval'],
         submitUtl: submitUtl,
         hideComment: this.todoDetail['shenpi_hide_comment'],
+        commentDefault: this.todoDetail['shenpi_comment_default'],
         processName: this.navParams.get('processName'),
         taskId: this.navParams.get('taskId'),
         step: this.navParams.get('step')

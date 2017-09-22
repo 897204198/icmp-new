@@ -1,0 +1,219 @@
+{
+  "title": "XX医院请假申请单",
+  "template": [
+    {
+      "type": "hidden",
+      "model": "id",
+      "default": "1"
+    },
+    {
+      "type": "label",
+      "label": "例子",
+      "default": "测试申请单"
+    },
+    {
+      "type": "text",
+      "label": "名称",
+      "model": "name",
+      "default": "默认名称",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "category": "single",
+      "label": "单选下拉",
+      "model": "select1",
+      "default": "1",
+      "data": [
+        {
+          "id": "1",
+          "name": "心内科"
+        },
+        {
+          "id": "2",
+          "name": "肾内科",
+          "controls": [
+            {
+              "type": "display",
+              "models": ["dyName"]
+            },
+            {
+              "type": "setValue",
+              "data": [{
+                "model": "dyName",
+                "value": "自动设定值"
+              }]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "质控办"
+        }
+      ],
+      "validator": [
+        {
+          "type": "required"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "status": "hidden",
+      "label": "动态名称",
+      "model": "dyName",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "category": "multi",
+      "label": "多选下拉",
+      "model": "select2",
+      "default": ["1","2"],
+      "data": [
+        {
+          "id": "1",
+          "name": "信息中心"
+        },
+        {
+          "id": "2",
+          "name": "院办通知"
+        },
+        {
+          "id": "3",
+          "name": "总务科通知"
+        }
+      ]
+    },
+    {
+      "type": "date",
+      "format": "YYYY-MM-DD",
+      "label": "日期",
+      "model": "date",
+      "controls": [
+        {
+          "type": "setValue",
+          "data": [{
+            "model": "workYear",
+            "calculate": "YearDifferToday"
+          }]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "disabled": true,
+      "label": "工作年限",
+      "model": "workYear"
+    },
+    {
+      "type": "date",
+      "format": "HH:mm:ss",
+      "label": "时间",
+      "model": "time"
+    },
+    {
+      "type": "radio",
+      "label": "单选",
+      "model": "radio",
+      "data": [
+        {
+          "id": "1",
+          "name": "是"
+        },
+        {
+          "id": "0",
+          "name": "否"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "label": "多选",
+      "model": "checkbox",
+      "default": ["1"],
+      "data": [
+        {
+          "id": "1",
+          "name": "选项1"
+        },
+        {
+          "id": "2",
+          "name": "选项2",
+          "controls": [
+            {
+              "type": "display",
+              "models": ["dept"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "searchbox",
+      "status": "hidden",
+      "category": "multi",
+      "label": "动态选择器",
+      "model": "dept",
+      "searchUrl": "/demo/selectSearchboxQuery"
+    },
+    {
+      "type": "searchbox",
+      "category": "single",
+      "label": "选择器",
+      "model": "person",
+      "searchUrl": "/demo/selectSearchboxQuery?type=1",
+      "defaultId": "1",
+      "defaultName": "姓名1"
+    },
+    {
+      "type": "list",
+      "initRow": true,
+      "label": "请假时间",
+      "model": "leaveTimes",
+      "components": [
+        {
+          "type": "date",
+          "format": "YYYY-MM-DD",
+          "label": "开始时间",
+          "model": "sDate",
+          "validator": [
+            {
+              "type": "required"
+            }
+          ]
+        },
+        {
+          "type": "date",
+          "format": "YYYY-MM-DD",
+          "label": "结束时间",
+          "model": "eDate",
+          "validator": [
+            {
+              "type": "required"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "file",
+      "category": "multi",
+      "label": "附件",
+      "model": "fileId"
+    },
+    {
+      "type": "textarea",
+      "label": "备注",
+      "model": "remark"
+    }
+  ]
+}

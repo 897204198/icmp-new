@@ -69,6 +69,9 @@ import { Camera } from '@ionic-native/camera';
 import { PhotoService } from './services/photo.service';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { FileOpener } from '@ionic-native/file-opener';
+import { ApplicationPage } from '../pages/application/application';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FilePath } from '@ionic-native/file-path';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -111,6 +114,7 @@ export function createTranslateLoader(http: Http) {
     QueryNoticeDetailPage,
     QueryListPage,
     QueryListConditionPage,
+    ApplicationPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
@@ -163,6 +167,7 @@ export function createTranslateLoader(http: Http) {
     QueryNoticeDetailPage,
     QueryListPage,
     QueryListConditionPage,
+    ApplicationPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
@@ -172,6 +177,8 @@ export function createTranslateLoader(http: Http) {
   providers: [
     StatusBar,
     File,
+    FileChooser,
+    FilePath,
     FileTransfer,
     FileTransferObject,
     FileOpener,

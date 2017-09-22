@@ -2,6 +2,16 @@
   "result": "0",
   "rows": [
     {
+      "appid": "1",
+      "title": "申请单",
+      "systemId": "application",
+      "icon": "http://chuantu.biz/t5/162/1502023631x2890149590.png",
+      "serviceName": "testService",
+      "data": {
+        "otherParam": "这里是其它Data中的其它参数"
+      }
+    },
+    {
       "appid": "2",
       "total": 3,
       "title": "公告通知",

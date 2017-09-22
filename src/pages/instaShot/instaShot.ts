@@ -252,7 +252,7 @@ export class InstaShotPage {
         fileName: this.photoList[i]['imageName'],
         mimeType: 'multipart/form-data'
       };
-      fileTransfer.upload(this.photoList[i], this.configsService.getBaseUrl() + '/webController/uploadImage', options)
+      fileTransfer.upload(this.photoList[i], this.configsService.getBaseUrl() + '/webController/uploadFile', options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
           this.photoUrlArray.push(data.response);

@@ -1,5 +1,6 @@
 {
   "shenpi_hide_comment": false,
+  "shenpi_comment_default": "意见默认内容",
   "taskId": "317961",
   "result": "0",
   "shenpi_btn_text": "办理",
@@ -382,7 +383,7 @@
       {
         "control_type": "text",
         "control_name": "edittext_disabled111",
-        "value": "反馈主管领导及职能科室",
+        "control_default": "反馈主管领导及职能科室",
         "control_label": "下一步"
       },
       {
@@ -407,7 +408,7 @@
       {
         "control_type": "text",
         "control_name": "edittext_disabled112",
-        "value": "申请人签收",
+        "control_default": "申请人签收",
         "control_label": "下一步"
       }
     ]

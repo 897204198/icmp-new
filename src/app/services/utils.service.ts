@@ -52,4 +52,22 @@ export class UtilsService {
     };
     return format.replace(/([a-z])(\1)*/ig, function(m){return cfg[m]; });
   }
+
+  /**
+   * 日期相差年数
+   */
+  getDifferYears(startDate: Date, endDate: Date): string {
+    let years: string = '';
+    if (startDate != null && endDate != null) {
+      let math: number = endDate.getFullYear() - startDate.getFullYear();
+      if (endDate.getMonth() - startDate.getMonth() > 0) {
+        math = math + 1;
+      }
+      if (endDate.getMonth() === startDate.getMonth() && endDate.getDate() - startDate.getDate() > 0) {
+        math = math + 1;
+      }
+      years = math.toString();
+    }
+    return years;
+  }
 }
