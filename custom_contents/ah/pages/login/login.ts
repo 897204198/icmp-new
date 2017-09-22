@@ -28,7 +28,6 @@ export class LoginPage {
   private userInfo: UserInfoState = initUserInfo;
   // 国际化文字
   private transateContent: Object;
-  private customTop: string;
 
   /**
    * 构造函数
@@ -65,12 +64,6 @@ export class LoginPage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    let persent = (<any>window).innerHeight / (<any>window).innerWidth;
-    if (persent >= 1.5) {
-      this.customTop = (<any>window).innerHeight * 0.4 + 'px';
-    }else {
-      this.customTop = (<any>window).innerHeight * 0.55 + 'px';
-    }
     this.userInfo = this.userService.getUserInfo();
     if (!this.userInfo) {
       this.userInfo = initUserInfo;
