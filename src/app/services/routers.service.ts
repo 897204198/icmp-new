@@ -8,6 +8,7 @@ import { QueryListPage } from '../../pages/query/queryList/queryList';
 import { TodoListPage } from '../../pages/todo/todoList/todoList';
 import { QueryDetailPage } from '../../pages/query/queryDetail/queryDetail';
 import { InstaShotPage } from '../../pages/instaShot/instaShot';
+import { ApplicationPage } from '../../pages/application/application';
 
 /**
  * 路由服务
@@ -47,6 +48,8 @@ export class RoutersService {
       navCtrl.push(TodoListPage, menu);
     } else if (menu.systemId === this.icmpConstant.systemId.instaShot) {
       navCtrl.push(InstaShotPage);
+    } else if (menu.systemId === this.icmpConstant.systemId.application) {
+      navCtrl.push(ApplicationPage, menu);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }

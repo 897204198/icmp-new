@@ -2,6 +2,9 @@ import { InjectionToken } from '@angular/core';
 
 export interface SystemIdConstant {
 
+  // 申请单页面
+  application: string;
+
   // 查询列表页面
   queryList: string;
 
@@ -39,6 +42,7 @@ export interface IcmpConstant {
 export let ICMP_CONSTANT = new InjectionToken<IcmpConstant>('icmp.constant');
 
 export const systemIdConstant: SystemIdConstant = {
+  application: 'application',
   queryList: 'query',
   queryDetail: 'queryDetail',
   todoList: 'bpm',

@@ -23,6 +23,13 @@ export class ConfigsService {
     }
   }
 
+    /**
+   * 取得im http请求地址
+   */
+  getIMUrl(): string {
+    return this.appConstant.oaConstant.imUrl;
+  }
+
   /**
    * 取得推送服务器地址
    */

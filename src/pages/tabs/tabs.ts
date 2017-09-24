@@ -12,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { TodoListPage } from '../todo/todoList/todoList';
 import { QueryDetailPage } from '../query/queryDetail/queryDetail';
 import { QueryNoticeDetailPage } from '../query/queryNoticeDetail/queryNoticeDetail';
+import { AddressPage } from '../address/address';
+import { ChatListPage } from '../chatList/chatList';
 
 import { Store } from '@ngrx/store';
 import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
@@ -82,6 +84,16 @@ export class TabsPage {
           processName: '',
           title: '待办列表'
         }
+      },
+      {
+        root: ChatListPage,
+        tabTitle: '消息',
+        tabIcon: 'chatboxes'
+      },
+      {
+        root: AddressPage,
+        tabTitle: '通讯录',
+        tabIcon: 'contacts'
       },
       {
         root: SettingPage,

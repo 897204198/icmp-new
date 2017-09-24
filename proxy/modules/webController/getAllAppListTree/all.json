@@ -7,15 +7,11 @@
       "rows": [
         {
           "appid": "1",
-          "title": "请假申请",
-          "systemId": "queryDetail",
+          "title": "申请单",
+          "systemId": "application",
           "icon": "http://chuantu.biz/t5/162/1502023631x2890149590.png",
-          "style": "tododetail_style",
-          "bussinessId": "",
-          "defaultTab": "",
-          "serviceName": "",
+          "serviceName": "testService",
           "data": {
-            "webPath": "/demo/leaveApplyForm",
             "otherParam": "这里是其它Data中的其它参数"
           }
         }

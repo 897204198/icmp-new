@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'ADDRESS' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray">
+  <ion-searchbar placeholder="搜索" [(ngModel)]="searchInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)"
+    (ionCancel)="onCancel($event)">
+  </ion-searchbar>
+
+  <ion-list class="icmp-list-bottom-margin">
+    <button ion-item (click)="applyAndNotification()">
+      <ion-avatar class="left-avatar" item-left>
+        <img src="./assets/images/im/newFriends.png">
+      </ion-avatar>
+    {{'APPLY_AND_NOTIFICATION' | translate}}
+    </button>
+    <button ion-item (click)="addFriend()">
+        <ion-avatar item-left>
+            <img src="./assets/images/im/newFriends.png">
+          </ion-avatar>
+      {{'ADD_FRIEND' | translate}}
+    </button>
+    <button ion-item (click)="myGroup()">
+        <ion-avatar item-left>
+            <img src="./assets/images/im/group.png">
+          </ion-avatar>
+      {{'GROUP' | translate}}
+    </button>
+  </ion-list>
+
+  <ion-list class="icmp-list-bottom-margin">
+    <button  *ngFor="let item of contactInfos" ion-item (click)="chatToUser(item)">
+      <ion-avatar item-left>
+        <img src="./assets/images/user.jpg">
+      </ion-avatar>
+      <h2>{{item.nickName}}</h2>
+    </button>
+  </ion-list>
+
+</ion-content>

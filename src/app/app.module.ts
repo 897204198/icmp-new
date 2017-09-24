@@ -69,6 +69,11 @@ import { Camera } from '@ionic-native/camera';
 import { PhotoService } from './services/photo.service';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { FileOpener } from '@ionic-native/file-opener';
+import { ApplicationPage } from '../pages/application/application';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FilePath } from '@ionic-native/file-path';
+import { AddressPage } from '../pages/address/address';
+import { ChatListPage } from '../pages/chatList/chatList';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -111,11 +116,14 @@ export function createTranslateLoader(http: Http) {
     QueryNoticeDetailPage,
     QueryListPage,
     QueryListConditionPage,
+    ApplicationPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
     QueryDetailPage,
-    InstaShotPage
+    InstaShotPage,
+    AddressPage,
+    ChatListPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -163,15 +171,20 @@ export function createTranslateLoader(http: Http) {
     QueryNoticeDetailPage,
     QueryListPage,
     QueryListConditionPage,
+    ApplicationPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
     QueryDetailPage,
-    InstaShotPage
+    InstaShotPage,
+    AddressPage,
+    ChatListPage
   ],
   providers: [
     StatusBar,
     File,
+    FileChooser,
+    FilePath,
     FileTransfer,
     FileTransferObject,
     FileOpener,
