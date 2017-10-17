@@ -64,6 +64,8 @@ export class LoginPage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
+    // 检查版本更新
+    this.appVersionUpdateService.checkAppVersion(true);
     this.userInfo = this.userService.getUserInfo();
     if (!this.userInfo) {
       this.userInfo = initUserInfo;
@@ -178,7 +180,7 @@ export class LoginPage {
    */
   doOpenNotification(event: any): void {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
-      this.appVersionUpdateService.checkAppVersion();
+      this.appVersionUpdateService.checkAppVersion(true);
     } else {
       if (!this.userService.isLogin()) {
         this.toastService.show(this.transateContent['PLEASE_LOGIN']);

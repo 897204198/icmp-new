@@ -5,6 +5,7 @@ import { IcmpConstant, ICMP_CONSTANT } from '../constants/icmp.constant';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AlertController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from './toast.service';
 
 /**
  * APP版本检查更新服务
@@ -23,21 +24,23 @@ export class AppVersionUpdateService {
               private inAppBrowser: InAppBrowser,
               @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
               private deviceService: DeviceService,
-              private translate: TranslateService) {
-    let translateKeys: string[] = ['APP_UPDATE_NOTE', 'PROMPT_INFO', 'UPDATE', 'NEXT_TIME'];
-    this.translate.get(translateKeys).subscribe((res: Object) => {
-      this.transateContent = res;
-    });
+              private translate: TranslateService,
+              private toastService: ToastService) {
   }
 
   /**
    * 检查版本更新
    */
-  checkAppVersion(): void {
+  checkAppVersion(hiddenToast: boolean): void {
+    // 必须写在这里，否则无法英文转中文
+    let translateKeys: string[] = ['APP_UPDATE_NOTE', 'PROMPT_INFO', 'UPDATE', 'NO_UPDATE', 'NEXT_TIME'];
+    this.translate.get(translateKeys).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     this.http.post('/webController/getTheLastVersion', null).subscribe((res: Response) => {
       let data = res.json();
-      if (data.ver != null && Number(data.ver) > Number(deviceInfo.versionCode)) {
+      if (data.versionNo != null && Number(data.versionNo) > Number(deviceInfo.versionNumber)) {
         if (data.note == null || data.note === '') {
           data.note = this.transateContent['APP_UPDATE_NOTE'];
         }
@@ -72,6 +75,10 @@ export class AppVersionUpdateService {
             ]
           });
           confirmAlert.present();
+        }
+      } else {
+        if (!hiddenToast) {
+          this.toastService.show(this.transateContent['NO_UPDATE']);
         }
       }
     });
