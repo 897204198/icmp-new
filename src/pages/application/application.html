@@ -77,26 +77,29 @@
           </button>
         </ion-item>
         <ion-item [ngClass]="{'display-hidden': item.status == 'hidden'}">
-          <ion-list *ngFor="let dataList of input[item['model']]; let iList = index" class="nested-list icmp-list-bottom-none">
-            <ng-container *ngFor="let itemList of item.components">
+          <ion-list *ngFor="let itemListAll of inputTemp[item['model'] + 'Components']; let iList = index" class="nested-list icmp-list-bottom-none">
+            <ng-container *ngFor="let itemList of itemListAll">
               <ion-item>
                 <h2 item-start [innerHtml]="getSafeHtml(itemList.label)"></h2>
-                <ion-input *ngIf="itemList.type == 'text'" type="text" [(ngModel)]="dataList[itemList.model]" class="form-text"></ion-input>
-                <ion-select *ngIf="itemList.type == 'select'" [(ngModel)]="dataList[itemList.model]"
+                <ion-input *ngIf="itemList.type == 'text'" type="text" [(ngModel)]="input[item['model']][iList][itemList.model]" class="form-text"></ion-input>
+                <ion-select *ngIf="itemList.type == 'select'" [(ngModel)]="input[item['model']][iList][itemList.model]" [selectOptions]="getListSelectOptions(itemList)"
                             placeholder="{{'PLEASE_SELECT' | translate}}" multiple="{{itemList.category == 'multi'}}"
                             cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
                   <ion-option *ngFor="let option of itemList.data" [value]="option.id">{{option.name}}</ion-option>
                 </ion-select>
                 <ion-datetime *ngIf="itemList.type == 'date'" placeholder="{{'PLEASE_SELECT_DATE' | translate}}"
                               (ionCancel)="clearDatetime(item, iList, itemList)" max="2100" (touchstart)="setDatetime(item, iList, itemList)"
-                              displayFormat="{{itemList.format}}" [(ngModel)]="dataList[itemList.model]"
+                              displayFormat="{{itemList.format}}" [(ngModel)]="input[item['model']][iList][itemList.model]"
                               cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}">
                 </ion-datetime>
+                <ion-input *ngIf="itemList.type == 'searchbox'" type="text" class="form-text" [(ngModel)]="input[item['model']][iList][itemList.model + 'Name']" 
+                           placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="searchboxSelect(item, iList, itemList)" disabled="true"></ion-input>
+                <input *ngIf="itemList.type == 'searchbox'" type="hidden" [(ngModel)]="input[item['model']][iList][itemList.model]">
               </ion-item>
             </ng-container>
             <ion-item *ngIf="iList > 0 || (iList == 0 && !item.initRow)">
               <h2>操作</h2>
-              <button ion-button color="danger" small item-end (click)="deleteListRow(item, dataList)">
+              <button ion-button color="danger" small item-end (click)="deleteListRow(item, iList)">
                 删除
               </button>
             </ion-item>

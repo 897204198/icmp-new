@@ -100,15 +100,17 @@ export class ApplicationPage {
           this.input[item['model']] = item['defaultId'];
           this.input[item['model'] + 'Name'] = item['defaultName'];
         }
+        item['labelBak'] = item['label'];
         item['label'] = this.setRequiredLabel(item);
 
         if (item['type'] === 'list') {
-          if (item['initRow']) {
-            this.addListRow(item);
+          for (let j = 0; j < item['components'].length ; j++) {
+            item['components'][j]['labelBak'] = item['components'][j]['label'];
+            item['components'][j]['label'] = this.setRequiredLabel(item['components'][j]);
           }
 
-          for (let j = 0; j < item['components'].length ; j++) {
-            item['components'][j]['label'] = this.setRequiredLabel(item['components'][j]);
+          if (item['initRow']) {
+            this.addListRow(item);
           }
         }
       }
@@ -270,15 +272,29 @@ export class ApplicationPage {
   /**
    * 选择框
    */
-  searchboxSelect(item: Object): void {
-    let multiple: boolean = (item['category'] === 'multi');
-    let searchUrl = item['searchUrl'];
-    let params: Object = {'title': item['label'], 'multiple': multiple, 'searchUrl': searchUrl};
+  searchboxSelect(item: Object, index?: number, itemList?: Object): void {
+    let params: Object = {};
+    if (index == null) {
+      let multiple: boolean = (item['category'] === 'multi');
+      let searchUrl = item['searchUrl'];
+      params = {'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl};
+    } else {
+      let multiple: boolean = (itemList['category'] === 'multi');
+      let searchUrl = itemList['searchUrl'];
+      params = {'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl};
+    }
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
-        this.input[item['model'] + 'Name'] = data.name;
-        this.input[item['model']] = data.id;
+        if (index == null) {
+          this.input[item['model'] + 'Name'] = data.name;
+          this.input[item['model']] = data.id;
+          this.searchboxChange(item);
+        } else {
+          this.input[item['model']][index][itemList['model'] + 'Name'] = data.name;
+          this.input[item['model']][index][itemList['model']] = data.id;
+          this.searchboxChange(item, index, itemList);
+        }
       }
     });
     modal.present();
@@ -311,6 +327,17 @@ export class ApplicationPage {
   }
 
   /**
+   * 选择器选择事件
+   */
+  searchboxChange(item: Object, index?: number, itemList?: Object): void {
+    if (index == null) {
+      this.setControl(item, item);
+    } else {
+      this.setControl(itemList, itemList, index, item);
+    }
+  }
+
+  /**
    * 单选选择事件
    */
   radioChange(item: Object): void {
@@ -323,7 +350,7 @@ export class ApplicationPage {
   /**
    * 设置控制事件
    */
-  setControl(item: Object, option: Object): void {
+  setControl(item: Object, option: Object, index?: number, itemParent?: Object): void {
     if (option['controls'] != null) {
       for (let j = 0 ; j < option['controls'].length ; j++) {
         let control = option['controls'][j];
@@ -346,12 +373,49 @@ export class ApplicationPage {
                 if (this.input[item['model']] != null && this.input[item['model']] !== '') {
                   startDate = new Date(this.input[item['model']]);
                 }
-                this.input[data['model']] = this.utilsService.getDifferYears(startDate, new Date());
+                if (index == null) {
+                  this.input[data['model']] = this.utilsService.getDifferYears(startDate, new Date());
+                } else {
+                  this.input[itemParent['model']][index][data['model']] = this.utilsService.getDifferYears(startDate, new Date());
+                }
               }
             } else {
-              this.input[data['model']] = data['value'];
+              if (index == null) {
+                this.input[data['model']] = data['value'];
+              } else {
+                this.input[itemParent['model']][index][data['model']] = data['value'];
+              }
             }
           }
+        } else if (control['type'] === 'initSelect') {
+          let url = control['url'];
+          let params: URLSearchParams = new URLSearchParams();
+          params.append('serviceName', this.navParams.get('serviceName'));
+          if (index == null) {
+            params.append('id', this.input[item['model']]);
+          } else {
+            params.append('id', this.input[itemParent['model']][index][item['model']]);
+          }
+          this.http.post(url, params).subscribe((res: Response) => {
+            let data = res.json().result_list;
+            if (index == null) {
+              for (let k = 0 ; k < this.template.length ; k++) {
+                if (this.template[k]['model'] === control['model']) {
+                  this.template[k]['data'] = data;
+                  break;
+                }
+              }
+            } else {
+              for (let k = 0 ; k < this.inputTemp[itemParent['model'] + 'Components'][index].length ; k++) {
+                let itemTmp = this.inputTemp[itemParent['model'] + 'Components'][index][k];
+                if (itemTmp['model'] === control['model']) {
+                  itemTmp['data'] = data;
+                }
+              }
+            }
+          }, (res: Response) => {
+            this.toastService.show(res.text());
+          });
         }
       }
     }
@@ -387,24 +451,34 @@ export class ApplicationPage {
     let listItem = {};
     for (let j = 0; j < item['components'].length ; j++) {
       let component = item['components'][j];
-      listItem[component['model']] = component['default'];
+      if (component['type'] === 'searchbox') {
+        listItem[component['model']] = component['defaultId'];
+        listItem[component['model'] + 'Name'] = component['defaultName'];
+      } else {
+        listItem[component['model']] = component['default'];
+      }
     }
     if (this.input[item['model']] == null) {
       this.input[item['model']] = [];
     }
     this.input[item['model']].push(listItem);
+
+    let itemComponents = [];
+    for (let j = 0; j < item['components'].length ; j++) {
+      itemComponents.push({ ...item['components'][j] });
+    }
+    if (this.inputTemp[item['model'] + 'Components'] == null) {
+      this.inputTemp[item['model'] + 'Components'] = [];
+    }
+    this.inputTemp[item['model'] + 'Components'].push(itemComponents);
   }
 
   /**
    * 嵌套表格删除行
    */
-  deleteListRow(item: Object, data: Object): void {
-    for (let i = this.input[item['model']].length - 1 ; i >= 0 ; i--) {
-      if (data === this.input[item['model']][i]) {
-        this.input[item['model']].splice(i, 1);
-        break;
-      }
-    }
+  deleteListRow(item: Object, iList: number): void {
+    this.input[item['model']].splice(iList, 1);
+    this.inputTemp[item['model'] + 'Components'].splice(iList, 1);
   }
 
   /**
@@ -492,5 +566,14 @@ export class ApplicationPage {
         this.http.post('/webController/deleteFile', params).subscribe((res: Response) => {});
       }
     }
+  }
+
+  /**
+   * 设置列表下拉菜单头
+   */
+  getListSelectOptions(item: Object): Object {
+    return {
+      title: item['labelBak']
+    };
   }
 }

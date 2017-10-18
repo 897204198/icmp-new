@@ -13,7 +13,8 @@
           "nextid111",
           "fkryGroup",
           "xgryGroup",
-          "qtryGroup"
+          "qtryGroup",
+          "searchbox1"
         ],
         "name": "同意",
         "value": 111
@@ -34,319 +35,48 @@
         "control_list": [
           {
             "id": "1",
-            "name": "会议",
-            "sub_control_name": [
-              "group1"
-            ]
+            "name": "会议"
           },
           {
             "id": "2",
             "name": "科研",
-            "sub_control_name": [
-              "group2"
+            "controls": [
+              {
+                "type": "display",
+                "models": ["d_text"]
+              }
             ]
           },
           {
             "id": "3",
-            "name": "教学",
-            "sub_control_name": [
-              "group3"
-            ]
+            "name": "教学"
           },
           {
             "id": "4",
-            "name": "出国",
-            "sub_control_name": [
-              "group4"
-            ]
+            "name": "出国"
           },
           {
             "id": "5",
-            "name": "其他",
-            "sub_control_name": [
-              "group5"
-            ]
+            "name": "其他"
           },
           {
             "id": "70",
-            "name": "医疗",
-            "sub_control_name": [
-              "group70"
-            ]
+            "name": "医疗"
           }
         ],
+        "validate": {
+          "required": true
+        },
         "control_name": "fkryGroup",
         "control_label": "反馈人员"
       },
       {
-        "control_type": "select_more",
-        "control_list": [
-          {
-            "id": "1000800080",
-            "name": "林巍"
-          },
-          {
-            "id": "1000040684",
-            "name": "孙远玲"
-          },
-          {
-            "id": "1000043631",
-            "name": "李海亮"
-          },
-          {
-            "id": "1000011297",
-            "name": "廖伟"
-          },
-          {
-            "id": "1000011536",
-            "name": "卢岩"
-          },
-          {
-            "id": "1000011363",
-            "name": "孙思予"
-          },
-          {
-            "id": "1000010788",
-            "name": "张成普"
-          },
-          {
-            "id": "1000010853",
-            "name": "杨清"
-          },
-          {
-            "id": "1000011309",
-            "name": "刘学勇"
-          },
-          {
-            "id": "1000013733",
-            "name": "刘云会"
-          }
-        ],
-        "control_name": "group1",
-        "control_label": "会议"
-      },
-      {
-        "control_type": "select_more",
-        "control_list": [
-          {
-            "id": "1000040684",
-            "name": "孙远玲"
-          },
-          {
-            "id": "1000800080",
-            "name": "林巍"
-          },
-          {
-            "id": "1000043631",
-            "name": "李海亮"
-          },
-          {
-            "id": "1000011297",
-            "name": "廖伟"
-          },
-          {
-            "id": "1000013752",
-            "name": "李慧"
-          },
-          {
-            "id": "1000010853",
-            "name": "杨清"
-          },
-          {
-            "id": "1000011536",
-            "name": "卢岩"
-          },
-          {
-            "id": "1000011363",
-            "name": "孙思予"
-          },
-          {
-            "id": "1000013733",
-            "name": "刘云会"
-          },
-          {
-            "id": "1000011309",
-            "name": "刘学勇"
-          },
-          {
-            "id": "1000010788",
-            "name": "张成普"
-          }
-        ],
-        "control_name": "group2",
-        "control_label": "科研"
-      },
-      {
-        "control_type": "select_more",
-        "control_list": [
-          {
-            "id": "1000043631",
-            "name": "李海亮"
-          },
-          {
-            "id": "1000040684",
-            "name": "孙远玲"
-          },
-          {
-            "id": "1000800080",
-            "name": "林巍"
-          },
-          {
-            "id": "1000011490",
-            "name": "于宏"
-          },
-          {
-            "id": "1000011297",
-            "name": "廖伟"
-          },
-          {
-            "id": "1000011536",
-            "name": "卢岩"
-          }
-        ],
-        "control_name": "group3",
-        "control_label": "教学"
-      },
-      {
-        "control_type": "select_more",
-        "control_list": [
-          {
-            "id": "1000043631",
-            "name": "李海亮"
-          },
-          {
-            "id": "1000040684",
-            "name": "孙远玲"
-          },
-          {
-            "id": "1000800080",
-            "name": "林巍"
-          },
-          {
-            "id": "1000050768",
-            "name": "郭佳凯"
-          },
-          {
-            "id": "1000011297",
-            "name": "廖伟"
-          },
-          {
-            "id": "1000011309",
-            "name": "刘学勇"
-          },
-          {
-            "id": "1000013733",
-            "name": "刘云会"
-          },
-          {
-            "id": "1000010853",
-            "name": "杨清"
-          },
-          {
-            "id": "1000010788",
-            "name": "张成普"
-          },
-          {
-            "id": "1000050778",
-            "name": "赵玉虹"
-          },
-          {
-            "id": "1000011363",
-            "name": "孙思予"
-          },
-          {
-            "id": "1000800137",
-            "name": "姚品"
-          },
-          {
-            "id": "1000011536",
-            "name": "卢岩"
-          },
-          {
-            "id": "1000010490",
-            "name": "郭锡斌"
-          },
-          {
-            "id": "1000013059",
-            "name": "李宁"
-          }
-        ],
-        "control_name": "group4",
-        "control_label": "出国"
-      },
-      {
-        "control_type": "select_more",
-        "control_list": [
-          {
-            "id": "1000800080",
-            "name": "林巍"
-          },
-          {
-            "id": "1000040684",
-            "name": "孙远玲"
-          },
-          {
-            "id": "1000043631",
-            "name": "李海亮"
-          },
-          {
-            "id": "1000011297",
-            "name": "廖伟"
-          },
-          {
-            "id": "1000011536",
-            "name": "卢岩"
-          },
-          {
-            "id": "1000011363",
-            "name": "孙思予"
-          },
-          {
-            "id": "1000010788",
-            "name": "张成普"
-          },
-          {
-            "id": "1000010853",
-            "name": "杨清"
-          },
-          {
-            "id": "1000011309",
-            "name": "刘学勇"
-          },
-          {
-            "id": "1000013733",
-            "name": "刘云会"
-          }
-        ],
-        "control_name": "group5",
-        "control_label": "其他"
-      },
-      {
-        "control_type": "select_more",
-        "control_list": [
-          {
-            "id": "1000011374",
-            "name": "张晓纲"
-          },
-          {
-            "id": "1000010788",
-            "name": "张成普"
-          },
-          {
-            "id": "1000011536",
-            "name": "卢岩"
-          },
-          {
-            "id": "1000013059",
-            "name": "李宁"
-          },
-          {
-            "id": "1000011358",
-            "name": "陆春雪"
-          }
-        ],
-        "control_name": "group70",
-        "control_label": "医疗"
+        "control_type": "text",
+        "control_name": "d_text",
+        "control_label": "动态显示",
+        "validate": {
+          "required": true
+        }
       },
       {
         "control_type": "select_more",
@@ -382,6 +112,7 @@
       },
       {
         "control_type": "text",
+        "control_disabled": true,
         "control_name": "edittext_disabled111",
         "control_default": "反馈主管领导及职能科室",
         "control_label": "下一步"
@@ -410,6 +141,17 @@
         "control_name": "edittext_disabled112",
         "control_default": "申请人签收",
         "control_label": "下一步"
+      },
+      {
+        "control_type": "select_searchbox",
+        "control_name": "searchbox1",
+        "control_default": "1",
+        "control_default_name": "啊啊啊",
+        "search_url": "/demo/selectSearchboxQuery",
+        "control_label": "选择器",
+        "validate": {
+          "required": true
+        }
       }
     ]
   ],

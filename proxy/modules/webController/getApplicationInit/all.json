@@ -201,6 +201,32 @@
               "type": "required"
             }
           ]
+        },
+        {
+          "type": "searchbox",
+          "category": "single",
+          "label": "列表选择器",
+          "model": "listPerson",
+          "searchUrl": "/demo/selectSearchboxQuery?type=1",
+          "controls": [
+            {
+              "type": "initSelect",
+              "model": "listSelect",
+              "url": "/demo/selectSearchboxQuery"
+            }
+          ],
+          "validator": [
+            {
+              "type": "required"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "category": "single",
+          "label": "内容联动",
+          "model": "listSelect",
+          "data": []
         }
       ]
     },
