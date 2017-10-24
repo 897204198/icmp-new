@@ -230,4 +230,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', []);
+
+  grunt.registerTask('createWWW', function() {
+    grunt.file.mkdir('www');
+  });
 };
