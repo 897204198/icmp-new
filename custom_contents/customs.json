@@ -30,8 +30,8 @@
       "ios": "com.proper.icmp.srm"
     },
     "version": {
-      "android": "1",
-      "ios": "1"
+      "android": "20000",
+      "ios": "20000"
     },
     "name": "掌上办公",
     "updateUrl": {

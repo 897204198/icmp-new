@@ -40,7 +40,9 @@ export class AppVersionUpdateService {
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     this.http.post('/webController/getTheLastVersion', null).subscribe((res: Response) => {
       let data = res.json();
-      if (data.versionNo != null && Number(data.versionNo) > Number(deviceInfo.versionNumber)) {
+      // 截取版本号
+      let cutVersionCode: string = deviceInfo.versionCode.toString().substring(0, 5);
+      if (data.versionNo != null && Number(data.versionNo) > Number(cutVersionCode)) {
         if (data.note == null || data.note === '') {
           data.note = this.transateContent['APP_UPDATE_NOTE'];
         }
