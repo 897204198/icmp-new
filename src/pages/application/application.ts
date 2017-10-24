@@ -388,20 +388,54 @@ export class ApplicationPage {
             }
           }
         } else if (control['type'] === 'initSelect') {
-          let url = control['url'];
-          let params: URLSearchParams = new URLSearchParams();
-          params.append('serviceName', this.navParams.get('serviceName'));
-          if (index == null) {
-            params.append('id', this.input[item['model']]);
+          let flg: boolean = false;
+          if (item['type'] === 'searchbox') {
+            flg = true;
           } else {
-            params.append('id', this.input[itemParent['model']][index][item['model']]);
+            if (index == null) {
+              if (this.input[item['model']] != null && this.input[item['model']].indexOf(option['id']) >= 0) {
+                flg = true;
+              }
+            } else {
+              if (this.input[itemParent['model']][index][item['model']] != null && this.input[itemParent['model']][index][item['model']].indexOf(option['id']) >= 0) {
+                flg = true;
+              }
+            }
           }
-          this.http.post(url, params).subscribe((res: Response) => {
-            let data = res.json().result_list;
+          if (flg) {
+            let url = control['url'];
+            let params: URLSearchParams = new URLSearchParams();
+            params.append('serviceName', this.navParams.get('serviceName'));
+            if (index == null) {
+              params.append('id', this.input[item['model']]);
+            } else {
+              params.append('id', this.input[itemParent['model']][index][item['model']]);
+            }
+            this.http.post(url, params).subscribe((res: Response) => {
+              let data = res.json().result_list;
+              if (index == null) {
+                for (let k = 0 ; k < this.template.length ; k++) {
+                  if (this.template[k]['model'] === control['model']) {
+                    this.template[k]['data'] = data;
+                    break;
+                  }
+                }
+              } else {
+                for (let k = 0 ; k < this.inputTemp[itemParent['model'] + 'Components'][index].length ; k++) {
+                  let itemTmp = this.inputTemp[itemParent['model'] + 'Components'][index][k];
+                  if (itemTmp['model'] === control['model']) {
+                    itemTmp['data'] = data;
+                  }
+                }
+              }
+            }, (res: Response) => {
+              this.toastService.show(res.text());
+            });
+          } else {
             if (index == null) {
               for (let k = 0 ; k < this.template.length ; k++) {
                 if (this.template[k]['model'] === control['model']) {
-                  this.template[k]['data'] = data;
+                  this.template[k]['data'] = [];
                   break;
                 }
               }
@@ -409,13 +443,11 @@ export class ApplicationPage {
               for (let k = 0 ; k < this.inputTemp[itemParent['model'] + 'Components'][index].length ; k++) {
                 let itemTmp = this.inputTemp[itemParent['model'] + 'Components'][index][k];
                 if (itemTmp['model'] === control['model']) {
-                  itemTmp['data'] = data;
+                  itemTmp['data'] = [];
                 }
               }
             }
-          }, (res: Response) => {
-            this.toastService.show(res.text());
-          });
+          }
         }
       }
     }

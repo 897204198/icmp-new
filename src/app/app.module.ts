@@ -72,6 +72,8 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { ApplicationPage } from '../pages/application/application';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
+import { StatisticsQueryPage } from '../pages/statistics/statisticsQuery/statisticsQuery';
+import { StatisticsViewPage } from '../pages/statistics/statisticsView/statisticsView';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -114,6 +116,8 @@ export function createTranslateLoader(http: Http) {
     QueryNoticeDetailPage,
     QueryListPage,
     QueryListConditionPage,
+    StatisticsQueryPage,
+    StatisticsViewPage,
     ApplicationPage,
     TodoListPage,
     TodoDetailPage,
@@ -167,6 +171,8 @@ export function createTranslateLoader(http: Http) {
     QueryNoticeDetailPage,
     QueryListPage,
     QueryListConditionPage,
+    StatisticsQueryPage,
+    StatisticsViewPage,
     ApplicationPage,
     TodoListPage,
     TodoDetailPage,

@@ -49,6 +49,22 @@
     },
     {
       "appType": "category",
+      "title": "统计",
+      "rows": [
+        {
+          "appid": "61",
+          "title": "看诊量统计",
+          "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+          "systemId": "statisticsSearch",
+          "serviceName": "doctorSeeService",
+          "data": {
+            "example": "a"
+          }
+        }
+      ]
+    },
+    {
+      "appType": "category",
       "title": "其它",
       "rows": [
         {

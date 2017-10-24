@@ -56,7 +56,7 @@
       <ion-list radio-group *ngIf="item.type == 'radio'" class="item-radioAndCheck" [ngClass]="{'display-hidden': item.status == 'hidden'}" [(ngModel)]="input[item.model]" (ionChange)="radioChange(item)">
         <ion-list-header><span [innerHtml]="getSafeHtml(item.label)"></span></ion-list-header>
         <ion-item *ngFor="let option of item.data">
-          <ion-label>{{option.name}}</ion-label>
+          <ion-label class="small-label">{{option.name}}</ion-label>
           <ion-radio value="{{option.id}}"></ion-radio>
         </ion-item>
       </ion-list>
@@ -64,7 +64,7 @@
       <ion-list *ngIf="item.type == 'checkbox'" [ngClass]="{'display-hidden': item.status == 'hidden'}" class="item-radioAndCheck">
         <ion-list-header><span [innerHtml]="getSafeHtml(item.label)"></span></ion-list-header>
         <ion-item *ngFor="let option of item.data">
-          <ion-label>{{option.name}}</ion-label>
+          <ion-label class="small-label">{{option.name}}</ion-label>
           <ion-checkbox [(ngModel)]="inputTemp[item.model + '_' + option.id]" (ionChange)="setCheckValue(item, option)"></ion-checkbox>
         </ion-item>
       </ion-list>
