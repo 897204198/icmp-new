@@ -365,25 +365,37 @@ export class ApplicationPage {
             }
           }
         } else if (control['type'] === 'setValue') {
-          for (let k = 0 ; k < control.data.length ; k++) {
-            let data = control.data[k];
-            if (data['calculate'] != null) {
-              if (data['calculate'] === 'YearDifferToday') {
-                let startDate: Date = null;
-                if (this.input[item['model']] != null && this.input[item['model']] !== '') {
-                  startDate = new Date(this.input[item['model']]);
+          let flg: boolean = false;
+          if (index == null) {
+            if (this.input[item['model']] != null && this.input[item['model']].indexOf(option['id']) >= 0) {
+              flg = true;
+            }
+          } else {
+            if (this.input[itemParent['model']][index][item['model']] != null && this.input[itemParent['model']][index][item['model']].indexOf(option['id']) >= 0) {
+              flg = true;
+            }
+          }
+          if (flg) {
+            for (let k = 0 ; k < control.data.length ; k++) {
+              let data = control.data[k];
+              if (data['calculate'] != null) {
+                if (data['calculate'] === 'YearDifferToday') {
+                  let startDate: Date = null;
+                  if (this.input[item['model']] != null && this.input[item['model']] !== '') {
+                    startDate = new Date(this.input[item['model']]);
+                  }
+                  if (index == null) {
+                    this.input[data['model']] = this.utilsService.getDifferYears(startDate, new Date());
+                  } else {
+                    this.input[itemParent['model']][index][data['model']] = this.utilsService.getDifferYears(startDate, new Date());
+                  }
                 }
-                if (index == null) {
-                  this.input[data['model']] = this.utilsService.getDifferYears(startDate, new Date());
-                } else {
-                  this.input[itemParent['model']][index][data['model']] = this.utilsService.getDifferYears(startDate, new Date());
-                }
-              }
-            } else {
-              if (index == null) {
-                this.input[data['model']] = data['value'];
               } else {
-                this.input[itemParent['model']][index][data['model']] = data['value'];
+                if (index == null) {
+                  this.input[data['model']] = data['value'];
+                } else {
+                  this.input[itemParent['model']][index][data['model']] = data['value'];
+                }
               }
             }
           }
@@ -462,13 +474,15 @@ export class ApplicationPage {
         this.template[i]['status'] = status;
         if (status === 'hidden') {
           this.input[model] = null;
+          this.inputTemp[model + 'Components'] = null;
           if (this.template[i]['type'] === 'searchbox') {
             this.input[model + 'Name'] = null;
           }
-        }
-        if (this.template[i]['type'] === 'list' && this.template[i]['initRow']) {
-          if (this.input[this.template[i]['model']] == null) {
-            this.addListRow(this.template[i]);
+        } else {
+          if (this.template[i]['type'] === 'list' && this.template[i]['initRow']) {
+            if (this.input[this.template[i]['model']] == null) {
+              this.addListRow(this.template[i]);
+            }
           }
         }
         break;
