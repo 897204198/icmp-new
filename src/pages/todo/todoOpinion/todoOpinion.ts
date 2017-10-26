@@ -89,6 +89,9 @@ export class TodoOpinionPage {
         let item = this.opinionOtherList[i];
         if (item['control_default'] != null && item['control_default'] !== '') {
           this.approvalInput[item['control_name']] = item['control_default'];
+          if (item['control_type'] === 'select_searchbox') {
+            this.approvalInput[item['control_name'] + '_name'] = item['control_default_name'];
+          }
         }
         if (item['control_formatter'] != null && item['control_formatter'] !== '') {
           item['control_formatter'] = item['control_formatter'].replace(new RegExp('y', 'gm'), 'Y').replace(new RegExp('d', 'gm'), 'D');
@@ -133,9 +136,26 @@ export class TodoOpinionPage {
     if (this.controls[this.approvalInput['opinion']] != null && this.controls[this.approvalInput['opinion']].length > 0) {
       for (let i = 0; i < this.controls[this.approvalInput['opinion']].length; i++) {
         let requireControl = this.controls[this.approvalInput['opinion']][i];
-        if (this.approvalInput[requireControl] == null || this.approvalInput[requireControl] === '') {
-          this.toastService.show(this.transateContent['VALI_REQUIRED']);
-          return false;
+        let opinionItem = {};
+        for (let j = 0; j < this.opinionOtherList.length ; j++) {
+          if (requireControl === this.opinionOtherList[j]['control_name']) {
+            opinionItem = this.opinionOtherList[j];
+          }
+        }
+        if (opinionItem['validate'] != null && opinionItem['validate']['required'] != null && opinionItem['validate']['required']) {
+          if (this.approvalInput[requireControl] == null || this.approvalInput[requireControl] === '') {
+            this.toastService.show(this.transateContent['VALI_REQUIRED']);
+            return false;
+          }
+        }
+      }
+      for (let i = 0; i < this.opinionOtherList.length; i++) {
+        let item = this.opinionOtherList[i];
+        if (item['status'] === 'display' && item['validate'] != null && item['validate']['required']) {
+          if (this.approvalInput[item['control_name']] == null || this.approvalInput[item['control_name']] === '') {
+            this.toastService.show(this.transateContent['VALI_REQUIRED']);
+            return false;
+          }
         }
       }
     }
@@ -188,7 +208,7 @@ export class TodoOpinionPage {
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
-        this.approvalInput[item['control_name'] + 'Name'] = data.name;
+        this.approvalInput[item['control_name'] + '_name'] = data.name;
         this.approvalInput[item['control_name']] = data.id;
       }
     });
@@ -207,6 +227,9 @@ export class TodoOpinionPage {
         return true;
       }
     }
+    if (item['status'] === 'display') {
+      return true;
+    }
     return false;
   }
 
@@ -224,5 +247,69 @@ export class TodoOpinionPage {
    */
   clearDatetime(item: Object): void {
     this.approvalInput[item['control_name']] = '';
+  }
+
+  /**
+   * 下拉选择事件
+   */
+  selectChange(item: Object): void {
+    let data = item['control_list'];
+    for (let i = 0 ; i < data.length ; i++) {
+      this.setControl(item, data[i]);
+    }
+  }
+
+  /**
+   * 意见改变
+   */
+  opinionChange(): void {
+    for (let i = 0 ; i < this.opinionOtherList.length ; i++) {
+      delete this.opinionOtherList[i]['status'];
+      let item = this.opinionOtherList[i];
+      this.approvalInput[item['control_name']] = item['control_default'];
+      if (item['control_type'] === 'select_searchbox') {
+        this.approvalInput[item['control_name'] + '_name'] = item['control_default_name'];
+      }
+    }
+  }
+
+  /**
+   * 设置控制事件
+   */
+  setControl(item: Object, option: Object) {
+    if (option['controls'] != null) {
+      for (let j = 0 ; j < option['controls'].length ; j++) {
+        let control = option['controls'][j];
+        if (control['type'] === 'display') {
+          if (this.approvalInput[item['control_name']] != null && this.approvalInput[item['control_name']].indexOf(option['id']) >= 0) {
+            for (let k = 0 ; k < control.models.length ; k++) {
+              this.setInputStatus(control.models[k], 'display');
+            }
+          } else {
+            for (let k = 0 ; k < control.models.length ; k++) {
+              this.setInputStatus(control.models[k], 'hidden');
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * 设置表单控件状态
+   */
+  setInputStatus(model: string, status: string): void {
+    for (let i = 0 ; i < this.opinionOtherList.length ; i++) {
+      if (this.opinionOtherList[i]['control_name'] === model) {
+        this.opinionOtherList[i]['status'] = status;
+        if (status === 'hidden') {
+          this.approvalInput[model] = null;
+          if (this.opinionOtherList[i]['type'] === 'select_searchbox') {
+            this.approvalInput[model + '_name'] = null;
+          }
+        }
+        break;
+      }
+    }
   }
 }

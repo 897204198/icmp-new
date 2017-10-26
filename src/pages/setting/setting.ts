@@ -77,7 +77,7 @@ export class SettingPage {
    * 检查更新
    */
   checkVersion(): void {
-    this.appVersionUpdateService.checkAppVersion();
+    this.appVersionUpdateService.checkAppVersion(false);
   }
 
   /**

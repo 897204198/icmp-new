@@ -159,7 +159,7 @@ export class SearchboxComponent {
       let names: string[] = [];
       for (let i = 0 ; i < this.searchSelect.length ; i++) {
         if (this.searchSelect[i]) {
-          ids.push(this.searchResults[i]['value']);
+          ids.push(this.searchResults[i]['id']);
           names.push(this.searchResults[i]['name']);
         }
       }

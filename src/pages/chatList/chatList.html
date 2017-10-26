@@ -4,5 +4,15 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
+  <ion-list class="icmp-list-bottom-margin">
+    <ion-item  *ngFor="let item of chatList" ion-item (click)="chatToUserOrGroup(item)">
+      <ion-avatar item-start>
+        <img src="./assets/images/user.jpg">
+      </ion-avatar>
+      <h2>{{item.title}}</h2>
+      <p>最后一条数据</p>
+      <p class="time" item-end>{{item.lastTime}}</p>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

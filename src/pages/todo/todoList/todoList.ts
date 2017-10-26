@@ -84,11 +84,14 @@ export class TodoListPage {
     this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
       let data = res.json();
       this.todoTotal = data.total;
-      // redux传值
-      if (data.total === 0) {
-        this.store.dispatch(new TodoReplaceBadageAction(''));
-      } else {
-        this.store.dispatch(new TodoReplaceBadageAction(data.total));
+      // 修复其他待办页会影响 tabs 上待办的角标
+      if (!this.navCtrl.canGoBack()) {
+        // redux传值
+        if (data.total === 0) {
+          this.store.dispatch(new TodoReplaceBadageAction(''));
+        } else {
+          this.store.dispatch(new TodoReplaceBadageAction(data.total));
+        }
       }
 
       if (isInit) {

@@ -18,7 +18,6 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-targetSdkVersion" value="19" />
-    <preference name="android-minSdkVersion" value="16" />
     <preference name="orientation" value="portrait" />
     <platform name="android">
         <allow-intent href="market:*" />
@@ -80,9 +79,6 @@
     </chcp>
     <engine name="android" spec="6.2.3" />
     <engine name="ios" spec="4.4.0" />
-    <plugin name="com.synconset.imagepicker" spec="2.1.8">
-        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="是否允许此App访问你的媒体资料库？" />
-    </plugin>
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
     <plugin name="cordova-plugin-camera" spec="2.4.1">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />

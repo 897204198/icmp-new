@@ -46,8 +46,6 @@ export class MyApp {
       this.deviceService.setDeviceInfo();
       // 初始化推送插件
       this.pushService.init();
-      // 检查版本更新
-      this.appVersionUpdateService.checkAppVersion();
     });
 
     // 初始国际化

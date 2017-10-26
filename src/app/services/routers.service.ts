@@ -9,6 +9,8 @@ import { TodoListPage } from '../../pages/todo/todoList/todoList';
 import { QueryDetailPage } from '../../pages/query/queryDetail/queryDetail';
 import { InstaShotPage } from '../../pages/instaShot/instaShot';
 import { ApplicationPage } from '../../pages/application/application';
+import { StatisticsQueryPage } from '../../pages/statistics/statisticsQuery/statisticsQuery';
+import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statisticsView';
 
 /**
  * 路由服务
@@ -50,6 +52,10 @@ export class RoutersService {
       navCtrl.push(InstaShotPage);
     } else if (menu.systemId === this.icmpConstant.systemId.application) {
       navCtrl.push(ApplicationPage, menu);
+    } else if (menu.systemId === this.icmpConstant.systemId.statisticsSearch) {
+      navCtrl.push(StatisticsQueryPage, menu);
+    } else if (menu.systemId === this.icmpConstant.systemId.statisticsView) {
+      navCtrl.push(StatisticsViewPage, menu);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }

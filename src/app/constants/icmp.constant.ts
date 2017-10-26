@@ -16,6 +16,12 @@ export interface SystemIdConstant {
 
   // 随手拍页面
   instaShot: string;
+
+  // 统计查询页面
+  statisticsSearch: string;
+
+  // 统计页面
+  statisticsView: string;
 }
 
 /**
@@ -46,7 +52,9 @@ export const systemIdConstant: SystemIdConstant = {
   queryList: 'query',
   queryDetail: 'queryDetail',
   todoList: 'bpm',
-  instaShot: 'instaShot'
+  instaShot: 'instaShot',
+  statisticsSearch: 'statisticsSearch',
+  statisticsView: 'statisticsView'
 };
 
 export const icmpConstant: IcmpConstant = {

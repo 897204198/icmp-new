@@ -108,7 +108,7 @@ export class TabsPage {
    */
   doOpenNotification(event: any): void {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
-      this.appVersionUpdateService.checkAppVersion();
+      this.appVersionUpdateService.checkAppVersion(true);
     } else {
       if (event.properAlert) {
         let messagesPrompt = this.alertCtrl.create({

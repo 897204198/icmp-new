@@ -32,29 +32,9 @@ export class AddressPage {
   }
 
   loadUserContactInfos() {
-    // 获取列表
-    let emptyParams: URLSearchParams = new URLSearchParams();
-    this.http.post(this.configsService.getIMUrl() + '/api/contact/getAllContacts', emptyParams).subscribe((data: Response) => {
-      let dataArray: Array<Object> = data.json().data.rows;
-      let tempArray: Array<string> = [];
-      for (let i = 0; i < dataArray.length; i++) {
-        tempArray.push(dataArray[i]['userid']);
-      }
-      // 获取详细信息
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('extendIds', JSON.stringify(tempArray));
-      this.http.post('/webController/im/fetchContactInfos', params).subscribe((res: Response) => {
-        this.contactInfos = res.json().rows;
-        this.saveContacts(this.contactInfos);
-      }, (err2: Response) => {
-
-      });
-    }, (err1: Response) => {
-    });
-  }
-
-  getUserDetailInfo(userid: string) {
-
+    this.contactInfos = [{
+      'nickName': '测试用户'
+    }];
   }
 
   onInput() {
@@ -65,61 +45,29 @@ export class AddressPage {
 
   }
 
-  saveContacts(info: Array<Object>) {
-    let params = {
-      'systemId': 'saveContacts',
-      'data': info
-    };
-    (<any>window).cmbpay.payment(params, (retData) => {
-
-    }, (retData) => {
-      console.log('retData:', retData);
-    });
-  }
-
   applyAndNotification() {
-    let params = {
-      'systemId': 'apply'
-    };
-    (<any>window).cmbpay.payment(params, (retData) => {
+    (<any>window).huanxin.apply('', (retData) => {
 
-    }, (retData) => {
-      console.log('retData:', retData);
-    });
+    }, (retData) => {});
   }
 
   addFriend() {
-    let params = {
-      'systemId': 'addFriend'
-    };
-    (<any>window).cmbpay.payment(params, (retData) => {
+    (<any>window).huanxin.addFriend('', (retData) => {
 
-    }, (retData) => {
-      console.log('retData:', retData);
-    });
+    }, (retData) => {});
   }
 
   myGroup() {
-    let params = {
-      'systemId': 'group'
-    };
-    (<any>window).cmbpay.payment(params, (retData) => {
+    (<any>window).huanxin.group('', (retData) => {
 
-    }, (retData) => {
-      console.log('retData:', retData);
-    });
+    }, (retData) => {});
   }
 
   chatToUser(item: Object) {
-    let params = {
-      'systemId': 'userProfile',
-      'data': item
-    };
-    (<any>window).cmbpay.payment(params, (retData) => {
+    let params = item;
+    (<any>window).huanxin.userProfile(params, (retData) => {
 
-    }, (retData) => {
-      console.log('retData:', retData);
-    });
+    }, (retData) => {});
   }
 
 }
