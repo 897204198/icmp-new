@@ -11,6 +11,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { DeviceService } from '../../app/services/device.service';
 import { FileTransferObject, FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer';
 import { ConfigsService } from '../../app/services/configs.service';
+import { UserService } from '../../app/services/user.service';
 
 /**
  * 申请单
@@ -43,6 +44,7 @@ export class ApplicationPage {
               private utilsService: UtilsService,
               private translate: TranslateService,
               private deviceService: DeviceService,
+              private userService: UserService,
               private toastService: ToastService) {
     let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -227,6 +229,7 @@ export class ApplicationPage {
           this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
           this.navCtrl.popToRoot();
         } else {
+          this.isSubmit = false;
           if (data.errMsg != null && data.errMsg !== '') {
             this.toastService.show(data.errMsg);
           } else {
@@ -366,13 +369,17 @@ export class ApplicationPage {
           }
         } else if (control['type'] === 'setValue') {
           let flg: boolean = false;
-          if (index == null) {
-            if (this.input[item['model']] != null && this.input[item['model']].indexOf(option['id']) >= 0) {
-              flg = true;
-            }
+          if (item['type'] === 'date' || item['type'] === 'searchbox') {
+            flg = true;
           } else {
-            if (this.input[itemParent['model']][index][item['model']] != null && this.input[itemParent['model']][index][item['model']].indexOf(option['id']) >= 0) {
-              flg = true;
+            if (index == null) {
+              if (this.input[item['model']] != null && this.input[item['model']].indexOf(option['id']) >= 0) {
+                flg = true;
+              }
+            } else {
+              if (this.input[itemParent['model']][index][item['model']] != null && this.input[itemParent['model']][index][item['model']].indexOf(option['id']) >= 0) {
+                flg = true;
+              }
             }
           }
           if (flg) {
@@ -401,7 +408,7 @@ export class ApplicationPage {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          if (item['type'] === 'searchbox') {
+          if (item['type'] === 'date' || item['type'] === 'searchbox') {
             flg = true;
           } else {
             if (index == null) {
@@ -560,7 +567,8 @@ export class ApplicationPage {
       fileName: filePath.substr(filePath.lastIndexOf('/') + 1),
       mimeType: 'multipart/form-data'
     };
-    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/webController/uploadFile', options).then((data) => {
+    let userInfo = this.userService.getUserInfo();
+    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName, options).then((data) => {
       if (this.input[item['model']] == null) {
         this.input[item['model']] = [data.response];
       } else {
