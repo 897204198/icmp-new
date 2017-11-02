@@ -21,7 +21,15 @@
           <table>
             <tr *ngFor="let head of item.headers; let i = index">
               <td class="form-table-head">{{head.text}}</td>
-              <td *ngFor="let value of item.values">{{value[i]}}</td>
+              <td *ngFor="let value of item.values">
+                <span *ngIf="value[i].type == null">{{value[i]}}</span>
+                <span *ngIf="value[i].type == 'filelist'">
+                  <div *ngFor="let file of value[i].values" (click)="downloadFile(file)" class="tablelist-file">
+                    <icmp-file-type-image [fileType]="getFileType(file.name)"></icmp-file-type-image>
+                    <span>{{file.name}}</span>
+                  </div>
+                </span>
+              </td>
             </tr>
           </table>
         </div>

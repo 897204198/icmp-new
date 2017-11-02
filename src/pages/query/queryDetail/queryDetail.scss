@@ -22,4 +22,15 @@ page-query-detail {
   .opinion_comment {
     white-space: normal;
   }
+
+  .tablelist-file {
+    color: color($colors, primary);
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 24px;
+      width: 24px;
+    }
+  }
 }
