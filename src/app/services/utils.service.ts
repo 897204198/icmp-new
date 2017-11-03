@@ -54,9 +54,17 @@ export class UtilsService {
   }
 
   /**
-   * 日期相差年数
+   * 年相差年数
    */
   getDifferYears(startDate: Date, endDate: Date): string {
+    let years: number = endDate.getFullYear() - startDate.getFullYear();
+    return years.toString();
+  }
+
+  /**
+   * 日期相差年数
+   */
+  getDifferDates(startDate: Date, endDate: Date): string {
     let years: string = '';
     if (startDate != null && endDate != null) {
       let math: number = endDate.getFullYear() - startDate.getFullYear();

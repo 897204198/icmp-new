@@ -364,7 +364,26 @@ export class ApplicationPage {
             }
           } else {
             for (let k = 0 ; k < control.models.length ; k++) {
-              this.setInputStatus(control.models[k], 'hidden');
+              let flg = true;
+              a: for (let m = 0 ; m < item['data'].length ; m++) {
+                if (this.input[item['model']] != null && this.input[item['model']].indexOf(item['data'][m]['id']) >= 0) {
+                  if (item['data'][m]['controls'] != null) {
+                    for (let n = 0 ; n < item['data'][m]['controls'].length ; n++) {
+                      if (item['data'][m]['controls'][n]['type'] === 'display') {
+                        for (let z = 0 ; z < item['data'][m]['controls'][n]['models'].length ; z++) {
+                          if (item['data'][m]['controls'][n]['models'][z] === control.models[k]) {
+                            flg = false;
+                            break a;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              if (flg) {
+                this.setInputStatus(control.models[k], 'hidden');
+              }
             }
           }
         } else if (control['type'] === 'setValue') {
