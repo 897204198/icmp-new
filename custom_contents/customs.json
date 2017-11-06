@@ -123,5 +123,30 @@
       },
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
+  },
+  "bc": {
+    "id": {
+      "android": "com.proper.icmp.tc",
+      "ios": "com.proper.icmp.tc"
+    },
+    "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公",
+    "updateUrl": {
+      "android": "http://123.150.83.199:9999/mobile-platform",
+      "ios": "http://123.150.83.199:9999/mobile-platform"
+    },
+    "server": {
+      "baseUrl": "http://123.150.83.199:9999/mobile-platform",
+      "pushAppId": "MobileOA",
+      "pushServer": "http://202.199.100.174:29091/properpush",
+      "pushXiaomi": {
+        "theAppid": "2882303761517583764",
+        "theAppkey": "5691758319764"
+      },
+      "hcp": "http://202.199.100.174:29091/mobile-platform"
+    }
   }
 }
