@@ -73,7 +73,7 @@
         "cordova-plugin-proper-update-version": "1.0.2",
         "cordova-plugin-splashscreen": "4.0.3",
         "cordova-plugin-statusbar": "2.2.3",
-        "cordova-plugin-telerik-imagepicker": "2.1.8",
+        "cordova-plugin-proper-telerik-imagepicker": "2.1.8",
         "cordova-plugin-uniquedeviceid": "1.3.2",
         "cordova-plugin-whitelist": "1.3.2",
         "cordova-plugin-x-toast": "2.6.0",
@@ -130,7 +130,7 @@
             "cordova-plugin-proper-properpush": {},
             "cordova-plugin-inappbrowser": {},
             "cordova-plugin-proper-update-version": {},
-            "com.synconset.imagepicker": {
+            "cordova-plugin-proper-telerik-imagepicker": {
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "是否允许此App访问你的媒体资料库？"
             },
             "cordova-plugin-camera": {

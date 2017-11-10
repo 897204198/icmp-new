@@ -14,6 +14,7 @@ import { CryptoService } from '../../app/services/crypto.service';
 import { PushService } from '../../app/services/push.service';
 import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
+import { DeviceService } from '../../app/services/device.service';
 
 /**
  * 登录页面
@@ -43,6 +44,7 @@ export class LoginPage {
     @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private translate: TranslateService,
     private toastService: ToastService,
+    private deviceService: DeviceService,
     private http: Http,
     private userService: UserService,
     private appVersionUpdateService: AppVersionUpdateService) {
@@ -119,14 +121,16 @@ export class LoginPage {
         this.userService.login();
         this.pushService.bindUserid(data['userId'], loginName);
 
+        // 避免在 web 上无法显示页面
+        if (this.deviceService.getDeviceInfo().deviceType) {
+          let params = {
+            'username': loginName,
+            'password': password
+          };
+          (<any>window).huanxin.imlogin(params, (retData) => {
 
-        let imparams = {
-          'username': loginName,
-          'password': password
-        };
-        (<any>window).huanxin.imlogin(imparams, (retData) => {
-
-        }, (retData) => {});
+          }, (retData) => { });
+        }
 
         let modal = this.modalCtrl.create(TabsPage);
         modal.present();

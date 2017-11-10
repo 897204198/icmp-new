@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'APPLY_AND_NOTIFICATION' | translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="content-gray">
+  <ion-list class="icmp-list-top-margin">
+    <button  *ngFor="let item of applyList" ion-item (click)="apply(item)">
+      <ion-avatar item-left>
+        <img src="./assets/images/user.jpg">
+      </ion-avatar>
+      <h2>{{item.nickName}}</h2>
+      <button ion-button item-end>同意</button>
+    </button>
+  </ion-list>
+</ion-content>

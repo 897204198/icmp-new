@@ -76,6 +76,10 @@ import { StatisticsQueryPage } from '../pages/statistics/statisticsQuery/statist
 import { StatisticsViewPage } from '../pages/statistics/statisticsView/statisticsView';
 import { AddressPage } from '../pages/address/address';
 import { ChatListPage } from '../pages/chatList/chatList';
+import { AddFriendPage } from '../pages/address/addFriend/addFriend';
+import { ApplyPage } from '../pages/address/apply/apply';
+import { GroupPage } from '../pages/address/group/group';
+import { CreateGroupPage } from '../pages/address/group/createGroup';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -127,7 +131,11 @@ export function createTranslateLoader(http: Http) {
     QueryDetailPage,
     InstaShotPage,
     AddressPage,
-    ChatListPage
+    ChatListPage,
+    AddFriendPage,
+    ApplyPage,
+    GroupPage,
+    CreateGroupPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -184,7 +192,11 @@ export function createTranslateLoader(http: Http) {
     QueryDetailPage,
     InstaShotPage,
     AddressPage,
-    ChatListPage
+    ChatListPage,
+    AddFriendPage,
+    ApplyPage,
+    GroupPage,
+    CreateGroupPage
   ],
   providers: [
     StatusBar,

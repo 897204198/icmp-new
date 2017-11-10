@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { ConfigsService } from '../../app/services/configs.service';
+import { AddFriendPage } from './addFriend/addFriend';
+import { ApplyPage } from './apply/apply';
+import { GroupPage } from './group/group';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'page-address',
@@ -8,16 +13,22 @@ import { ConfigsService } from '../../app/services/configs.service';
 })
 export class AddressPage {
 
-  private searchInput: string;
-
   private contactInfos: Array<Object> = [];
+
+  // 查询拦截器
+  private titleFilter: FormControl = new FormControl();
+  // 查询keyword
+  private keyword: string;
 
   /**
    * 构造函数
    */
-  constructor(private http: Http,
+  constructor(private navCtrl: NavController,
+    private http: Http,
     private configsService: ConfigsService) {
-
+    this.titleFilter.valueChanges.debounceTime(500).subscribe(
+      value => this.keyword = value
+    );
   }
 
   /**
@@ -32,42 +43,41 @@ export class AddressPage {
   }
 
   loadUserContactInfos() {
-    this.contactInfos = [{
-      'nickName': '测试用户'
-    }];
-  }
-
-  onInput() {
-    console.log(this.searchInput);
-  }
-
-  onCancel() {
-
+    this.contactInfos = [
+      {
+        'toChatNickName': '测试用户1',
+        'toChatUsername': 'a1',
+        'chatType': 'singleChat'
+      },
+      {
+        'toChatNickName': '测试用户2',
+        'toChatUsername': 'a2',
+        'chatType': 'singleChat'
+      },
+      {
+        'toChatNickName': '测试用户3',
+        'toChatUsername': 'a3',
+        'chatType': 'singleChat'
+      }];
   }
 
   applyAndNotification() {
-    (<any>window).huanxin.apply('', (retData) => {
-
-    }, (retData) => {});
+    this.navCtrl.push(ApplyPage);
   }
 
   addFriend() {
-    (<any>window).huanxin.addFriend('', (retData) => {
-
-    }, (retData) => {});
+    this.navCtrl.push(AddFriendPage);
   }
 
   myGroup() {
-    (<any>window).huanxin.group('', (retData) => {
-
-    }, (retData) => {});
+    this.navCtrl.push(GroupPage);
   }
 
   chatToUser(item: Object) {
     let params = item;
-    (<any>window).huanxin.userProfile(params, (retData) => {
+    (<any>window).huanxin.chat(params, (retData) => {
 
-    }, (retData) => {});
+    }, (retData) => { });
   }
 
 }
