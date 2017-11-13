@@ -178,7 +178,7 @@ export class InstaShotPage {
       destinationType: 1
     }).subscribe(img => {
       let imageInfo: Object = {};
-      imageInfo['image'] = img;
+      imageInfo['imageUrl'] = img;
       imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
       this.photoList.push(imageInfo);
     });
@@ -194,13 +194,13 @@ export class InstaShotPage {
         let arr: Object[] = img;
         for (let i = 0; i < arr.length; i++) {
           let imageInfo: Object = {};
-          imageInfo['image'] = arr[i];
+          imageInfo['imageUrl'] = arr[i];
           imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
           this.photoList.push(imageInfo);
         }
       } else {
         let imageInfo: Object = {};
-        imageInfo['image'] = img;
+        imageInfo['imageUrl'] = img;
         imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
         this.photoList.push(imageInfo);
       }
@@ -252,13 +252,13 @@ export class InstaShotPage {
         fileName: this.photoList[i]['imageName'],
         mimeType: 'multipart/form-data'
       };
-      fileTransfer.upload(this.photoList[i], this.configsService.getBaseUrl() + '/webController/uploadFile', options)
+      fileTransfer.upload(this.photoList[i]['imageUrl'], this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName, options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
           this.photoUrlArray.push(data.response);
           // 判断图片是否已经全部上传完
           if (this.photoUrlArray.length === this.photoList.length) {
-            this.submitInfo['image'] = this.photoUrlArray;
+            this.submitInfo['fileId'] = this.photoUrlArray;
             this.isShowSpinner = false;
             this.infoSubmit();
           }
@@ -280,8 +280,8 @@ export class InstaShotPage {
     params.append('hospitalAreaCode', this.hospitalAreaCode);
     params.append('departmentCode', this.departmentCode);
     // 图片不是必填项
-    if (this.submitInfo['image'] !== undefined) {
-      params.append('image', this.submitInfo['image']);
+    if (this.submitInfo['fileId'] !== undefined) {
+      params.append('fileId', this.submitInfo['fileId']);
     }
     this.http.post('/webController/instaShot', params).subscribe((res: Response) => {
       let data = res.json();

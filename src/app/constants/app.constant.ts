@@ -61,7 +61,7 @@ export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 const oaConstant: OaConstant = {
   baseUrl: './api',
   md5Encryption: true,
-  adminConsolePass: 'proper31353260'
+  adminConsolePass: '123456'
 };
 
 const properPushConstant: ProperPushConstant = {
