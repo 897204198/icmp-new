@@ -1,0 +1,76 @@
+{
+  "result": "0",
+  "data": [
+    {
+      "toChatNickName": "何鑫",
+      "toChatUsername": "hex",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+    },
+    {
+      "toChatNickName": "王维(头像传空)",
+      "toChatUsername": "wangw",
+      "chatType": "singleChat"
+    },
+    {
+      "toChatNickName": "孙帅",
+      "toChatUsername": "suns",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710379x3066599700.png"
+    },
+    {
+      "toChatNickName": "郝逸飞",
+      "toChatUsername": "haoyf",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710394x3066599700.png"
+    },
+    {
+      "toChatNickName": "王贺",
+      "toChatUsername": "wangh",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710347x3066599700.png"
+    },
+    {
+      "toChatNickName": "李晨熙",
+      "toChatUsername": "licx",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710335x3066599700.png"
+    },
+    {
+      "toChatNickName": "陈冰洁",
+      "toChatUsername": "chenbj",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710362x3066599700.png"
+    },
+    {
+      "toChatNickName": "李一鸣",
+      "toChatUsername": "liym",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710422x3066599700.png"
+    },
+    {
+      "toChatNickName": "王浩鹏",
+      "toChatUsername": "wanghp",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710410x3066599700.png"
+    },
+    {
+      "toChatNickName": "金孟楠",
+      "toChatUsername": "jinmn",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710290x3066599700.png"
+    },
+    {
+      "toChatNickName": "王怡",
+      "toChatUsername": "wangy",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710433x3066599700.png"
+    },
+    {
+      "toChatNickName": "时浩宇",
+      "toChatUsername": "shiny",
+      "chatType": "singleChat",
+      "headImage": "http://chuantu.biz/t6/140/1510710248x3066599700.png"
+    }
+  ]
+}

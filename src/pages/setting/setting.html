@@ -7,7 +7,8 @@
   <ion-list class="icmp-list-top-margin">
     <button id="e2e-userinfo" ion-item [navPush]="userInfoPage">
       <ion-avatar item-left>
-        <img src="./assets/images/user.jpg">
+        <img *ngIf="userInfo.headImage" [src]=userInfo.headImage>
+        <img *ngIf="!userInfo.headImage" src="./assets/images/user.jpg">
       </ion-avatar>
       <h2>{{userInfo?.userName}}</h2>
       <p>{{'ACCOUNT' | translate}}：{{userInfo?.loginName}}</p>

@@ -112,6 +112,7 @@ export class LoginPage {
           userName: data['user']['name'],
           password0: password,
           userId: data['userId'],
+          headImage: data['headImage'],
           savePassword: this.userInfo.savePassword
         };
 

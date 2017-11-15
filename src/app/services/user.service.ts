@@ -7,6 +7,7 @@ export interface UserInfoState {
   userName: string;
   password0: string;
   userId: string;
+  headImage: string;
   savePassword: boolean;
 }
 
@@ -16,6 +17,7 @@ export let initUserInfo: UserInfoState = {
   userName: '',
   password0: '',
   userId: '',
+  headImage: '',
   savePassword: true
 };
 
