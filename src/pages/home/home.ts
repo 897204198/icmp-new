@@ -6,6 +6,8 @@ import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
+import { DeviceService } from '../../app/services/device.service';
+import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 
 /**
  * 首页
@@ -37,7 +39,8 @@ export class HomePage {
   private noticeMarginIndex: number = 0;
   // 国际化文字
   private transateContent: Object;
-
+  // 用户信息（用户名、密码、昵称等）
+  private userInfo: UserInfoState = initUserInfo;
   /**
    * 构造函数
    */
@@ -48,6 +51,8 @@ export class HomePage {
               private toastService: ToastService,
               private translate: TranslateService,
               private routersService: RoutersService,
+              private deviceService: DeviceService,
+              private userService: UserService,
               @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant) {
     let translateKeys: string[] = ['NOTICE_DETAILED'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -63,6 +68,17 @@ export class HomePage {
    */
   ionViewDidLoad(): void {
     this.scrollHeader();
+    // 避免在 web 上无法显示页面
+    if (this.deviceService.getDeviceInfo().deviceType) {
+      this.userInfo = this.userService.getUserInfo();
+      let params = {
+        'username': this.userInfo.loginName,
+        'password': this.userInfo.password0
+      };
+      (<any>window).huanxin.imlogin(params, (retData) => {
+
+      }, (retData) => {});
+    }
   }
 
   /**

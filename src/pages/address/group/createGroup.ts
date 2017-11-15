@@ -22,9 +22,9 @@ export class CreateGroupPage {
     private toastService: ToastService,
     private http: Http,
     private translate: TranslateService) {
-      this.translate.get(['REQUIRE_NOT']).subscribe((res: Object) => {
-        this.transateContent = res;
-      });
+    this.translate.get(['REQUIRE_NOT', 'CREATE_SUCCESS']).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
   }
 
   /**
@@ -39,11 +39,17 @@ export class CreateGroupPage {
       this.toastService.show(this.transateContent['REQUIRE_NOT']);
       return;
     }
-    let params = {
-      'groupName': this.groupName
-    };
-    (<any>window).huanxin.createGroup(params, (retData) => {
-      this.navCtrl.pop();
-    }, (retData) => { });
+
+    let params: URLSearchParams = new URLSearchParams();
+    this.http.post('/im/createGroup', params).subscribe((res: Response) => {
+      if (res.json().result === '0') {
+        this.toastService.show(this.transateContent['CREATE_SUCCESS']);
+        this.navCtrl.pop();
+      } else {
+        this.toastService.show(res.json().errMsg);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 }

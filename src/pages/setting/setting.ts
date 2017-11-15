@@ -90,5 +90,8 @@ export class SettingPage {
     this.userService.logout();
     // 退出
     this.navCtrl.push(LoginPage);
+    (<any>window).huanxin.imlogout('', (retData) => {
+
+    }, (retData) => { });
   }
 }

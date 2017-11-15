@@ -114,6 +114,7 @@ export class LoginPage {
           userName: data['user']['name'],
           password0: password,
           userId: data['userId'],
+          headImage: data['headImage'],
           savePassword: this.userInfo.savePassword
         };
 
@@ -123,11 +124,11 @@ export class LoginPage {
 
         // 避免在 web 上无法显示页面
         if (this.deviceService.getDeviceInfo().deviceType) {
-          let params = {
+          let imparams = {
             'username': loginName,
             'password': password
           };
-          (<any>window).huanxin.imlogin(params, (retData) => {
+          (<any>window).huanxin.imlogin(imparams, (retData) => {
 
           }, (retData) => { });
         }

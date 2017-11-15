@@ -8,9 +8,6 @@ export interface OaConstant {
   // oa服务器 http请求的根地址
   baseUrl: string;
 
-  // im服务器 http请求的根地址
-  imUrl: string;
-
   // 用户的密码是否需要md5加密
   md5Encryption: boolean;
 
@@ -62,10 +59,9 @@ export interface AppConstant {
 export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 
 const oaConstant: OaConstant = {
-  baseUrl: 'http://202.199.100.174:29091/mobile-platform',
-  imUrl: 'http://202.199.100.174:29091/imserver',
+  baseUrl: './api',
   md5Encryption: true,
-  adminConsolePass: 'proper31353260'
+  adminConsolePass: '123456'
 };
 
 const properPushConstant: ProperPushConstant = {

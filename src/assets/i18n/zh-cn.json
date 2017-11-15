@@ -143,7 +143,14 @@
   "ADDRESS": "通讯录",
   "APPLY_AND_NOTIFICATION": "申请与通知",
   "ADD_FRIEND": "添加好友",
+  "ADD_SUCCESS": "添加成功",
   "GROUP": "群组",
   "CREATE_GROUP": "新建群聊",
-  "GROUP_NAME": "群名称"
+  "GROUP_NAME": "群名称",
+  "SEARCH": "搜索",
+  "AGREE": "同意",
+  "AGREED": "已同意",
+  "REFUSE": "拒绝",
+  "REFUSED": "已拒绝",
+  "CREATE_SUCCESS": "创建成功"
 }

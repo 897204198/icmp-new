@@ -6,6 +6,7 @@ import { AddFriendPage } from './addFriend/addFriend';
 import { ApplyPage } from './apply/apply';
 import { GroupPage } from './group/group';
 import { FormControl } from '@angular/forms';
+import { ToastService } from '../../app/services/toast.service';
 
 @Component({
   selector: 'page-address',
@@ -14,7 +15,6 @@ import { FormControl } from '@angular/forms';
 export class AddressPage {
 
   private contactInfos: Array<Object> = [];
-
   // 查询拦截器
   private titleFilter: FormControl = new FormControl();
   // 查询keyword
@@ -24,55 +24,63 @@ export class AddressPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-    private http: Http,
-    private configsService: ConfigsService) {
+    private configsService: ConfigsService,
+    private toastService: ToastService,
+    private http: Http) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => this.keyword = value
     );
   }
 
   /**
-   * 首次进入页面
+   * 每次进入页面
    */
-  ionViewDidLoad(): void {
-
-  }
-
   ionViewDidEnter(): void {
-    this.loadUserContactInfos();
+    this.fetchContactInfos();
   }
 
-  loadUserContactInfos() {
-    this.contactInfos = [
-      {
-        'toChatNickName': '测试用户1',
-        'toChatUsername': 'a1',
-        'chatType': 'singleChat'
-      },
-      {
-        'toChatNickName': '测试用户2',
-        'toChatUsername': 'a2',
-        'chatType': 'singleChat'
-      },
-      {
-        'toChatNickName': '测试用户3',
-        'toChatUsername': 'a3',
-        'chatType': 'singleChat'
-      }];
+  /**
+   * 获取用户通讯录
+   */
+  fetchContactInfos() {
+    let params: URLSearchParams = new URLSearchParams();
+    this.http.post('/im/fetchContactInfos', params).subscribe((res: Response) => {
+      let data = res.json().data;
+      console.log(JSON.stringify(data));
+      if (res.json().result === '0') {
+        this.contactInfos = data;
+      } else {
+        this.toastService.show(res.json().errMsg);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
+  /**
+   * 申请和通知
+   */
   applyAndNotification() {
     this.navCtrl.push(ApplyPage);
   }
 
+  /**
+   * 添加好友
+   */
   addFriend() {
     this.navCtrl.push(AddFriendPage);
   }
 
+  /**
+   * 我的群组
+   */
   myGroup() {
     this.navCtrl.push(GroupPage);
   }
 
+  /**
+   * 发起聊天插件
+   */
   chatToUser(item: Object) {
     let params = item;
     (<any>window).huanxin.chat(params, (retData) => {

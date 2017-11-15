@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <ion-searchbar [formControl]="titleFilter" placeholder="搜索" [showCancelButton]="shouldShowCancel">
+  <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}" [showCancelButton]="shouldShowCancel">
   </ion-searchbar>
 
   <ion-list class="icmp-list-bottom-margin">
@@ -29,11 +29,12 @@
   </ion-list>
 
   <ion-list class="icmp-list-bottom-margin">
-    <button *ngFor="let item of contactInfos | searchFilter: 'nickName': keyword" ion-item (click)="chatToUser(item)">
+    <button *ngFor="let user of contactInfos | searchFilter: 'toChatNickName': keyword" ion-item (click)="chatToUser(item)">
       <ion-avatar item-left>
-        <img src="./assets/images/user.jpg">
+        <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
+        <img *ngIf="user.headImage" [src]=user.headImage>
       </ion-avatar>
-      <h2>{{item.toChatNickName}}</h2>
+      <h2>{{user.toChatNickName}}</h2>
     </button>
   </ion-list>
 

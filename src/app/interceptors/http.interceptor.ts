@@ -71,8 +71,6 @@ export class HttpInterceptor extends Http {
       if (userInfo != null) {
         body.append('loginName', userInfo.loginName);
         body.append('password', userInfo.password);
-        body.append('_proper_userid', userInfo.loginName);
-        body.append('appkey', 'ShengjingOA');
       }
     }
     return this.intercept(super.post(url, body.toString(), this.getRequestOptionArgs('post', options)), true);

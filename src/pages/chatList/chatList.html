@@ -5,13 +5,14 @@
 </ion-header>
 <ion-content class="content-gray">
   <ion-list class="icmp-list-bottom-margin">
-    <ion-item  *ngFor="let item of chatList" ion-item (click)="chatToUserOrGroup(item)">
+    <ion-item *ngFor="let user of chatList" ion-item (click)="chatToUserOrGroup(user)">
       <ion-avatar item-start>
-        <img src="./assets/images/user.jpg">
+        <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
+        <img *ngIf="user.headImage" [src]=user.headImage>
       </ion-avatar>
-      <h2>{{item.toChatNickName}}</h2>
-      <p>{{item.lastMessage}}</p>
-      <p class="time" item-end>{{item.lastMessageTime}}</p>
+      <h2>{{user.toChatNickName}}</h2>
+      <p>{{user.lastMessage}}</p>
+      <p class="time" item-end>{{user.lastMessageTime}}</p>
     </ion-item>
   </ion-list>
 

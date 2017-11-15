@@ -7,12 +7,21 @@
 
 <ion-content class="content-gray">
   <ion-list class="icmp-list-top-margin">
-    <button  *ngFor="let item of applyList" ion-item (click)="apply(item)">
-      <ion-avatar item-left>
-        <img src="./assets/images/user.jpg">
-      </ion-avatar>
-      <h2>{{item.nickName}}</h2>
-      <button ion-button item-end>同意</button>
-    </button>
+    <ion-item-sliding *ngFor="let user of applyList">
+      <button ion-item>
+        <ion-avatar item-left>
+            <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
+            <img *ngIf="user.headImage" [src]=user.headImage>
+        </ion-avatar>
+        <h2>{{user.toChatNickName}}</h2>
+        <button *ngIf="user.type == 'wait'" mode="md" ion-button item-end (click)="agreeApply(user)">{{'AGREE' | translate}}</button>
+        <button *ngIf="user.type == 'wait'" mode="md" ion-button item-end color="danger" (click)="refuseApply(user)">{{'REFUSE' | translate}}</button>
+        <button *ngIf="user.type == 'agreed'" mode="md" ion-button item-end color="light">{{'AGREED' | translate}}</button>
+        <button *ngIf="user.type == 'refused'" mode="md" ion-button item-end color="light">{{'REFUSED' | translate}}</button>
+      </button>
+      <ion-item-options side="right">
+          <button ion-button color="danger" (click)="deleteApply(user)">{{'DELETE' | translate}}</button>
+        </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

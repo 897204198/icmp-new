@@ -16,21 +16,17 @@ export class ChatListPage {
   }
 
   /**
-   * 首次进入页面
+   * 每次进入页面
    */
-  ionViewDidLoad(): void {
-    // this.chatList = [{
-    //   'title': '测试用户',
-    //   'lastTime': '2017.10.26'
-    // }];
-  }
-
   ionViewDidEnter(): void {
     (<any>window).huanxin.getChatList('', (retData) => {
       this.chatList = retData;
     }, (retData) => { });
   }
 
+  /**
+   * 发起聊天插件
+   */
   chatToUserOrGroup(item: Object) {
     let params = item;
     (<any>window).huanxin.chat(params, (retData) => {

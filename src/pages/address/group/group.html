@@ -11,18 +11,19 @@
   </ion-searchbar>
 
   <ion-list class="icmp-list-bottom-margin">
-      <button ion-item (click)="addGroup()">
-        <ion-avatar class="left-avatar" item-left>
-          <img src="./assets/images/im/createGroup.png">
-        </ion-avatar>
+    <button ion-item (click)="createGroup()">
+      <ion-avatar class="left-avatar" item-left>
+        <img src="./assets/images/im/createGroup.png">
+      </ion-avatar>
       {{'CREATE_GROUP' | translate}}
-      </button>
-    </ion-list>
+    </button>
+  </ion-list>
 
   <ion-list class="icmp-list-bottom-margin">
-    <button *ngFor="let group of allGroups | searchFilter: 'groupName': keyword" ion-item (click)="chatToGroup(group)">
+    <button *ngFor="let group of allGroups | searchFilter: 'nickName': keyword" ion-item (click)="chatToGroup(group)">
       <ion-avatar item-left>
-        <img src="./assets/images/im/groupHeader.png">
+        <img *ngIf="group.headImage" [src]=group.headImage>
+        <img *ngIf="!group.headImage" src="./assets/images/im/groupHeader.png">
       </ion-avatar>
       <h2>{{group.nickName}}</h2>
     </button>

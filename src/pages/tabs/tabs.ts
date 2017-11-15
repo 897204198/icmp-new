@@ -14,7 +14,6 @@ import { QueryDetailPage } from '../query/queryDetail/queryDetail';
 import { QueryNoticeDetailPage } from '../query/queryNoticeDetail/queryNoticeDetail';
 import { AddressPage } from '../address/address';
 import { ChatListPage } from '../chatList/chatList';
-import { DeviceService } from '../../app/services/device.service';
 
 import { Store } from '@ngrx/store';
 import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
@@ -42,7 +41,6 @@ export class TabsPage {
     private userService: UserService,
     private backButtonService: BackButtonService,
     private appVersionUpdateService: AppVersionUpdateService,
-    private deviceService: DeviceService,
     public alertCtrl: AlertController,
     private translate: TranslateService,
     private store: Store<string>) {
@@ -53,16 +51,6 @@ export class TabsPage {
     this.tabRoots = this.getTabInfo();
     platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(this.tabRef);
-      // 避免在 web 上无法显示页面
-      if (this.deviceService.getDeviceInfo().deviceType) {
-        let params = {
-          'username': '',
-          'password': ''
-        };
-        (<any>window).huanxin.imlogin(params, (retData) => {
-
-        }, (retData) => {});
-      }
       // 通过推送通知打开应用事件
       document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
 
@@ -209,4 +197,5 @@ export class TabsPage {
       }
     });
   }
+
 }

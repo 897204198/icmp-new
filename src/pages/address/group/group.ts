@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import { CreateGroupPage } from './createGroup';
+import { ToastService } from '../../../app/services/toast.service';
 
 @Component({
   selector: 'page-group',
@@ -21,6 +22,7 @@ export class GroupPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private toastService: ToastService,
     private http: Http) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => this.keyword = value
@@ -28,31 +30,39 @@ export class GroupPage {
   }
 
   /**
-   * 首次进入页面
+   * 每次进入页面
    */
-  ionViewDidLoad(): void {
-    this.allGroups = [
-      {
-        'nickName': '测试群组1',
-        'toChatUsername': '31962609811457',
-        'chatType': 'groupChat'
-      },
-      {
-        'nickName': '测试群组2',
-        'toChatUsername': '31962609811457',
-        'chatType': 'groupChat'
-      },
-      {
-        'nickName': '测试群组3',
-        'toChatUsername': '31962609811457',
-        'chatType': 'groupChat'
-      }];
+  ionViewDidEnter(): void {
+    this.fetchGroupInfos();
   }
 
-  addGroup() {
+  /**
+   * 获取用户所有群组
+   */
+  fetchGroupInfos(): void {
+    let params: URLSearchParams = new URLSearchParams();
+    this.http.post('/im/fetchGroupInfos', params).subscribe((res: Response) => {
+      let data = res.json().data;
+      if (res.json().result === '0') {
+        this.allGroups = data;
+      } else {
+        this.toastService.show(res.json().errMsg);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+  }
+
+  /**
+   * 创建群组
+   */
+  createGroup() {
     this.navCtrl.push(CreateGroupPage);
   }
 
+  /**
+   * 群聊
+   */
   chatToGroup(group: Object) {
     let params = group;
     (<any>window).huanxin.chat(params, (retData) => {
