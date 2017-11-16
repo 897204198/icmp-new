@@ -9,6 +9,7 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { ConfigsService } from '../../app/services/configs.service';
 import { UtilsService } from '../../app/services/utils.service';
+import { FileService } from '../../app/services/file.service';
 
 @Component({
   selector: 'page-insta-shot',
@@ -62,6 +63,7 @@ export class InstaShotPage {
     private utilsService: UtilsService,
     private translate: TranslateService,
     private transfer: FileTransfer,
+    private fileService: FileService,
     private file: File,
     private http: Http) {
     this.translate.get(['REQUIRE_NOT', 'MAX_PHOTO', 'SUBMIT_SUCCESS']).subscribe((res: Object) => {
@@ -179,7 +181,7 @@ export class InstaShotPage {
     }).subscribe(img => {
       let imageInfo: Object = {};
       imageInfo['imageUrl'] = img;
-      imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
+      imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + this.fileService.getFileType(img);
       this.photoList.push(imageInfo);
     });
   }
@@ -189,21 +191,14 @@ export class InstaShotPage {
     this.photoService.getMultiplePicture({
       destinationType: 1
     }).subscribe(img => {
-      // 多张图从数组取，一张图直接取
-      if (typeof img === 'object') {
-        let arr: Object[] = img;
-        for (let i = 0; i < arr.length; i++) {
-          let imageInfo: Object = {};
-          imageInfo['imageUrl'] = arr[i];
-          imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
-          this.photoList.push(imageInfo);
-        }
-      } else {
+      // 从数组中取图片
+      for (let i = 0; i < img.length; i++) {
         let imageInfo: Object = {};
-        imageInfo['imageUrl'] = img;
-        imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
+        imageInfo['imageUrl'] = img[i];
+        imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + i + '.' + this.fileService.getFileType(img[i]);
         this.photoList.push(imageInfo);
       }
+
     });
   }
 
