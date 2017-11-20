@@ -34,7 +34,6 @@ handler.onPost = function (req, res, data) {
   } else if (data.loginName == 'shiny') {
     name = '时浩宇';
     userId = 'shiny';
-    jobNumber = 'shiny';
     headImage = "http://chuantu.biz/t6/140/1510710248x3066599700.png";
   } else if (data.loginName == 'suns') {
     name = '孙帅';

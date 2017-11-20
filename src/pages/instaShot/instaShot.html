@@ -33,7 +33,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{'DEPARTMENTS' | translate}}</ion-label>
-      <ion-select (ionChange)="clickDepartmentOption()" placeholder={{departmentPlaceholder}} [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+      <ion-select (ionChange)="clickDepartmentOption()" [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
         <ion-option *ngFor="let info2 of initData.department" value="{{info2}}">{{info2}}</ion-option>
       </ion-select>
     </ion-item>
