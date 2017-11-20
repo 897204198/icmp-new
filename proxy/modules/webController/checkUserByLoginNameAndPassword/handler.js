@@ -54,7 +54,15 @@ handler.onPost = function (req, res, data) {
   } else if (data.loginName == 'wanghp') {
     name = '王浩鹏';
     userId = 'wanghp';
-    "http://chuantu.biz/t6/140/1510710410x3066599700.png"
+    headImage = "http://chuantu.biz/t6/140/1510710410x3066599700.png";
+  } else if (data.loginName == 'wangls') {
+    name = '王丽莎';
+    userId = 'wangls';
+    headImage = "http://chuantu.biz/t6/151/1511167060x-1404781226.png";
+  } else if (data.loginName == 'liucy') {
+    name = '刘成尧';
+    userId = 'liucy';
+    headImage = "http://chuantu.biz/t6/151/1511167060x-1404781226.png";
   } else {
     common.jsonRes(req, res, '/noUser');
     return;
