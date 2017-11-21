@@ -7,6 +7,7 @@ import { ApplyPage } from './apply/apply';
 import { GroupPage } from './group/group';
 import { FormControl } from '@angular/forms';
 import { ToastService } from '../../app/services/toast.service';
+import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 
 @Component({
   selector: 'page-address',
@@ -19,6 +20,8 @@ export class AddressPage {
   private titleFilter: FormControl = new FormControl();
   // 查询keyword
   private keyword: string;
+  // 用户信息数据
+  userInfo: UserInfoState = initUserInfo;
 
   /**
    * 构造函数
@@ -26,10 +29,19 @@ export class AddressPage {
   constructor(private navCtrl: NavController,
     private configsService: ConfigsService,
     private toastService: ToastService,
+    private userService: UserService,
     private http: Http) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => this.keyword = value
     );
+  }
+
+  /**
+   * 首次进入页面
+   */
+  ionViewDidLoad() {
+    // 设置个人信息
+    this.userInfo = this.userService.getUserInfo();
   }
 
   /**
@@ -46,7 +58,6 @@ export class AddressPage {
     let params: URLSearchParams = new URLSearchParams();
     this.http.post('/im/fetchContactInfos', params).subscribe((res: Response) => {
       let data = res.json().data;
-      console.log(JSON.stringify(data));
       if (res.json().result === '0') {
         this.contactInfos = data;
       } else {
@@ -82,8 +93,13 @@ export class AddressPage {
    * 发起聊天插件
    */
   chatToUser(item: Object) {
-    let params = item;
-    (<any>window).huanxin.chat(params, (retData) => {
+    item['from_user_id'] = this.userInfo.userId;
+    item['from_username'] = this.userInfo.userName;
+    item['from_headportrait'] = this.userInfo.headImage;
+    item['to_user_id'] = item['toChatUsername'];
+    item['to_username'] = item['toChatNickName'];
+    item['to_headportrait'] = item['headImage'];
+    (<any>window).huanxin.chat(item, (retData) => {
 
     }, (retData) => { });
   }

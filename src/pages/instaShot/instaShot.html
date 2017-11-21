@@ -33,7 +33,7 @@
     </ion-item>
     <ion-item>
       <ion-label>{{'DEPARTMENTS' | translate}}</ion-label>
-      <ion-select (ionChange)="clickDepartmentOption()" placeholder={{departmentPlaceholder}} [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+      <ion-select (ionChange)="clickDepartmentOption()" [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
         <ion-option *ngFor="let info2 of initData.department" value="{{info2}}">{{info2}}</ion-option>
       </ion-select>
     </ion-item>
@@ -50,7 +50,7 @@
     <ion-item-sliding *ngFor="let photo of photoList">
       <ion-item>
         <ion-avatar item-left>
-          <img src="{{photo.image}}">
+          <img src="{{photo.imageUrl}}">
         </ion-avatar>
         <h2>{{photo.imageName}}</h2>
         <!-- <p>519.0KB</p> -->

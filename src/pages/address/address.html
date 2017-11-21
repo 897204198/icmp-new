@@ -29,7 +29,7 @@
   </ion-list>
 
   <ion-list class="icmp-list-bottom-margin">
-    <button *ngFor="let user of contactInfos | searchFilter: 'toChatNickName': keyword" ion-item (click)="chatToUser(item)">
+    <button *ngFor="let user of contactInfos | searchFilter: 'toChatNickName': keyword" ion-item (click)="chatToUser(user)">
       <ion-avatar item-left>
         <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
         <img *ngIf="user.headImage" [src]=user.headImage>

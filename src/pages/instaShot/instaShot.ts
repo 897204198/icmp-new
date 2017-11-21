@@ -9,6 +9,7 @@ import { FileTransfer, FileTransferObject, FileUploadOptions } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { ConfigsService } from '../../app/services/configs.service';
 import { UtilsService } from '../../app/services/utils.service';
+import { FileService } from '../../app/services/file.service';
 
 @Component({
   selector: 'page-insta-shot',
@@ -35,8 +36,6 @@ export class InstaShotPage {
   private departmentCode: string = '';
   // 院区 placeholder
   private hospitalAreaPlaceholder: string = '';
-  // 科室 placeholder
-  private departmentPlaceholder: string = '';
 
   // 科室缓存数据，如果请求过，不再请求数据
   private cacheDepartment: Object = {};
@@ -62,6 +61,7 @@ export class InstaShotPage {
     private utilsService: UtilsService,
     private translate: TranslateService,
     private transfer: FileTransfer,
+    private fileService: FileService,
     private file: File,
     private http: Http) {
     this.translate.get(['REQUIRE_NOT', 'MAX_PHOTO', 'SUBMIT_SUCCESS']).subscribe((res: Object) => {
@@ -120,15 +120,6 @@ export class InstaShotPage {
         this.departmentInfo = data;
         // 临时的 Array，循环获取所属院区列表数据
         let dataArray: Array<string> = this.getNameInfoFromArray(data);
-
-        // 默认科室是第一个，code相同
-        this.departmentCode = data[0].code;
-        this.departmentPlaceholder = dataArray[0];
-
-        /*  
-         *  为了防止意外，每次换院区的时候，必须重置所属科室的选择
-         */
-        this.submitInfo['department'] = dataArray[0];
         // 所属科室列表信息
         this.initData['department'] = dataArray;
       } else {
@@ -147,16 +138,15 @@ export class InstaShotPage {
         this.hospitalAreaCode = this.hospitalAreaInfo[i]['code'];
       }
     }
+    // 选择院区后清空科室code
+    this.departmentCode = '';
+    this.submitInfo['department'] = '';
     // 如果 this.cacheDepartment 里存在该院区的科室信息，就直接取，否则进行网络请求
     let cacheDep: Array<any> = this.cacheDepartment[this.hospitalAreaCode];
     if (cacheDep) {
       let dataArray: Array<string> = this.getNameInfoFromArray(cacheDep);
+      // 所属科室列表信息
       this.initData['department'] = dataArray;
-      /*  
-       *  为了防止意外，每次换院区的时候，必须重置所属科室的 name 和 code
-       */
-      this.submitInfo['department'] = dataArray[0];
-      this.departmentCode = cacheDep[0].code;
     } else {
       this.getDepartment(this.hospitalAreaCode);
     }
@@ -179,7 +169,7 @@ export class InstaShotPage {
     }).subscribe(img => {
       let imageInfo: Object = {};
       imageInfo['imageUrl'] = img;
-      imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
+      imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + this.fileService.getFileType(img);
       this.photoList.push(imageInfo);
     });
   }
@@ -189,21 +179,14 @@ export class InstaShotPage {
     this.photoService.getMultiplePicture({
       destinationType: 1
     }).subscribe(img => {
-      // 多张图从数组取，一张图直接取
-      if (typeof img === 'object') {
-        let arr: Object[] = img;
-        for (let i = 0; i < arr.length; i++) {
-          let imageInfo: Object = {};
-          imageInfo['imageUrl'] = arr[i];
-          imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
-          this.photoList.push(imageInfo);
-        }
-      } else {
+      // 从数组中取图片
+      for (let i = 0; i < img.length; i++) {
         let imageInfo: Object = {};
-        imageInfo['imageUrl'] = img;
-        imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.png';
+        imageInfo['imageUrl'] = img[i];
+        imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + i + '.' + this.fileService.getFileType(img[i]);
         this.photoList.push(imageInfo);
       }
+
     });
   }
 
@@ -217,7 +200,6 @@ export class InstaShotPage {
   submitInstaShot() {
     // 判断是否填写必填项
     if (this.hospitalAreaCode === '' ||
-      this.departmentCode === '' ||
       this.submitInfo['content'] === undefined) {
       this.toastService.show(this.transateContent['REQUIRE_NOT']);
       return;
@@ -278,7 +260,9 @@ export class InstaShotPage {
     params.append('isAnonymity', this.submitInfo['isAnonymity']);
     params.append('content', this.submitInfo['content']);
     params.append('hospitalAreaCode', this.hospitalAreaCode);
-    params.append('departmentCode', this.departmentCode);
+    if (this.departmentCode) {
+      params.append('departmentCode', this.departmentCode);
+    }
     // 图片不是必填项
     if (this.submitInfo['fileId'] !== undefined) {
       params.append('fileId', this.submitInfo['fileId']);
