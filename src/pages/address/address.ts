@@ -55,14 +55,8 @@ export class AddressPage {
    * 获取用户通讯录
    */
   fetchContactInfos() {
-    let params: URLSearchParams = new URLSearchParams();
-    this.http.post('/im/fetchContactInfos', params).subscribe((res: Response) => {
-      let data = res.json().data;
-      if (res.json().result === '0') {
-        this.contactInfos = data;
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    this.http.get('/im/contacts').subscribe((res: Response) => {
+      this.contactInfos = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

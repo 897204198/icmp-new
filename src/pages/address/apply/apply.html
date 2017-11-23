@@ -13,11 +13,11 @@
             <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
             <img *ngIf="user.headImage" [src]=user.headImage>
         </ion-avatar>
-        <h2>{{user.toChatNickName}}</h2>
-        <button *ngIf="user.type == 'wait'" mode="md" ion-button item-end (click)="agreeApply(user)">{{'AGREE' | translate}}</button>
-        <button *ngIf="user.type == 'wait'" mode="md" ion-button item-end color="danger" (click)="refuseApply(user)">{{'REFUSE' | translate}}</button>
-        <button *ngIf="user.type == 'agreed'" mode="md" ion-button item-end color="light">{{'AGREED' | translate}}</button>
-        <button *ngIf="user.type == 'refused'" mode="md" ion-button item-end color="light">{{'REFUSED' | translate}}</button>
+        <h2>{{user.nickName}}</h2>
+        <button *ngIf="user.state == 1" mode="md" ion-button item-end (click)="agreeApply(user)">{{'AGREE' | translate}}</button>
+        <button *ngIf="user.state == 1" mode="md" ion-button item-end color="danger" (click)="refuseApply(user)">{{'REFUSE' | translate}}</button>
+        <button *ngIf="user.state == 2" mode="md" ion-button item-end color="light">{{'AGREED' | translate}}</button>
+        <button *ngIf="user.state == 3" mode="md" ion-button item-end color="light">{{'REFUSED' | translate}}</button>
       </button>
       <ion-item-options side="right">
           <button ion-button color="danger" (click)="deleteApply(user)">{{'DELETE' | translate}}</button>

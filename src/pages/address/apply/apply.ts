@@ -31,13 +31,8 @@ export class ApplyPage {
    */
   fetchApplications(): void {
     let params: URLSearchParams = new URLSearchParams();
-    this.http.post('/im/fetchApplications', params).subscribe((res: Response) => {
-      let data = res.json().data;
-      if (res.json().result === '0') {
-        this.applyList = data;
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    this.http.get('/im/notices', {params: params}).subscribe((res: Response) => {
+      this.applyList = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -47,20 +42,22 @@ export class ApplyPage {
    * 同意申请
    */
   agreeApply(item: Object) {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('username', item['toChatUsername']);
-    params.append('type', 'agree');
-    this.applyNetRequest(params);
+    this.http.put('/im/notices/' + item['noticeId'], {type: '1'}).subscribe(() => {
+      this.toastService.show('已同意');
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**
    * 拒绝申请
    */
   refuseApply(item: Object) {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('username', item['toChatUsername']);
-    params.append('type', 'refuse');
-    this.applyNetRequest(params);
+    this.http.put('/im/notices/' + item['noticeId'], {type: '2'}).subscribe(() => {
+      this.toastService.show('已拒绝');
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**
@@ -68,19 +65,8 @@ export class ApplyPage {
    */
   deleteApply(item: Object) {
     this.removeArrayValue(this.applyList, item);
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('username', item['toChatUsername']);
-    params.append('type', 'delete');
-    this.applyNetRequest(params);
-  }
-
-  applyNetRequest(params: URLSearchParams) {
-    this.http.post('/im/userApply', params).subscribe((res: Response) => {
-      if (res.json().result === '0') {
-        this.toastService.show(res.json().successMsg);
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    this.http.delete('/im/notices/' + item['noticeId']).subscribe(() => {
+      this.toastService.show('已删除');
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

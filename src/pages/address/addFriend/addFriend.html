@@ -20,7 +20,7 @@
           <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
           <img *ngIf="user.headImage" [src]=user.headImage>
       </ion-avatar>
-      <h2>{{user.toChatNickName}}</h2>
+      <h2>{{user.nickName}}</h2>
       <button ion-button item-end (click)="addFriend(user)">添加</button>
     </button>
   </ion-list>

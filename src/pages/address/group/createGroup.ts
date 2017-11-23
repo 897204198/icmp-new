@@ -41,13 +41,9 @@ export class CreateGroupPage {
     }
 
     let params: URLSearchParams = new URLSearchParams();
-    this.http.post('/im/createGroup', params).subscribe((res: Response) => {
-      if (res.json().result === '0') {
-        this.toastService.show(this.transateContent['CREATE_SUCCESS']);
-        this.navCtrl.pop();
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    params.append('groupName', this.groupName);
+    this.http.post('/im/groups', params).subscribe((res: Response) => {
+      this.toastService.show(this.transateContent['CREATE_SUCCESS']);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

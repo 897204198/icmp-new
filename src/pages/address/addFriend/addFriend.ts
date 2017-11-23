@@ -40,15 +40,8 @@ export class AddFriendPage {
   }
 
   searchUser() {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('username', this.searchInput);
-    this.http.post('/im/searchUser', params).subscribe((res: Response) => {
-      let data = res.json().data;
-      if (res.json().result === '0') {
-        this.userList = data;
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    this.http.get('/im/users', {params: {'searchText': this.searchInput}}).subscribe((res: Response) => {
+      this.userList = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -56,13 +49,9 @@ export class AddFriendPage {
 
   addFriend(user: Object) {
     let params: URLSearchParams = new URLSearchParams();
-    params.append('username', user['toChatUsername']);
-    this.http.post('/im/addFriend', params).subscribe((res: Response) => {
-      if (res.json().result === '0') {
-        this.toastService.show(this.transateContent['ADD_SUCCESS']);
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    params.append('userId', user['userId']);
+    this.http.post('/im/contacts', params).subscribe((res: Response) => {
+      this.toastService.show(this.transateContent['ADD_SUCCESS']);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

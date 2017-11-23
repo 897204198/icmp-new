@@ -52,14 +52,8 @@ export class GroupPage {
    * 获取用户所有群组
    */
   fetchGroupInfos(): void {
-    let params: URLSearchParams = new URLSearchParams();
-    this.http.post('/im/fetchGroupInfos', params).subscribe((res: Response) => {
-      let data = res.json().data;
-      if (res.json().result === '0') {
-        this.allGroups = data;
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    this.http.get('/im/groups').subscribe((res: Response) => {
+      this.allGroups = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
