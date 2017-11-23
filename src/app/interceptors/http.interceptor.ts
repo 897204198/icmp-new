@@ -66,7 +66,7 @@ export class HttpInterceptor extends Http {
       body.append('_proper_ver_name', deviceInfo.versionNumber);
     }
     // 参数内加入用户信息
-    if (!body['loginName']) {
+    if (!body.get('loginName')) {
       let userInfo: UserInfoState = this.userService.getUserInfo();
       if (userInfo != null) {
         body.append('loginName', userInfo.loginName);
