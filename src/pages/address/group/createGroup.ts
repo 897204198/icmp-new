@@ -44,6 +44,7 @@ export class CreateGroupPage {
     params.append('groupName', this.groupName);
     this.http.post('/im/groups', params).subscribe((res: Response) => {
       this.toastService.show(this.transateContent['CREATE_SUCCESS']);
+      this.navCtrl.pop();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

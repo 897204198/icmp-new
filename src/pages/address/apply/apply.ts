@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'page-apply',
@@ -10,13 +11,17 @@ export class ApplyPage {
 
 
   private applyList: Array<Object> = [];
-
+  // 国际化文字
+  private transateContent: Object;
   /**
    * 构造函数
    */
   constructor(private toastService: ToastService,
+    private translate: TranslateService,
     private http: Http) {
-
+      this.translate.get(['AGREED', 'REFUSED', 'DELETED']).subscribe((res: Object) => {
+        this.transateContent = res;
+      });
   }
 
   /**
@@ -43,7 +48,7 @@ export class ApplyPage {
    */
   agreeApply(item: Object) {
     this.http.put('/im/notices/' + item['noticeId'], {type: '1'}).subscribe(() => {
-      this.toastService.show('已同意');
+      this.toastService.show(this.transateContent['AGREED']);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -54,7 +59,7 @@ export class ApplyPage {
    */
   refuseApply(item: Object) {
     this.http.put('/im/notices/' + item['noticeId'], {type: '2'}).subscribe(() => {
-      this.toastService.show('已拒绝');
+      this.toastService.show(this.transateContent['REFUSED']);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -66,7 +71,7 @@ export class ApplyPage {
   deleteApply(item: Object) {
     this.removeArrayValue(this.applyList, item);
     this.http.delete('/im/notices/' + item['noticeId']).subscribe(() => {
-      this.toastService.show('已删除');
+      this.toastService.show(this.transateContent['DELETED']);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

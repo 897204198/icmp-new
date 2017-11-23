@@ -20,7 +20,7 @@
   </ion-list>
 
   <ion-list class="icmp-list-bottom-margin">
-    <button *ngFor="let group of allGroups | searchFilter: 'groupName': keyword" ion-item (click)="chatToGroup(group)">
+    <button *ngFor="let group of allGroups | searchFilter: 'groupName': keyword" ion-item detail-none (click)="chatToGroup(group)">
       <ion-avatar item-left>
         <img *ngIf="group.headImage" [src]=group.headImage>
         <img *ngIf="!group.headImage" src="./assets/images/im/groupHeader.png">

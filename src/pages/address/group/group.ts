@@ -70,13 +70,15 @@ export class GroupPage {
    * 群聊
    */
   chatToGroup(item: Object) {
-    item['from_user_id'] = this.userInfo.userId;
-    item['from_username'] = this.userInfo.userName;
-    item['from_headportrait'] = this.userInfo.headImage;
-    item['to_user_id'] = item['toChatUsername'];
-    item['to_username'] = item['toChatNickName'];
-    item['to_headportrait'] = item['headImage'];
-    (<any>window).huanxin.chat(item, (retData) => {
+    let params: Object = {};
+    params['from_user_id'] = this.userInfo.userId;
+    params['from_username'] = this.userInfo.userName;
+    params['from_headportrait'] = this.userInfo.headImage;
+    params['to_user_id'] = item['groupId'];
+    params['to_username'] = item['groupName'];
+    params['to_headportrait'] = item['headImage'];
+    params['chatType'] = 'groupChat';
+    (<any>window).huanxin.chat(params, (retData) => {
 
     }, (retData) => { });
   }

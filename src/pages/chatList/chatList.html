@@ -4,8 +4,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <ion-list class="icmp-list-bottom-margin">
-    <ion-item *ngFor="let user of chatList" ion-item (click)="chatToUserOrGroup(user)">
+  <ion-list class="icmp-list-top-margin">
+    <button *ngFor="let user of chatList" ion-item detail-none (click)="chatToUserOrGroup(user)">
       <ion-avatar item-start>
         <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
         <img *ngIf="user.headImage" [src]=user.headImage>
@@ -13,7 +13,7 @@
       <h2>{{user.toChatNickName}}</h2>
       <p>{{user.lastMessage}}</p>
       <p class="time" item-end>{{user.lastMessageTime}}</p>
-    </ion-item>
+    </button>
   </ion-list>
 
 </ion-content>
