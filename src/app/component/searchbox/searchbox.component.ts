@@ -1,4 +1,4 @@
-import { Component, Inject, ElementRef } from '@angular/core';
+import { Component, Inject, ElementRef, ViewChild } from '@angular/core';
 import { NavParams, Refresher, InfiniteScroll, ViewController } from 'ionic-angular';
 import { ICMP_CONSTANT, IcmpConstant } from '../../constants/icmp.constant';
 import { Http, Response } from '@angular/http';
@@ -15,6 +15,7 @@ import { ToastService } from '../../services/toast.service';
 })
 export class SearchboxComponent {
 
+  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
   // 页面标题
   title: string = '';
   // 是否多选
@@ -29,8 +30,6 @@ export class SearchboxComponent {
   pageNo: number = 0;
   // 下拉刷新事件
   private refresher: Refresher;
-  // 上拉分页加载事件
-  private infiniteScroll: InfiniteScroll;
 
   /**
    * 构造函数
@@ -65,9 +64,7 @@ export class SearchboxComponent {
   initSearchResults(): void {
     this.searchResults = null;
     this.pageNo = 1;
-    if (this.infiniteScroll != null) {
-      this.infiniteScroll.enable(true);
-    }
+    this.infiniteScroll.enable(true);
     this.getSearchResults(true);
   }
 
@@ -110,8 +107,7 @@ export class SearchboxComponent {
   /**
    * 瀑布流加载
    */
-  doInfinite(infiniteScroll: InfiniteScroll): void {
-    this.infiniteScroll = infiniteScroll;
+  doInfinite(): void {
     this.pageNo++;
     this.getSearchResults(false);
   }

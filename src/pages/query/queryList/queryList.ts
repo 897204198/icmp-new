@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { NavController, NavParams, Refresher, InfiniteScroll, ModalController } from 'ionic-angular';
 import { ICMP_CONSTANT, IcmpConstant } from '../../../app/constants/icmp.constant';
@@ -17,6 +17,7 @@ import { QueryNoticeDetailPage } from '../queryNoticeDetail/queryNoticeDetail';
 })
 export class QueryListPage {
 
+  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
   // 页面标题
   title: string = '';
   // 页码
@@ -33,8 +34,6 @@ export class QueryListPage {
   queryInput: Object;
   // 下拉刷新事件
   private refresher: Refresher;
-  // 上拉分页加载事件
-  private infiniteScroll: InfiniteScroll;
 
   /**
    * 构造函数
@@ -61,9 +60,7 @@ export class QueryListPage {
   initQueryList(): void {
     this.queryList = null;
     this.pageNo = 1;
-    if (this.infiniteScroll != null) {
-      this.infiniteScroll.enable(true);
-    }
+    this.infiniteScroll.enable(true);
     this.getQueryList(true);
   }
 
@@ -178,11 +175,10 @@ export class QueryListPage {
   }
 
   // 瀑布流加载
-  doInfinite(infiniteScroll: InfiniteScroll): void {
+  doInfinite(): void {
     if (this.isTabQuery) {
-      infiniteScroll.enable(false);
+      this.infiniteScroll.enable(false);
     } else {
-      this.infiniteScroll = infiniteScroll;
       this.pageNo++;
       this.getQueryList(false);
     }

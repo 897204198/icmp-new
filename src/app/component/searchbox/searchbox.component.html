@@ -26,7 +26,7 @@
       <ion-checkbox *ngIf="multiple" color="secondary" [(ngModel)]="searchSelect[i]"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll (ionInfinite)="doInfinite()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
