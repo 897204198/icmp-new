@@ -126,7 +126,9 @@ export class LoginPage {
         if (this.deviceService.getDeviceInfo().deviceType) {
           let imparams = {
             'username': loginName,
-            'password': password
+            'password': password,
+            'baseUrl': this.appConstant.oaConstant.baseUrl,
+            'pushUrl': this.appConstant.properPushConstant.pushUrl
           };
           (<any>window).huanxin.imlogin(imparams, (retData) => {
 
