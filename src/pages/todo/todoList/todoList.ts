@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { NavController, NavParams, Refresher, InfiniteScroll } from 'ionic-angular';
 import { IcmpConstant, ICMP_CONSTANT } from '../../../app/constants/icmp.constant';
@@ -19,6 +19,7 @@ import { TodoReplaceBadageAction } from '../../../app/redux/actions/todo.action'
 })
 export class TodoListPage {
 
+  @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
   // 页面标题
   private title: string = '';
   // 页码
@@ -29,8 +30,6 @@ export class TodoListPage {
   private todoTotal: number = 0;
   // 下拉刷新事件
   private refresher: Refresher;
-  // 上拉分页加载事件
-  private infiniteScroll: InfiniteScroll;
   // 国际化文字
   private transateContent: Object;
 
@@ -67,9 +66,7 @@ export class TodoListPage {
   initTodoList(): void {
     this.todoList = null;
     this.pageNo = 1;
-    if (this.infiniteScroll != null) {
-      this.infiniteScroll.enable(true);
-    }
+    this.infiniteScroll.enable(true);
     this.getTodoList(true);
   }
 
@@ -139,8 +136,7 @@ export class TodoListPage {
   }
 
   // 瀑布流加载
-  doInfinite(infiniteScroll: InfiniteScroll): void {
-    this.infiniteScroll = infiniteScroll;
+  doInfinite(): void {
     this.pageNo++;
     this.getTodoList(false);
   }
