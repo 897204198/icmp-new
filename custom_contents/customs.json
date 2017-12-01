@@ -126,8 +126,8 @@
   },
   "bc": {
     "id": {
-      "android": "com.proper.icmp.tc",
-      "ios": "com.proper.icmp.tc"
+      "android": "com.proper.icmp.bc",
+      "ios": "com.proper.icmp.bc"
     },
     "version": {
       "android": "10000",
@@ -140,11 +140,11 @@
     },
     "server": {
       "baseUrl": "http://123.150.83.199:9999/mobile-platform",
-      "pushAppId": "MobileOA",
+      "pushAppId": "BCOA",
       "pushServer": "http://202.199.100.174:29091/properpush",
       "pushXiaomi": {
-        "theAppid": "2882303761517583764",
-        "theAppkey": "5691758319764"
+        "theAppid": "2882303761517675844",
+        "theAppkey": "5121767537844"
       },
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
