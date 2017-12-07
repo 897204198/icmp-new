@@ -1,0 +1,84 @@
+{
+  "total": 12,
+  "defaultTab": "default",
+  "tabList": [
+    {
+      "tabName": "消息推送",
+      "tabValue": "default"
+    }
+  ],
+  "rows": [
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送1</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送2</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送3</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送4</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送5</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送6</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送7</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送8</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送9</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送10</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送11</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "<h2 style=\"color: blue;\" >His消息推送12</h2><p class='mui-ellipsis'>创建时间:2014-12-25</p>",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    }
+  ]
+}

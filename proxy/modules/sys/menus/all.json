@@ -1,0 +1,99 @@
+[
+  {
+    "typeCode": "category",
+    "typeName": "申请",
+    "apps": [
+      {
+        "id": "1",
+        "name": "申请单",
+        "page": "application",
+        "icon": "http://chuantu.biz/t5/162/1502023631x2890149590.png",
+        "serviceName": "testService",
+        "data": {
+          "otherParam": "这里是其它Data中的其它参数"
+        }
+      }
+    ]
+  },
+  {
+    "typeCode": "category",
+    "typeName": "查询",
+    "apps": [
+      {
+        "id": "2",
+        "name": "公告通知",
+        "icon": "http://chuantu.biz/t5/162/1502023340x3066592326.png",
+        "page": "query",
+        "style": "notice_style",
+        "serviceName": "notifyPublishQueryService"
+      },
+      {
+        "id": "3",
+        "name": "其它查询",
+        "style": "",
+        "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+        "page": "query",
+        "serviceName": "otherQueryService"
+      },
+      {
+        "id": "4",
+        "name": "推送查询",
+        "icon": "http://chuantu.biz/t5/162/1502023508x3066592326.png",
+        "page": "query",
+        "style": "notice_style",
+        "serviceName": "pushMsgQueryService"
+      }
+    ]
+  },
+  {
+    "typeCode": "category",
+    "typeName": "统计",
+    "apps": [
+      {
+        "id": "61",
+        "name": "看诊量统计",
+        "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+        "page": "statisticsSearch",
+        "serviceName": "doctorSeeService"
+      }
+    ]
+  },
+  {
+    "typeCode": "category",
+    "typeName": "其它",
+    "apps": [
+      {
+        "id": "C28500F3-F93A-43E7-B6A8-6C27F551345A",
+        "name": "文件夹",
+        "appType": "folder",
+        "icon": "http://chuantu.biz/t5/162/1502023538x2890149590.png",
+        "apps": [
+          {
+            "id": "71",
+            "name": "上传及搜索组件demo",
+            "page": "queryDetail",
+            "icon": "http://chuantu.biz/t5/162/1502023581x3066592326.png",
+            "style": "tododetail_style",
+            "data": {
+              "webPath": "/demo/uploadAndSearch"
+            }
+          },
+          {
+            "id": "72",
+            "name": "其它查询",
+            "style": "",
+            "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+            "page": "query",
+            "serviceName": "otherQueryService"
+          }
+        ]
+      },
+      {
+        "id": "33",
+        "name": "随手拍",
+        "icon": "http://chuantu.biz/t5/166/1502331697x3066599431.png",
+        "page": "instaShot"
+      }
+    ]
+  }
+]

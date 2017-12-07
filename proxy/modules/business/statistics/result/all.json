@@ -1,0 +1,93 @@
+{
+  "title": "耳鼻喉科全部医生",
+  "template": [
+    {
+      "type": "label",
+      "layout": "layout_1",
+      "label": "开始时间",
+      "default": "2017-10-01"
+    },
+    {
+      "type": "label",
+      "layout": "layout_1",
+      "label": "结束时间",
+      "default": "2017-10-10"
+    },
+    {
+      "type": "label",
+      "layout": "layout_1",
+      "label": "门诊看诊",
+      "default": "12363人"
+    },
+    {
+      "type": "label",
+      "layout": "layout_1",
+      "label": "患者人均费用",
+      "default": "230.00元"
+    },
+    {
+      "type": "label",
+      "layout": "layout_1",
+      "label": "医疗收入",
+      "default": "2848123.00元"
+    },
+    {
+      "type": "label",
+      "layout": "layout_2",
+      "label": "二级科室排名",
+      "default": "看诊量排名第6位<br/>医疗收入排名第7位"
+    },
+    {
+      "type": "label",
+      "layout": "layout_2",
+      "label": "",
+      "default": "预约病人数量为1789位，其所占看诊数量的14.47%"
+    }
+  ],
+  "charts": [
+    {
+      "height": "300px",
+      "title": "门诊看诊",
+      "json": {
+        "tooltip": {},
+        "legend": {
+          "orient": "vertical",
+          "x": "left",
+          "data": ["市内看诊量", "市外看诊量"]
+        },
+        "series": [{
+          "name": "看诊量",
+          "type": "pie",
+          "data":[
+            {"value": 8927, "name":"市内看诊量"},
+            {"value": 3436, "name":"市外看诊量"}
+          ],
+          "label": {
+            "normal": {
+              "formatter": "{c}人\n{d}%"
+            }
+          }
+        }]
+      }
+    },
+    {
+      "height": "300px",
+      "title": "柱状图",
+      "json": {
+        "tooltip": {},
+        "legend": {
+          "data": ["销量"]
+        },
+        "xAxis": {
+          "data": ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        },
+        "yAxis": {},
+        "series": [{
+          "name": "销量",
+          "type": "bar",
+          "data": [5, 20, 36, 10, 10, 20]
+        }]
+      }
+    }
+  ]
+}
