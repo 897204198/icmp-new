@@ -1,0 +1,44 @@
+{
+  "total": 18,
+  "rows": [
+    {
+      "id": "notifyPublishQueryService",
+      "title": "清明放假通知，下班记得锁好门窗 发布时间:2017-04-03",
+      "style": "notice_style",
+      "detailTitleBarText": "公告通知详细",
+      "titleStyle": "plain"
+    },
+    {
+      "id": "notifyPublishQueryService",
+      "title": "劳动节放假通知，假期值班安排见附件1 发布时间:207-04-27",
+      "style": "notice_style",
+      "detailTitleBarText": "公告通知详细"
+    },
+    {
+      "id": "notifyPublishQueryService",
+      "title": "端午节放假通知，粽子请到5楼领取 发布时间:207-05-25",
+      "style": "notice_style",
+      "detailTitleBarText": "公告通知详细"
+    }
+  ],
+  "conditons": [
+    {
+      "type": "date",
+      "model": "date1",
+      "format": "yyyy-MM",
+      "label": "开始年月"
+    },
+    {
+      "type": "text",
+      "model": "serialNumberSr",
+      "label": "项目编号"
+    }
+  ],
+  "tabList": [
+    {
+      "tabName": "公告通知",
+      "tabValue": "default"
+    }
+  ],
+  "defaultTab": "default"
+}

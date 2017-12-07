@@ -1,0 +1,55 @@
+[
+  {
+    "id": "1",
+    "total": 12,
+    "name": "申请单",
+    "page": "application",
+    "icon": "http://chuantu.biz/t5/162/1502023631x2890149590.png",
+    "serviceName": "testService",
+    "data": {
+      "otherParam": "这里是其它Data中的其它参数"
+    }
+  },
+  {
+    "id": "2",
+    "total": 3,
+    "name": "公告通知",
+    "page": "query",
+    "icon": "http://chuantu.biz/t5/162/1502023340x3066592326.png",
+    "style": "notice_style",
+    "serviceName": "notifyPublishQueryService"
+  },
+  {
+    "id": "3",
+    "total": 2,
+    "name": "其它查询",
+    "page": "query",
+    "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+    "serviceName": "otherQueryService"
+  },
+  {
+    "id": "4",
+    "total": 0,
+    "name": "推送查询",
+    "page": "query",
+    "icon": "http://chuantu.biz/t5/162/1502023508x3066592326.png",
+    "style": "notice_style",
+    "serviceName": "pushMsgQueryService"
+  },
+  {
+    "id": "33",
+    "name": "随手拍",
+    "icon": "http://chuantu.biz/t5/166/1502331697x3066599431.png",
+    "page": "instaShot"
+  },
+  {
+    "id": "61",
+    "name": "看诊量统计",
+    "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+    "page": "statisticsSearch",
+    "serviceName": "doctorSeeService",
+    "data": {
+      "example": "a"
+    }
+  }
+]

@@ -1,0 +1,135 @@
+{
+  "opinions": [
+    {
+      "approvalTime": "2014-12-19",
+      "name": "刘杰",
+      "opinion": "同意",
+      "stepName": "主管院长"
+    },
+    {
+      "approvalTime": "2014-12-21",
+      "name": "刘杰2",
+      "opinion": "同意",
+      "stepName": "院长"
+    }
+  ],
+  "forms": [
+    {
+      "layout": "layout_1",
+      "default": "这里是纯文本，label!",
+      "label": "纯文本",
+      "type": "text"
+    },
+    {
+      "layout": "layout_2",
+      "default": "这里是纯文本，labelvvv!",
+      "label": "纯文本vvv",
+      "type": "text"
+    },
+    {
+      "layout": "layout_2",
+      "default": "一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十",
+      "label": "请假事由",
+      "type": "text"
+    },
+    {
+      "layout": "layout_2",
+      "type": "filelist",
+      "label": "文件列表",
+      "values": [
+        {
+          "id": "0",
+          "name": "aaa.doc"
+        },
+        {
+          "id": "1",
+          "name": "bbb.txt"
+        },
+        {
+          "id": "2",
+          "name": "ccc.xls"
+        },
+        {
+          "id": "3",
+          "name": "ddd.zip"
+        },
+        {
+          "id": "4",
+          "name": "eee.pdf"
+        },
+        {
+          "id": "5",
+          "name": "fff.exe"
+        }
+      ]
+    },
+    {
+      "layout": "layout_2",
+      "type": "tablelist",
+      "label": "表格控件",
+      "headers": [
+        {
+          "text": "名称"
+        },
+        {
+          "text": "预算金额（元）"
+        },
+        {
+          "text": "申报人"
+        },
+        {
+          "text": "申报日期"
+        },
+        {
+          "text": "附件"
+        }
+      ],
+      "values": [
+        [
+          "8月14去往大连学习住宿交通餐饮费用",
+          "3001",
+          "刘杰",
+          "2017-11-12",
+          {
+            "values": [
+              {
+                "id": "1",
+                "name": "交接班会议记录.doc"
+              },
+              {
+                "id": "2",
+                "name": "bbb.txt"
+              }
+            ],
+            "type": "filelist"
+          }
+        ],
+        [
+          "8月14去往大连学习住宿交通餐饮费用",
+          "3002",
+          "刘杰",
+          "2017-11-12",
+          {
+            "values": [],
+            "type": "filelist"
+          }
+        ],
+        [
+          "8月14去往大连学习住宿交通餐饮费用",
+          "3003",
+          "刘杰",
+          "2017-11-12",
+          {
+            "values": [
+              {
+                "id": "1",
+                "name": "交接班会议记录.doc"
+              }
+            ],
+            "type": "filelist"
+          }
+        ]
+      ]
+    }
+  ]
+}
