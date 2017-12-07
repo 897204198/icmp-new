@@ -25,6 +25,13 @@ export class ChatListPage {
   ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
+    (<any>window).huanxin.addMessageListener('', (addRetData) => {
+      (<any>window).huanxin.getChatList('', (retData) => {
+        this.zone.run(() => {
+          this.chatList = retData;
+        });
+      }, (retData) => { });
+    }, (addRetData) => { });
   }
 
   /**
