@@ -5,8 +5,8 @@
       "ios": "com.proper.icmp.demo"
     },
     "version": {
-      "android": "10001-SNAPSHOT",
-      "ios": "10001-SNAPSHOT"
+      "android": "10100-SNAPSHOT",
+      "ios": "10100-SNAPSHOT"
     },
     "name": "掌上办公",
     "updateUrl": {

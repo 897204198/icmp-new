@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="10001" id="com.proper.icmp" ios-CFBundleVersion="10001" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="10100" id="com.proper.icmp" ios-CFBundleVersion="10100" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>掌上办公</name>
     <description>沈阳普日软件协同管理平台移动端程序.</description>
     <author email="gdpr@propersoft.cn" href="http://www.propersoft.cn/">Propersoft</author>
