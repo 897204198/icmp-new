@@ -1,7 +1,7 @@
 {
   "name": "icmp",
   "app_id": "com.proper.icmp",
-  "version": "10100-SNAPSHOT",
+  "version": "20000-SNAPSHOT",
   "currentProject": "demo",
   "type": "ionic-angular",
   "proxies": [
