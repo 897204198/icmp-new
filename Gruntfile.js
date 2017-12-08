@@ -9,14 +9,35 @@ module.exports = function(grunt) {
   require('jit-grunt')(grunt, {});
 
   var formalVer = function(versionCode) {
-    if (typeof versionCode === 'string' && versionCode.length === 5) {
-      return parseInt(versionCode.substr(0, 1)) + '.' +
+    var hasSuffix = false;
+    if (versionCode.indexOf('-SNAPSHOT') !== -1) {
+      hasSuffix = true;
+    }else {
+      hasSuffix = false;
+    }
+    if (typeof versionCode === 'string' && (versionCode.length === 5 || hasSuffix)) {
+      if (hasSuffix) {
+        return parseInt(versionCode.substr(0, 1)) + '.' +
+        parseInt(versionCode.substr(1, 2)) + '.' +
+        parseInt(versionCode.substr(3, 2)) + '-SNAPSHOT';
+      }else {
+        return parseInt(versionCode.substr(0, 1)) + '.' +
         parseInt(versionCode.substr(1, 2)) + '.' +
         parseInt(versionCode.substr(3, 2));
+      } 
     } else {
       return versionCode;
     }
   };
+
+  var delSnapVer = function (versionCode) {
+    if (versionCode.indexOf('-SNAPSHOT') !== -1) {
+      versionCode = versionCode.replace('-SNAPSHOT', '');
+      return versionCode;
+    } else {
+      return versionCode;
+    }
+  }
 
   // Configurable paths for the application
   var appConfig = {
@@ -76,11 +97,11 @@ module.exports = function(grunt) {
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(customs[conf.currentProject].version.android) + '"'
+              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].version.android)) + '"'
             },
             {
               match: /android-versionCode="\d*"/,
-              replacement: 'android-versionCode="' + customs[conf.currentProject].version.android + '"'
+              replacement: 'android-versionCode="' + delSnapVer(customs[conf.currentProject].version.android) + '"'
             }
           ]
         },
@@ -97,11 +118,11 @@ module.exports = function(grunt) {
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(customs[conf.currentProject].version.ios) + '"'
+              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].version.ios)) + '"'
             },
             {
               match: /ios-CFBundleVersion="\d*"/,
-              replacement: 'ios-CFBundleVersion="' + customs[conf.currentProject].version.ios + '"'
+              replacement: 'ios-CFBundleVersion="' + delSnapVer(customs[conf.currentProject].version.ios) + '"'
             }
           ]
         },
@@ -171,21 +192,25 @@ module.exports = function(grunt) {
         options: {
           patterns: [
             {
-              match: /"version": "\d*\.\d*\.\d*"/,
+              match: /"version": "\d*\.\d*\.\d*-*\w*"/,
               replacement: '"version": "' + formalVer(conf.version) + '"'
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(conf.version) + '"'
+              replacement: 'version="' + formalVer(delSnapVer(conf.version)) + '"'
             },
             {
               match: /-(\w*)ersion(\w*)="(\d*)"/g,
-              replacement: '-$1ersion$2="' + conf.version + '"'
+              replacement: '-$1ersion$2="' + delSnapVer(conf.version) + '"'
+            },
+            {
+              match: /"version":\s*{\s*"android":\s*"\d*-*\w*",\s*"ios":\s*"\d*-*\w*"/,
+              replacement: '"version": {\n      "android": "' + conf.version + '",\n      "ios": "' + conf.version + '"'
             }
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['config.xml', 'package.json']}
+          {expand: true, src: ['config.xml', 'package.json', './custom_contents/customs.json']}
         ]
       }
     }
@@ -229,5 +254,6 @@ module.exports = function(grunt) {
     grunt.task.run(tasks);
   });
 
+  grunt.registerTask('bumpVer', ['replace:bumpVer']);
   grunt.registerTask('default', []);
 };

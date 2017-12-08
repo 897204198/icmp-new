@@ -5,8 +5,8 @@
       "ios": "com.proper.icmp.demo"
     },
     "version": {
-      "android": "10000",
-      "ios": "10000"
+      "android": "10001-SNAPSHOT",
+      "ios": "10001-SNAPSHOT"
     },
     "name": "掌上办公",
     "updateUrl": {
@@ -33,6 +33,10 @@
       "android": "20000",
       "ios": "20000"
     },
+    "appVersion": {
+      "android": "10000",
+      "ios": "10000"
+    },
     "name": "掌上办公",
     "updateUrl": {
       "android": "http://218.25.115.50:80/mobile-platform",
@@ -55,6 +59,10 @@
       "ios": "com.proper.icmp.nb"
     },
     "version": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "appVersion": {
       "android": "10000",
       "ios": "10000"
     },
@@ -83,6 +91,10 @@
       "android": "10000",
       "ios": "10000"
     },
+    "appVersion": {
+      "android": "10000",
+      "ios": "10000"
+    },
     "name": "掌上办公",
     "updateUrl": {
       "android": "https://www.baidu.com",
@@ -108,6 +120,10 @@
       "android": "10000",
       "ios": "10000"
     },
+    "appVersion": {
+      "android": "10000",
+      "ios": "10000"
+    },
     "name": "掌上办公",
     "updateUrl": {
       "android": "https://www.baidu.com",
@@ -130,6 +146,10 @@
       "ios": "com.proper.icmp.bc"
     },
     "version": {
+      "android": "10001",
+      "ios": "10001"
+    },
+    "appVersion": {
       "android": "10000",
       "ios": "10000"
     },
