@@ -38,7 +38,7 @@ export class AppVersionUpdateService {
       this.transateContent = res;
     });
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-    this.http.post('/webController/getTheLastVersion', null).subscribe((res: Response) => {
+    this.http.get('/sys/app/versions/latest').subscribe((res: Response) => {
       let data = res.json();
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString().substring(0, 5);

@@ -8,6 +8,12 @@ export interface UserInfoState {
   password0: string;
   userId: string;
   headImage: string;
+  jobNumber: string;
+  phone: string;
+  email: string;
+  outter: string;
+  sexCode: string;
+  sex: string;
   savePassword: boolean;
 }
 
@@ -18,6 +24,12 @@ export let initUserInfo: UserInfoState = {
   password0: '',
   userId: '',
   headImage: '',
+  jobNumber: '',
+  phone: '',
+  email: '',
+  outter: '',
+  sexCode: '',
+  sex: '',
   savePassword: true
 };
 

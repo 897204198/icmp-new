@@ -26,13 +26,13 @@ export class InstaShotPage {
   // 列表选项
   private initData: Object = {};
 
-  // 院区选项信息，包含 name 和 code
+  // 院区选项信息，包含 name 和 id
   private hospitalAreaInfo: Array<string> = [];
-  // 科室选项信息，包含 name 和 code
+  // 科室选项信息，包含 name 和 id
   private departmentInfo: Array<string> = [];
-  // 当前选择的院区 code
+  // 当前选择的院区 id
   private hospitalAreaCode: string = '';
-  // 当前选择的科室 code
+  // 当前选择的科室 id
   private departmentCode: string = '';
   // 院区 placeholder
   private hospitalAreaPlaceholder: string = '';
@@ -81,26 +81,20 @@ export class InstaShotPage {
   // 获取院区信息 
   /* 进入页面只执行一次 */
   gethospitalArea() {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', 'hospitalArea');
-    this.http.post('/webController/getInstaShotInfo', params).subscribe((res: Response) => {
-      let data = res.json().data;
-      if (res.json().result === '0') {
-        // 院区信息 name、code
-        this.hospitalAreaInfo = data;
-        // 临时的 Array，循环获取所属院区列表数据
-        let dataArray: Array<string> = this.getNameInfoFromArray(data);
+    this.http.get('/sys/depts').subscribe((res: Response) => {
+      let data = res.json();
+      // 院区信息 name、id
+      this.hospitalAreaInfo = data;
+      // 临时的 Array，循环获取所属院区列表数据
+      let dataArray: Array<string> = this.getNameInfoFromArray(data);
 
-        // 默认院区是第一个，code相同
-        this.hospitalAreaCode = data[0].code;
-        this.hospitalAreaPlaceholder = dataArray[0];
-        // 所属院区列表数据
-        this.initData['hospitalArea'] = dataArray;
-        // 获取对应的科室信息，默认第一个
-        this.getDepartment(this.hospitalAreaCode);
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+      // 默认院区是第一个，id相同
+      this.hospitalAreaCode = data[0].id;
+      this.hospitalAreaPlaceholder = dataArray[0];
+      // 所属院区列表数据
+      this.initData['hospitalArea'] = dataArray;
+      // 获取对应的科室信息，默认第一个
+      this.getDepartment(this.hospitalAreaCode);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -108,23 +102,19 @@ export class InstaShotPage {
 
   // 获取科室信息
   getDepartment(areaCode: string) {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', 'department');
-    params.append('hospitalAreaCode', areaCode);
-    this.http.post('/webController/getInstaShotInfo', params).subscribe((res: Response) => {
-      let data = res.json().data;
-      if (res.json().result === '0') {
-        // 所属科室信息缓存
-        this.cacheDepartment[areaCode] = data;
-        // 科室信息 name、code
-        this.departmentInfo = data;
-        // 临时的 Array，循环获取所属院区列表数据
-        let dataArray: Array<string> = this.getNameInfoFromArray(data);
-        // 所属科室列表信息
-        this.initData['department'] = dataArray;
-      } else {
-        this.toastService.show(res.json().errMsg);
-      }
+    let params: Object = {
+      'deptId': areaCode
+    };
+    this.http.get('/sys/depts', { params: params }).subscribe((res: Response) => {
+      let data = res.json();
+      // 所属科室信息缓存
+      this.cacheDepartment[areaCode] = data;
+      // 科室信息 name、id
+      this.departmentInfo = data;
+      // 临时的 Array，循环获取所属院区列表数据
+      let dataArray: Array<string> = this.getNameInfoFromArray(data);
+      // 所属科室列表信息
+      this.initData['department'] = dataArray;
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -132,13 +122,13 @@ export class InstaShotPage {
 
   // 选择院区
   clickHospitalAreaOption() {
-    // 从 已选院区 寻找对应的 院区code
+    // 从 已选院区 寻找对应的 院区id
     for (let i = 0; i < this.hospitalAreaInfo.length; i++) {
       if (this.hospitalAreaInfo[i]['name'] === this.submitInfo['hospitalArea']) {
-        this.hospitalAreaCode = this.hospitalAreaInfo[i]['code'];
+        this.hospitalAreaCode = this.hospitalAreaInfo[i]['id'];
       }
     }
-    // 选择院区后清空科室code
+    // 选择院区后清空科室id
     this.departmentCode = '';
     this.submitInfo['department'] = '';
     // 如果 this.cacheDepartment 里存在该院区的科室信息，就直接取，否则进行网络请求
@@ -154,10 +144,10 @@ export class InstaShotPage {
 
   // 选择科室
   clickDepartmentOption() {
-    // 从 已选科室 寻找对应的 科室code
+    // 从 已选科室 寻找对应的 科室id
     for (let i = 0; i < this.departmentInfo.length; i++) {
       if (this.departmentInfo[i]['name'] === this.submitInfo['department']) {
-        this.departmentCode = this.departmentInfo[i]['code'];
+        this.departmentCode = this.departmentInfo[i]['id'];
       }
     }
   }
@@ -234,13 +224,13 @@ export class InstaShotPage {
         fileName: this.photoList[i]['imageName'],
         mimeType: 'multipart/form-data'
       };
-      fileTransfer.upload(this.photoList[i]['imageUrl'], this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName, options)
+      fileTransfer.upload(this.photoList[i]['imageUrl'], this.configsService.getBaseUrl() + '/sys/files?loginName=' + this.userInfo.loginName, options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
           this.photoUrlArray.push(data.response);
           // 判断图片是否已经全部上传完
           if (this.photoUrlArray.length === this.photoList.length) {
-            this.submitInfo['fileId'] = this.photoUrlArray;
+            this.submitInfo['images'] = this.photoUrlArray;
             this.isShowSpinner = false;
             this.infoSubmit();
           }
@@ -253,28 +243,25 @@ export class InstaShotPage {
   // 随手拍信息上传
   infoSubmit() {
     /*
-     * 上报人、是否匿名、内容、所选院区code、所选科室code
+     * 上报人、是否匿名、内容、所选院区id、所选科室id
      */
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('username', this.submitInfo['username']);
-    params.append('isAnonymity', this.submitInfo['isAnonymity']);
-    params.append('content', this.submitInfo['content']);
-    params.append('hospitalAreaCode', this.hospitalAreaCode);
+    let params: Object = {
+      'username': this.submitInfo['username'],
+      'isAnonymity': this.submitInfo['isAnonymity'],
+      'content': this.submitInfo['content'],
+      'districtId': this.hospitalAreaCode
+    };
+    // 非必填项
     if (this.departmentCode) {
-      params.append('departmentCode', this.departmentCode);
+      params['deptId'] = this.departmentCode;
     }
-    // 图片不是必填项
-    if (this.submitInfo['fileId'] !== undefined) {
-      params.append('fileId', this.submitInfo['fileId']);
+    if (this.submitInfo['images'] !== undefined) {
+      params['images'] = this.submitInfo['images'];
     }
-    this.http.post('/webController/instaShot', params).subscribe((res: Response) => {
-      let data = res.json();
-      if (data.result === '0') {
-        this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
-        this.navCtrl.pop();
-      } else {
-        this.toastService.show(data.errMsg);
-      }
+
+    this.http.post('/business/insta-shot', params).subscribe((res: Response) => {
+      this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
+      this.navCtrl.pop();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

@@ -73,28 +73,29 @@ export class TodoOpinionPage {
    * 设置页面表单项
    */
   setApprovalItems(): void {
-    let approval: any[] = this.navParams.get('approval');
-    if (approval[0] != null && approval[0].length > 0) {
-      this.opinionList = approval[0];
+    let approvals: any[] = this.navParams.get('approvals');
+    if (approvals[0] != null && approvals[0].length > 0) {
+      this.opinionList = approvals[0];
       for (let i = 0; i < this.opinionList.length; i++) {
-        this.controls[this.opinionList[i]['value']] = this.opinionList[i]['control_name'];
+        this.controls[this.opinionList[i]['value']] = this.opinionList[i]['controlModel'];
       }
-      this.approvalInput['opinion'] = approval[0][0]['value'];
+      this.approvalInput['opinions'] = approvals[0][0]['value'];
     } else {
       this.opinionList = [];
     }
-    if (approval[1] != null && approval[1].length > 0) {
-      this.opinionOtherList = approval[1];
+
+    if (approvals[1] != null && approvals[1].length > 0) {
+      this.opinionOtherList = approvals[1];
       for (let i = 0; i < this.opinionOtherList.length; i++) {
         let item = this.opinionOtherList[i];
-        if (item['control_default'] != null && item['control_default'] !== '') {
-          this.approvalInput[item['control_name']] = item['control_default'];
-          if (item['control_type'] === 'select_searchbox') {
-            this.approvalInput[item['control_name'] + '_name'] = item['control_default_name'];
+        if (item['default'] != null && item['default'] !== '') {
+          this.approvalInput[item['type']] = item['default'];
+          if (item['type'] === 'searchbox') {
+            this.approvalInput[item['model'] + '_name'] = item['defaultName'];
           }
         }
-        if (item['control_formatter'] != null && item['control_formatter'] !== '') {
-          item['control_formatter'] = item['control_formatter'].replace(new RegExp('y', 'gm'), 'Y').replace(new RegExp('d', 'gm'), 'D');
+        if (item['format'] != null && item['format'] !== '') {
+          item['format'] = item['format'].replace(new RegExp('y', 'gm'), 'Y').replace(new RegExp('d', 'gm'), 'D');
         }
       }
     } else {
@@ -133,12 +134,12 @@ export class TodoOpinionPage {
    * 提交验证
    */
   submitValidate(): boolean {
-    if (this.controls[this.approvalInput['opinion']] != null && this.controls[this.approvalInput['opinion']].length > 0) {
-      for (let i = 0; i < this.controls[this.approvalInput['opinion']].length; i++) {
-        let requireControl = this.controls[this.approvalInput['opinion']][i];
+    if (this.controls[this.approvalInput['opinions']] != null && this.controls[this.approvalInput['opinions']].length > 0) {
+      for (let i = 0; i < this.controls[this.approvalInput['opinions']].length; i++) {
+        let requireControl = this.controls[this.approvalInput['opinions']][i];
         let opinionItem = {};
-        for (let j = 0; j < this.opinionOtherList.length ; j++) {
-          if (requireControl === this.opinionOtherList[j]['control_name']) {
+        for (let j = 0; j < this.opinionOtherList.length; j++) {
+          if (requireControl === this.opinionOtherList[j]['controlModel']) {
             opinionItem = this.opinionOtherList[j];
           }
         }
@@ -152,7 +153,7 @@ export class TodoOpinionPage {
       for (let i = 0; i < this.opinionOtherList.length; i++) {
         let item = this.opinionOtherList[i];
         if (item['status'] === 'display' && item['validate'] != null && item['validate']['required']) {
-          if (this.approvalInput[item['control_name']] == null || this.approvalInput[item['control_name']] === '') {
+          if (this.approvalInput[item['controlModel']] == null || this.approvalInput[item['controlModel']] === '') {
             this.toastService.show(this.transateContent['VALI_REQUIRED']);
             return false;
           }
@@ -168,15 +169,16 @@ export class TodoOpinionPage {
   submitOpinionHttp(): void {
     if (this.submitValidate()) {
       let submitUtl: string = this.navParams.get('submitUtl');
-      let params: URLSearchParams = new URLSearchParams();
+      let params: Object = {
+        'id': this.navParams.get('id'),
+        'stepCode': this.navParams.get('stepCode'),
+        'processName': this.navParams.get('processName')
+      };
       for (let key in this.approvalInput) {
         if (this.approvalInput.hasOwnProperty(key)) {
-          params.append(key, this.approvalInput[key]);
+          params[key] = this.approvalInput[key];
         }
       }
-      params.append('processName', this.navParams.get('processName'));
-      params.append('taskId', this.navParams.get('taskId'));
-      params.append('step', this.navParams.get('step'));
       this.http.post(submitUtl, params).subscribe((res: Response) => {
         let data = res.json();
         if (data.result === '0') {
@@ -200,16 +202,14 @@ export class TodoOpinionPage {
    */
   searchboxSelect(item: Object): void {
     let multiple: boolean = item['control_more'];
-    let searchUrl = item['search_url'];
-    if (item['control_type'] === 'select_person') {
-      searchUrl = '/webController/searchPerson';
-    }
-    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl };
+    let searchUrl = item['searchUrl'];
+
+    let params: Object = { 'title': item['label'], 'multiple': multiple, 'searchUrl': searchUrl };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
-        this.approvalInput[item['control_name'] + '_name'] = data.name;
-        this.approvalInput[item['control_name']] = data.id;
+        this.approvalInput[item['model'] + '_name'] = data.name;
+        this.approvalInput[item['model']] = data.id;
       }
     });
     modal.present();
@@ -219,11 +219,11 @@ export class TodoOpinionPage {
    * 是否显示表单项目
    */
   isDisplayFormItem(item: Object): boolean {
-    if (item['control_type'] === 'hidden') {
+    if (item['type'] === 'hidden') {
       return false;
     }
-    if (this.controls[this.approvalInput['opinion']] != null) {
-      if (this.controls[this.approvalInput['opinion']].indexOf(item['control_name']) >= 0) {
+    if (this.controls[this.approvalInput['opinions']] != null) {
+      if (this.controls[this.approvalInput['opinions']].indexOf(item['model']) >= 0) {
         return true;
       }
     }
@@ -237,8 +237,8 @@ export class TodoOpinionPage {
    * 设置日期控件默认值
    */
   setDatetime(item: Object): void {
-    if (this.approvalInput[item['control_name']] == null || this.approvalInput[item['control_name']] === '') {
-      this.approvalInput[item['control_name']] = this.utilsService.formatDate(new Date(), item['control_formatter']);
+    if (this.approvalInput[item['controlModel']] == null || this.approvalInput[item['controlModel']] === '') {
+      this.approvalInput[item['controlModel']] = this.utilsService.formatDate(new Date(), item['format']);
     }
   }
 
@@ -246,15 +246,15 @@ export class TodoOpinionPage {
    * 清空日期控件
    */
   clearDatetime(item: Object): void {
-    this.approvalInput[item['control_name']] = '';
+    this.approvalInput[item['controlModel']] = '';
   }
 
   /**
    * 下拉选择事件
    */
   selectChange(item: Object): void {
-    let data = item['control_list'];
-    for (let i = 0 ; i < data.length ; i++) {
+    let data = item['data'];
+    for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
   }
@@ -263,12 +263,12 @@ export class TodoOpinionPage {
    * 意见改变
    */
   opinionChange(): void {
-    for (let i = 0 ; i < this.opinionOtherList.length ; i++) {
+    for (let i = 0; i < this.opinionOtherList.length; i++) {
       delete this.opinionOtherList[i]['status'];
       let item = this.opinionOtherList[i];
-      this.approvalInput[item['control_name']] = item['control_default'];
-      if (item['control_type'] === 'select_searchbox') {
-        this.approvalInput[item['control_name'] + '_name'] = item['control_default_name'];
+      this.approvalInput[item['controlModel']] = item['default'];
+      if (item['type'] === 'select_searchbox') {
+        this.approvalInput[item['controlModel'] + '_name'] = item['default_name'];
       }
     }
   }
@@ -278,15 +278,15 @@ export class TodoOpinionPage {
    */
   setControl(item: Object, option: Object) {
     if (option['controls'] != null) {
-      for (let j = 0 ; j < option['controls'].length ; j++) {
+      for (let j = 0; j < option['controls'].length; j++) {
         let control = option['controls'][j];
         if (control['type'] === 'display') {
-          if (this.approvalInput[item['control_name']] != null && this.approvalInput[item['control_name']].indexOf(option['id']) >= 0) {
-            for (let k = 0 ; k < control.models.length ; k++) {
+          if (this.approvalInput[item['controlModel']] != null && this.approvalInput[item['controlModel']].indexOf(option['id']) >= 0) {
+            for (let k = 0; k < control.models.length; k++) {
               this.setInputStatus(control.models[k], 'display');
             }
           } else {
-            for (let k = 0 ; k < control.models.length ; k++) {
+            for (let k = 0; k < control.models.length; k++) {
               this.setInputStatus(control.models[k], 'hidden');
             }
           }
@@ -299,12 +299,12 @@ export class TodoOpinionPage {
    * 设置表单控件状态
    */
   setInputStatus(model: string, status: string): void {
-    for (let i = 0 ; i < this.opinionOtherList.length ; i++) {
-      if (this.opinionOtherList[i]['control_name'] === model) {
+    for (let i = 0; i < this.opinionOtherList.length; i++) {
+      if (this.opinionOtherList[i]['controlModel'] === model) {
         this.opinionOtherList[i]['status'] = status;
         if (status === 'hidden') {
           this.approvalInput[model] = null;
-          if (this.opinionOtherList[i]['type'] === 'select_searchbox') {
+          if (this.opinionOtherList[i]['type'] === 'searchbox') {
             this.approvalInput[model + '_name'] = null;
           }
         }

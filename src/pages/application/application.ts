@@ -33,19 +33,19 @@ export class ApplicationPage {
   private transateContent: Object;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public modalCtrl: ModalController,
-              private fileChooser: FileChooser,
-              private filePath: FilePath,
-              private http: Http,
-              private configsService: ConfigsService,
-              private transfer: FileTransfer,
-              private sanitizer: DomSanitizer,
-              private utilsService: UtilsService,
-              private translate: TranslateService,
-              private deviceService: DeviceService,
-              private userService: UserService,
-              private toastService: ToastService) {
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    private fileChooser: FileChooser,
+    private filePath: FilePath,
+    private http: Http,
+    private configsService: ConfigsService,
+    private transfer: FileTransfer,
+    private sanitizer: DomSanitizer,
+    private utilsService: UtilsService,
+    private translate: TranslateService,
+    private deviceService: DeviceService,
+    private userService: UserService,
+    private toastService: ToastService) {
     let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -71,29 +71,30 @@ export class ApplicationPage {
    * 取得初始化数据
    */
   getInitData(): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
+    let params: Object = {
+      'serviceName': this.navParams.get('serviceName')
+    };
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params.append(key, datas[key]);
+          params[key] = datas[key];
         }
       }
     }
-    this.http.post('/webController/getApplicationInit', params).subscribe((res: Response) => {
+    this.http.get('/bpm/application', { params: params }).subscribe((res: Response) => {
       let data = res.json();
 
       this.title = data['title'];
       this.template = data['template'];
 
-      for (let i = 0; i < this.template.length ; i++) {
+      for (let i = 0; i < this.template.length; i++) {
         let item = this.template[i];
 
         if (item['default'] != null && item['type'] !== 'label') {
           this.input[item['model']] = item['default'];
           if (item['type'] === 'checkbox') {
-            for (let j = 0 ; j < item['default'].length ; j++) {
+            for (let j = 0; j < item['default'].length; j++) {
               this.inputTemp[item['model'] + '_' + item['default'][j]] = true;
             }
           }
@@ -106,7 +107,7 @@ export class ApplicationPage {
         item['label'] = this.setRequiredLabel(item);
 
         if (item['type'] === 'list') {
-          for (let j = 0; j < item['components'].length ; j++) {
+          for (let j = 0; j < item['components'].length; j++) {
             item['components'][j]['labelBak'] = item['components'][j]['label'];
             item['components'][j]['label'] = this.setRequiredLabel(item['components'][j]);
           }
@@ -127,7 +128,7 @@ export class ApplicationPage {
   setRequiredLabel(item: Object): string {
     let label = item['label'];
     if (item['validator'] != null) {
-      for (let j = 0 ; j < item['validator'].length ; j++) {
+      for (let j = 0; j < item['validator'].length; j++) {
         if (item['validator'][j]['type'] === 'required') {
           label = item['label'] + '<span style="color: red;">*</span>';
           break;
@@ -148,10 +149,10 @@ export class ApplicationPage {
    * 验证表单
    */
   verification(): boolean {
-    for (let i = 0; i < this.template.length ; i++) {
+    for (let i = 0; i < this.template.length; i++) {
       let item = this.template[i];
       if (item['validator'] != null && item['status'] !== 'hidden') {
-        for (let j = 0 ; j < item['validator'].length ; j++) {
+        for (let j = 0; j < item['validator'].length; j++) {
           if (item['validator'][j]['type'] === 'required' && (this.input[item['model']] == null || this.input[item['model']] === '')) {
             this.toastService.show(this.transateContent['VALI_REQUIRED']);
             return false;
@@ -159,17 +160,17 @@ export class ApplicationPage {
         }
       } else if (item['type'] === 'list' && item['status'] !== 'hidden') {
         let validatorItems = {};
-        for (let j = 0 ; j < item['components'].length ; j++) {
+        for (let j = 0; j < item['components'].length; j++) {
           if (item['components'][j]['validator'] != null && item['components'][j]['validator'].length > 0) {
             validatorItems[item['components'][j]['model']] = item['components'][j]['validator'];
           }
         }
-        for (let j = 0 ; j < this.input[item['model']].length ; j++) {
+        for (let j = 0; j < this.input[item['model']].length; j++) {
           let data = this.input[item['model']][j];
           for (let key in data) {
             if (data.hasOwnProperty(key)) {
               if (validatorItems[key] != null) {
-                for (let k = 0 ; k < validatorItems[key].length ; k++) {
+                for (let k = 0; k < validatorItems[key].length; k++) {
                   if (validatorItems[key][k]['type'] === 'required' && (data[key] == null || data[key] === '')) {
                     this.toastService.show(this.transateContent['VALI_REQUIRED']);
                     return false;
@@ -195,13 +196,14 @@ export class ApplicationPage {
 
     this.isSubmit = true;
     if (this.verification()) {
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('serviceName', this.navParams.get('serviceName'));
+      let params: Object = {
+        'serviceName': this.navParams.get('serviceName')
+      };
       for (let key in this.input) {
         if (this.input.hasOwnProperty(key)) {
           if (this.input[key] instanceof Array && this.input[key][0] instanceof Object) {
             let data = {};
-            for (let i = 0 ; i < this.input[key].length ; i++) {
+            for (let i = 0; i < this.input[key].length; i++) {
               let temp = this.input[key][i];
               for (let key2 in temp) {
                 if (temp.hasOwnProperty(key2)) {
@@ -215,27 +217,17 @@ export class ApplicationPage {
             }
             for (let key2 in data) {
               if (data.hasOwnProperty(key2)) {
-                params.append(key2, data[key2]);
+                params[key2] = data[key2];
               }
             }
           } else {
-            params.append(key, this.input[key]);
+            params[key] = this.input[key];
           }
         }
       }
-      this.http.post('/webController/saveApplication', params).subscribe((res: Response) => {
-        let data = res.json();
-        if (data.result === '0') {
-          this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
-          this.navCtrl.popToRoot();
-        } else {
-          this.isSubmit = false;
-          if (data.errMsg != null && data.errMsg !== '') {
-            this.toastService.show(data.errMsg);
-          } else {
-            this.toastService.show(this.transateContent['SUBMIT_ERROR']);
-          }
-        }
+      this.http.post('/bpm/application', params).subscribe((res: Response) => {
+        this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
+        this.navCtrl.popToRoot();
       }, (res: Response) => {
         this.isSubmit = false;
         this.toastService.show(res.text());
@@ -280,11 +272,11 @@ export class ApplicationPage {
     if (index == null) {
       let multiple: boolean = (item['category'] === 'multi');
       let searchUrl = item['searchUrl'];
-      params = {'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl};
+      params = { 'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
     } else {
       let multiple: boolean = (itemList['category'] === 'multi');
       let searchUrl = itemList['searchUrl'];
-      params = {'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl};
+      params = { 'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
     }
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
@@ -324,7 +316,7 @@ export class ApplicationPage {
    */
   selectChange(item: Object): void {
     let data = item['data'];
-    for (let i = 0 ; i < data.length ; i++) {
+    for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
   }
@@ -345,7 +337,7 @@ export class ApplicationPage {
    */
   radioChange(item: Object): void {
     let data = item['data'];
-    for (let i = 0 ; i < data.length ; i++) {
+    for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
   }
@@ -355,22 +347,22 @@ export class ApplicationPage {
    */
   setControl(item: Object, option: Object, index?: number, itemParent?: Object): void {
     if (option['controls'] != null) {
-      for (let j = 0 ; j < option['controls'].length ; j++) {
+      for (let j = 0; j < option['controls'].length; j++) {
         let control = option['controls'][j];
         if (control['type'] === 'display') {
           if (this.input[item['model']] != null && this.input[item['model']].indexOf(option['id']) >= 0) {
-            for (let k = 0 ; k < control.models.length ; k++) {
+            for (let k = 0; k < control.models.length; k++) {
               this.setInputStatus(control.models[k], 'display');
             }
           } else {
-            for (let k = 0 ; k < control.models.length ; k++) {
+            for (let k = 0; k < control.models.length; k++) {
               let flg = true;
-              a: for (let m = 0 ; m < item['data'].length ; m++) {
+              a: for (let m = 0; m < item['data'].length; m++) {
                 if (this.input[item['model']] != null && this.input[item['model']].indexOf(item['data'][m]['id']) >= 0) {
                   if (item['data'][m]['controls'] != null) {
-                    for (let n = 0 ; n < item['data'][m]['controls'].length ; n++) {
+                    for (let n = 0; n < item['data'][m]['controls'].length; n++) {
                       if (item['data'][m]['controls'][n]['type'] === 'display') {
-                        for (let z = 0 ; z < item['data'][m]['controls'][n]['models'].length ; z++) {
+                        for (let z = 0; z < item['data'][m]['controls'][n]['models'].length; z++) {
                           if (item['data'][m]['controls'][n]['models'][z] === control.models[k]) {
                             flg = false;
                             break a;
@@ -402,7 +394,7 @@ export class ApplicationPage {
             }
           }
           if (flg) {
-            for (let k = 0 ; k < control.data.length ; k++) {
+            for (let k = 0; k < control.data.length; k++) {
               let data = control.data[k];
               if (data['calculate'] != null) {
                 if (data['calculate'] === 'YearDifferToday') {
@@ -442,24 +434,25 @@ export class ApplicationPage {
           }
           if (flg) {
             let url = control['url'];
-            let params: URLSearchParams = new URLSearchParams();
-            params.append('serviceName', this.navParams.get('serviceName'));
+            let params: Object = {
+              'serviceName': this.navParams.get('serviceName')
+            };
             if (index == null) {
-              params.append('id', this.input[item['model']]);
+              params['id'] = this.input[item['model']];
             } else {
-              params.append('id', this.input[itemParent['model']][index][item['model']]);
+              params['id'] = this.input[itemParent['model']][index][item['model']];
             }
             this.http.post(url, params).subscribe((res: Response) => {
               let data = res.json().result_list;
               if (index == null) {
-                for (let k = 0 ; k < this.template.length ; k++) {
+                for (let k = 0; k < this.template.length; k++) {
                   if (this.template[k]['model'] === control['model']) {
                     this.template[k]['data'] = data;
                     break;
                   }
                 }
               } else {
-                for (let k = 0 ; k < this.inputTemp[itemParent['model'] + 'Components'][index].length ; k++) {
+                for (let k = 0; k < this.inputTemp[itemParent['model'] + 'Components'][index].length; k++) {
                   let itemTmp = this.inputTemp[itemParent['model'] + 'Components'][index][k];
                   if (itemTmp['model'] === control['model']) {
                     itemTmp['data'] = data;
@@ -471,14 +464,14 @@ export class ApplicationPage {
             });
           } else {
             if (index == null) {
-              for (let k = 0 ; k < this.template.length ; k++) {
+              for (let k = 0; k < this.template.length; k++) {
                 if (this.template[k]['model'] === control['model']) {
                   this.template[k]['data'] = [];
                   break;
                 }
               }
             } else {
-              for (let k = 0 ; k < this.inputTemp[itemParent['model'] + 'Components'][index].length ; k++) {
+              for (let k = 0; k < this.inputTemp[itemParent['model'] + 'Components'][index].length; k++) {
                 let itemTmp = this.inputTemp[itemParent['model'] + 'Components'][index][k];
                 if (itemTmp['model'] === control['model']) {
                   itemTmp['data'] = [];
@@ -495,7 +488,7 @@ export class ApplicationPage {
    * 设置表单控件状态
    */
   setInputStatus(model: string, status: string): void {
-    for (let i = 0 ; i < this.template.length ; i++) {
+    for (let i = 0; i < this.template.length; i++) {
       if (this.template[i]['model'] === model) {
         this.template[i]['status'] = status;
         if (status === 'hidden') {
@@ -521,7 +514,7 @@ export class ApplicationPage {
    */
   addListRow(item: Object): void {
     let listItem = {};
-    for (let j = 0; j < item['components'].length ; j++) {
+    for (let j = 0; j < item['components'].length; j++) {
       let component = item['components'][j];
       if (component['type'] === 'searchbox') {
         listItem[component['model']] = component['defaultId'];
@@ -536,7 +529,7 @@ export class ApplicationPage {
     this.input[item['model']].push(listItem);
 
     let itemComponents = [];
-    for (let j = 0; j < item['components'].length ; j++) {
+    for (let j = 0; j < item['components'].length; j++) {
       itemComponents.push({ ...item['components'][j] });
     }
     if (this.inputTemp[item['model'] + 'Components'] == null) {
@@ -587,7 +580,7 @@ export class ApplicationPage {
       mimeType: 'multipart/form-data'
     };
     let userInfo = this.userService.getUserInfo();
-    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName, options).then((data) => {
+    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/sys/files?loginName=' + userInfo.loginName, options).then((data) => {
       if (this.input[item['model']] == null) {
         this.input[item['model']] = [data.response];
       } else {
@@ -607,11 +600,9 @@ export class ApplicationPage {
    */
   deleteFile(item: Object, file: Object): void {
     if (file['id'] != null && file['id'] !== '') {
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('fileId', file['id']);
-      this.http.post('/webController/deleteFile', params).subscribe((res: Response) => {});
+      this.http.delete('/sys/files/' + file['id']).subscribe((res: Response) => { });
       if (this.input[item['model']] != null) {
-        for (let i = 0 ; i < this.input[item['model']].length ; i++) {
+        for (let i = 0; i < this.input[item['model']].length; i++) {
           if (this.input[item['model']][i] === file['id']) {
             this.input[item['model']].splice(i, 1);
             break;
@@ -619,7 +610,7 @@ export class ApplicationPage {
         }
       }
     }
-    for (let i = 0 ; this.inputTemp[item['model']].length ; i++) {
+    for (let i = 0; this.inputTemp[item['model']].length; i++) {
       if (file === this.inputTemp[item['model']][i]) {
         this.inputTemp[item['model']].splice(i, 1);
         break;
@@ -631,12 +622,10 @@ export class ApplicationPage {
    * 清空未提交的附件
    */
   clearFile(): void {
-    for (let i = 0 ; i < this.template.length ; i++) {
+    for (let i = 0; i < this.template.length; i++) {
       let item = this.template[i];
       if (item['type'] === 'file' && this.input[item['model']] != null && this.input[item['model']].length > 0) {
-        let params: URLSearchParams = new URLSearchParams();
-        params.append('fileId', this.input[item['model']].join(','));
-        this.http.post('/webController/deleteFile', params).subscribe((res: Response) => {});
+        this.http.delete('/sys/files/' + this.input[item['model']].join(',')).subscribe((res: Response) => { });
       }
     }
   }

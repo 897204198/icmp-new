@@ -142,9 +142,7 @@ export class TabsPage {
     };
 
     if (item['sign'] == null || item['sign'] === '') {
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('taskId', item['taskId']);
-      this.http.post('/webController/claim', params).subscribe((res: Response) => {
+      this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
         let userInfo: UserInfoState = this.userService.getUserInfo();
         item['assignee'] = userInfo.loginName;
         this.navCtrl.push(TodoDetailPage, item);
@@ -172,11 +170,11 @@ export class TabsPage {
 
   // 获取待办数量
   getTodoNumber() {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('pageNo', '1');
-    params.append('pageSize', '0');
-    params.append('processName', '');
-    this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+    let params: Object = {
+      'pageNo': '1',
+      'pageSize': '0'
+    };
+    this.http.get('/bpm/todos', { params: params }).subscribe((res: Response) => {
       let data = res.json();
       // redux传值
       if (data.total === 0) {

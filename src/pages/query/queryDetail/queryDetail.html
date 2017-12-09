@@ -9,7 +9,7 @@
     <div *ngFor="let item of queryDetail">
       <ion-item *ngIf="item.type != 'filelist' && item.type != 'tablelist' && item.layout == 'layout_1'">
         <ion-label fixed>{{item.label}}</ion-label>
-        <p item-right class="form_text_value">{{item.value}}</p>
+        <p item-right class="form_text_value">{{item.default}}</p>
       </ion-item>
       <ion-item *ngIf="item.type != 'filelist' && item.type != 'tablelist' && item.layout == 'layout_2'">
         <h2>{{item.label}}</h2>
@@ -55,9 +55,9 @@
     </div>
     <ion-list>
       <ion-item *ngFor="let opinion of opinionList">     
-        <h2 class="opinion_comment">{{opinion.opn1}}：<span [innerHtml]="opinion.opn2"></span></h2>
-        <p class="opinion_foot">{{'APPROVER' | translate}}：{{opinion.opn3}}</p>
-        <p class="opinion_foot">{{'APPROVAL_TIME' | translate}}：{{opinion.opn4}}</p>
+        <h2 class="opinion_comment">{{opinion.stepName}}：<span [innerHtml]="opinion.opinion"></span></h2>
+        <p class="opinion_foot">{{'APPROVER' | translate}}：{{opinion.name}}</p>
+        <p class="opinion_foot">{{'APPROVAL_TIME' | translate}}：{{opinion.approvalTime}}</p>
       </ion-item>
     </ion-list>
   </div>

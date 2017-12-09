@@ -37,13 +37,13 @@ export class TodoListPage {
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-              private http: Http,
-              private toastService: ToastService,
-              private userService: UserService,
-              private translate: TranslateService,
-              private store: Store<string>) {
+    public navParams: NavParams,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private http: Http,
+    private toastService: ToastService,
+    private userService: UserService,
+    private translate: TranslateService,
+    private store: Store<string>) {
     this.title = navParams.get('title');
 
     let translateKeys: string[] = ['CLAIM_SUCCESS', 'GOBACK_SUCCESS'];
@@ -74,11 +74,12 @@ export class TodoListPage {
    * 取得待办列表
    */
   getTodoList(isInit: boolean): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('pageNo', this.pageNo.toString());
-    params.append('pageSize', this.icmpConstant.pageSize);
-    params.append('processName', this.navParams.get('processName'));
-    this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+    let params: Object = {
+      'pageNo': this.pageNo.toString(),
+      'pageSize': this.icmpConstant.pageSize,
+      'processName': this.navParams.get('processName')
+    };
+    this.http.get('/bpm/todos', { params: params }).subscribe((res: Response) => {
       let data = res.json();
       this.todoTotal = data.total;
       // 修复其他待办页会影响 tabs 上待办的角标
@@ -94,7 +95,7 @@ export class TodoListPage {
       if (isInit) {
         this.todoList = data.rows;
       } else {
-        for (let i = 0 ; i < data.rows.length ; i++) {
+        for (let i = 0; i < data.rows.length; i++) {
           this.todoList.push(data.rows[i]);
         }
       }
@@ -145,17 +146,10 @@ export class TodoListPage {
    * 签收
    */
   doClaim(item: Object): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('taskId', item['id']);
-    this.http.post('/webController/claim', params).subscribe((res: Response) => {
-      let data = res.json();
-      if (data.result === '0') {
-        this.toastService.show(this.transateContent['CLAIM_SUCCESS']);
-        let userInfo: UserInfoState = this.userService.getUserInfo();
-        item['assignee'] = userInfo.loginName;
-      } else {
-        this.toastService.show(data.errMsg);
-      }
+    this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
+      this.toastService.show(this.transateContent['CLAIM_SUCCESS']);
+      let userInfo: UserInfoState = this.userService.getUserInfo();
+      item['assignee'] = userInfo.loginName;
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -165,16 +159,9 @@ export class TodoListPage {
    * 退回
    */
   doGoback(item: Object): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('taskId', item['id']);
-    this.http.post('/webController/goback', params).subscribe((res: Response) => {
-      let data = res.json();
-      if (data.result === '0') {
-        this.toastService.show(this.transateContent['GOBACK_SUCCESS']);
-        item['assignee'] = '';
-      } else {
-        this.toastService.show(data.errMsg);
-      }
+    this.http.get('/bpm/todos/' + item['id'] + 'goback').subscribe((res: Response) => {
+      this.toastService.show(this.transateContent['GOBACK_SUCCESS']);
+      item['assignee'] = '';
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -185,17 +172,10 @@ export class TodoListPage {
    */
   doHandle(item: Object): void {
     if (item['assignee'] === '') {
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('taskId', item['id']);
-      this.http.post('/webController/claim', params).subscribe((res: Response) => {
-        let data = res.json();
-        if (data.result === '0') {
-          let userInfo: UserInfoState = this.userService.getUserInfo();
-          item['assignee'] = userInfo.loginName;
-          this.goTodoDetailPage(item);
-        } else {
-          this.toastService.show(data.errMsg);
-        }
+      this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
+        let userInfo: UserInfoState = this.userService.getUserInfo();
+        item['assignee'] = userInfo.loginName;
+        this.goTodoDetailPage(item);
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
@@ -209,11 +189,10 @@ export class TodoListPage {
    */
   private goTodoDetailPage(item: Object): void {
     let params: Object = {
-      systemId: 'bpm',
-      taskId: item['id'],
+      id: item['id'],
       assignee: item['assignee'],
-      step: item['variables']['step'],
-      processName: item['variables']['processName']
+      stepCode: item['stepCode'],
+      processName: item['processName']
     };
     this.navCtrl.push(TodoDetailPage, params);
   }

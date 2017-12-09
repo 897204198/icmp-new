@@ -14,13 +14,13 @@
   </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let item of todoList">
-      <h2>{{item.processInstanceName}}</h2>
+      <h2>{{item?.processInstanceName}}</h2>
       <p>
-        <span *ngIf="!item.hideProcessInstanceInitiatorName" style="margin-right: 6px">{{'INITIATOR' | translate}}：{{item.processInstanceInitiatorName}}</span>
-        <span *ngIf="!item.hideName">{{'CURRENT_STEP' | translate}}：{{item.name}}</span>
+        <span *ngIf="!item.hideProcessInstanceInitiatorName" style="margin-right: 6px">{{'INITIATOR' | translate}}：{{item?.processInstanceInitiatorName}}</span>
+        <span *ngIf="!item.hideStep">{{'CURRENT_STEP' | translate}}：{{item?.stepName}}</span>
       </p>
-      <p *ngIf="item.otherInfo != null && item.otherInfo != ''">{{item.otherInfo}}</p>
-      <p>{{'CREATE_TIME' | translate}}：{{item.createTime}}</p>
+      <p *ngIf="item.otherInfo != null && item.otherInfo != ''">{{item?.otherInfo}}</p>
+      <p>{{'CREATE_TIME' | translate}}：{{item?.createTime}}</p>
       <div class="item-buttons">
         <button id="e2e-claim-button" ion-button outline color="primary" (click)="doClaim(item)" [disabled]="item.assignee != null && item.assignee != ''">{{'CLAIM' | translate}}</button>
         <button id="e2e-handle-button" ion-button outline color="primary" (click)="doHandle(item)">{{'HANDLE' | translate}}</button>
