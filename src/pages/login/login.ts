@@ -102,26 +102,33 @@ export class LoginPage {
     }
 
     // 请求参数
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('loginName', loginName);
-    params.append('password', md5password);
-    this.http.post('/webController/checkUserByLoginNameAndPassword', params).subscribe((res: Response) => {
-      let data = res.json();
-      if (data.result === this.icmpConstant.reqResultSuccess) {
+    let params: Object = {
+      'loginName': loginName,
+      'password': md5password
+    };
+    this.http.post('/user/login', params).subscribe((res: Response) => {
+      localStorage.token = res.json()['token'];
+
+      this.http.get('/user').subscribe((data: Response) => {
+        let userData = data.json();
         let newUserInfo: UserInfoState = {
           loginName: loginName,
           password: md5password,
-          userName: data['user']['name'],
           password0: password,
-          userId: data['userId'],
-          headImage: data['headImage'],
-          savePassword: this.userInfo.savePassword
+          savePassword: this.userInfo.savePassword,
+          userId: userData['id'],
+          userName: userData['name'],
+          headImage: userData['headImage'],
+          jobNumber: userData['jobNumber'],
+          phone: userData['phone'],
+          email: userData['email'],
+          outter: userData['outter'],
+          sexCode: userData['sexCode'],
+          sex: userData['sex']
         };
-
         this.userService.saveUserInfo(newUserInfo);
         this.userService.login();
-        this.pushService.bindUserid(data['userId'], loginName);
-
+        this.pushService.bindUserid(data['id'], loginName);
         // 避免在 web 上无法显示页面
         if (this.deviceService.getDeviceInfo().deviceType) {
           let imparams = {
@@ -134,18 +141,13 @@ export class LoginPage {
 
           }, (retData) => { });
         }
+      }, (err: Response) => {
+        this.toastService.show(err.text());
+      });
 
-        let modal = this.modalCtrl.create(TabsPage);
-        modal.present();
-      } else if (data.result === '2') {
-        if (data.errMsg != null && data.errMsg !== '') {
-          this.toastService.show(data.errMsg);
-        } else {
-          this.toastService.show(this.transateContent['ERROR_ACCOUNT_PASSWORD']);
-        }
-      } else if (data.result === '3') {
-        this.toastService.show(this.transateContent['ERROR_DEVICE']);
-      }
+      let modal = this.modalCtrl.create(TabsPage);
+      modal.present();
+
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

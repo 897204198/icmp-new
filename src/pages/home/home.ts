@@ -45,15 +45,15 @@ export class HomePage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-              private el: ElementRef,
-              private zone: NgZone,
-              private http: Http,
-              private toastService: ToastService,
-              private translate: TranslateService,
-              private routersService: RoutersService,
-              private deviceService: DeviceService,
-              private userService: UserService,
-              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant) {
+    private el: ElementRef,
+    private zone: NgZone,
+    private http: Http,
+    private toastService: ToastService,
+    private translate: TranslateService,
+    private routersService: RoutersService,
+    private deviceService: DeviceService,
+    private userService: UserService,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant) {
     let translateKeys: string[] = ['NOTICE_DETAILED'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -77,7 +77,7 @@ export class HomePage {
       };
       (<any>window).huanxin.imlogin(params, (retData) => {
 
-      }, (retData) => {});
+      }, (retData) => { });
     }
   }
 
@@ -168,14 +168,14 @@ export class HomePage {
    */
   setAppList(): void {
     this.menus = [];
-    this.http.post('/webController/getCurrentAppListTree', null).subscribe((res: any) => {
+    this.http.get('/sys/menus/user').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json();
-        for (let i = 0; i < data.rows.length; i++) {
-          if (data.rows[i].total > 99) {
-            data.rows[i].total = '99+';
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].total > 99) {
+            data[i].total = '99+';
           }
-          this.menus.push(data.rows[i]);
+          this.menus.push(data[i]);
         }
       }
     }, (res: Response) => {
@@ -188,9 +188,9 @@ export class HomePage {
    */
   setPlugins(): void {
     this.plugins = [];
-    this.http.post('/webController/getCurrentPlugins', null).subscribe((res: any) => {
+    this.http.get('/sys/plugins/user').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.plugins = res.json().rows;
+        this.plugins = res.json();
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -202,17 +202,15 @@ export class HomePage {
    */
   setNotice(): void {
     this.notices = [];
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('pageNo', '1');
-    params.append('pageSize', '3');
-    params.append('serviceName', 'notifyPublishQueryService');
-    this.http.post('/webController/getSystemMsgList', params).subscribe((res: any) => {
+    let params = {
+      'pageNo': '1',
+      'pageSize': '3',
+      'serviceName': 'notifyPublishQueryService'
+    };
+    this.http.get('/business/querys', { params: params }).subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json().result_list;
+        let data = res.json().rows;
         for (let i = 0; i < data.length; i++) {
-          if (data[i].plainTitle) {
-            data[i].title = data[i].plainTitle;
-          }
           // 去除html
           let tempStr: string = data[i].title;
           data[i].title = tempStr.replace(/<[^>]+>/g, '');
@@ -261,11 +259,11 @@ export class HomePage {
   openNotice(item: any): void {
     let title = item.detailTitleBarText ? item.detailTitleBarText : this.transateContent['NOTICE_DETAILED'];
     let menuItem: any = {
-      style: item.style,
-      businessId: item.id,
-      systemId: this.icmpConstant.systemId.queryDetail,
-      title: title,
-      serviceName: 'notifyPublishQueryService'
+      'style': item.style,
+      'id': item.id,
+      'page': this.icmpConstant.page.queryDetail,
+      'title': title,
+      'serviceName': 'notifyPublishQueryService'
     };
     this.routersService.pageForward(this.navCtrl, menuItem);
   }

@@ -80,18 +80,18 @@ export class HomeMenusManagerPage {
    */
   getAllMenus(): void {
     this.categoryMenus = [];
-    this.http.post('/webController/getAllAppListTree', null).subscribe((res: Response) => {
-      let allMenus = res.json().rows;
+    this.http.get('/sys/menus').subscribe((res: Response) => {
+      let allMenus = res.json();
       let noGroupMenus = {};
-      noGroupMenus['title'] = this.transateContent['NO_GROUP'];
+      noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
       noGroupMenus['menus'] = [];
 
       for (let i = 0; i < allMenus.length; i++) {
         let menu = allMenus[i];
         menu.menus = [];
-        if (menu.appType === 'category') {
-          for (let rows of menu['rows']) {
-            menu.menus.push(rows);
+        if (menu.typeCode === 'category') {
+          for (let apps of menu['apps']) {
+            menu.menus.push(apps);
           }
           this.categoryMenus.push(menu);
         } else {
@@ -111,9 +111,9 @@ export class HomeMenusManagerPage {
    */
   getMyMenus(): void {
     this.myMenus = [];
-    this.http.post('/webController/getCurrentAppListTree', null).subscribe((res: any) => {
+    this.http.get('/sys/menus/user').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.myMenus = res.json().rows;
+        this.myMenus = res.json();
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -162,7 +162,7 @@ export class HomeMenusManagerPage {
   isMenuSelected(menu: Object): boolean {
     let isSelected = false;
     for (let i = 0; i < this.myMenus.length; i++) {
-      if (this.myMenus[i]['appid'] === menu['appid']) {
+      if (this.myMenus[i]['id'] === menu['id']) {
         isSelected = true;
         break;
       }
@@ -175,7 +175,7 @@ export class HomeMenusManagerPage {
    */
   currentMenuRemove(menu: Object): void {
     for (let i = 0; i < this.myMenus.length; i++) {
-      if (this.myMenus[i]['appid'] === menu['appid']) {
+      if (this.myMenus[i]['id'] === menu['id']) {
         this.myMenus.splice(i, 1);
         this.saveMenus();
         break;
@@ -188,7 +188,7 @@ export class HomeMenusManagerPage {
    */
   listMenuRemove(menu: Object): void {
     for (let i = 0; i < this.myMenus.length; i++) {
-      if (this.myMenus[i]['appid'] === menu['appid']) {
+      if (this.myMenus[i]['id'] === menu['id']) {
         this.myMenus.splice(i, 1);
         this.saveMenus();
         break;
@@ -210,13 +210,14 @@ export class HomeMenusManagerPage {
   saveMenus(): void {
     let ids = [];
     for (let i = 0; i < this.myMenus.length; i++) {
-      ids.push(this.myMenus[i]['appid']);
+      ids.push(this.myMenus[i]['id']);
     }
     localStorage.mainMenus = ids.join(',');
 
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('ids', ids.join(','));
-    this.http.post('/webController/saveCurrentAppList', params).subscribe(() => {
+    let params: Object = {
+      'ids': ids.join(',')
+    };
+    this.http.put('/sys/menus/user', params).subscribe(() => {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

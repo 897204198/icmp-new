@@ -33,8 +33,8 @@ export class MenuFolderComponent {
   getMyMenus(): void {
     this.folderMenus = [];
     let myMenu = [];
-    for (let i = 0; i < this.folder['rows'].length; i++) {
-      let menu = this.folder['rows'][i];
+    for (let i = 0; i < this.folder['apps'].length; i++) {
+      let menu = this.folder['apps'][i];
       if (i !== 0 && i % 9 === 0) {
         this.folderMenus.push(myMenu);
         myMenu = [];

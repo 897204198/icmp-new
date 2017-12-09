@@ -16,7 +16,7 @@
       <div *ngFor="let menu of myMenus" [style.width]="menuWidth" (press)="pressEvent($event)" tappable (tap)="openApp(menu)">
         <div class="setting-menu" (contextmenu)="contextmenuEvent($event)" (touchstart)="touchstartEvent($event)" (touchend)="touchendEvent($event)" (touchmove)="dragulaMove($event)" (pointermove)="dragulaMove($event)">
           <img [src]="menu.icon">
-          <div class="menu-text">{{menu.title}}</div>
+          <div class="menu-text">{{menu.name}}</div>
           <ion-icon *ngIf="isManage" name="remove-circle" class="menus-op" tappable (tap)="currentMenuRemove(menu)"></ion-icon>
         </div>
       </div>
@@ -24,22 +24,22 @@
   </div>
   <div class="menus row-division" *ngIf="!isManage">
     <div *ngFor="let categoryMenu of categoryMenus, let i = index" (press)="pressEvent($event)">
-      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.title}}</div>
+      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
       <div class="menus-content">
-        <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'title': keyword" tappable (tap)="openApp(menu)" [style.width]="menuWidth">
+        <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'name': keyword" tappable (tap)="openApp(menu)" [style.width]="menuWidth">
           <img [src]="menu.icon">
-          <div class="menu-text">{{menu.title}}</div>
+          <div class="menu-text">{{menu.name}}</div>
         </div>
       </div>
     </div>
   </div>
   <div class="menus row-division" *ngIf="isManage">
     <div *ngFor="let categoryMenu of categoryMenus, let i = index">
-      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.title}}</div>
+      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
       <div class="menus-content">
-        <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'title': keyword" [style.width]="menuWidth">
+        <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'name': keyword" [style.width]="menuWidth">
           <img [src]="menu.icon">
-          <div class="menu-text">{{menu.title}}</div>
+          <div class="menu-text">{{menu.name}}</div>
           <ion-icon name="checkmark-circle" *ngIf="isManage && isMenuSelected(menu)" class="menus-op positive" (click)="listMenuRemove(menu)"></ion-icon>
           <ion-icon name="radio-button-off" *ngIf="isManage && !isMenuSelected(menu)" class="menus-op" (click)="menuAdd(menu)"></ion-icon>
         </div>

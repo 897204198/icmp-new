@@ -35,10 +35,10 @@ export class SearchboxComponent {
    * 构造函数
    */
   constructor(public navParams: NavParams,
-              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-              private http: Http, private el: ElementRef,
-              private toastService: ToastService,
-              public viewCtrl: ViewController) {
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private http: Http, private el: ElementRef,
+    private toastService: ToastService,
+    public viewCtrl: ViewController) {
     this.title = navParams.get('title');
     this.multiple = navParams.get('multiple');
   }
@@ -72,16 +72,17 @@ export class SearchboxComponent {
    * 初始化查询结果
    */
   getSearchResults(isInit: boolean): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('pageNo', this.pageNo.toString());
-    params.append('pageSize', this.icmpConstant.pageSize);
-    params.append('searchName', this.searchName);
-    this.http.post(this.navParams.get('searchUrl'), params).subscribe((res: Response) => {
+    let params: Object = {
+      'pageNo': this.pageNo.toString(),
+      'pageSize': this.icmpConstant.pageSize,
+      'searchName': this.searchName
+    };
+    this.http.get(this.navParams.get('searchUrl'), { params: params }).subscribe((res: Response) => {
       let data = res.json().result_list;
       if (isInit) {
         this.searchResults = data;
       } else {
-        for (let i = 0 ; i < data.length ; i++) {
+        for (let i = 0; i < data.length; i++) {
           this.searchResults.push(data[i]);
         }
       }
@@ -153,15 +154,15 @@ export class SearchboxComponent {
     if (result == null) {
       let ids: string[] = [];
       let names: string[] = [];
-      for (let i = 0 ; i < this.searchSelect.length ; i++) {
+      for (let i = 0; i < this.searchSelect.length; i++) {
         if (this.searchSelect[i]) {
           ids.push(this.searchResults[i]['id']);
           names.push(this.searchResults[i]['name']);
         }
       }
-      this.viewCtrl.dismiss({id: ids.join(','), name: names.join(',')});
+      this.viewCtrl.dismiss({ id: ids.join(','), name: names.join(',') });
     } else {
-      this.viewCtrl.dismiss({id: result['id'], name: result['name']});
+      this.viewCtrl.dismiss({ id: result['id'], name: result['name'] });
     }
   }
 }

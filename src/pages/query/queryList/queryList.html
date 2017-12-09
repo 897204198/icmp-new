@@ -15,7 +15,7 @@
   </ion-refresher>
   <ion-list *ngIf="isTabQuery">
     <button id="e2e-tabquery-item" ion-item *ngFor="let item of queryList" (click)="goQuerySubList(item)">
-      {{item.tab_name}}
+      {{item.tabName}}
     </button>
   </ion-list>
   <ion-list *ngIf="!isTabQuery">

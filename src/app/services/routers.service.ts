@@ -36,9 +36,9 @@ export class RoutersService {
    * 页面跳转
    */
   pageForward(navCtrl: NavController, menu: any): void {
-    if (menu.systemId === this.icmpConstant.systemId.queryList) {
+    if (menu.page === this.icmpConstant.page.queryList) {
       navCtrl.push(QueryListPage, menu);
-    } else if (menu.systemId === this.icmpConstant.systemId.queryDetail) { // 查询详细页
+    } else if (menu.page === this.icmpConstant.page.queryDetail) { // 查询详细页
       if (menu.style === 'notice_style') {
         navCtrl.push(QueryNoticeDetailPage, menu);
       } else if (menu.style === 'no_detail') {
@@ -46,15 +46,15 @@ export class RoutersService {
       } else {
         navCtrl.push(QueryDetailPage, menu);
       }
-    } else if (menu.systemId === this.icmpConstant.systemId.todoList) {
+    } else if (menu.page === this.icmpConstant.page.todoList) {
       navCtrl.push(TodoListPage, menu);
-    } else if (menu.systemId === this.icmpConstant.systemId.instaShot) {
+    } else if (menu.page === this.icmpConstant.page.instaShot) {
       navCtrl.push(InstaShotPage);
-    } else if (menu.systemId === this.icmpConstant.systemId.application) {
+    } else if (menu.page === this.icmpConstant.page.application) {
       navCtrl.push(ApplicationPage, menu);
-    } else if (menu.systemId === this.icmpConstant.systemId.statisticsSearch) {
+    } else if (menu.page === this.icmpConstant.page.statisticsSearch) {
       navCtrl.push(StatisticsQueryPage, menu);
-    } else if (menu.systemId === this.icmpConstant.systemId.statisticsView) {
+    } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
