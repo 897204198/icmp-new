@@ -126,13 +126,14 @@ export class LoginPage {
         };
         this.userService.saveUserInfo(newUserInfo);
         this.userService.login();
-        this.pushService.bindUserid(data['id'], loginName);
+        this.pushService.bindUserid(userData['id'], loginName);
+
+        let modal = this.modalCtrl.create(TabsPage);
+        modal.present();
       }, (err: Response) => {
         this.toastService.show(err.text());
       });
 
-      let modal = this.modalCtrl.create(TabsPage);
-      modal.present();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

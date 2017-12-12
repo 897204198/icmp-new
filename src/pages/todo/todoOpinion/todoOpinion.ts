@@ -180,17 +180,8 @@ export class TodoOpinionPage {
         }
       }
       this.http.post(submitUtl, params).subscribe((res: Response) => {
-        let data = res.json();
-        if (data.result === '0') {
-          this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
-          this.navCtrl.popToRoot();
-        } else {
-          if (data.errMsg != null && data.errMsg !== '') {
-            this.toastService.show(data.errMsg);
-          } else {
-            this.toastService.show(this.transateContent['SUBMIT_ERROR']);
-          }
-        }
+        this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
+        this.navCtrl.popToRoot();
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
