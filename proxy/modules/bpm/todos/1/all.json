@@ -46,7 +46,9 @@
             "controls": [
               {
                 "type": "display",
-                "models": ["d_text"]
+                "models": [
+                  "d_text"
+                ]
               }
             ]
           },
@@ -67,9 +69,11 @@
             "name": "医疗"
           }
         ],
-        "validate": {
-          "type": "required"
-        },
+        "validator": [
+          {
+            "type": "required"
+          }
+        ],
         "model": "fkryGroup",
         "label": "反馈人员"
       },
@@ -77,9 +81,11 @@
         "type": "text",
         "model": "d_text",
         "label": "动态显示",
-        "validate": {
-          "required": true
-        }
+        "validator": [
+          {
+            "type": "required"
+          }
+        ]
       },
       {
         "type": "select",
@@ -155,9 +161,11 @@
         "defaultName": "啊啊啊",
         "searchUrl": "/demo/selectSearchboxQuery",
         "label": "选择器",
-        "validate": {
-          "type": "required"
-        }
+        "validator": [
+          {
+            "type": "required"
+          }
+        ]
       }
     ]
   ],

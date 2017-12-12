@@ -139,23 +139,28 @@ export class TodoOpinionPage {
         let requireControl = this.controls[this.approvalInput['opinions']][i];
         let opinionItem = {};
         for (let j = 0; j < this.opinionOtherList.length; j++) {
-          if (requireControl === this.opinionOtherList[j]['controlModel']) {
+          if (requireControl === this.opinionOtherList[j]['model']) {
             opinionItem = this.opinionOtherList[j];
           }
         }
-        if (opinionItem['validate'] != null && opinionItem['validate']['required'] != null && opinionItem['validate']['required']) {
-          if (this.approvalInput[requireControl] == null || this.approvalInput[requireControl] === '') {
-            this.toastService.show(this.transateContent['VALI_REQUIRED']);
-            return false;
+        if (opinionItem['validator'] != null) {
+          for (let j = 0; j < opinionItem['validator'].length; j++) {
+            if (opinionItem['validator'][j]['type'] === 'required' && (this.approvalInput[requireControl] == null || this.approvalInput[requireControl] === '')) {
+              this.toastService.show(this.transateContent['VALI_REQUIRED']);
+              return false;
+            }
           }
         }
+
       }
       for (let i = 0; i < this.opinionOtherList.length; i++) {
         let item = this.opinionOtherList[i];
-        if (item['status'] === 'display' && item['validate'] != null && item['validate']['required']) {
-          if (this.approvalInput[item['controlModel']] == null || this.approvalInput[item['controlModel']] === '') {
-            this.toastService.show(this.transateContent['VALI_REQUIRED']);
-            return false;
+        if (item['status'] === 'display' && item['validator'] != null) {
+          for (let j = 0; j < item['validator'].length; j++) {
+            if (item['validator'][j]['type'] === 'required' && (this.approvalInput[item['controlModel']] == null || this.approvalInput[item['controlModel']] === '')) {
+              this.toastService.show(this.transateContent['VALI_REQUIRED']);
+              return false;
+            }
           }
         }
       }
@@ -258,8 +263,8 @@ export class TodoOpinionPage {
       delete this.opinionOtherList[i]['status'];
       let item = this.opinionOtherList[i];
       this.approvalInput[item['controlModel']] = item['default'];
-      if (item['type'] === 'select_searchbox') {
-        this.approvalInput[item['controlModel'] + '_name'] = item['default_name'];
+      if (item['type'] === 'searchbox') {
+        this.approvalInput[item['controlModel'] + '_name'] = item['defaultName'];
       }
     }
   }
