@@ -23,13 +23,13 @@ export class StatisticsQueryPage {
   private transateContent: Object;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public modalCtrl: ModalController,
-              private http: Http,
-              private sanitizer: DomSanitizer,
-              private utilsService: UtilsService,
-              private translate: TranslateService,
-              private toastService: ToastService) {
+    public navParams: NavParams,
+    public modalCtrl: ModalController,
+    private http: Http,
+    private sanitizer: DomSanitizer,
+    private utilsService: UtilsService,
+    private translate: TranslateService,
+    private toastService: ToastService) {
     let translateKeys: string[] = ['VALI_REQUIRED'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -55,11 +55,11 @@ export class StatisticsQueryPage {
         }
       }
     }
-    this.http.post('/webController/getStatisticsQuery', params).subscribe((res: Response) => {
+    this.http.get('/business/statistics/result', { params: params }).subscribe((res: Response) => {
       let data = res.json();
       this.template = data['template'];
 
-      for (let i = 0; i < this.template.length ; i++) {
+      for (let i = 0; i < this.template.length; i++) {
         let item = this.template[i];
 
         if (item['default'] != null && item['type'] !== 'label') {
@@ -83,7 +83,7 @@ export class StatisticsQueryPage {
   setRequiredLabel(item: Object): string {
     let label = item['label'];
     if (item['validator'] != null) {
-      for (let j = 0 ; j < item['validator'].length ; j++) {
+      for (let j = 0; j < item['validator'].length; j++) {
         if (item['validator'][j]['type'] === 'required') {
           label = item['label'] + '<span style="color: red;">*</span>';
           break;
@@ -105,7 +105,7 @@ export class StatisticsQueryPage {
    */
   selectChange(item: Object): void {
     let data = item['data'];
-    for (let i = 0 ; i < data.length ; i++) {
+    for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
   }
@@ -133,7 +133,7 @@ export class StatisticsQueryPage {
     let params: Object = {};
     let multiple: boolean = (item['category'] === 'multi');
     let searchUrl = item['searchUrl'];
-    params = {'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl};
+    params = { 'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
@@ -150,15 +150,15 @@ export class StatisticsQueryPage {
    */
   setControl(item: Object, option: Object): void {
     if (option['controls'] != null) {
-      for (let j = 0 ; j < option['controls'].length ; j++) {
+      for (let j = 0; j < option['controls'].length; j++) {
         let control = option['controls'][j];
         if (control['type'] === 'display') {
           if (this.input[item['model']] != null && this.input[item['model']].indexOf(option['id']) >= 0) {
-            for (let k = 0 ; k < control.models.length ; k++) {
+            for (let k = 0; k < control.models.length; k++) {
               this.setInputStatus(control.models[k], 'display');
             }
           } else {
-            for (let k = 0 ; k < control.models.length ; k++) {
+            for (let k = 0; k < control.models.length; k++) {
               this.setInputStatus(control.models[k], 'hidden');
             }
           }
@@ -178,7 +178,7 @@ export class StatisticsQueryPage {
             params.append('id', this.input[item['model']]);
             this.http.post(url, params).subscribe((res: Response) => {
               let data = res.json().result_list;
-              for (let k = 0 ; k < this.template.length ; k++) {
+              for (let k = 0; k < this.template.length; k++) {
                 if (this.template[k]['model'] === control['model']) {
                   this.template[k]['data'] = data;
                   break;
@@ -188,7 +188,7 @@ export class StatisticsQueryPage {
               this.toastService.show(res.text());
             });
           } else {
-            for (let k = 0 ; k < this.template.length ; k++) {
+            for (let k = 0; k < this.template.length; k++) {
               if (this.template[k]['model'] === control['model']) {
                 this.template[k]['data'] = [];
                 break;
@@ -204,7 +204,7 @@ export class StatisticsQueryPage {
    * 设置表单控件状态
    */
   setInputStatus(model: string, status: string): void {
-    for (let i = 0 ; i < this.template.length ; i++) {
+    for (let i = 0; i < this.template.length; i++) {
       if (this.template[i]['model'] === model) {
         this.template[i]['status'] = status;
         if (status === 'hidden') {
@@ -222,10 +222,10 @@ export class StatisticsQueryPage {
    * 验证表单
    */
   verification(): boolean {
-    for (let i = 0; i < this.template.length ; i++) {
+    for (let i = 0; i < this.template.length; i++) {
       let item = this.template[i];
       if (item['validator'] != null && item['status'] !== 'hidden') {
-        for (let j = 0 ; j < item['validator'].length ; j++) {
+        for (let j = 0; j < item['validator'].length; j++) {
           if (item['validator'][j]['type'] === 'required' && (this.input[item['model']] == null || this.input[item['model']] === '')) {
             this.toastService.show(this.transateContent['VALI_REQUIRED']);
             return false;

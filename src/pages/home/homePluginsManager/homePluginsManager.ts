@@ -172,7 +172,7 @@ export class HomePluginsManagerPage {
     let params: Object = {
       'ids': ids.join(',')
     };
-    this.http.post('/webController/saveCurrentPlugins', params).subscribe(() => {
+    this.http.post('/sys/plugins/user', params).subscribe(() => {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
