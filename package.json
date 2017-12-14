@@ -128,9 +128,6 @@
             "cordova-plugin-proper-properpush": {},
             "cordova-plugin-inappbrowser": {},
             "cordova-plugin-proper-update-version": {},
-            "cordova-plugin-proper-telerik-imagepicker": {
-                "PHOTO_LIBRARY_USAGE_DESCRIPTION": "是否允许此App访问你的媒体资料库？"
-            },
             "cordova-plugin-camera": {
                 "CAMERA_USAGE_DESCRIPTION": " ",
                 "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
