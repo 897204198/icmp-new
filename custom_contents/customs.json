@@ -14,7 +14,7 @@
       "ios": "https://www.baidu.com"
     },
     "server": {
-      "baseUrl": "https://cloud.propersoft.cn/icmp/app-dev/api/",
+      "baseUrl": "https://cloud.propersoft.cn/icmp/app-im/api/",
       "pushAppId": "MobileOA",
       "pushServer": "http://202.199.100.174:29091/properpush",
       "pushXiaomi": {
