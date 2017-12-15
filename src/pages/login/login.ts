@@ -142,10 +142,8 @@ export class LoginPage {
 
           }, (retData) => { });
         }
-        
         let modal = this.modalCtrl.create(TabsPage);
         modal.present();
-
       }, (err: Response) => {
         this.toastService.show(err.text());
       });
