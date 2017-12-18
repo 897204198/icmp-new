@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Platform, Tabs, AlertController, NavController } from 'ionic-angular';
 import { HomePage } from '../home/home';
@@ -16,8 +16,9 @@ import { AddressPage } from '../address/address';
 import { ChatListPage } from '../chatList/chatList';
 
 import { Store } from '@ngrx/store';
-import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
+import { TODO_BADGE_STATE, IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { TodoReplaceBadageAction } from '../../app/redux/actions/todo.action';
+import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -37,6 +38,7 @@ export class TabsPage {
   constructor(public navCtrl: NavController,
     public platform: Platform,
     private http: Http,
+    private zone: NgZone,
     private toastService: ToastService,
     private userService: UserService,
     private backButtonService: BackButtonService,
@@ -59,6 +61,13 @@ export class TabsPage {
       // 待办角标绑定
       this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
         this.tabRoots[1]['tabBadge'] = data;
+      });
+
+      // 获取未读消息数量
+      this.getUnreadMessageNumber();
+      // 消息角标绑定
+      this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
+        this.tabRoots[2]['tabBadge'] = data;
       });
     });
 
@@ -196,4 +205,24 @@ export class TabsPage {
     });
   }
 
+  // 获取未读消息数量
+  getUnreadMessageNumber() {
+
+    (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
+      this.zone.run(() => {
+        if (retData.length === 0) {
+          this.store.dispatch(new ImReplaceBadageAction(''));
+        } else {
+          let total: number = 0;
+          let i: number = retData.length;
+          while (i) {
+            i--;
+            total += Number(retData[i]['unreadMessagesCount']);
+          }
+          this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+        }
+      });
+    }, (retData) => { });
+
+  }
 }

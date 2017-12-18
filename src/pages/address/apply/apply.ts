@@ -69,7 +69,8 @@ export class ApplyPage {
    * 删除申请
    */
   deleteApply(item: Object) {
-    this.removeArrayValue(this.applyList, item);
+    let index = this.applyList.indexOf(item);
+    this.applyList.splice(index, 1);
     this.http.delete('/im/notices/' + item['noticeId']).subscribe(() => {
       this.toastService.show(this.transateContent['DELETED']);
     }, (res: Response) => {
@@ -77,15 +78,4 @@ export class ApplyPage {
     });
   }
 
-  /**
-   * 删除数组中某元素
-   */
-  removeArrayValue(array: Array<Object>, item: Object) {
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] === item) {
-        array.splice(i, 1);
-        break;
-      }
-    }
-  }
 }
