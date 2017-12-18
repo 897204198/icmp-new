@@ -219,7 +219,11 @@ export class TabsPage {
             i--;
             total += Number(retData[i]['unreadMessagesCount']);
           }
-          this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+          if (total === 0) {
+            this.store.dispatch(new ImReplaceBadageAction(''));
+          } else {
+            this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+          }
         }
       });
     }, (retData) => { });
