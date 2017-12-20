@@ -8,6 +8,14 @@ page-chat-list {
     border-radius: inherit;
   }
 
+  .message {
+    font-size: 13px;
+    color: gray;
+    .red-message {
+      color: red;
+    }
+  }
+
   .time {
     margin-top: -20px !important;
     font-size: 11px;
@@ -44,3 +52,4 @@ page-chat-list {
   }
   
 }
+

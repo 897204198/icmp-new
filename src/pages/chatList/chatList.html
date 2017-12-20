@@ -17,7 +17,10 @@
           </span>
         </ion-avatar>
         <h2>{{user.toChatNickName}}</h2>
-        <p>{{user.lastMessage}}</p>
+        <div class="message">
+          <span class="red-message">{{user.redMessage}}</span>
+          <span>{{user.lastMessage}}</span>
+        </div>
         <p class="time" item-end>{{user.lastMessageTime}}</p>
       </button>
       <!-- 侧滑删除 -->

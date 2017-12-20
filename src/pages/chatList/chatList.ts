@@ -39,6 +39,7 @@ export class ChatListPage {
       (<any>window).huanxin.getChatList('', (retData) => {
         this.zone.run(() => {
           this.chatList = retData;
+          this.checkRedMessage();
           this.changeUnreadMessageNumber();
         });
       }, (retData) => { });
@@ -52,9 +53,26 @@ export class ChatListPage {
     (<any>window).huanxin.getChatList('', (retData) => {
       this.zone.run(() => {
         this.chatList = retData;
+        this.checkRedMessage();
         this.changeUnreadMessageNumber();
       });
     }, (retData) => { });
+  }
+
+  /**
+   * 检查是否有需要标红的消息
+   */
+  checkRedMessage() {
+    let i: number = this.chatList.length;
+    while (i) {
+      i--;
+      if (this.chatList[i]['isRedMessage'] && this.chatList[i]['isRedMessage'] === '1') {
+        let lastMessage: string = this.chatList[i]['lastMessage'];
+        let redMessage: string = lastMessage.substr(0, lastMessage.indexOf(']') + 1);
+        this.chatList[i]['redMessage'] = redMessage;
+        this.chatList[i]['lastMessage'] = lastMessage.substr(redMessage.length, lastMessage.length - redMessage.length);
+      }
+    }
   }
 
   /**
@@ -100,3 +118,4 @@ export class ChatListPage {
     (<any>window).huanxin.removeConversation(item);
   }
 }
+
