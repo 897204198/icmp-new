@@ -1,0 +1,18 @@
+{
+	"android": {
+		"debug": {
+			"keystore": "./keystores/android_release.keystore",
+			"storePassword": "gdpr&123",
+			"alias": "gdpr",
+			"password": "gdpr&123",
+			"keystoreType": ""
+		},
+		"release": {
+			"keystore": "./keystores/android_release.keystore",
+			"storePassword": "gdpr&123",
+			"alias": "gdpr",
+			"password": "gdpr&123",
+			"keystoreType": ""
+		}
+	}
+}
