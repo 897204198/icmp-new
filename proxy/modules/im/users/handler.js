@@ -29,6 +29,8 @@ handler.onGet = function (req, res, data) {
     common.jsonRes(req, res, '/wangy');
   } else if (searchText == '王') {
     common.jsonRes(req, res, '/wang');
+  } else if (searchText == '崔文成') {
+    common.jsonRes(req, res, '/cuiwc');
   }  else {
     common.jsonRes(req, res, '/empty');
   }

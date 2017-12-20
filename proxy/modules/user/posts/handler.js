@@ -32,6 +32,8 @@ handler.onGet = function (req, res, data) {
     common.jsonRes(req, res, '/liucy');
   } else if (userId == 'wangls') {
     common.jsonRes(req, res, '/wangls');
+  } else if (userId == 'cuiwc') {
+    common.jsonRes(req, res, '/cuiwc');
   } else {
     common.jsonRes(req, res, '/empty');
   }

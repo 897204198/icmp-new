@@ -32,6 +32,8 @@ handler.onGet = function (req, res, data) {
     common.jsonRes(req, res, '/liucy');
   } else if (token == 'Bearer wangls') {
     common.jsonRes(req, res, '/wangls');
+  } else if (token == 'Bearer cuiwc') {
+    common.jsonRes(req, res, '/cuiwc');
   } else {
     res.writeHeader(400, { 'Content-Type': 'text/plain;charset=UTF-8' });
     res.end('无权限');

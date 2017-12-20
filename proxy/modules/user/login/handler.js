@@ -18,6 +18,7 @@ handler.onPost = function (req, res, data) {
     jsonData.loginName == 'wangy' ||
     jsonData.loginName == 'wanghp' ||
     jsonData.loginName == 'wangls' ||
+    jsonData.loginName == 'cuiwc' ||
     jsonData.loginName == 'liucy') {
     if (jsonData.password != 'E10ADC3949BA59ABBE56E057F20F883E') {
       common.jsonRes(req, res, '/passwordError');
