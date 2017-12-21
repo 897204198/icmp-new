@@ -21,7 +21,9 @@ export class AddressPage {
   // 查询keyword
   private keyword: string;
   // 用户信息数据
-  userInfo: UserInfoState = initUserInfo;
+  private userInfo: UserInfoState = initUserInfo;
+  // 隐藏顶部
+  private hidTopItem: boolean = false;
 
   /**
    * 构造函数
@@ -100,4 +102,12 @@ export class AddressPage {
     }, (retData) => { });
   }
 
+  onInput() {
+    if (this.titleFilter.value === '') {
+      this.hidTopItem = false;
+    } else {
+      this.hidTopItem = true;
+    }
+  }
 }
+

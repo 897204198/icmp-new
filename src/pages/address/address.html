@@ -4,10 +4,10 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}">
+  <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}" (ionInput)="onInput()">
   </ion-searchbar>
 
-  <ion-list class="icmp-list-bottom-margin">
+  <ion-list *ngIf="!hidTopItem" class="icmp-list-bottom-margin">
     <button ion-item (click)="applyAndNotification()">
       <ion-avatar class="left-avatar" item-left>
         <img src="./assets/images/im/newFriends.png">
