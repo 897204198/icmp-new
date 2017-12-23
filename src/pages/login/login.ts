@@ -9,12 +9,12 @@ import { AdminPage } from './admin/admin';
 import { APP_CONSTANT, AppConstant } from '../../app/constants/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
-import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
 import { CryptoService } from '../../app/services/crypto.service';
 import { PushService } from '../../app/services/push.service';
 import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
 import { DeviceService } from '../../app/services/device.service';
+import { ConfigsService } from '../../app/services/configs.service';
 
 /**
  * 登录页面
@@ -41,7 +41,7 @@ export class LoginPage {
     private platform: Platform,
     private alertCtrl: AlertController,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
-    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private configsService: ConfigsService,
     private translate: TranslateService,
     private toastService: ToastService,
     private deviceService: DeviceService,
@@ -135,8 +135,8 @@ export class LoginPage {
           let imparams = {
             'username': loginName,
             'password': password,
-            'baseUrl': this.appConstant.oaConstant.baseUrl,
-            'pushUrl': this.appConstant.properPushConstant.pushUrl
+            'baseUrl': this.configsService.getBaseUrl(),
+            'pushUrl': this.configsService.getPushUrl()
           };
           (<any>window).huanxin.imlogin(imparams, (retData) => {
 

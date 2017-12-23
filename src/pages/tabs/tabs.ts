@@ -117,6 +117,30 @@ export class TabsPage {
   doOpenNotification(event: any): void {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
+    } else if (event.properCustoms.from_user_id) {
+      if (event.properAlert) {
+        // 应用内
+      } else {
+        let params: Object = {};
+        if (event.properCustoms.chatType === 'singleChat') {
+          params['to_user_id'] = event.properCustoms.from_user_id;
+          params['to_username'] = event.properCustoms.from_username;
+          params['to_headportrait'] = event.properCustoms.from_headportrait;
+          params['from_user_id'] = event.properCustoms.to_user_id;
+          params['from_username'] = event.properCustoms.to_username;
+          params['from_headportrait'] = event.properCustoms.to_headportrait;
+        } else {
+          let userInfo: UserInfoState = this.userService.getUserInfo();
+          params['from_user_id'] = userInfo.userId;
+          params['from_username'] = userInfo.userName;
+          params['from_headportrait'] = userInfo.headImage;
+          params['to_user_id'] = event.properCustoms.to_user_id;
+          params['to_username'] = event.properCustoms.to_username;
+          params['to_headportrait'] = event.properCustoms.to_headportrait;
+        }
+        params['chatType'] = event.properCustoms.chatType;
+        (<any>window).huanxin.chat(params);
+      }
     } else {
       if (event.properAlert) {
         let messagesPrompt = this.alertCtrl.create({
