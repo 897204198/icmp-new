@@ -10,8 +10,8 @@
     <ion-item-sliding *ngFor="let user of chatList | searchFilter: 'toChatNickName': keyword">
       <button ion-item detail-none (click)="chatToUserOrGroup(user)">
         <ion-avatar item-start class="main-item">
-          <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
-          <img *ngIf="user.headImage" [src]=user.headImage>
+          <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
+          <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
           <span class="item-superscript-area">
             <span class="item-superscript" *ngIf="user.unreadMessagesCount != null && user.unreadMessagesCount != 0">{{user.unreadMessagesCount}}</span>
           </span>

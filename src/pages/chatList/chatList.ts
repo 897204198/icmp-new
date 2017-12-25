@@ -3,6 +3,7 @@ import { UserService, initUserInfo, UserInfoState } from '../../app/services/use
 import { Store } from '@ngrx/store';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
 import { FormControl } from '@angular/forms';
+import { DeviceService } from '../../app/services/device.service';
 
 @Component({
   selector: 'page-chat-list',
@@ -23,6 +24,7 @@ export class ChatListPage {
    */
   constructor(private zone: NgZone,
     private userService: UserService,
+    private deviceService: DeviceService,
     private store: Store<string>) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => this.keyword = value
@@ -116,6 +118,27 @@ export class ChatListPage {
     let index = this.chatList.indexOf(item);
     this.chatList.splice(index, 1);
     (<any>window).huanxin.removeConversation(item);
+  }
+
+  /**
+   * 后台没传头像 或 头像无法加载 时加载占位图头像
+   * 如果是手机则获取原生缓存的图片
+   * 如果是 web 版则显示默认占位图
+   */
+  setWordHeadImage(item: Object) {
+    // 避免在 web 上无法显示页面
+    if (this.deviceService.getDeviceInfo().deviceType) {
+      let params: Object = {};
+      let nickName: string = item['toChatNickName'];
+      params['nickName'] = nickName.substring(0, 1);
+      (<any>window).huanxin.getWordHeadImage(params, (retData) => {
+        this.zone.run(() => {
+          item['headImage'] = retData;
+        });
+      });
+    } else {
+      item['headImage'] = './assets/images/user.jpg';
+    }
   }
 }
 

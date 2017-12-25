@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import { CreateGroupPage } from './createGroup';
 import { ToastService } from '../../../app/services/toast.service';
 import { UserService, initUserInfo, UserInfoState } from '../../../app/services/user.service';
+import { DeviceService } from '../../../app/services/device.service';
 
 @Component({
   selector: 'page-group',
@@ -27,6 +28,8 @@ export class GroupPage {
   constructor(private navCtrl: NavController,
     private toastService: ToastService,
     private userService: UserService,
+    private deviceService: DeviceService,
+    private zone: NgZone,
     private http: Http) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => this.keyword = value
@@ -81,5 +84,26 @@ export class GroupPage {
     (<any>window).huanxin.chat(params, (retData) => {
 
     }, (retData) => { });
+  }
+
+  /**
+   * 后台没传头像 或 头像无法加载 时加载占位图头像
+   * 如果是手机则获取原生缓存的图片
+   * 如果是 web 版则显示默认占位图
+   */
+  setWordHeadImage(item: Object) {
+    // 避免在 web 上无法显示页面
+    if (this.deviceService.getDeviceInfo().deviceType) {
+      let params: Object = {};
+      let nickName: string = item['groupName'];
+      params['nickName'] = nickName.substring(0, 1);
+      (<any>window).huanxin.getWordHeadImage(params, (retData) => {
+        this.zone.run(() => {
+          item['headImage'] = retData;
+        });
+      });
+    } else {
+      item['headImage'] = './assets/images/im/group.png';
+    }
   }
 }

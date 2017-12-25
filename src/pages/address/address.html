@@ -31,8 +31,8 @@
   <ion-list class="icmp-list-bottom-margin">
     <button *ngFor="let user of contactInfos | searchFilter: 'nickName': keyword" ion-item detail-none (click)="chatToUser(user)">
       <ion-avatar item-left>
-        <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
-        <img *ngIf="user.headImage" [src]=user.headImage>
+        <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
+        <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.nickName}}</h2>
     </button>
