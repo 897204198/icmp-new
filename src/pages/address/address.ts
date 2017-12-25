@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Events } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { ConfigsService } from '../../app/services/configs.service';
 import { AddFriendPage } from './addFriend/addFriend';
@@ -9,6 +9,7 @@ import { FormControl } from '@angular/forms';
 import { ToastService } from '../../app/services/toast.service';
 import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 import { DeviceService } from '../../app/services/device.service';
+import { Keyboard } from '@ionic-native/keyboard';
 
 @Component({
   selector: 'page-address',
@@ -35,7 +36,9 @@ export class AddressPage {
     private userService: UserService,
     private deviceService: DeviceService,
     private zone: NgZone,
-    private http: Http) {
+    private http: Http,
+    private event: Events,
+    private keyboard: Keyboard) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => {
         this.keyword = value;
@@ -54,6 +57,8 @@ export class AddressPage {
   ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
+    this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
+    this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
   }
 
   /**
