@@ -510,6 +510,9 @@ export class ApplicationPage {
               this.addListRow(this.template[i]);
             }
           }
+          if (this.template[i]['type'] === 'radio') {
+            this.input[model] = this.template[i]['default'];
+          }
         }
         break;
       }
