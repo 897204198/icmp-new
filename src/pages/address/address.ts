@@ -37,7 +37,14 @@ export class AddressPage {
     private zone: NgZone,
     private http: Http) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => this.keyword = value
+      value => {
+        this.keyword = value;
+        if (this.titleFilter.value === '') {
+          this.hidTopItem = false;
+        } else {
+          this.hidTopItem = true;
+        }
+      }
     );
   }
 
@@ -103,14 +110,6 @@ export class AddressPage {
     (<any>window).huanxin.chat(params, (retData) => {
 
     }, (retData) => { });
-  }
-
-  onInput() {
-    if (this.titleFilter.value === '') {
-      this.hidTopItem = false;
-    } else {
-      this.hidTopItem = true;
-    }
   }
 
   /**
