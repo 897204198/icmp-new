@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
 import { FormControl } from '@angular/forms';
 import { DeviceService } from '../../app/services/device.service';
+import { Keyboard } from '@ionic-native/keyboard';
+import { Events } from 'ionic-angular';
 
 @Component({
   selector: 'page-chat-list',
@@ -25,7 +27,9 @@ export class ChatListPage {
   constructor(private zone: NgZone,
     private userService: UserService,
     private deviceService: DeviceService,
-    private store: Store<string>) {
+    private store: Store<string>,
+    private keyboard: Keyboard,
+    private event: Events) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => this.keyword = value
     );
@@ -46,6 +50,10 @@ export class ChatListPage {
         });
       }, (retData) => { });
     }, (addRetData) => { });
+    if (this.keyboard != null) {
+      this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
+      this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
+    }
   }
 
   /**

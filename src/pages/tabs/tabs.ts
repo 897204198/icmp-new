@@ -1,6 +1,6 @@
-import { Component, ViewChild, NgZone } from '@angular/core';
+import { Component, ViewChild, NgZone, ElementRef, Renderer } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Platform, Tabs, AlertController, NavController } from 'ionic-angular';
+import { Platform, Tabs, AlertController, NavController, Events } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { SettingPage } from '../setting/setting';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -31,6 +31,8 @@ export class TabsPage {
   tabRoots: Object[];
   // 国际化文字
   private transateContent: Object;
+  // margin-bottom
+  mb: any;
 
   /**
    * 构造函数
@@ -45,7 +47,10 @@ export class TabsPage {
     private appVersionUpdateService: AppVersionUpdateService,
     public alertCtrl: AlertController,
     private translate: TranslateService,
-    private store: Store<string>) {
+    private store: Store<string>,
+    private elementRef: ElementRef,
+    private event: Events,
+    private renderer: Renderer) {
     let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -71,6 +76,33 @@ export class TabsPage {
       });
     });
 
+  }
+
+  /**
+   * 进入页面时监听键盘事件
+   */
+  ionViewDidLoad() {
+    let tabs = this.queryElement(this.elementRef.nativeElement, '.tabbar');
+    this.event.subscribe('hideTabs', () => {
+      this.renderer.setElementStyle(tabs, 'display', 'none');
+      let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
+      let content = this.queryElement(SelectTab, '.scroll-content');
+      this.mb = content.style['margin-bottom'];
+      this.renderer.setElementStyle(content, 'margin-bottom', '0');
+    });
+    this.event.subscribe('showTabs', () => {
+      this.renderer.setElementStyle(tabs, 'display', '');
+      let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
+      let content = this.queryElement(SelectTab, '.scroll-content');
+      this.renderer.setElementStyle(content, 'margin-bottom', this.mb);
+    });
+  }
+
+  /**
+   * 取DOM元素
+   */
+  queryElement(elem: HTMLElement, q: string): HTMLElement {
+    return <HTMLElement>elem.querySelector(q);
   }
 
   /**

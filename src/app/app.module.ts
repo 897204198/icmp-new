@@ -80,6 +80,7 @@ import { AddFriendPage } from '../pages/address/addFriend/addFriend';
 import { ApplyPage } from '../pages/address/apply/apply';
 import { GroupPage } from '../pages/address/group/group';
 import { CreateGroupPage } from '../pages/address/group/createGroup';
+import { Keyboard } from '@ionic-native/keyboard';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -206,6 +207,7 @@ export function createTranslateLoader(http: Http) {
     FileTransfer,
     FileTransferObject,
     FileOpener,
+    Keyboard,
     SplashScreen,
     UniqueDeviceID,
     Device,
