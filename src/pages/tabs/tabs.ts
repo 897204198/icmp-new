@@ -83,11 +83,12 @@ export class TabsPage {
    */
   ionViewDidLoad() {
     let tabs = this.queryElement(this.elementRef.nativeElement, '.tabbar');
+    let tabsHeight = tabs.clientHeight + 'px';
     this.event.subscribe('hideTabs', () => {
       this.renderer.setElementStyle(tabs, 'display', 'none');
       let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
       let content = this.queryElement(SelectTab, '.scroll-content');
-      this.mb = content.style['margin-bottom'];
+      this.mb = tabsHeight;
       this.renderer.setElementStyle(content, 'margin-bottom', '0');
     });
     this.event.subscribe('showTabs', () => {
