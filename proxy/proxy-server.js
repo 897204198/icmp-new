@@ -28,6 +28,9 @@ var onReq = function(req, res) {
   var handler = {}, curPath = '';
   try {
     curPath = common.url2path(req, '.');
+    if (curPath.indexOf('/demo/selectSearchboxQuery') !== -1) {
+      curPath = curPath.replace('/demo/selectSearchboxQuery', '');
+    }
     handler = require(curPath + '/handler.js');
   } catch (err) {
     console.log('Could not find handler in \'%s\'.', curPath);
