@@ -48,7 +48,9 @@ export class QueryDetailPage {
     this.opinionList = [];
     let params: Object = {
       'serviceName': this.navParams.get('serviceName'),
-      'defaultTab': this.navParams.get('defaultTab')
+      'defaultTab': this.navParams.get('defaultTab'),
+      'id': this.navParams.get('id'),
+      'style': this.navParams.get('style')
     };
     this.http.get('/business/querys/' + this.navParams.get('id'), { params: params }).subscribe((res: any) => {
       let data = res.json();

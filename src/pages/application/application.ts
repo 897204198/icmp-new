@@ -226,8 +226,13 @@ export class ApplicationPage {
         }
       }
       this.http.post('/bpm/application', params).subscribe((res: Response) => {
-        this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
-        this.navCtrl.popToRoot();
+        if (res.json().errMsg != null) {
+          this.toastService.show(res.json().errMsg);
+          this.isSubmit = false;
+        }else {
+          this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
+          this.navCtrl.popToRoot();
+        }
       }, (res: Response) => {
         this.isSubmit = false;
         this.toastService.show(res.text());
@@ -583,18 +588,21 @@ export class ApplicationPage {
       mimeType: 'multipart/form-data'
     };
     let userInfo = this.userService.getUserInfo();
-    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/sys/files?loginName=' + userInfo.loginName, options).then((data) => {
-      if (this.input[item['model']] == null) {
-        this.input[item['model']] = [data.response];
-      } else {
-        this.input[item['model']].push(data.response);
-      }
-      this.fileReIndex++;
-      file['id'] = data.response;
-    }, () => {
-      this.toastService.show(this.transateContent['FILE_GET_ERROR']);
-      this.deleteFile(item, file);
-      this.fileReIndex++;
+    this.http.post('/sys/files', {}).subscribe((res: Response) => {
+      let url = res.json().url;
+      fileTransfer.upload(filePath, url + userInfo.loginName, options).then((data) => {
+        if (this.input[item['model']] == null) {
+          this.input[item['model']] = [data.response];
+        } else {
+          this.input[item['model']].push(data.response);
+        }
+        this.fileReIndex++;
+        file['id'] = data.response;
+      }, () => {
+        this.toastService.show(this.transateContent['FILE_GET_ERROR']);
+        this.deleteFile(item, file);
+        this.fileReIndex++;
+      });
     });
   }
 
@@ -603,7 +611,10 @@ export class ApplicationPage {
    */
   deleteFile(item: Object, file: Object): void {
     if (file['id'] != null && file['id'] !== '') {
-      this.http.delete('/sys/files/' + file['id']).subscribe((res: Response) => { });
+      let params = {
+        id: file['id']
+      };
+      this.http.delete('/sys/files/' + file['id'], {params: params}).subscribe((res: Response) => { });
       if (this.input[item['model']] != null) {
         for (let i = 0; i < this.input[item['model']].length; i++) {
           if (this.input[item['model']][i] === file['id']) {
@@ -628,7 +639,10 @@ export class ApplicationPage {
     for (let i = 0; i < this.template.length; i++) {
       let item = this.template[i];
       if (item['type'] === 'file' && this.input[item['model']] != null && this.input[item['model']].length > 0) {
-        this.http.delete('/sys/files/' + this.input[item['model']].join(',')).subscribe((res: Response) => { });
+        let params = {
+          id: this.input[item['model']].join(',')
+        };
+        this.http.delete('/sys/files/' + this.input[item['model']].join(','), {params: params}).subscribe((res: Response) => { });
       }
     }
   }

@@ -105,35 +105,37 @@ export class LoginPage {
       'password': md5password
     };
     this.http.post('/user/login', params).subscribe((res: Response) => {
-      localStorage.token = res.json()['token'];
+      if (res.json()['errMsg'] != null && res.json()['token'] == null) {
+        this.toastService.show(res.json()['errMsg']);
+      }else if (res.json()['token'] != null){
+        localStorage.token = res.json()['token'];
+        this.http.get('/user').subscribe((data: Response) => {
+          let userData = data.json();
+          let newUserInfo: UserInfoState = {
+            loginName: loginName,
+            password: md5password,
+            password0: password,
+            savePassword: this.userInfo.savePassword,
+            userId: userData['id'],
+            userName: userData['name'],
+            headImage: userData['headImage'],
+            jobNumber: userData['jobNumber'],
+            phone: userData['phone'],
+            email: userData['email'],
+            outter: userData['outter'],
+            sexCode: userData['sexCode'],
+            sex: userData['sex']
+          };
+          this.userService.saveUserInfo(newUserInfo);
+          this.userService.login();
+          this.pushService.bindUserid(data['id'], loginName);
 
-      this.http.get('/user').subscribe((data: Response) => {
-        let userData = data.json();
-        let newUserInfo: UserInfoState = {
-          loginName: loginName,
-          password: md5password,
-          password0: password,
-          savePassword: this.userInfo.savePassword,
-          userId: userData['id'],
-          userName: userData['name'],
-          headImage: userData['headImage'],
-          jobNumber: userData['jobNumber'],
-          phone: userData['phone'],
-          email: userData['email'],
-          outter: userData['outter'],
-          sexCode: userData['sexCode'],
-          sex: userData['sex']
-        };
-        this.userService.saveUserInfo(newUserInfo);
-        this.userService.login();
-        this.pushService.bindUserid(userData['id'], loginName);
-
-        let modal = this.modalCtrl.create(TabsPage);
-        modal.present();
-      }, (err: Response) => {
-        this.toastService.show(err.text());
-      });
-
+          let modal = this.modalCtrl.create(TabsPage);
+          modal.present();
+        }, (err: Response) => {
+          this.toastService.show(err.text());
+        });
+      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

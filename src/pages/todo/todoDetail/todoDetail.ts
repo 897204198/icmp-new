@@ -58,7 +58,9 @@ export class TodoDetailPage {
     this.fileList = [];
     let params: Object = {
       'stepCode': this.navParams.get('stepCode'),
-      'processName': this.navParams.get('processName')
+      'processName': this.navParams.get('processName'),
+      'taskId': this.navParams.get('id'),
+      'step': this.navParams.get('stepCode')
     };
     this.http.get('/bpm/todos/' + this.navParams.get('id'), { params: params }).subscribe((res: Response) => {
       this.todoDetail = res.json();
@@ -101,7 +103,9 @@ export class TodoDetailPage {
     if (this.todoDetail['approvalType'] === 'forward') {
       let params: Object = {
         'stepCode': this.navParams.get('stepCode'),
-        'processName': this.navParams.get('processName')
+        'processName': this.navParams.get('processName'),
+        'taskId': this.navParams.get('id'),
+        'step': this.navParams.get('stepCode')
       };
       this.http.post(submitUtl, params).subscribe((res: Response) => {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
@@ -117,7 +121,9 @@ export class TodoDetailPage {
         commentDefault: this.todoDetail['commentDefault'],
         processName: this.navParams.get('processName'),
         id: this.navParams.get('id'),
-        stepCode: this.navParams.get('stepCode')
+        stepCode: this.navParams.get('stepCode'),
+        taskId: this.navParams.get('id'),
+        step: this.navParams.get('stepCode')
       };
       this.navCtrl.push(TodoOpinionPage, params);
     }

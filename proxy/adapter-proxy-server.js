@@ -1,11 +1,10 @@
 'use strict';
 
 var http = require('http');
-var common = require('./modules/common.js');
-var fs = require('fs');
+var common = require('./adapters/common.js');
 
 console.log('');
-console.log('PEP Proxy Server');
+console.log('PEP transform Proxy Server');
 console.log('');
 
 var onReq = function(req, res) {
@@ -28,13 +27,17 @@ var onReq = function(req, res) {
 
   var handler = {}, curPath = '';
   try {
-    curPath = common.url2path(req, '.');
-    if (curPath.indexOf('/demo/selectSearchboxQuery') !== -1) {
-      curPath = curPath.replace('/demo/selectSearchboxQuery', '');
+    curPath = common.url2path(req, '.');  
+　　var reg = /\/\d+/;   
+　　var replaceUrl = curPath.replace(reg, '/uriparam'); 
+    if (curPath.indexOf('./adapters/business/querys/') !== -1) {
+      replaceUrl = './adapters/business/querys/uriparam';
     }
-    handler = require(curPath + '/handler.js');
+    if (curPath.indexOf('/webController') !== -1) {
+      replaceUrl = './adapters/webController';
+    }
+    handler = require(replaceUrl + '/handler.js');
   } catch (err) {
-    console.log('err:' + err);
     console.log('Could not find handler in \'%s\'.', curPath);
     try {
       curPath = common.url2path(req, '.', 1);

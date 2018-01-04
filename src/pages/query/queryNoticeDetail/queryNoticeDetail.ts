@@ -41,6 +41,8 @@ export class QueryNoticeDetailPage {
     this.notice = {};
     let params: Object = {
       'serviceName': this.navParams.get('serviceName'),
+      'id': this.navParams.get('id'),
+      'style': this.navParams.get('style')
     };
     this.http.get('/business/querys/' + this.navParams.get('id'), { params: params }).subscribe((res: any) => {
       this.notice = res.json();
