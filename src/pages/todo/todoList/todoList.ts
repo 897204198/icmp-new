@@ -146,7 +146,7 @@ export class TodoListPage {
    * 签收
    */
   doClaim(item: Object): void {
-    this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
+    this.http.get('/bpm/todos/' + item['id'] + '/claim').subscribe((res: Response) => {
       this.toastService.show(this.transateContent['CLAIM_SUCCESS']);
       let userInfo: UserInfoState = this.userService.getUserInfo();
       item['assignee'] = userInfo.loginName;
@@ -159,7 +159,7 @@ export class TodoListPage {
    * 退回
    */
   doGoback(item: Object): void {
-    this.http.get('/bpm/todos/' + item['id'] + 'goback').subscribe((res: Response) => {
+    this.http.get('/bpm/todos/' + item['id'] + '/goback').subscribe((res: Response) => {
       this.toastService.show(this.transateContent['GOBACK_SUCCESS']);
       item['assignee'] = '';
     }, (res: Response) => {
@@ -172,7 +172,7 @@ export class TodoListPage {
    */
   doHandle(item: Object): void {
     if (item['assignee'] === '') {
-      this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
+      this.http.get('/bpm/todos/' + item['id'] + '/claim').subscribe((res: Response) => {
         let userInfo: UserInfoState = this.userService.getUserInfo();
         item['assignee'] = userInfo.loginName;
         this.goTodoDetailPage(item);

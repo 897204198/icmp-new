@@ -2,10 +2,8 @@
 
 var handler = module.exports = {};
 
-handler.onPost = function (req, res, data) {
+handler.onGet = function (req, res, data) {
   var returnData = {
-    "result": "0",
-    "result_total": 5,
     "result_list": [
       {
         "id": "25c2ab07-1ba9-4985-8d88-bbf60e89b2f1",

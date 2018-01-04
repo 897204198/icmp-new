@@ -86,3 +86,8 @@ $ ionic cordova run ios [--prod]
 
 - [Chrome调试Android应用](http://ask.dcloud.net.cn/docs/#http://ask.dcloud.net.cn/article/69)
 - [Safari调试iOS应用](http://ask.dcloud.net.cn/docs/#http://ask.dcloud.net.cn/article/143)
+
+### 使用代理数据转接口
+- 如果在后台接口不改变的情况下，需要使用新的前台，则需要用到转接口使之接口对应。
+- 使用命令node proxy/adapter-proxy-server.js启动转接口代理
+- 如果需要修改后台地址，在/proxy/adapters/common.js中，修改common.hostname, common.port, common.path = '/mobile-platform'

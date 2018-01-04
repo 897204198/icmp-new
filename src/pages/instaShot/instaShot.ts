@@ -81,7 +81,10 @@ export class InstaShotPage {
   // 获取院区信息 
   /* 进入页面只执行一次 */
   gethospitalArea() {
-    this.http.get('/sys/depts').subscribe((res: Response) => {
+    let params = {
+      'serviceName': 'hospitalArea'
+    };
+    this.http.get('/sys/depts', {params: params}).subscribe((res: Response) => {
       let data = res.json();
       // 院区信息 name、id
       this.hospitalAreaInfo = data;
@@ -103,7 +106,9 @@ export class InstaShotPage {
   // 获取科室信息
   getDepartment(areaCode: string) {
     let params: Object = {
-      'deptId': areaCode
+      'deptId': areaCode,
+      'hospitalAreaCode': areaCode,
+      'serviceName': 'department'
     };
     this.http.get('/sys/depts', { params: params }).subscribe((res: Response) => {
       let data = res.json();
@@ -224,7 +229,15 @@ export class InstaShotPage {
         fileName: this.photoList[i]['imageName'],
         mimeType: 'multipart/form-data'
       };
-      fileTransfer.upload(this.photoList[i]['imageUrl'], this.configsService.getBaseUrl() + '/sys/files?loginName=' + this.userInfo.loginName, options)
+      this.transFormApi(fileTransfer, options, i);
+    }
+  }
+
+  // 转接口
+  transFormApi(fileTransfer, options, index) {
+    this.http.post('/sys/files', {}).subscribe((res: Response) => {
+      let url = res.json().url;
+      fileTransfer.upload(this.photoList[index]['imageUrl'], url + this.userInfo.loginName, options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
           this.photoUrlArray.push(data.response);
@@ -236,8 +249,8 @@ export class InstaShotPage {
           }
         }, (err) => {
 
-        });
-    }
+      });
+    });
   }
 
   // 随手拍信息上传
@@ -249,19 +262,26 @@ export class InstaShotPage {
       'username': this.submitInfo['username'],
       'isAnonymity': this.submitInfo['isAnonymity'],
       'content': this.submitInfo['content'],
-      'districtId': this.hospitalAreaCode
+      'districtId': this.hospitalAreaCode,
+      'hospitalAreaCode': this.hospitalAreaCode
     };
     // 非必填项
     if (this.departmentCode) {
       params['deptId'] = this.departmentCode;
+      params['departmentCode'] = this.departmentCode;
     }
     if (this.submitInfo['images'] !== undefined) {
       params['images'] = this.submitInfo['images'];
+      params['fileId'] = this.submitInfo['images'];
     }
 
     this.http.post('/business/insta-shot', params).subscribe((res: Response) => {
-      this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
-      this.navCtrl.pop();
+      if (res.json().errMsg != null) {
+        this.toastService.show(res.json().errMsg);
+      }else {
+        this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
+        this.navCtrl.pop();
+      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

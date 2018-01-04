@@ -30,13 +30,14 @@ export class StatisticsViewPage {
    * 取得初始化数据
    */
   getInitData(): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
+    let params = {
+      'serviceName': this.navParams.get('serviceName')
+    };
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params.append(key, datas[key]);
+          params[key] = datas[key];
         }
       }
     }
@@ -44,7 +45,7 @@ export class StatisticsViewPage {
       let datas = this.navParams.get('queryCondition');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params.append(key, datas[key]);
+          params[key] = datas[key];
         }
       }
     }

@@ -177,13 +177,16 @@ export class TodoOpinionPage {
       let params: Object = {
         'id': this.navParams.get('id'),
         'stepCode': this.navParams.get('stepCode'),
-        'processName': this.navParams.get('processName')
+        'processName': this.navParams.get('processName'),
+        'taskId': this.navParams.get('id'),
+        'step': this.navParams.get('stepCode')
       };
       for (let key in this.approvalInput) {
         if (this.approvalInput.hasOwnProperty(key)) {
           params[key] = this.approvalInput[key];
         }
       }
+      params['opinion'] = params['opinions'];
       this.http.post(submitUtl, params).subscribe((res: Response) => {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
         this.navCtrl.popToRoot();

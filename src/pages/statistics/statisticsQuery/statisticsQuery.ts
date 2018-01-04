@@ -37,7 +37,6 @@ export class StatisticsQueryPage {
   }
 
   ionViewDidLoad(): void {
-    this.title = this.navParams.get('title');
     this.getInitData();
   }
 
@@ -45,19 +44,20 @@ export class StatisticsQueryPage {
    * 取得初始化数据
    */
   getInitData(): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
+    let params = {
+      'serviceName': this.navParams.get('serviceName')
+    };
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params.append(key, datas[key]);
+          params[key] = datas[key];
         }
       }
     }
-    this.http.get('/business/statistics/result', { params: params }).subscribe((res: Response) => {
+    this.http.get('/business/statistics/condition', { params: params }).subscribe((res: Response) => {
       let data = res.json();
-      this.template = data['template'];
+      this.template = data;
 
       for (let i = 0; i < this.template.length; i++) {
         let item = this.template[i];
@@ -173,9 +173,10 @@ export class StatisticsQueryPage {
           }
           if (flg) {
             let url = control['url'];
-            let params: URLSearchParams = new URLSearchParams();
-            params.append('serviceName', this.navParams.get('serviceName'));
-            params.append('id', this.input[item['model']]);
+            let params = {
+              'serviceName': this.navParams.get('serviceName'),
+              'id': this.input['deptId']
+            };
             this.http.post(url, params).subscribe((res: Response) => {
               let data = res.json().result_list;
               for (let k = 0; k < this.template.length; k++) {

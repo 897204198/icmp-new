@@ -77,7 +77,7 @@ export class QueryListPage {
     if (this.queryInput != null) {
       for (let key in this.queryInput) {
         if (this.queryInput.hasOwnProperty(key)) {
-          params['key'] = this.queryInput[key];
+          params[key] = this.queryInput[key];
         }
       }
     }
@@ -152,7 +152,8 @@ export class QueryListPage {
       'title': detailTitle,
       'id': item['id'],
       'serviceName': this.navParams.get('serviceName'),
-      'defaultTab': this.navParams.get('defaultTab')
+      'defaultTab': this.navParams.get('defaultTab'),
+      'style': item['style']
     };
     if (item['style'] === 'notice_style') {
       this.navCtrl.push(QueryNoticeDetailPage, params);
