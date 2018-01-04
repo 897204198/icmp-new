@@ -137,6 +137,9 @@ export class LoginPage {
             let imparams = {
               'username': loginName,
               'password': password,
+              'from_user_id': newUserInfo.userId,
+              'from_username': newUserInfo.userName,
+              'from_headportrait': newUserInfo.headImage,
               'baseUrl': this.configsService.getBaseUrl(),
               'pushUrl': this.configsService.getPushUrl()
             };
