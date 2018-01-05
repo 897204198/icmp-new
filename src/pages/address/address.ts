@@ -7,9 +7,9 @@ import { ApplyPage } from './apply/apply';
 import { GroupPage } from './group/group';
 import { FormControl } from '@angular/forms';
 import { ToastService } from '../../app/services/toast.service';
-import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 import { DeviceService } from '../../app/services/device.service';
 import { Keyboard } from '@ionic-native/keyboard';
+import { UserProfilePage } from './userProfile/userProfile';
 
 @Component({
   selector: 'page-address',
@@ -22,8 +22,6 @@ export class AddressPage {
   private titleFilter: FormControl = new FormControl();
   // 查询keyword
   private keyword: string;
-  // 用户信息数据
-  private userInfo: UserInfoState = initUserInfo;
   // 隐藏顶部
   private hidTopItem: boolean = false;
 
@@ -33,7 +31,6 @@ export class AddressPage {
   constructor(private navCtrl: NavController,
     private configsService: ConfigsService,
     private toastService: ToastService,
-    private userService: UserService,
     private deviceService: DeviceService,
     private zone: NgZone,
     private http: Http,
@@ -55,8 +52,6 @@ export class AddressPage {
    * 首次进入页面
    */
   ionViewDidLoad() {
-    // 设置个人信息
-    this.userInfo = this.userService.getUserInfo();
     if (this.keyboard != null) {
       this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
@@ -103,20 +98,10 @@ export class AddressPage {
   }
 
   /**
-   * 发起聊天插件
+   * 进入个人信息详情
    */
-  chatToUser(item: Object) {
-    let params: Object = {};
-    params['from_user_id'] = this.userInfo.userId;
-    params['from_username'] = this.userInfo.userName;
-    params['from_headportrait'] = this.userInfo.headImage;
-    params['to_user_id'] = item['userId'];
-    params['to_username'] = item['nickName'];
-    params['to_headportrait'] = item['headImage'];
-    params['chatType'] = 'singleChat';
-    (<any>window).huanxin.chat(params, (retData) => {
-
-    }, (retData) => { });
+  lookUserProfile(item: Object) {
+    this.navCtrl.push(UserProfilePage, item);
   }
 
   /**

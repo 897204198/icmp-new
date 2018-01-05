@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceService } from '../../../app/services/device.service';
 
 @Component({
   selector: 'page-addFriend',
@@ -18,10 +19,12 @@ export class AddFriendPage {
    */
   constructor(private toastService: ToastService,
     private translate: TranslateService,
+    private deviceService: DeviceService,
+    private zone: NgZone,
     private http: Http) {
-      this.translate.get(['ADD_SUCCESS']).subscribe((res: Object) => {
-        this.transateContent = res;
-      });
+    this.translate.get(['ADD_SUCCESS']).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
   }
 
   /**
@@ -31,22 +34,20 @@ export class AddFriendPage {
 
   }
 
-  onInput() {
-
-  }
-
-  onCancel() {
-
-  }
-
+  /**
+   * 搜索用户
+   */
   searchUser() {
-    this.http.get('/im/users', {params: {'searchText': this.searchInput}}).subscribe((res: Response) => {
+    this.http.get('/im/users', { params: { 'searchText': this.searchInput } }).subscribe((res: Response) => {
       this.userList = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
   }
 
+  /**
+   * 添加好友
+   */
   addFriend(user: Object) {
     let params: URLSearchParams = new URLSearchParams();
     params.append('userId', user['userId']);
@@ -57,4 +58,24 @@ export class AddFriendPage {
     });
   }
 
+  /**
+   * 后台没传头像 或 头像无法加载 时加载占位图头像
+   * 如果是手机则获取原生缓存的图片
+   * 如果是 web 版则显示默认占位图
+   */
+  setWordHeadImage(item: Object) {
+    // 避免在 web 上无法显示页面
+    if (this.deviceService.getDeviceInfo().deviceType) {
+      let params: Object = {};
+      let nickName: string = item['nickName'];
+      params['nickName'] = nickName.substring(0, 1);
+      (<any>window).huanxin.getWordHeadImage(params, (retData) => {
+        this.zone.run(() => {
+          item['headImage'] = retData;
+        });
+      });
+    } else {
+      item['headImage'] = './assets/images/user.jpg';
+    }
+  }
 }

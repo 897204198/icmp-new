@@ -81,6 +81,7 @@ import { ApplyPage } from '../pages/address/apply/apply';
 import { GroupPage } from '../pages/address/group/group';
 import { CreateGroupPage } from '../pages/address/group/createGroup';
 import { Keyboard } from '@ionic-native/keyboard';
+import { UserProfilePage } from '../pages/address/userProfile/userProfile';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -136,7 +137,8 @@ export function createTranslateLoader(http: Http) {
     AddFriendPage,
     ApplyPage,
     GroupPage,
-    CreateGroupPage
+    CreateGroupPage,
+    UserProfilePage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -197,7 +199,8 @@ export function createTranslateLoader(http: Http) {
     AddFriendPage,
     ApplyPage,
     GroupPage,
-    CreateGroupPage
+    CreateGroupPage,
+    UserProfilePage
   ],
   providers: [
     StatusBar,

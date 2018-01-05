@@ -24,6 +24,8 @@ handler.onGet = function (req, res, data) {
     common.jsonRes(req, res, '/suns');
   } else if (token == 'Bearer wangh') {
     common.jsonRes(req, res, '/wangh');
+  } else if (token == 'Bearer wanghp') {
+    common.jsonRes(req, res, '/wanghp');
   } else if (token == 'Bearer wangw') {
     common.jsonRes(req, res, '/wangw');
   } else if (token == 'Bearer wangy') {

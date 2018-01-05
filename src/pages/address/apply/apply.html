@@ -10,8 +10,8 @@
     <ion-item-sliding *ngFor="let user of applyList">
       <button ion-item>
         <ion-avatar item-left>
-            <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
-            <img *ngIf="user.headImage" [src]=user.headImage>
+          <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
+          <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
         </ion-avatar>
         <h2>{{user.nickName}}</h2>
         <button *ngIf="user.state == 1" mode="md" ion-button item-end (click)="agreeApply(user)">{{'AGREE' | translate}}</button>
@@ -20,8 +20,8 @@
         <button *ngIf="user.state == 3" mode="md" ion-button item-end color="light">{{'REFUSED' | translate}}</button>
       </button>
       <ion-item-options side="right">
-          <button ion-button color="danger" (click)="deleteApply(user)">{{'DELETE' | translate}}</button>
-        </ion-item-options>
+        <button ion-button color="danger" (click)="deleteApply(user)">{{'DELETE' | translate}}</button>
+      </ion-item-options>
     </ion-item-sliding>
   </ion-list>
 </ion-content>

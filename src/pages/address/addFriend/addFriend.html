@@ -2,10 +2,10 @@
   <ion-navbar>
     <ion-title>{{'ADD_FRIEND' | translate}}</ion-title>
     <ion-buttons end>
-        <button ion-button color="primary" clear (click)="searchUser()">
-          <span>{{'SEARCH' | translate}}</span>
-        </button>
-      </ion-buttons>
+      <button ion-button color="primary" clear (click)="searchUser()">
+        <span>{{'SEARCH' | translate}}</span>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -17,8 +17,8 @@
   <ion-list *ngIf="searchInput" class="icmp-list-top-margin">
     <button *ngFor="let user of userList" ion-item>
       <ion-avatar item-left>
-          <img *ngIf="!user.headImage" src="./assets/images/user.jpg">
-          <img *ngIf="user.headImage" [src]=user.headImage>
+        <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
+        <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.nickName}}</h2>
       <button ion-button item-end (click)="addFriend(user)">添加</button>
