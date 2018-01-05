@@ -217,7 +217,7 @@
       "initRow": true,
       "label": "请假时间",
       "event": "onchange",
-      "func": "(valueArr)=>{ let sum = 0; if(valueArr[0].leaveEnd != null && valueArr[0].leaveStart != null) {sum = (new Date(valueArr[0].leaveEnd).getTime() - new Date(valueArr[0].leaveStart).getTime()) / 3600000 / 24;} return {displayDays: sum, displayLeaveDays: '3天', leaveDays: 3, hasHeadDirector: '0'}}",
+      "func": "(valueArr)=>{ let sum = 0; if(valueArr[0].leaveEnd != null && valueArr[0].leaveStart != null) {sum = (new Date(valueArr[0].leaveEnd).getTime() - new Date(valueArr[0].leaveStart).getTime()) / 3600000 / 24;} return {displayDays: sum, displayLeaveDays: '3天', leaveDays: 3, hasHeadDirector: '1'}}",
       "components": [
         {
           "model": "leaveStart",

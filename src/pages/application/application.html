@@ -72,7 +72,7 @@
       <ng-container *ngIf="item.type == 'list'">
         <ion-item [ngClass]="{'display-hidden': item.status == 'hidden'}">
           <ion-label [innerHtml]="getSafeHtml(item.label)"></ion-label>
-          <button ion-button color="primary" small item-end (click)="addListRow(item)">
+          <button ion-button color="primary" small item-end (click)="addListRow(item, 'click')">
             {{'ADD' | translate}}
           </button>
         </ion-item>

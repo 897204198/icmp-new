@@ -1,0 +1,325 @@
+{
+  "shenpi_hide_comment": false,
+  "shenpi_comment_default": "意见默认内容",
+  "taskId": "317961",
+  "result": "0",
+  "shenpi_btn_text": "修改",
+  "processName": "DirectorLeaveProcess",
+  "approval": [
+    [
+      {
+        "control_name": [
+          "edittext_disabled111",
+          "nextid111",
+          "fkryGroup",
+          "xgryGroup",
+          "qtryGroup",
+          "searchbox1"
+        ],
+        "name": "同意",
+        "value": 111
+      },
+      {
+        "control_name": [
+          "edittext_disabled112",
+          "nextid112",
+          "select112"
+        ],
+        "name": "不同意",
+        "value": 112
+      },
+      {
+        "control_name": [
+        ],
+        "name": "修改",
+        "value": 113
+      }
+    ],
+    [
+      {
+        "control_type": "select",
+        "control_list": [
+          {
+            "id": "1",
+            "name": "会议"
+          },
+          {
+            "id": "2",
+            "name": "科研",
+            "controls": [
+              {
+                "type": "display",
+                "models": ["d_text"]
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "name": "教学"
+          },
+          {
+            "id": "4",
+            "name": "出国"
+          },
+          {
+            "id": "5",
+            "name": "其他"
+          },
+          {
+            "id": "70",
+            "name": "医疗"
+          }
+        ],
+        "validate": {
+          "required": true
+        },
+        "control_name": "fkryGroup",
+        "control_label": "反馈人员"
+      },
+      {
+        "control_type": "text",
+        "control_name": "d_text",
+        "control_label": "动态显示",
+        "validate": {
+          "required": true
+        }
+      },
+      {
+        "control_type": "select_more",
+        "control_list": [
+          {
+            "id": "1000010560",
+            "name": "郭启勇"
+          },
+          {
+            "id": "1000011363",
+            "name": "孙思予"
+          }
+        ],
+        "control_name": "xgryGroup",
+        "control_label": "相关人员"
+      },
+      {
+        "control_type": "select_more",
+        "control_list": [
+          {
+            "id": "1000050768",
+            "name": "郭佳凯"
+          }
+        ],
+        "control_name": "qtryGroup",
+        "control_label": "其他人员",
+        "control_default": "1000050763"
+      },
+      {
+        "control_type": "hidden",
+        "control_name": "nextid111",
+        "value": "73"
+      },
+      {
+        "control_type": "text",
+        "control_disabled": true,
+        "control_name": "edittext_disabled111",
+        "control_default": "反馈主管领导及职能科室",
+        "control_label": "下一步"
+      },
+      {
+        "control_type": "select_more",
+        "control_list": [
+          {
+            "id": "1000800089",
+            "name": "王晟"
+          }
+        ],
+        "control_name": "select112",
+        "control_label": "办理人",
+        "control_default": [
+          "1000800089"
+        ]
+      },
+      {
+        "control_type": "hidden",
+        "control_name": "nextid112",
+        "value": "75"
+      },
+      {
+        "control_type": "text",
+        "control_name": "edittext_disabled112",
+        "control_default": "申请人签收",
+        "control_label": "下一步"
+      },
+      {
+        "control_type": "select_searchbox",
+        "control_name": "searchbox1",
+        "control_default": "1",
+        "control_default_name": "啊啊啊",
+        "search_url": "/demo/selectSearchboxQuery",
+        "control_label": "选择器",
+        "validate": {
+          "required": true
+        }
+      }
+    ]
+  ],
+  "opinion": [
+    {
+      "opn4": "2017-01-24 16:12",
+      "opn3": "孙思予",
+      "opn2": "知晓",
+      "opn1": "负责人(临时)审核"
+    },
+    {
+      "opn4": "2017-01-24 16:12",
+      "opn3": "孙思予",
+      "opn2": "同意&nbsp;&nbsp;啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
+      "opn1": "主管领导审批"
+    }
+  ],
+  "shenpi_hide_approval": false,
+  "systemId": "47",
+  "shenpi_type": "shenqingpage",
+  "form_title": "中日消化内镜临床诊疗与病理联合培训项目第4期进修",
+  "forms": [
+    {
+      "layout": "layout_1",
+      "value": "王晟 消化内镜治疗病房-普通员工",
+      "label": "申请人",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "2017-02-22~2017-03-23",
+      "label": "休假日期",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "国外 日本静冈县立癌中心",
+      "label": "出点地点",
+      "type": "text"
+    },
+    {
+      "layout": "layout_2",
+      "value": "为了促进日中两国医学、口腔学、药学、护理学等领域的学术交流，1985年经日本厚生省的许可日中医学协会正式成立。此后的约30年间，该协会一直致力于两国间的各种学术交流活动的开展。此次为了就中日消化内镜临床诊疗与病理联合培训项目第4期进修特邀请王晟访日。",
+      "label": "任务简述",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "公出",
+      "label": "假种",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "对方付费",
+      "label": "经费来源",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "飞机",
+      "label": "出行方式",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "孙思予 内镜诊治中心-主任,院长办公室-副院长,消化内镜治疗病房-负责人",
+      "label": "负责人(临时)",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "17-01-09 13:58:41",
+      "label": "申请时间",
+      "type": "text"
+    },
+    {
+      "values": [
+        {
+          "id": "aa.txt",
+          "name": "文本文件.txt"
+        },
+        {
+          "id": "aa.docx",
+          "name": "word文档.docx"
+        }
+      ],
+      "layout": "layout_2",
+      "label": "附件",
+      "type": "filelist"
+    },
+    {
+      "layout": "layout_2",
+      "type": "tablelist",
+      "label": "表格控件",
+      "headers": [
+        {
+          "text": "名称"
+        },
+        {
+          "text": "预算金额（元）"
+        },
+        {
+          "text": "申报人"
+        },
+        {
+          "text": "申报日期"
+        },
+        {
+          "text": "附件"
+        }
+      ],
+      "values": [
+        [
+          "8月14去往大连学习住宿交通餐饮费用",
+          "3001",
+          "刘杰",
+          "2017-11-12",
+          {
+            "values": [
+              {
+                "id": "1",
+                "name": "交接班会议记录.doc"
+              },
+              {
+                "id": "2",
+                "name": "bbb.txt"
+              }
+            ],
+            "type": "filelist"
+          }
+        ],
+        [
+          "8月14去往大连学习住宿交通餐饮费用",
+          "3002",
+          "刘杰",
+          "2017-11-12",
+          {
+            "values": [],
+            "type": "filelist"
+          }
+        ],
+        [
+          "8月14去往大连学习住宿交通餐饮费用",
+          "3003",
+          "刘杰",
+          "2017-11-12",
+          {
+            "values": [
+              {
+                "id": "1",
+                "name": "交接班会议记录.doc"
+              },
+              {
+                "id": "2",
+                "name": "bbb.txt"
+              }
+            ],
+            "type": "filelist"
+          }
+        ]
+      ]
+    }
+  ]
+}
