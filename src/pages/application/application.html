@@ -84,13 +84,13 @@
                 <ion-input *ngIf="itemList.type == 'text'" type="text" [(ngModel)]="input[item['model']][iList][itemList.model]" class="form-text"></ion-input>
                 <ion-select *ngIf="itemList.type == 'select'" [(ngModel)]="input[item['model']][iList][itemList.model]" [selectOptions]="getListSelectOptions(itemList)"
                             placeholder="{{'PLEASE_SELECT' | translate}}" multiple="{{itemList.category == 'multi'}}"
-                            cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+                            cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}" (ngModelChange)="calculateFunc(item, input[item['model']])">
                   <ion-option *ngFor="let option of itemList.data" [value]="option.id">{{option.name}}</ion-option>
                 </ion-select>
                 <ion-datetime *ngIf="itemList.type == 'date'" placeholder="{{'PLEASE_SELECT_DATE' | translate}}"
                               (ionCancel)="clearDatetime(item, iList, itemList)" max="2100" (touchstart)="setDatetime(item, iList, itemList)"
                               displayFormat="{{itemList.format}}" [(ngModel)]="input[item['model']][iList][itemList.model]"
-                              cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}">
+                              cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}" (ngModelChange)="calculateFunc(item, input[item['model']])">
                 </ion-datetime>
                 <ion-input *ngIf="itemList.type == 'searchbox'" type="text" class="form-text" [(ngModel)]="input[item['model']][iList][itemList.model + 'Name']" 
                            placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="searchboxSelect(item, iList, itemList)" disabled="true"></ion-input>

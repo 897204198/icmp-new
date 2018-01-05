@@ -122,6 +122,28 @@ export class ApplicationPage {
     });
   }
 
+  calculateFunc(item: any, valueArr: any) {
+    if (item.event != null && item.event === 'onchange' && item.func != null) {
+      let dateFunc = eval(item.func);
+      let result = dateFunc(valueArr);
+      for (let i = 0; i < this.template.length ; i++) {
+        for (let key in result) {
+          if (result.hasOwnProperty(key)) {
+            if (this.template[i]['elementId'] === key) {
+              this.input[this.template[i]['model']] = result[key];
+              this.template[i]['default'] = result[key];
+              if (result[key] === '1') {
+                this.setInputStatus(this.template[i]['model'], 'display');
+              } else if (result[key] === '0'){
+                this.setInputStatus(this.template[i]['model'], 'hidden');
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   /**
    * 设置必填项标签
    */
