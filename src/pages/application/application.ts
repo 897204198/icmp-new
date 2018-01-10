@@ -542,30 +542,81 @@ export class ApplicationPage {
   /**
    * 嵌套表格添加行
    */
-  addListRow(item: Object): void {
-    let listItem = {};
-    for (let j = 0; j < item['components'].length; j++) {
-      let component = item['components'][j];
-      if (component['type'] === 'searchbox') {
-        listItem[component['model']] = component['defaultId'];
-        listItem[component['model'] + 'Name'] = component['defaultName'];
-      } else {
-        listItem[component['model']] = component['default'];
+  addListRow(item: Object, flag?: string): void {
+    if (flag === 'click') {
+      let hash = {};
+      item['components'] = item['components'].reduce((ite, next) => {
+        if (hash[next.model]) {
+          hash[next.model] = '';
+        }else {
+          hash[next.model] = true && ite.push(next);
+        }
+        return ite;
+      }, []);
+      let listItem = {};
+      for (let j = 0; j < item['components'].length ; j++) {
+        let component = item['components'][j];
+        if (component['type'] === 'searchbox' || component['type'] === 'select') {
+          listItem[component['model']] = null;
+          listItem[component['model'] + 'Name'] = null;
+        } else {
+          listItem[component['model']] = null;
+        }
       }
-    }
-    if (this.input[item['model']] == null) {
-      this.input[item['model']] = [];
-    }
-    this.input[item['model']].push(listItem);
+      if (this.input[item['model']] == null) {
+        this.input[item['model']] = [];
+      }
+      this.input[item['model']].push(listItem);
 
-    let itemComponents = [];
-    for (let j = 0; j < item['components'].length; j++) {
-      itemComponents.push({ ...item['components'][j] });
+      let itemComponents = [];
+      for (let j = 0; j < item['components'].length ; j++) {
+        itemComponents.push({ ...item['components'][j] });
+      }
+      if (this.inputTemp[item['model'] + 'Components'] == null) {
+        this.inputTemp[item['model'] + 'Components'] = [];
+      }
+      this.inputTemp[item['model'] + 'Components'].push(itemComponents);
+    } else {
+      let tempArray = [];
+      let index = [];
+      let listItemArray = [];
+      for (let i = 0; i < item['components'].length ; i++) {
+        if (item['components'][0]['model'] === item['components'][i]['model']){
+          index.push(i);
+        }
+      }
+      index.push(-1);
+      for (let j = 0; j < index.length - 1; j++) {
+        if (index[j + 1] === -1) {
+          tempArray.push(item['components'].slice(index[j]));
+        }else {
+          tempArray.push(item['components'].slice(index[j], index[j + 1]));
+        }
+      }
+      for (let i = 0; i < tempArray.length ; i++) {
+        let listItem = new Object();
+        for (let j = 0; j < tempArray[i].length ; j++) {
+          let component = tempArray[i][j];
+          if (component['type'] === 'searchbox' || component['type'] === 'select') {
+            listItem[component['model']] = component['defaultId'];
+            listItem[component['model'] + 'Name'] = component['defaultName'];
+          } else {
+            listItem[component['model']] = component['default'];
+          }
+        }
+        listItemArray.push(listItem);
+      }
+      if (this.input[item['model']] == null) {
+        this.input[item['model']] = [];
+      }
+      for (let i = 0; i < listItemArray.length; i++) {
+        this.input[item['model']].push(listItemArray[i]);
+      }
+      if (this.inputTemp[item['model'] + 'Components'] == null) {
+        this.inputTemp[item['model'] + 'Components'] = [];
+      }
+      this.inputTemp[item['model'] + 'Components'] = tempArray;
     }
-    if (this.inputTemp[item['model'] + 'Components'] == null) {
-      this.inputTemp[item['model'] + 'Components'] = [];
-    }
-    this.inputTemp[item['model'] + 'Components'].push(itemComponents);
   }
 
   /**

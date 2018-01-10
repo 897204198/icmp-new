@@ -5,6 +5,7 @@ import { ToastService } from '../../../app/services/toast.service';
 import { FileService } from '../../../app/services/file.service';
 import { TodoOpinionPage } from '../todoOpinion/todoOpinion';
 import { TranslateService } from '@ngx-translate/core';
+import { ApplicationPage } from '../../application/application';
 
 /**
  * 待办详情页面
@@ -126,6 +127,14 @@ export class TodoDetailPage {
         step: this.navParams.get('stepCode')
       };
       this.navCtrl.push(TodoOpinionPage, params);
+    } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
+      let params: Object = {
+        systemId: this.todoDetail['systemId'],
+        processName: this.navParams.get('processName'),
+        taskId: this.navParams.get('taskId'),
+        step: this.navParams.get('step')
+      };
+      this.navCtrl.push(ApplicationPage, params);
     }
   }
 
