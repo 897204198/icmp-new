@@ -16,7 +16,7 @@
     "server": {
       "baseUrl": "https://cloud.propersoft.cn/icmp/app-im/api/",
       "pushAppId": "MobileOA",
-      "pushServer": "http://202.199.100.174:29091/pep-push",
+      "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517676541",
         "theAppkey": "5411767628541"
@@ -45,7 +45,7 @@
     "server": {
       "baseUrl": "http://218.25.115.50:80/mobile-platform",
       "pushAppId": "MobileOA",
-      "pushServer": "http://202.199.100.174:29091/pep-push",
+      "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517583764",
         "theAppkey": "5691758319764"
@@ -74,7 +74,7 @@
     "server": {
       "baseUrl": "http://202.199.100.174:29091/mobile-platform",
       "pushAppId": "MobileOA",
-      "pushServer": "http://202.199.100.174:29091/pep-push",
+      "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517583764",
         "theAppkey": "5691758319764"
@@ -132,7 +132,7 @@
     "server": {
       "baseUrl": "http://202.199.100.174:29091/mobile-platform",
       "pushAppId": "MobileOA",
-      "pushServer": "http://202.199.100.174:29091/pep-push",
+      "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517583764",
         "theAppkey": "5691758319764"
@@ -161,7 +161,7 @@
     "server": {
       "baseUrl": "http://123.150.83.199:9999/mobile-platform",
       "pushAppId": "BCOA",
-      "pushServer": "http://202.199.100.174:29091/pep-push",
+      "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517675844",
         "theAppkey": "5121767537844"
