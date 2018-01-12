@@ -146,17 +146,17 @@
       "ios": "com.proper.icmp.bc"
     },
     "version": {
-      "android": "10001",
-      "ios": "10001"
+      "android": "10000",
+      "ios": "10000"
     },
     "appVersion": {
-      "android": "10001",
-      "ios": "10001"
+      "android": "10000",
+      "ios": "10000"
     },
     "name": "掌上办公",
     "updateUrl": {
-      "android": "http://123.150.83.199:9999/mobile-platform",
-      "ios": "http://123.150.83.199:9999/mobile-platform"
+      "android": "https://fenfa.beichenyiyuan.cn/app/",
+      "ios": "https://fenfa.beichenyiyuan.cn/app/"
     },
     "server": {
       "baseUrl": "http://123.150.83.199:9999/mobile-platform",
