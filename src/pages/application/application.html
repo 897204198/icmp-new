@@ -12,6 +12,10 @@
   <div class="form-title" [innerHtml]="getSafeHtml(title)"></div>
   <ion-list class="application-form icmp-list-bottom-none">
     <div *ngFor="let item of template">
+      <!-- 显示用的大标题 -->
+      <p *ngIf="item.type == 'title'" class="application-template-title" [ngClass]="{'display-hidden': item.status == 'hidden'}">
+        {{item.default}}
+      </p>
       <!-- 标签 -->
       <ion-item *ngIf="item.type == 'label'" [ngClass]="{'display-hidden': item.status == 'hidden'}">
         <ion-label fixed [innerHtml]="getSafeHtml(item.label)"></ion-label>
