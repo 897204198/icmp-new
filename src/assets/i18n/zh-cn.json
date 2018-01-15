@@ -154,5 +154,6 @@
   "REFUSED": "已拒绝",
   "DELETED": "已删除",
   "CREATE_SUCCESS": "创建成功",
-  "SEND_MESSAGE": "发消息"
+  "SEND_MESSAGE": "发消息",
+  "CONTROL": "操作"
 }
