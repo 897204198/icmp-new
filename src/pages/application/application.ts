@@ -627,6 +627,7 @@ export class ApplicationPage {
   deleteListRow(item: Object, iList: number): void {
     this.input[item['model']].splice(iList, 1);
     this.inputTemp[item['model'] + 'Components'].splice(iList, 1);
+    this.calculateFunc(item, this.input);
   }
 
   /**
