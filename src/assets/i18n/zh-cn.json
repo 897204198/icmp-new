@@ -138,5 +138,6 @@
   "NO_JURISDICTION": "没有权限，请在设置中开启",
   "FAIL_PHOTO": "获取图片失败",
   "MAX_PHOTO": "图片不能大于九张",
-  "ADD": "添加"
+  "ADD": "添加",
+  "CONTROL": "操作"
 }
