@@ -5,6 +5,11 @@
     padding: 12px 22px;
   }
 
+  .application-template-title {
+    text-align: center;
+    font-size: 18px;
+  }
+
   .application-form .item {
     &.item-textarea .input-wrapper {
       flex-direction: column;
