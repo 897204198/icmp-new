@@ -136,8 +136,8 @@ export class TodoOpinionPage {
     } else {
       this.opinionOtherList = [];
     }
-    if (approval[2] != null && approval[2].length > 0) {
-      this.opinionHelpList = approval[2];
+    if (approvals[2] != null && approvals[2].length > 0) {
+      this.opinionHelpList = approvals[2];
       for (let i = 0; i < this.opinionHelpList.length; i++) {
         if (this.opinionHelpList[i]['control_name'] != null) {
           this.controls[this.opinionHelpList[i]['value']] = this.opinionHelpList[i]['control_name'];
@@ -162,17 +162,17 @@ export class TodoOpinionPage {
           this.opinionHelpList.splice(i, 1);
         }
       }
-      if (approval[2][0]['defalut_value'] != null) {
-        this.approvalInput['opinion'] = approval[2][0]['defalut_value'];
-        this.opinionDefaultValue = approval[2][0]['defalut_value'];
+      if (approvals[2][0]['defalut_value'] != null) {
+        this.approvalInput['opinions'] = approvals[2][0]['defalut_value'];
+        this.opinionDefaultValue = approvals[2][0]['defalut_value'];
       }
       this.addListShow = false;
       this.addBtnShow = false;
     } else {
       this.opinionHelpList = [];
     }
-    if (approval[3] != null && approval[3].length > 0) {
-      this.opinionHelpOtherList = approval[3];
+    if (approvals[3] != null && approvals[3].length > 0) {
+      this.opinionHelpOtherList = approvals[3];
       this.approvalInputTemps['joinOpinions'] = [];
       this.approvalInputTemps['joinOpinions'][0] = {};
       this.approvalInputTemps['selectGroup'] = [];
@@ -387,7 +387,7 @@ export class TodoOpinionPage {
    * 是否转交他人办理意见改变
    */
   opinionModelChange(item: any): void {
-    this.approvalInput = {'opinion': item};
+    this.approvalInput = {'opinions': item};
     for (let i = 0; i < this.opinionHelpList.length; i++) {
       if (this.opinionHelpList[i]['value'] === parseInt(item, 10)) {
         for (let j = 0; j < this.opinionHelpList[i]['control_name'].length; j++) {

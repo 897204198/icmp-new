@@ -39,7 +39,7 @@
       </ion-item>
     </div>
   </ion-list>
-  <ion-list *ngIf="opinionList !=null && opinionList.length > 0" radio-group [(ngModel)]="approvalInput.opinion" (ionChange)="opinionChange()">
+  <ion-list *ngIf="opinionList !=null && opinionList.length > 0" radio-group [(ngModel)]="approvalInput.opinions" (ionChange)="opinionChange()">
     <ion-item *ngFor="let opinion of opinionList">
       <ion-label>{{opinion.name}}</ion-label>
       <ion-radio value="{{opinion.value}}"></ion-radio>
@@ -48,7 +48,7 @@
       <ion-textarea rows="4" *ngIf="!hideComment" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="approvalInput.comments"></ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="opinionHelpList != null && opinionHelpList.length > 0" radio-group [(ngModel)]="approvalInput.opinion" (ngModelChange)="opinionModelChange(approvalInput.opinion)" [ngStyle]="{'margin': '0'}">
+  <ion-list *ngIf="opinionHelpList != null && opinionHelpList.length > 0" radio-group [(ngModel)]="approvalInput.opinions" (ngModelChange)="opinionModelChange(approvalInput.opinion)" [ngStyle]="{'margin': '0'}">
     <ion-item *ngFor="let opinion of opinionHelpList" [ngClass]="{'help-list-title': opinion.type === 'title'}">
       <ion-label *ngIf="opinion.type === 'text'">{{opinion.approval_title}}</ion-label>
       <ion-label *ngIf="opinion.type === 'title'">{{opinion.approval_title}}</ion-label>
