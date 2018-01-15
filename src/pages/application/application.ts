@@ -122,10 +122,10 @@ export class ApplicationPage {
     });
   }
 
-  calculateFunc(item: any, valueArr: any) {
+  calculateFunc(item: any, value: any) {
     if (item.event != null && item.event === 'onchange' && item.func != null) {
       let dateFunc = eval(item.func);
-      let result = dateFunc(valueArr);
+      let result = dateFunc(value);
       for (let i = 0; i < this.template.length ; i++) {
         for (let key in result) {
           if (result.hasOwnProperty(key)) {
