@@ -55,7 +55,7 @@ export class HomePage {
     });
     // 轮播图高度
     let width = document.body.clientWidth;
-    this.bannerlHeight = 3 * width / 5 + 'px';
+    this.bannerlHeight = width / 2 + 'px';
   }
 
   /**
