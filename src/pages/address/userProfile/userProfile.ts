@@ -34,7 +34,7 @@ export class UserProfilePage {
   ionViewDidLoad(): void {
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
-    let searchUserId: string = this.navParams.get('userId');
+    let searchUserId: string = this.navParams.get('toUserId');
     this.getUserInfoFromNet(searchUserId);
   }
 
@@ -45,9 +45,9 @@ export class UserProfilePage {
     let params = {
       userId: userId
     };
-    this.http.get('/im/users/baseInfo', { params: params }).subscribe((res: Response) => {
+    this.http.get('/user/base-info', { params: params }).subscribe((res: Response) => {
       let data: Object = res.json();
-      if (data['sex'] === '1' || data['sex'] === 1) {
+      if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
         data['sexName'] = '男';
       } else {
         data['sexName'] = '女';
@@ -68,7 +68,7 @@ export class UserProfilePage {
     params['from_headportrait'] = this.fromUserInfo.headImage;
     params['to_user_id'] = this.toUserInfo['userId'];
     params['to_username'] = this.toUserInfo['nickName'];
-    params['to_headportrait'] = this.toUserInfo['headImage'];
+    params['to_headportrait'] = this.toUserInfo['headImageContent'];
     params['chatType'] = 'singleChat';
     (<any>window).huanxin.chat(params);
   }

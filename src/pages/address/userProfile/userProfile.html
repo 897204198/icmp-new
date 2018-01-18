@@ -6,13 +6,13 @@
 </ion-header>
 <ion-content class="content-gray">
   <div class="user-head-image-div">
-    <img *ngIf="!toUserInfo.headImage" [src]="setWordHeadImage()">
-    <img *ngIf="toUserInfo.headImage" [src]=toUserInfo.headImage (error)="setWordHeadImage()">
+    <img *ngIf="!toUserInfo.headImageContent" [src]="setWordHeadImage()">
+    <img *ngIf="toUserInfo.headImageContent" [src]=toUserInfo.headImageContent (error)="setWordHeadImage()">
   </div>
   <ion-list>
     <ion-item>
       {{'NAME' | translate}}
-      <p item-right>{{toUserInfo?.nickName}}</p>
+      <p item-right>{{toUserInfo?.name}}</p>
     </ion-item>
     <ion-item ion-item>
       {{'PHONE' | translate}}
@@ -24,7 +24,7 @@
     </ion-item>
     <ion-item>
       {{'ACCOUNT' | translate}}
-      <p item-right>{{toUserInfo?.userId}}</p>
+      <p item-right>{{toUserInfo?.account}}</p>
     </ion-item>
     <ion-item>
       {{'SEX' | translate}}

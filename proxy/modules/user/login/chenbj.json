@@ -1,0 +1,12 @@
+{
+  "id": "chenbj",
+  "name": "陈冰洁",
+  "account": "chenbj", 
+  "jobNumber": "1000002230",
+  "phone": "13800000000",
+  "email": "test@propersoft.cn",
+  "outter": "院外",
+  "sex": {"code": "0"},
+  "status": {"code": "0"},
+  "headImageContent": "http://chuantu.biz/t6/140/1510710362x3066599700.png"
+}

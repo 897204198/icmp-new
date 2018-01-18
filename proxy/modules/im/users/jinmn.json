@@ -2,8 +2,8 @@
   {
     "userId": "jinmn",
     "nickName": "金孟楠", 
-    "headImage": "http://chuantu.biz/t6/140/1510710290x3066599700.png",                            
+    "headImageContent": "http://chuantu.biz/t6/140/1510710290x3066599700.png",                            
     "remark": "金孟楠", 
-    "state": 1
+    "status": {"code":"1"}
   }
 ]

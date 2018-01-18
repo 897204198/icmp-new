@@ -8,3 +8,6 @@ handler.onPost = function(req, res, data) {
   res.end('');
 };
 
+handler.onGet = function (req, res, data) {
+  common.jsonRes(req, res, '/all');
+};

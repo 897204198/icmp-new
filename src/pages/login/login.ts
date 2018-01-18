@@ -93,7 +93,7 @@ export class LoginPage {
   /**
    * 登录请求
    */
-  loginNetService(loginName: string, password: string): void {
+  loginNetService(account: string, password: string): void {
 
     // 加密密码
     let md5password: string = password;
@@ -103,18 +103,32 @@ export class LoginPage {
 
     // 请求参数
     let params: Object = {
-      'loginName': loginName,
+      'account': account,
       'password': md5password
     };
     this.http.post('/user/login', params).subscribe((res: Response) => {
-      if (res.json()['errMsg'] != null && res.json()['token'] == null) {
+      if (res.json()['errMsg'] != null) {
         this.toastService.show(res.json()['errMsg']);
-      }else if (res.json()['token'] != null){
-        localStorage.token = res.json()['token'];
-        this.http.get('/user').subscribe((data: Response) => {
-          let userData = data.json();
+      }else{
+        let userData = res.json();
+        this.http.post('/user/bind', {userId: userData['id']}).subscribe((data) => {
+          localStorage.token = data['_body'];
+          let status: string = '';
+          if (userData['status'] != null && userData['status'] !== '') {
+            status = userData['status']['code'];
+          }
+          let sex: string = '';
+          let sexCode: string = '';
+          if (userData['sex'] != null && userData['sex'] !== '') {
+            if (userData['sex']['code'] === '0' || userData['sex']['code'] === 0) {
+              sex = '男';
+            } else {
+              sex = '女';
+            }
+            sexCode = userData['sex']['code'];
+          }
           let newUserInfo: UserInfoState = {
-            loginName: loginName,
+            loginName: account,
             password: md5password,
             password0: password,
             savePassword: this.userInfo.savePassword,
@@ -125,17 +139,18 @@ export class LoginPage {
             phone: userData['phone'],
             email: userData['email'],
             outter: userData['outter'],
-            sexCode: userData['sexCode'],
-            sex: userData['sex']
+            sexCode: sexCode,
+            sex: sex,
+            status: status
           };
           this.userService.saveUserInfo(newUserInfo);
           this.userService.login();
-          this.pushService.bindUserid(userData['id'], loginName);
+          this.pushService.bindUserid(userData['id'], account);
 
           // 避免在 web 上无法显示页面
           if (this.deviceService.getDeviceInfo().deviceType) {
             let imparams = {
-              'username': loginName,
+              'username': account,
               'password': password,
               'from_user_id': newUserInfo.userId,
               'from_username': newUserInfo.userName,

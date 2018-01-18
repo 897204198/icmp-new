@@ -2,8 +2,8 @@
   {
     "userId": "liucy",
     "nickName": "刘成尧", 
-    "headImage": "http://chuantu.biz/t6/151/1511167060x-1404781226.png",                            
+    "headImageContent": "http://chuantu.biz/t6/151/1511167060x-1404781226.png",                            
     "remark": "刘成尧", 
-    "state": 1
+    "status": {"code":"1"}
   }
 ]

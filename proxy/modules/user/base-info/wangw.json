@@ -1,0 +1,11 @@
+{
+  "id": "wangw",
+  "name": "王维", 
+  "jobNumber": "1000002230",
+  "phone": "13800000000",
+  "email": "test@propersoft.cn",
+  "sex": {"code": "0"},
+  "status": {"code": "0"},
+  "account": "wangw",
+  "headImageContent": "http://chuantu.biz/t6/140/1510710309x3066599700.png"
+}

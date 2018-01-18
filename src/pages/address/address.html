@@ -34,7 +34,7 @@
         <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
         <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
       </ion-avatar>
-      <h2>{{user.nickName}}</h2>
+      <h2>{{user.remark}}</h2>
     </button>
   </ion-list>
 

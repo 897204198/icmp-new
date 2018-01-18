@@ -69,7 +69,7 @@ export class AddressPage {
    * 获取用户通讯录
    */
   fetchContactInfos() {
-    this.http.get('/im/contacts').subscribe((res: Response) => {
+    this.http.get('/im/contact/contacts', {params: { 'type': '0' }}).subscribe((res: Response) => {
       this.contactInfos = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());

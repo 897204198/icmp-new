@@ -10,17 +10,16 @@
 </ion-header>
 
 <ion-content class="content-gray">
-  <ion-searchbar placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)"
-    (ionCancel)="onCancel($event)">
+  <ion-searchbar placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput">
   </ion-searchbar>
 
   <ion-list *ngIf="searchInput" class="icmp-list-top-margin">
     <button *ngFor="let user of userList" ion-item>
       <ion-avatar item-left>
-        <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
-        <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
+        <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
+        <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
       </ion-avatar>
-      <h2>{{user.nickName}}</h2>
+      <h2>{{user.name}}</h2>
       <button ion-button item-end (click)="addFriend(user)">添加</button>
     </button>
   </ion-list>

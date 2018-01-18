@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { ConfigsService } from '../services/configs.service';
 import { DeviceInfoState, DeviceService } from '../services/device.service';
-import { UserService, UserInfoState } from '../services/user.service';
+import { UserService } from '../services/user.service';
 import { Store } from '@ngrx/store';
 import { RequestIncrementAction, RequestDecrementAction } from '../redux/actions/request.action';
 
@@ -66,13 +66,13 @@ export class HttpInterceptor extends Http {
       body['_proper_ver_name'] = deviceInfo.versionNumber;
     }
     // 参数内加入用户信息
-    if (!body['loginName']) {
-      let userInfo: UserInfoState = this.userService.getUserInfo();
-      if (userInfo != null) {
-        body['loginName'] = userInfo.loginName;
-        body['password'] = userInfo.password;
-      }
-    }
+    // if (!body['loginName']) {
+    //   let userInfo: UserInfoState = this.userService.getUserInfo();
+    //   if (userInfo != null) {
+    //     body['loginName'] = userInfo.loginName;
+    //     body['password'] = userInfo.password;
+    //   }
+    // }
     return this.intercept(super.post(url, body, this.getRequestOptionArgs('post', options)), true);
   }
 
@@ -101,7 +101,7 @@ export class HttpInterceptor extends Http {
       options.headers = new Headers();
     }
     if (localStorage['token']) {
-      options.headers.append('X-PEP-TOKEN', 'Bearer ' + localStorage['token']);
+      options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
     }
     return options;
   }

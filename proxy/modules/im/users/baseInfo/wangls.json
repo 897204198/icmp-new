@@ -1,10 +1,10 @@
 {
   "userId": "wangls",
   "nickName": "王丽莎",
-  "headImage": "http://chuantu.biz/t6/151/1511167060x-1404781226.png",
+  "headImageContent": "http://chuantu.biz/t6/151/1511167060x-1404781226.png",
   "remark": "王丽莎",
-  "state": 1,
+  "status": {"code": "1"},
   "email": "aaa@qq.com",
   "phone": "18600000000",
-  "sex": "0"
+  "sex": {"code": "0"}
 }

@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GeneralPage } from './general/general';
@@ -43,6 +44,7 @@ export class SettingPage {
    */
   constructor(private navCtrl: NavController,
               private pushService: PushService,
+              private http: Http,
               private userService: UserService,
               private deviceService: DeviceService,
               private translate: TranslateService,
@@ -88,6 +90,7 @@ export class SettingPage {
     this.pushService.unBindUserid();
     // 取消自动登录
     this.userService.logout();
+    this.http.post('/user/logoff', {}).subscribe(() => {}, () => {});
     // 退出
     this.navCtrl.push(LoginPage);
     (<any>window).huanxin.imlogout('', (retData) => {

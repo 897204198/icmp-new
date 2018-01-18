@@ -13,8 +13,9 @@ export interface UserInfoState {
   email: string;
   outter: string;
   sexCode: string;
-  sex: string;
+  sex?: string;
   savePassword: boolean;
+  status: string;
 }
 
 export let initUserInfo: UserInfoState = {
@@ -30,7 +31,8 @@ export let initUserInfo: UserInfoState = {
   outter: '',
   sexCode: '',
   sex: '',
-  savePassword: true
+  savePassword: true,
+  status: ''
 };
 
 /**

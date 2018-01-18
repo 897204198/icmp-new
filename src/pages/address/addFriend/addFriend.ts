@@ -8,8 +8,7 @@ import { DeviceService } from '../../../app/services/device.service';
   selector: 'page-addFriend',
   templateUrl: 'addFriend.html',
 })
-export class AddFriendPage {
-
+export class AddFriendPage  {
   private searchInput: string;
   private userList: Array<Object> = [];
   // 国际化文字
@@ -38,20 +37,25 @@ export class AddFriendPage {
    * 搜索用户
    */
   searchUser() {
-    this.http.get('/im/users', { params: { 'searchText': this.searchInput } }).subscribe((res: Response) => {
-      this.userList = res.json();
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
+    if (this.searchInput && this.searchInput.trim()){
+      this.http.get('/im/contact/users', { params: { 'searchText': this.searchInput } }).subscribe((res: Response) => {
+        this.userList = res.json();
+      }, (res: Response) => {
+        this.toastService.show(res.text());
+      });
+
+    }
   }
 
   /**
    * 添加好友
    */
   addFriend(user: Object) {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('userId', user['userId']);
-    this.http.post('/im/contacts', params).subscribe((res: Response) => {
+    let params = {
+      'toUserId': user['id'],
+      'type': '0'
+    };
+    this.http.post('/im/contact/send', params).subscribe((res: Response) => {
       this.toastService.show(this.transateContent['ADD_SUCCESS']);
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -71,11 +75,11 @@ export class AddFriendPage {
       params['nickName'] = nickName.substring(0, 1);
       (<any>window).huanxin.getWordHeadImage(params, (retData) => {
         this.zone.run(() => {
-          item['headImage'] = retData;
+          item['headImageContent'] = retData;
         });
       });
     } else {
-      item['headImage'] = './assets/images/user.jpg';
+      item['headImageContent'] = './assets/images/user.jpg';
     }
   }
 }
