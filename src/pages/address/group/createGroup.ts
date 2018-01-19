@@ -28,12 +28,8 @@ export class CreateGroupPage {
   }
 
   /**
-   * 首次进入页面
+   * 新建群组
    */
-  ionViewDidLoad(): void {
-
-  }
-
   createGroup() {
     if (this.groupName.length === 0) {
       this.toastService.show(this.transateContent['REQUIRE_NOT']);

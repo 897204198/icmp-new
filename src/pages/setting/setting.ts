@@ -43,12 +43,12 @@ export class SettingPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-              private pushService: PushService,
-              private http: Http,
-              private userService: UserService,
-              private deviceService: DeviceService,
-              private translate: TranslateService,
-              private appVersionUpdateService: AppVersionUpdateService) {
+    private pushService: PushService,
+    private http: Http,
+    private userService: UserService,
+    private deviceService: DeviceService,
+    private translate: TranslateService,
+    private appVersionUpdateService: AppVersionUpdateService) {
     this.userInfoPage = UserInfoPage;
     this.newsNoticePage = NewsNoticePage;
     this.safeAndPrivacyPage = SafeAndPrivacyPage;
@@ -90,11 +90,9 @@ export class SettingPage {
     this.pushService.unBindUserid();
     // 取消自动登录
     this.userService.logout();
-    this.http.post('/user/logoff', {}).subscribe(() => {}, () => {});
+    this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
     // 退出
     this.navCtrl.push(LoginPage);
-    (<any>window).huanxin.imlogout('', (retData) => {
-
-    }, (retData) => { });
+    (<any>window).huanxin.imlogout();
   }
 }

@@ -66,9 +66,9 @@ export class UserProfilePage {
     params['from_user_id'] = this.fromUserInfo.userId;
     params['from_username'] = this.fromUserInfo.userName;
     params['from_headportrait'] = this.fromUserInfo.headImage;
-    params['to_user_id'] = this.toUserInfo['userId'];
-    params['to_username'] = this.toUserInfo['nickName'];
-    params['to_headportrait'] = this.toUserInfo['headImageContent'];
+    params['to_user_id'] = this.navParams.get('toUserId');
+    params['to_username'] = this.navParams.get('remark');
+    params['to_headportrait'] = this.navParams.get('headImage');
     params['chatType'] = 'singleChat';
     (<any>window).huanxin.chat(params);
   }
@@ -86,11 +86,11 @@ export class UserProfilePage {
       params['nickName'] = nickName.substring(0, 1);
       (<any>window).huanxin.getWordHeadImage(params, (retData) => {
         this.zone.run(() => {
-          this.toUserInfo['headImage'] = retData;
+          this.toUserInfo['headImageContent'] = retData;
         });
       });
     } else {
-      this.toUserInfo['headImage'] = './assets/images/user.jpg';
+      this.toUserInfo['headImageContent'] = './assets/images/user.jpg';
     }
   }
 }

@@ -27,13 +27,6 @@ export class AddFriendPage  {
   }
 
   /**
-   * 首次进入页面
-   */
-  ionViewDidLoad(): void {
-
-  }
-
-  /**
    * 搜索用户
    */
   searchUser() {

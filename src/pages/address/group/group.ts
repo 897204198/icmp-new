@@ -81,9 +81,7 @@ export class GroupPage {
     params['to_username'] = item['groupName'];
     params['to_headportrait'] = item['headImage'];
     params['chatType'] = 'groupChat';
-    (<any>window).huanxin.chat(params, (retData) => {
-
-    }, (retData) => { });
+    (<any>window).huanxin.chat(params);
   }
 
   /**

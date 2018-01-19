@@ -66,7 +66,7 @@ export class ChatListPage {
         this.checkRedMessage();
         this.changeUnreadMessageNumber();
       });
-    }, (retData) => { });
+    });
   }
 
   /**

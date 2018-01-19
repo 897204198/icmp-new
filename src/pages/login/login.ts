@@ -109,9 +109,9 @@ export class LoginPage {
     this.http.post('/user/login', params).subscribe((res: Response) => {
       if (res.json()['errMsg'] != null) {
         this.toastService.show(res.json()['errMsg']);
-      }else{
+      } else {
         let userData = res.json();
-        this.http.post('/user/bind', {userId: userData['id']}).subscribe((data) => {
+        this.http.post('/user/bind', { userId: userData['id'] }).subscribe((data) => {
           localStorage.token = data['_body'];
           let status: string = '';
           if (userData['status'] != null && userData['status'] !== '') {
@@ -150,17 +150,16 @@ export class LoginPage {
           // 避免在 web 上无法显示页面
           if (this.deviceService.getDeviceInfo().deviceType) {
             let imparams = {
-              'username': account,
-              'password': password,
-              'from_user_id': newUserInfo.userId,
-              'from_username': newUserInfo.userName,
-              'from_headportrait': newUserInfo.headImage,
-              'baseUrl': this.configsService.getBaseUrl(),
-              'pushUrl': this.configsService.getPushUrl()
+              username: account,
+              password: password,
+              from_user_id: newUserInfo.userId,
+              from_username: newUserInfo.userName,
+              from_headportrait: newUserInfo.headImage,
+              baseUrl: this.configsService.getBaseUrl(),
+              pushUrl: this.configsService.getPushUrl(),
+              token: 'Bearer ' + localStorage['token']
             };
-            (<any>window).huanxin.imlogin(imparams, (retData) => {
-
-            }, (retData) => { });
+            (<any>window).huanxin.imlogin(imparams);
           }
           let modal = this.modalCtrl.create(TabsPage);
           modal.present();
