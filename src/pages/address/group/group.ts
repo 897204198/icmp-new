@@ -74,13 +74,14 @@ export class GroupPage {
    */
   chatToGroup(item: Object) {
     let params: Object = {};
-    params['from_user_id'] = this.userInfo.userId;
+    params['from_user_id'] = this.userInfo.loginName;
     params['from_username'] = this.userInfo.userName;
     params['from_headportrait'] = this.userInfo.headImage;
     params['to_user_id'] = item['groupId'];
     params['to_username'] = item['groupName'];
     params['to_headportrait'] = item['headImage'];
     params['chatType'] = 'groupChat';
+    params['chatId'] = item['id'];
     (<any>window).huanxin.chat(params);
   }
 

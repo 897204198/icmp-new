@@ -47,10 +47,14 @@ export class UserProfilePage {
     };
     this.http.get('/user/base-info', { params: params }).subscribe((res: Response) => {
       let data: Object = res.json();
-      if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
-        data['sexName'] = '男';
+      if (data['sex'] != null && data['sex'] !== '') {
+        if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
+          data['sexName'] = '男';
+        } else {
+          data['sexName'] = '女';
+        }
       } else {
-        data['sexName'] = '女';
+        data['sexName'] = '';
       }
       this.toUserInfo = data;
     }, (err: Response) => {
@@ -63,13 +67,14 @@ export class UserProfilePage {
    */
   chatToUser() {
     let params: Object = {};
-    params['from_user_id'] = this.fromUserInfo.userId;
+    params['from_user_id'] = this.fromUserInfo.loginName;
     params['from_username'] = this.fromUserInfo.userName;
     params['from_headportrait'] = this.fromUserInfo.headImage;
-    params['to_user_id'] = this.navParams.get('toUserId');
-    params['to_username'] = this.navParams.get('remark');
-    params['to_headportrait'] = this.navParams.get('headImage');
+    params['to_user_id'] = this.toUserInfo['account'];
+    params['to_username'] = this.toUserInfo['name'];
+    params['to_headportrait'] = this.toUserInfo['headImageContent'];
     params['chatType'] = 'singleChat';
+    params['chatId'] = this.toUserInfo['id'];
     (<any>window).huanxin.chat(params);
   }
 
@@ -82,7 +87,7 @@ export class UserProfilePage {
     // 避免在 web 上无法显示页面
     if (this.deviceService.getDeviceInfo().deviceType) {
       let params: Object = {};
-      let nickName: string = this.navParams.get('nickName');
+      let nickName: string = this.navParams.get('remark');
       params['nickName'] = nickName.substring(0, 1);
       (<any>window).huanxin.getWordHeadImage(params, (retData) => {
         this.zone.run(() => {

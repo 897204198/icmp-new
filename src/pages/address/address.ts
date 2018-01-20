@@ -113,7 +113,7 @@ export class AddressPage {
     // 避免在 web 上无法显示页面
     if (this.deviceService.getDeviceInfo().deviceType) {
       let params: Object = {};
-      let nickName: string = item['nickName'];
+      let nickName: string = item['remark'];
       params['nickName'] = nickName.substring(0, 1);
       (<any>window).huanxin.getWordHeadImage(params, (retData) => {
         this.zone.run(() => {
