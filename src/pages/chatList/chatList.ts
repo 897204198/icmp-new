@@ -110,7 +110,7 @@ export class ChatListPage {
    * 发起聊天插件
    */
   chatToUserOrGroup(item: Object) {
-    item['from_user_id'] = this.userInfo.userId;
+    item['from_user_id'] = this.userInfo.loginName;
     item['from_username'] = this.userInfo.userName;
     item['from_headportrait'] = this.userInfo.headImage;
     item['to_user_id'] = item['toChatUsername'];
