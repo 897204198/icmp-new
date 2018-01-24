@@ -2,18 +2,25 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{'PERSONAL_INFO' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="chatToUser()">
+        {{'SEND_MESSAGE' | translate}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
   <div class="user-head-image-div">
-    <img *ngIf="!toUserInfo.headImageContent" [src]="setWordHeadImage()">
-    <img *ngIf="toUserInfo.headImageContent" [src]=toUserInfo.headImageContent (error)="setWordHeadImage()">
+    <div class="user-head-image-div-img">
+      <img *ngIf="!toUserInfo.headImageContent" [src]="setWordHeadImage()">
+      <img *ngIf="toUserInfo.headImageContent" [src]=toUserInfo.headImageContent (error)="setWordHeadImage()">
+    </div>
+    <div class="user-head-image-div-content">
+      <p>{{toUserInfo?.name}}</p>
+      <p>{{'ACCOUNT' | translate}} {{toUserInfo?.account}}</p>
+    </div>
   </div>
   <ion-list>
-    <ion-item>
-      {{'NAME' | translate}}
-      <p item-right>{{toUserInfo?.name}}</p>
-    </ion-item>
     <ion-item ion-item>
       {{'PHONE' | translate}}
       <p item-right>{{toUserInfo?.phone}}</p>
@@ -23,17 +30,8 @@
       <p item-right>{{toUserInfo?.email}}</p>
     </ion-item>
     <ion-item>
-      {{'ACCOUNT' | translate}}
-      <p item-right>{{toUserInfo?.account}}</p>
-    </ion-item>
-    <ion-item>
       {{'SEX' | translate}}
       <p item-right>{{toUserInfo?.sexName}}</p>
     </ion-item>
   </ion-list>
-  <div padding>
-    <button ion-button block (click)="chatToUser()">
-      {{'SEND_MESSAGE' | translate}}
-    </button>
-  </div>
 </ion-content>

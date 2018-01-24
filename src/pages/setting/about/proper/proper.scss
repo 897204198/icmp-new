@@ -1,41 +1,29 @@
 page-proper {
-  .proper-logo-div {
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 20px;
+  .proper-bg {
+    background-image: url(/assets/images/proper.png);
+    background-size: 100%;
+  }
+
+  .proper-logo {
+    margin-top: 100%;
+    margin-left: 7%;
 
     img {
-      height: 80px;
-      width: 80px;
+      width: 60%;
     }
-  }
 
-  h4 {
-    text-align: center;
-  }
+    .proper-content {
 
-  p {
-    text-align: center;
-    color: gray;
-  }
+      p {
+        text-align: left;
+        margin: 8px 0;
+        color: rgba(0, 0, 0, 0.87);
+      }
 
-  .ym-red-p {
-    font-size: larger;
-    font-weight: bold;
-    color: #e33633;
-  }
-
-  .ym-address-div {
-    width: 80%;
-    margin: 0 auto;
-  }
-
-  .ym-red-line {
-    height: 2px;
-    background-color: #EE7942;
-  }
-
-  .item-ios [item-right] {
-    margin: 0 8px 0 0;
+      .proper-content-p {
+        margin-top: 16px;
+        color: #e33633;
+      }
+    }
   }
 }

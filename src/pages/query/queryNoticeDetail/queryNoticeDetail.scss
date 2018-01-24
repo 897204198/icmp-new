@@ -1,9 +1,12 @@
 page-query-notice-detail {
-  p {
-    text-align: center;
+  .notice-content {
+    padding: 16px;
+    background-color: #fff;
   }
-
-  .display-center {
-    text-align: center;
+  .notice-title {
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    font-size: 1.3em;
   }
 }

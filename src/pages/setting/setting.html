@@ -4,16 +4,20 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <ion-list class="icmp-list-top-margin">
-    <button id="e2e-userinfo" ion-item [navPush]="userInfoPage">
-      <ion-avatar item-left>
+  <div class="setting-content" [navPush]="userInfoPage">
+    <div class="setting-content-blue"></div>
+    <div class="setting-content-white">
+      <p class="setting-content-name">{{userInfo?.userName}}</p>
+      <p>{{'ACCOUNT' | translate}}：{{userInfo?.loginName}}</p>
+    </div>
+    <div class="setting-content-circle"></div>
+    <div class="setting-content-img">
+      <ion-avatar>
         <img *ngIf="userInfo.headImage" [src]=userInfo.headImage>
         <img *ngIf="!userInfo.headImage" src="./assets/images/user.jpg">
       </ion-avatar>
-      <h2>{{userInfo?.userName}}</h2>
-      <p>{{'ACCOUNT' | translate}}：{{userInfo?.loginName}}</p>
-    </button>
-  </ion-list>
+    </div>
+  </div>
 
   <!--无关内容先屏蔽-->
   <!-- <ion-list>
@@ -39,7 +43,7 @@
   </ion-list>
 
   <div padding>
-    <button id="e2e-logout-button" ion-button block (click)="logOut()">
+    <button round id="e2e-logout-button" ion-button block (click)="logOut()">
       {{'LOGOUT' | translate}}
     </button>
   </div>

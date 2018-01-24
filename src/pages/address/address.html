@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{'ADDRESS' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="addFriend()">
+        <ion-icon name="add" style="font-size:26px;"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
@@ -13,12 +18,6 @@
         <img src="./assets/images/im/newFriends.png">
       </ion-avatar>
       {{'APPLY_AND_NOTIFICATION' | translate}}
-    </button>
-    <button ion-item (click)="addFriend()">
-      <ion-avatar item-left>
-        <img src="./assets/images/im/newFriends.png">
-      </ion-avatar>
-      {{'ADD_FRIEND' | translate}}
     </button>
     <button ion-item (click)="myGroup()">
       <ion-avatar item-left>

@@ -7,4 +7,11 @@ page-address {
   .item-md ion-avatar ion-img, .item-md ion-avatar img {
     border-radius: inherit;
   }
+
+  .icmp-list-bottom-margin {
+    ion-avatar {
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
 }

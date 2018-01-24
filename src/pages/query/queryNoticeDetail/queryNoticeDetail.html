@@ -4,10 +4,9 @@
     <ion-title id="e2e-query-notice-title">{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <div>
-    <h4 class="display-center">{{notice?.title}}</h4>
-    <hr/>
+<ion-content class="content-gray">
+  <div class="notice-content">
+    <p class="notice-title">{{notice?.title}}</p>
     <p *ngIf="notice != null && notice.keyword != null && notice.keyword != ''">{{'KEYWORD' | translate}}：{{notice?.keyword}}</p>
     <p *ngIf="notice != null && notice.organizationName != null && notice.organizationName != ''">{{notice?.organizationName}}：{{notice?.createUserName}}</p>
     <div [innerHtml]="notice?.content"></div>

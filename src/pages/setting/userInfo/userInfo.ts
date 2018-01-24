@@ -55,6 +55,15 @@ export class UserInfoPage {
       let data = res.json();
       this.userInfo['deptName'] = data.deptName;
       this.userInfo['jobName'] = data.jobName;
+      this.userInfo['account'] = data.account;
+      this.userInfo['headImageContent'] = data.headImageContent;
+      if (data['sex'] != null && data['sex'] !== '') {
+        if (data['sex']['code'] === '0') {
+          this.userInfo['sexName'] = '男';
+        } else {
+          this.userInfo['sexName'] = '女';
+        }
+      }
     }, (err: Response) => {
       this.toastService.show(err.text());
     });

@@ -12,22 +12,21 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list>
-    <ion-item *ngFor="let item of todoList">
-      <h2>{{item?.processInstanceName}}</h2>
-      <p>
-        <span *ngIf="!item.hideProcessInstanceInitiatorName" style="margin-right: 6px">{{'INITIATOR' | translate}}：{{item?.processInstanceInitiatorName}}</span>
-        <span *ngIf="!item.hideStep">{{'CURRENT_STEP' | translate}}：{{item?.stepName}}</span>
-      </p>
-      <p *ngIf="item.otherInfo != null && item.otherInfo != ''">{{item?.otherInfo}}</p>
-      <p>{{'CREATE_TIME' | translate}}：{{item?.createTime}}</p>
-      <div class="item-buttons">
-        <button id="e2e-claim-button" ion-button outline color="primary" (click)="doClaim(item)" [disabled]="item.assignee != null && item.assignee != ''">{{'CLAIM' | translate}}</button>
-        <button id="e2e-handle-button" ion-button outline color="primary" (click)="doHandle(item)">{{'HANDLE' | translate}}</button>
-        <button id="e2e-goback-button" ion-button outline color="primary" (click)="doGoback(item)" [disabled]="item.assignee == null || item.assignee == ''">{{'GOBACK' | translate}}</button>
-      </div>
-    </ion-item>
-  </ion-list>
+  <div class="todo-list" *ngFor="let item of todoList">
+    <h2>{{item?.processInstanceName}}</h2>
+    <p>
+      <span *ngIf="!item.hideProcessInstanceInitiatorName" style="margin-right: 6px">{{'INITIATOR' | translate}}：{{item?.processInstanceInitiatorName}}</span>
+      <span *ngIf="!item.hideStep">{{'CURRENT_STEP' | translate}}：{{item?.stepName}}</span>
+    </p>
+    <p *ngIf="item.otherInfo != null && item.otherInfo != ''">{{item?.otherInfo}}</p>
+    <p><ion-icon name="ios-time-outline" color="primary"></ion-icon> {{item?.createTime}}</p>
+    <div class="item-buttons">
+      <button id="e2e-goback-button" ion-button small color="danger" (click)="doGoback(item)" [disabled]="item.assignee == null || item.assignee == ''">{{'GOBACK' | translate}}</button>
+      <button id="e2e-handle-button" ion-button small color="primary" (click)="doHandle(item)">{{'HANDLE' | translate}}</button>
+      <button id="e2e-claim-button" ion-button small color="primary" (click)="doClaim(item)" [disabled]="item.assignee != null && item.assignee != ''">{{'CLAIM' | translate}}</button>
+      <div class="clear"></div>
+    </div>
+  </div>
   <ion-infinite-scroll (ionInfinite)="doInfinite()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

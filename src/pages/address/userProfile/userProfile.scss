@@ -1,12 +1,28 @@
 page-user-profile {
   .user-head-image-div {
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    height: 120px;
+    display: flex;
 
-    img {
-      height: 80px;
-      width: 80px;
+    .user-head-image-div-img {
+      flex: 1;
+      min-width: 150px;
+      max-width: 150px;
+
+      img {
+        height: 80px;
+        width: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 20px 20px 20px 50px;
+      }
+    }
+
+    .user-head-image-div-content {
+      flex: 1;
+      margin-top: 18px;
+      font-size: 1.2em;
     }
   }
 

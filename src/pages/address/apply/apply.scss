@@ -8,4 +8,10 @@ page-apply {
     border-radius: inherit;
   }
 
+  .icmp-list-top-margin {
+    ion-avatar {
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
 }
