@@ -50,6 +50,11 @@ page-chat-list {
       }
     }
   }
-  
+  .icmp-list-bottom-margin {
+    ion-avatar {
+      border-radius: 50%;
+      overflow: hidden;
+    }
+  }
 }
 

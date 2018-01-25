@@ -57,6 +57,7 @@ export class UserInfoPage {
       this.userInfo['jobName'] = data.jobName;
       this.userInfo['account'] = data.account;
       this.userInfo['headImageContent'] = data.headImageContent;
+      this.userInfo['orgName'] = data.orgName;
       if (data['sex'] != null && data['sex'] !== '') {
         if (data['sex']['code'] === '0') {
           this.userInfo['sexName'] = '男';

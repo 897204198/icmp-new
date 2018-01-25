@@ -14,14 +14,14 @@
 
   <ion-list *ngIf="!hidTopItem" class="icmp-list-bottom-margin">
     <button ion-item (click)="applyAndNotification()">
-      <ion-avatar class="left-avatar" item-left>
+      <ion-avatar class="left-avatar control-img" item-left>
         <img src="./assets/images/im/newFriends.png">
       </ion-avatar>
       {{'APPLY_AND_NOTIFICATION' | translate}}
     </button>
     <button ion-item (click)="myGroup()">
-      <ion-avatar item-left>
-        <img src="./assets/images/im/group.png">
+      <ion-avatar item-left class="control-img">
+        <img src="./assets/images/im/group_1.png">
       </ion-avatar>
       {{'GROUP' | translate}}
     </button>
@@ -29,11 +29,12 @@
 
   <ion-list class="icmp-list-bottom-margin">
     <button *ngFor="let user of contactInfos | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
-      <ion-avatar item-left>
+      <ion-avatar item-left class="list-avatar">
         <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
         <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.remark}}</h2>
+      <span item-end class="orgName">{{user.orgName}}</span>
     </button>
   </ion-list>
 

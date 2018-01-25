@@ -145,19 +145,17 @@ export class LoginPage {
           };
           this.userService.saveUserInfo(newUserInfo);
           this.userService.login();
-          this.pushService.bindUserid(userData['id'], account);
+          this.pushService.bindUserid(account, account);
 
           // 避免在 web 上无法显示页面
           if (this.deviceService.getDeviceInfo().deviceType) {
             let imparams = {
               username: account,
               password: password,
-              from_user_id: newUserInfo.userId,
-              from_username: newUserInfo.userName,
-              from_headportrait: newUserInfo.headImage,
               baseUrl: this.configsService.getBaseUrl(),
               pushUrl: this.configsService.getPushUrl(),
-              token: 'Bearer ' + localStorage['token']
+              token: 'Bearer ' + localStorage['token'],
+              chatId: newUserInfo.userId
             };
             (<any>window).huanxin.imlogin(imparams);
           }

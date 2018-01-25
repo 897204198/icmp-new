@@ -12,10 +12,18 @@
     </div>
     <div class="user-head-image-div-content">
       <p>{{userInfo?.name}}</p>
-      <p>{{'ACCOUNT' | translate}} {{userInfo?.account}}</p>
+      <p *ngIf="userInfo != null && userInfo.orgName != null" class='orgName'>{{'DEPARTMENT' | translate}} : {{userInfo?.orgName}}</p>
     </div>
   </div>
   <ion-list>
+    <ion-item ion-item>
+      {{'ACCOUNT' | translate}}
+      <p item-right>{{userInfo?.account}}</p>
+    </ion-item>
+    <ion-item>
+      {{'SEX' | translate}}
+      <p item-right>{{userInfo?.sexName}}</p>
+    </ion-item>
     <ion-item ion-item>
       {{'PHONE' | translate}}
       <p item-right>{{userInfo?.phone}}</p>
@@ -44,10 +52,6 @@
     <ion-item>
       {{'JOB_NUM' | translate}}
       <p item-right>{{userInfo?.jobNum}}</p>
-    </ion-item>
-    <ion-item>
-      {{'SEX' | translate}}
-      <p item-right>{{userInfo?.sexName}}</p>
     </ion-item>
   </ion-list>
 </ion-content>

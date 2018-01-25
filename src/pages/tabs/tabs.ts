@@ -172,6 +172,7 @@ export class TabsPage {
           params['to_headportrait'] = event.properCustoms.to_headportrait;
         }
         params['chatType'] = event.properCustoms.chatType;
+        params['chatId'] = event.properCustoms.chatId;
         (<any>window).huanxin.chat(params);
       }
     } else {

@@ -2,11 +2,6 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{'PERSONAL_INFO' | translate}}</ion-title>
-    <ion-buttons end>
-      <button ion-button clear color="primary" (click)="chatToUser()">
-        {{'SEND_MESSAGE' | translate}}
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
@@ -17,10 +12,14 @@
     </div>
     <div class="user-head-image-div-content">
       <p>{{toUserInfo?.name}}</p>
-      <p>{{'ACCOUNT' | translate}} {{toUserInfo?.account}}</p>
+      <p *ngIf="toUserInfo != null && toUserInfo.orgName != null" class='orgName'>{{'DEPARTMENT' | translate}} : {{toUserInfo?.orgName}}</p>
     </div>
   </div>
   <ion-list>
+    <ion-item>
+      {{'SEX' | translate}}
+      <p item-right>{{toUserInfo?.sexName}}</p>
+    </ion-item>
     <ion-item ion-item>
       {{'PHONE' | translate}}
       <p item-right>{{toUserInfo?.phone}}</p>
@@ -29,9 +28,12 @@
       {{'EMAIL' | translate}}
       <p item-right>{{toUserInfo?.email}}</p>
     </ion-item>
-    <ion-item>
-      {{'SEX' | translate}}
-      <p item-right>{{toUserInfo?.sexName}}</p>
-    </ion-item>
   </ion-list>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <button ion-button block round color="primary" (click)="chatToUser()">
+      {{'SEND_MESSAGE' | translate}}
+    </button>
+  </ion-toolbar>
+</ion-footer>

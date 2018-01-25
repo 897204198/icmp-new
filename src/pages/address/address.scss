@@ -9,9 +9,23 @@ page-address {
   }
 
   .icmp-list-bottom-margin {
-    ion-avatar {
+    .control-img {
+      min-width: 30px;
+      min-height: 30px;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .list-avatar {
       border-radius: 50%;
       overflow: hidden;
+    }
+
+    .orgName {
+      color: #999;
     }
   }
 }
