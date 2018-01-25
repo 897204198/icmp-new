@@ -3,7 +3,7 @@
   "shenpi_comment_default": "意见默认内容",
   "taskId": "317961",
   "result": "0",
-  "shenpi_btn_text": "办理",
+  "shenpi_btn_text": "修改",
   "processName": "DirectorLeaveProcess",
   "approval": [
     [
@@ -177,7 +177,7 @@
   ],
   "shenpi_hide_approval": false,
   "systemId": "47",
-  "shenpi_type": "shenpipage",
+  "shenpi_type": "shenqingpage",
   "form_title": "中日消化内镜临床诊疗与病理联合培训项目第4期进修",
   "forms": [
     {

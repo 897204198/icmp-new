@@ -219,6 +219,9 @@ export class ApplicationPage {
     if (this.verification()) {
       let params: URLSearchParams = new URLSearchParams();
       params.append('serviceName', this.navParams.get('serviceName'));
+      params.append('user', this.navParams.get('assignee'));
+      params.append('taskId', this.navParams.get('taskId'));
+      params.append('step', this.navParams.get('step'));
       for (let key in this.input) {
         if (this.input.hasOwnProperty(key)) {
           if (this.input[key] instanceof Array && this.input[key][0] instanceof Object) {
