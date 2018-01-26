@@ -18,6 +18,8 @@ export class UserProfilePage {
   private toUserInfo: Object = {};
   // 自己用户信息
   private fromUserInfo: UserInfoState;
+  // 是否显示发送信息
+  showSendMsg: boolean;
   /**
    * 构造函数
    */
@@ -32,6 +34,11 @@ export class UserProfilePage {
    * 首次进入页面
    */
   ionViewDidLoad(): void {
+    if (this.navParams.get('pageType') != null && this.navParams.get('pageType') === '0') {
+      this.showSendMsg = false;
+    }else {
+      this.showSendMsg = true;
+    }
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
     let searchUserId: string = this.navParams.get('toUserId');

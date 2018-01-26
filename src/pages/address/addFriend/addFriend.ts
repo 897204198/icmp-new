@@ -63,7 +63,7 @@ export class AddFriendPage  {
    * 进入个人信息详情
    */
   lookUserProfile(item: Object) {
-    this.navCtrl.push(UserProfilePage, {'toUserId': item['id']});
+    this.navCtrl.push(UserProfilePage, {'toUserId': item['id'], 'remark': item['name'], 'pageType': '0'});
   }
 
   /**

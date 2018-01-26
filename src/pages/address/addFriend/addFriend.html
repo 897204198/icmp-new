@@ -20,7 +20,8 @@
         <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.name}}</h2>
-      <button ion-button item-end (click)="addFriend($event, user)">添加</button>
+      <button *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button item-end (click)="addFriend($event, user)">添加</button>
+      <button disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'" ion-button item-end>已添加</button>
     </button>
   </ion-list>
 
