@@ -15,6 +15,8 @@ export class CreateGroupPage {
   // 国际化文字
   private transateContent: Object;
 
+  isSumbit: boolean = false;
+
   /**
    * 构造函数
    */
@@ -22,7 +24,7 @@ export class CreateGroupPage {
     private toastService: ToastService,
     private http: Http,
     private translate: TranslateService) {
-    this.translate.get(['REQUIRE_NOT', 'CREATE_SUCCESS']).subscribe((res: Object) => {
+    this.translate.get(['INPUT_GROUP_NAME', 'CREATE_SUCCESS']).subscribe((res: Object) => {
       this.transateContent = res;
     });
   }
@@ -32,8 +34,10 @@ export class CreateGroupPage {
    */
   createGroup() {
     if (this.groupName.length === 0) {
-      this.toastService.show(this.transateContent['REQUIRE_NOT']);
+      this.toastService.show(this.transateContent['INPUT_GROUP_NAME']);
       return;
+    } else {
+      this.isSumbit = true;
     }
 
     let params = {
@@ -43,6 +47,7 @@ export class CreateGroupPage {
       this.toastService.show(this.transateContent['CREATE_SUCCESS']);
       this.navCtrl.pop();
     }, (res: Response) => {
+      this.isSumbit = false;
       this.toastService.show(res.text());
     });
   }

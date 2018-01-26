@@ -3,6 +3,8 @@ import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../../app/services/device.service';
+import { UserProfilePage } from '../userProfile/userProfile';
+import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-apply',
@@ -14,11 +16,14 @@ export class ApplyPage {
   private applyList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;
+  // 控制按钮点击
+  isSubmit: boolean;
 
   /**
    * 构造函数
    */
   constructor(private toastService: ToastService,
+    private navCtrl: NavController,
     private deviceService: DeviceService,
     private zone: NgZone,
     private translate: TranslateService,
@@ -32,6 +37,7 @@ export class ApplyPage {
    * 首次进入页面
    */
   ionViewDidLoad(): void {
+    this.isSubmit = false;
     this.fetchApplications();
   }
 
@@ -46,14 +52,24 @@ export class ApplyPage {
     });
   }
 
+    /**
+   * 进入个人信息详情
+   */
+  lookUserProfile(item: Object) {
+    this.navCtrl.push(UserProfilePage, {'toUserId': item['fromUserId']});
+  }
+
   /**
    * 同意申请
    */
-  agreeApply(item: Object) {
+  agreeApply(event: any, item: Object) {
+    event.stopPropagation();
+    this.isSubmit = true;
     this.http.put('/im/notice', {noticeId: item['id'], type: '2' }).subscribe(() => {
       this.toastService.show(this.transateContent['AGREED']);
       this.fetchApplications();
     }, (res: Response) => {
+      this.isSubmit = false;
       this.toastService.show(res.text());
     });
   }
@@ -61,11 +77,14 @@ export class ApplyPage {
   /**
    * 拒绝申请
    */
-  refuseApply(item: Object) {
+  refuseApply(event: any, item: Object) {
+    event.stopPropagation();
+    this.isSubmit = true;
     this.http.put('/im/notice', {noticeId: item['id'], type: '3' }).subscribe(() => {
       this.toastService.show(this.transateContent['REFUSED']);
       this.fetchApplications();
     }, (res: Response) => {
+      this.isSubmit = false;
       this.toastService.show(res.text());
     });
   }

@@ -8,15 +8,15 @@
 <ion-content class="content-gray">
   <ion-list class="icmp-list-top-margin">
     <ion-item-sliding *ngFor="let user of applyList">
-      <button ion-item>
+      <button ion-item (click)="lookUserProfile(user)">
         <ion-avatar item-left>
           <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
           <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
         </ion-avatar>
         <h2>{{user.nickId}}</h2>
-        <button *ngIf="user.state.code == 1" mode="md" ion-button clear item-end (click)="agreeApply(user)">{{'AGREE' | translate}}</button>
+        <button [disabled]='isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end (click)="agreeApply($event, user)">{{'AGREE' | translate}}</button>
         <span item-end *ngIf="user.state.code == 1">|</span>
-        <button *ngIf="user.state.code == 1" mode="md" ion-button clear item-end color="danger" (click)="refuseApply(user)">{{'REFUSE' | translate}}</button>
+        <button [disabled]='isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end color="danger" (click)="refuseApply($event, user)">{{'REFUSE' | translate}}</button>
         <button *ngIf="user.state.code == 2" mode="md" ion-button clear item-end color="dark">{{'AGREED' | translate}}</button>
         <button *ngIf="user.state.code == 3" mode="md" ion-button clear item-end color="dark">{{'REFUSED' | translate}}</button>
       </button>

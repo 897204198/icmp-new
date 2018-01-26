@@ -14,13 +14,13 @@
   </ion-searchbar>
 
   <ion-list *ngIf="searchInput" class="icmp-list-top-margin">
-    <button *ngFor="let user of userList" ion-item>
+    <button *ngFor="let user of userList" ion-item (click)="lookUserProfile(user)">
       <ion-avatar item-left>
         <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
         <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.name}}</h2>
-      <button ion-button item-end (click)="addFriend(user)">添加</button>
+      <button ion-button item-end (click)="addFriend($event, user)">添加</button>
     </button>
   </ion-list>
 

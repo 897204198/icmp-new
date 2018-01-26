@@ -21,19 +21,13 @@ page-chat-list {
     font-size: 11px;
   }
 
-  .main-item {
-    text-align: center;
+  .item {
     position: relative;
-
-    img {
-      width: 40px;
-      height: 40px;
-    }
 
     .item-superscript-area {
       position: absolute;
-      top: -8px;
-      right: -8px;
+      top: 0px;
+      left: 45px;
       display: inline-block;
       transform: scale(0.80);
       text-align: center;
@@ -48,6 +42,15 @@ page-chat-list {
         border-radius: 4px;
         padding: 0 4px;
       }
+    }
+  }
+
+  .main-item {
+    text-align: center;
+
+    img {
+      width: 40px;
+      height: 40px;
     }
   }
   .icmp-list-bottom-margin {

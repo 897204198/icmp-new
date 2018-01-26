@@ -12,10 +12,10 @@
         <ion-avatar item-start class="main-item">
           <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
           <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
-          <span class="item-superscript-area">
-            <span class="item-superscript" *ngIf="user.unreadMessagesCount != null && user.unreadMessagesCount != 0">{{user.unreadMessagesCount}}</span>
-          </span>
         </ion-avatar>
+        <span class="item-superscript-area">
+          <span class="item-superscript" *ngIf="user.unreadMessagesCount != null && user.unreadMessagesCount != 0">{{user.unreadMessagesCount}}</span>
+        </span>
         <h2>{{user.toChatNickName}}</h2>
         <div class="message">
           <span class="red-message">{{user.redMessage}}</span>

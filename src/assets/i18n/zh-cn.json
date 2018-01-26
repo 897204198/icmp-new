@@ -154,5 +154,6 @@
   "CREATE_SUCCESS": "创建成功",
   "SEND_MESSAGE": "发消息",
   "CONTROL": "操作",
-  "DEPARTMENT":"部门"
+  "DEPARTMENT":"部门",
+  "INPUT_GROUP_NAME": "请输入群名称"
 }

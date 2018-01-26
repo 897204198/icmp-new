@@ -3,6 +3,8 @@ import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../../app/services/device.service';
+import { UserProfilePage } from '../userProfile/userProfile';
+import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-addFriend',
@@ -17,6 +19,7 @@ export class AddFriendPage  {
    * 构造函数
    */
   constructor(private toastService: ToastService,
+    private navCtrl: NavController,
     private translate: TranslateService,
     private deviceService: DeviceService,
     private zone: NgZone,
@@ -31,19 +34,20 @@ export class AddFriendPage  {
    */
   searchUser() {
     if (this.searchInput && this.searchInput.trim()){
+      this.userList = null;
       this.http.get('/im/contact/users', { params: { 'searchText': this.searchInput } }).subscribe((res: Response) => {
         this.userList = res.json();
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
-
     }
   }
 
   /**
    * 添加好友
    */
-  addFriend(user: Object) {
+  addFriend(event: any, user: Object) {
+    event.stopPropagation();
     let params = {
       'toUserId': user['id'],
       'type': '0'
@@ -53,6 +57,13 @@ export class AddFriendPage  {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+  }
+
+  /**
+   * 进入个人信息详情
+   */
+  lookUserProfile(item: Object) {
+    this.navCtrl.push(UserProfilePage, {'toUserId': item['id']});
   }
 
   /**
