@@ -219,7 +219,7 @@ export class ApplicationPage {
     this.isSubmit = true;
     if (this.verification()) {
       let params: Object = {
-        'serviceName': this.navParams.get('serviceName')
+        'serviceName': this.navParams.get('serviceName'),
         'user': this.navParams.get('assignee'),
         'taskId': this.navParams.get('taskId'),
         'step': this.navParams.get('step')
