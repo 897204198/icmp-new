@@ -30,6 +30,13 @@ export class AddFriendPage  {
   }
 
   /**
+   * 改变输入框的值
+   */
+  onInput(e): void {
+    this.userList = null;
+  }
+
+  /**
    * 搜索用户
    */
   searchUser() {

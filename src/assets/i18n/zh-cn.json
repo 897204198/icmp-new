@@ -155,5 +155,7 @@
   "SEND_MESSAGE": "发消息",
   "CONTROL": "操作",
   "DEPARTMENT":"部门",
-  "INPUT_GROUP_NAME": "请输入群名称"
+  "INPUT_GROUP_NAME": "请输入群名称",
+  "ARE_YOU_SURE_DELETE": "您确定要删除吗?",
+  "FRENDLY_PROP": "温馨提示"
 }

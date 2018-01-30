@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="content-gray">
-  <ion-searchbar placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput">
+  <ion-searchbar placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput" (ionInput)="onInput($event)">
   </ion-searchbar>
 
   <ion-list *ngIf="searchInput" class="icmp-list-top-margin">

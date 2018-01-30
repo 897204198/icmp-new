@@ -8,7 +8,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "hex",
@@ -19,7 +21,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "研发部"
+    "extendField": {
+      "orgName": "研发部"
+    }
   },
   {
     "fromUserId": "wangw",
@@ -30,7 +34,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称岗位名称"
+    "extendField": {
+      "orgName": "岗位名称岗位名称"
+    }
   },
   {
     "fromUserId": "suns",
@@ -51,7 +57,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "wangh",
@@ -62,7 +70,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "licx",
@@ -73,7 +83,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "chenbj",
@@ -84,7 +96,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "liym",
@@ -95,7 +109,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "wanghp",
@@ -106,7 +122,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "jinmn",
@@ -117,7 +135,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "wangy",
@@ -128,7 +148,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "wangls",
@@ -139,7 +161,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "liucy",
@@ -150,7 +174,9 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   },
   {
     "fromUserId": "shiny",
@@ -161,6 +187,8 @@
     "notification": false,
     "type": {"code":"0"},
     "state": 1,
-    "orgName": "岗位名称"
+    "extendField": {
+      "orgName": "岗位名称"
+    }
   }
 ]

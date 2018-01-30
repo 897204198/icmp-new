@@ -4,6 +4,8 @@ import { Http, Response } from '@angular/http';
 import { UserInfoState, UserService } from '../../../app/services/user.service';
 import { DeviceService } from '../../../app/services/device.service';
 import { NavParams } from 'ionic-angular/navigation/nav-params';
+import { TranslateService } from '@ngx-translate/core';
+import { Alert, AlertController, NavController } from 'ionic-angular';
 
 /**
  * 个人资料
@@ -20,6 +22,13 @@ export class UserProfilePage {
   private fromUserInfo: UserInfoState;
   // 是否显示发送信息
   showSendMsg: boolean;
+  // 国际化文字
+  private transateContent: Object;
+  private translateDate: string[] = ['ARE_YOU_SURE_DELETE', 'DELETED', 'CANCEL', 'CONFIRM', 'FRENDLY_PROP'];
+  // 弹出框相关
+  private confirmAlert: Alert;
+  private alertOpen: boolean = false;
+
   /**
    * 构造函数
    */
@@ -27,8 +36,15 @@ export class UserProfilePage {
     private zone: NgZone,
     private navParams: NavParams,
     private toastService: ToastService,
+    private translate: TranslateService,
     private userService: UserService,
-    private deviceService: DeviceService) { }
+    private alertCtrl: AlertController,
+    private navCtrl: NavController,
+    private deviceService: DeviceService) {
+      this.translate.get(this.translateDate).subscribe((res: Object) => {
+        this.transateContent = res;
+      });
+    }
 
   /**
    * 首次进入页面
@@ -44,6 +60,15 @@ export class UserProfilePage {
     let searchUserId: string = this.navParams.get('toUserId');
     this.getUserInfoFromNet(searchUserId);
   }
+
+  /**
+   * 离开页面
+   */
+  ionViewWillLeave(): void {
+    if (this.alertOpen) {
+     this.confirmAlert.dismiss();
+    }
+  };
 
   /**
    * 取得用户信息
@@ -104,5 +129,42 @@ export class UserProfilePage {
     } else {
       this.toUserInfo['headImageContent'] = './assets/images/user.jpg';
     }
+  }
+
+  /**
+   * 删除好友
+   */
+  deleteFriend(): void {
+    this.presentConfirm(this.toUserInfo['id']);
+  }
+
+  // 确认删除弹窗
+  presentConfirm(id: string): void {
+    this.confirmAlert = this.alertCtrl.create({
+      title: this.transateContent['FRENDLY_PROP'],
+      message: this.transateContent['ARE_YOU_SURE_DELETE'],
+      buttons: [
+        {
+          text: this.transateContent['CANCEL'],
+          handler: () => {
+            this.alertOpen = false;
+          }
+        },
+        {
+          text: this.transateContent['CONFIRM'],
+          handler: () => {
+            this.alertOpen = false;
+            this.http.delete('/im/contact/' + this.toUserInfo['id']).subscribe((res: Response) => {
+              this.toastService.show(this.transateContent['DELETED']);
+              this.navCtrl.pop();
+            }, (err: Response) => {
+              this.toastService.show(err.text());
+            });
+          }
+        }
+      ]
+    });
+    this.confirmAlert.present();
+    this.alertOpen = true;
   }
 }

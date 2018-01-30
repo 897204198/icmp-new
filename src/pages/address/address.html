@@ -3,7 +3,7 @@
     <ion-title>{{'ADDRESS' | translate}}</ion-title>
     <ion-buttons end>
       <button ion-button clear color="primary" (click)="addFriend()">
-        <ion-icon name="add" style="font-size:26px;"></ion-icon>
+        <ion-icon name="md-add-circle" style="font-size:26px;"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -34,7 +34,7 @@
         <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.remark}}</h2>
-      <span item-end class="orgName">{{user.orgName}}</span>
+      <span item-end class="orgName" *ngIf="user.extendField != null">{{user.extendField.orgName}}</span>
     </button>
   </ion-list>
 

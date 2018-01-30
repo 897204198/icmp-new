@@ -82,6 +82,7 @@ import { GroupPage } from '../pages/address/group/group';
 import { CreateGroupPage } from '../pages/address/group/createGroup';
 import { Keyboard } from '@ionic-native/keyboard';
 import { UserProfilePage } from '../pages/address/userProfile/userProfile';
+import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginShow.component';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -105,6 +106,7 @@ export function createTranslateLoader(http: Http) {
     HomeCustomComponent,
     PluginColldoctorComponent,
     PluginRegRemindComponent,
+    PluginShowComponent,
     FileTypeImageComponent,
     TabsPage,
     AdminPage,
