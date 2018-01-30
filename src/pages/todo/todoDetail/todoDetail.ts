@@ -137,8 +137,7 @@ export class TodoDetailPage {
       this.navCtrl.push(TodoOpinionPage, params);
     } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
       let params: Object = {
-        systemId: this.todoDetail['systemId'],
-        processName: this.navParams.get('processName'),
+        assignee: this.navParams.get('assignee'),
         taskId: this.navParams.get('taskId'),
         step: this.navParams.get('step')
       };

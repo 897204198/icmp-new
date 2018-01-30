@@ -220,6 +220,9 @@ export class ApplicationPage {
     if (this.verification()) {
       let params: Object = {
         'serviceName': this.navParams.get('serviceName')
+        'user': this.navParams.get('assignee'),
+        'taskId': this.navParams.get('taskId'),
+        'step': this.navParams.get('step')
       };
       for (let key in this.input) {
         if (this.input.hasOwnProperty(key)) {
