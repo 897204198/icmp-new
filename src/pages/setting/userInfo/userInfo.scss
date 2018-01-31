@@ -34,7 +34,7 @@ page-user-info {
       }
 
       .orgName {
-        font-size: 0.9em;
+        font-size: 0.8em;
         color: #999;
       }
     }
@@ -42,5 +42,9 @@ page-user-info {
 
   .item-ios [item-right] {
     margin: 0 8px 0 0;
+  }
+
+  .label-ios {
+    font-size: 1.4rem;
   }
 }

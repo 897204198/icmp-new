@@ -9,7 +9,6 @@ import { ApplicationPage } from '../../../application/application';
 export class PluginShowComponent implements OnInit {
 
   pet: string = 'item1';
-  showDisplay: boolean;
 
   /**
    * 构造函数
@@ -17,17 +16,8 @@ export class PluginShowComponent implements OnInit {
   constructor(public navCtrl: NavController, private el: ElementRef) {}
 
   ngOnInit(): void {
-    this.showDisplay = true;
     let plugin = this.el.nativeElement.querySelector('#plugin-proxy');
     plugin.className = 'segment segment-md';
-  }
-
-  doGoback(): void {
-    this.showDisplay = true;
-  }
-
-  doClaim(): void {
-    this.showDisplay = false;
   }
 
   doHandle(): void {

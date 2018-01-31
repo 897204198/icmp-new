@@ -6,13 +6,13 @@
       <button *ngIf="showIcon && showDelIcon" ion-button clear color="primary" (click)="deleteFriend()">
         <ion-icon name="md-trash" style="font-size:26px;"></ion-icon>
       </button>
-      <button *ngIf="showIcon && showAddIcon" ion-button clear color="primary" (click)="addFriend()">
-        <ion-icon name="md-add-circle" style="font-size:26px;"></ion-icon>
+      <button *ngIf="showIcon && showAddIcon" ion-button clear small color="primary" (click)="addFriend()">
+        <span style="font-size: 1.4rem;">加为好友</span>  
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content class="content-gray">
+<ion-content class="content-gray-new">
   <div class="user-head-image-div">
     <div class="user-head-image-div-img">
       <img *ngIf="!toUserInfo.headImageContent" [src]="setWordHeadImage()">

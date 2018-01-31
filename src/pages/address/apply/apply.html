@@ -5,7 +5,7 @@
 
 </ion-header>
 
-<ion-content class="content-gray">
+<ion-content class="content-gray-new">
   <ion-list class="icmp-list-top-margin">
     <ion-item-sliding *ngFor="let user of applyList">
       <button ion-item (click)="lookUserProfile(user)">
@@ -14,11 +14,11 @@
           <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
         </ion-avatar>
         <h2>{{user.nickId}}</h2>
-        <button [disabled]='isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end (click)="agreeApply($event, user)">{{'AGREE' | translate}}</button>
+        <button class="clear-btn" [disabled]='isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end color="danger" (click)="refuseApply($event, user)">{{'REFUSE' | translate}}</button>
         <span item-end *ngIf="user.state.code == 1">|</span>
-        <button [disabled]='isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end color="danger" (click)="refuseApply($event, user)">{{'REFUSE' | translate}}</button>
-        <button *ngIf="user.state.code == 2" mode="md" ion-button clear item-end color="dark">{{'AGREED' | translate}}</button>
-        <button *ngIf="user.state.code == 3" mode="md" ion-button clear item-end color="dark">{{'REFUSED' | translate}}</button>
+        <button class="clear-btn" [disabled]='isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end (click)="agreeApply($event, user)">{{'AGREE' | translate}}</button>    
+        <button class="clear-btn clear-btn-color" *ngIf="user.state.code == 2" mode="md" ion-button clear item-end>{{'AGREED' | translate}}</button>
+        <button class="clear-btn clear-btn-color" *ngIf="user.state.code == 3" mode="md" ion-button clear item-end>{{'REFUSED' | translate}}</button>
       </button>
       <ion-item-options side="right">
         <button ion-button color="danger" (click)="deleteApply(user)">{{'DELETE' | translate}}</button>

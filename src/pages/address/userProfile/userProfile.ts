@@ -150,6 +150,7 @@ export class UserProfilePage {
    * 删除好友
    */
   deleteFriend(): void {
+    console.log(this.toUserInfo);
     this.presentConfirm(this.toUserInfo['id']);
   }
 

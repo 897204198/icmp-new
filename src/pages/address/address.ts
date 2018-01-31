@@ -167,6 +167,9 @@ export class AddressPage {
    * 进入个人信息详情
    */
   lookUserProfile(item: Object) {
+    if (item['type'] != null) {
+      item['isFriend'] = item['type']['code'];
+    }
     this.navCtrl.push(UserProfilePage, item);
   }
 

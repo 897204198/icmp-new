@@ -18,6 +18,12 @@ ion-content {
   }
 }
 
+ion-content {
+  &.content-gray-new {
+    background-color: #f0f4f7;
+  }
+}
+
 .icmp-list-header {
   padding: 16px;
 }

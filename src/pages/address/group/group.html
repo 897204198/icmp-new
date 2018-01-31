@@ -1,23 +1,19 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{'GROUP' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="createGroup()">
+        <ion-icon name="md-add-circle" style="font-size:26px;"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content class="content-gray">
+<ion-content class="content-gray-new">
 
   <ion-searchbar [formControl]="titleFilter" placeholder="搜索" [showCancelButton]="shouldShowCancel">
   </ion-searchbar>
-
-  <ion-list class="icmp-list-bottom-margin">
-    <button ion-item (click)="createGroup()">
-      <ion-avatar class="left-avatar" item-left>
-        <img src="./assets/images/im/createGroup.png">
-      </ion-avatar>
-      {{'CREATE_GROUP' | translate}}
-    </button>
-  </ion-list>
 
   <ion-list class="icmp-list-bottom-margin">
     <button *ngFor="let group of allGroups | searchFilter: 'groupName': keyword" ion-item detail-none (click)="chatToGroup(group)">

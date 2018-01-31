@@ -49,7 +49,7 @@ page-todo-list {
 
   .item-buttons {
     text-align: center;
-    padding-top: 8px;
+    padding-top: 6px;
     border-top: 1px solid #eee;
 
     .button {
@@ -57,8 +57,18 @@ page-todo-list {
         margin-right: 12px;
       }
 
+      width: 76px;
       padding: 4px 16px;
       float: right;
+    }
+
+    #e2e-goback-button {
+      background-color: #fac305;
+    }
+
+    #e2e-claim-button {
+      float: left;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
     }
 
     .clear {
@@ -70,12 +80,19 @@ page-todo-list {
     background-color: #fff;
     padding: 16px;
     margin-bottom: 8px;
+    padding-bottom: 5px;
 
     h2 {
       border-bottom: 1px solid #eee;
       font-size: 1.2em;  
       margin: 0;
       padding-bottom: 8px;
+    }
+
+    .item-icon {
+      width:20px;
+      height:20px;
+      vertical-align: text-bottom;
     }
   }
 }
