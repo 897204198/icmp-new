@@ -26,16 +26,25 @@
       {{'GROUP' | translate}}
     </button>
   </ion-list>
-
-  <ion-list class="icmp-list-bottom-margin">
-    <button *ngFor="let user of contactInfos | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
-      <ion-avatar item-left class="list-avatar">
-        <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
-        <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
-      </ion-avatar>
-      <h2>{{user.remark}}</h2>
-      <span item-end class="orgName" *ngIf="user.extendField != null">{{user.extendField.orgName}}</span>
-    </button>
-  </ion-list>
-
+  <div *ngFor="let contact of contactInfos" >
+    <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'" >
+      <ion-item id="{{contact['first']}}" >{{contact['first']}}</ion-item>
+      <button *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
+        <ion-avatar item-left>
+          <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
+          <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
+        </ion-avatar>
+        <h2>{{user.remark}}</h2>
+        <span item-end class="orgName" *ngIf="user.extendField != null">{{user.extendField.orgName}}</span>
+      </button>
+     </ion-list>
+  </div>
+  
+  <div>
+    <ul class="side">
+      <li *ngFor="let letter of slider" (click)="scrollTo(letter)" id="{{letter}}" >
+        <span>{{letter}}</span>
+      </li>
+    </ul>
+  </div>
 </ion-content>

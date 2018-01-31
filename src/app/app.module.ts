@@ -1,3 +1,4 @@
+import { SpellService } from './services/spell.service';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
@@ -206,6 +207,7 @@ export function createTranslateLoader(http: Http) {
   ],
   providers: [
     StatusBar,
+    SpellService,
     File,
     FileChooser,
     FilePath,

@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, ElementRef, ViewChild } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { ConfigsService } from '../../app/services/configs.service';
@@ -10,14 +10,18 @@ import { ToastService } from '../../app/services/toast.service';
 import { DeviceService } from '../../app/services/device.service';
 import { Keyboard } from '@ionic-native/keyboard';
 import { UserProfilePage } from './userProfile/userProfile';
+import { SpellService } from '../../app/services/spell.service';
+import { Content } from 'ionic-angular';
 
 @Component({
   selector: 'page-address',
   templateUrl: 'address.html',
 })
 export class AddressPage {
-
-  private contactInfos: Array<Object> = [];
+  @ViewChild(Content) content: Content;
+  private contactInfos: Array<{first: string, items: Array<Object>}> = [];
+  // 右边26个字母滑动栏
+  private slider: string [] = [];
   // 查询拦截器
   private titleFilter: FormControl = new FormControl();
   // 查询keyword
@@ -30,8 +34,10 @@ export class AddressPage {
    */
   constructor(private navCtrl: NavController,
     private configsService: ConfigsService,
+    private elementref: ElementRef,
     private toastService: ToastService,
     private deviceService: DeviceService,
+    private spell: SpellService,
     private zone: NgZone,
     private http: Http,
     private keyboard: Keyboard,
@@ -70,10 +76,70 @@ export class AddressPage {
    */
   fetchContactInfos() {
     this.http.get('/im/contact/contacts', {params: { 'type': '0' }}).subscribe((res: Response) => {
-      this.contactInfos = res.json();
+      this.slider = [];
+      this.contactInfos = [];
+      let compare = function (prop) {
+        return function (obj1, obj2) {
+          let val1 = obj1[prop];
+          let val2 = obj2[prop];
+          if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
+              val1 = Number(val1);
+              val2 = Number(val2);
+          }
+          if (val1 < val2) {
+              return -1;
+          } else if (val1 > val2) {
+              return 1;
+          } else {
+              return 0;
+          }
+        };
+      };
+      let temporary: Array<Object> = [];
+      temporary = res.json();
+      for (let i = 0 ; i < temporary.length ; i++) {
+        temporary[i]['ordered'] = this.spell.GetSpell(temporary[i]['remark']);
+        temporary[i]['initial'] = temporary[i]['ordered'][0][0];
+      }
+      temporary.sort(compare('ordered'));
+      for (let i = 0; i < temporary.length; i++){
+        let item = temporary[i];
+        let fist = item['initial'] as string;
+        let current = this.contactInfos.filter((v, num, arr) => v.first === fist);
+        if (current.length === 0 ){
+          current.push({ first: fist, items: []});
+          this.contactInfos.push(current[0]);
+        }
+        current[0].items.push(item);
+      }
+      for (let i = 0; i < this.contactInfos.length; i++){
+        this.slider.push(this.contactInfos[i]['first']);
+      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+  }
+
+  /**
+   * 滚动指定位置
+   * @param letter 
+   */
+  scrollTo(letter) {
+    let temporary = false;
+    for (let i = 0; i < this.contactInfos.length; i++) {
+      if (this.contactInfos[i].first === letter) {
+        temporary = true ;
+      }
+    }
+    if (temporary) {
+      let scrollTop = this.elementref.nativeElement.querySelector( 'ion-item#' + letter ).offsetTop;
+      this.content.scrollTo(10, scrollTop, 300);
+      for (let i = 0; i < this.slider.length; i++) {
+        this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';
+      }
+      this.elementref.nativeElement.querySelector('li#' + letter).style.color = '#488aff';
+    }
+
   }
 
   /**
