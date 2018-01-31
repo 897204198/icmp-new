@@ -39,46 +39,61 @@
   
     <ion-list *ngSwitchCase="'item2'">
       <ion-item>
-        公文申请 XXXX的公文申请
+        会议申请
       </ion-item>
       <ion-item>
-        <p style="margin: 7px 0;white-space: normal;word-wrap: break-word;word-break: break-all;"><ion-icon name="ios-pin-outline" color="primary" style="width: 14px;text-align: center;"></ion-icon> 辽宁省沈阳市铁西区新华南街XX号XXXXX大厦A座XXX楼 沈阳普日软件</p>
-        <p style="margin: 7px 0;"><ion-icon name="ios-time-outline" color="primary"></ion-icon> 2018-01-29 17:30:00</p>
+        <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;">
+          <img src="./assets/images/map_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;"> 
+          辽宁省沈阳市铁西区新华南街XX号XXXXX大厦
+        </div>
+        <div style="margin: 7px 0;color:#777;">
+          <img src="./assets/images/time_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;">
+          2018-01-29 17:30:00
+        </div>
       </ion-item>
       <ion-item item-end>
-        <button ion-button small color="primary" (click)="doClaim()" [disabled]="!showDisplay">{{'CLAIM' | translate}}</button>
-        <button ion-button small color="primary" (click)="doHandle()" round style="float: right;">{{'HANDLE' | translate}}</button>
-        <button ion-button small color="danger" (click)="doGoback()" [disabled]="showDisplay">{{'GOBACK' | translate}}</button>
+        <button ion-button small color="primary" (click)="doHandle()" round style="float: right; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);">{{'HANDLE' | translate}}</button>
+        <button ion-button small round style="float: right; background: #fac305; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);margin-right:10px;">{{'GOBACK' | translate}}</button>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'item3'">
       <ion-item>
-        会议申请
+        公文申请
       </ion-item>
       <ion-item>
-        <p style="margin: 7px 0;white-space: normal;word-wrap: break-word;word-break: break-all;"><ion-icon name="ios-pin-outline" color="primary" style="width: 14px;text-align: center;"></ion-icon> 辽宁省沈阳市铁西区新华南街XX号XXXXX大厦A座XXX楼 沈阳普日软件</p>
-        <p style="margin: 7px 0;"><ion-icon name="ios-time-outline" color="primary"></ion-icon> 2018-01-29 17:30:00</p>
+        <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;">
+          <img src="./assets/images/map_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;"> 
+          辽宁省沈阳市铁西区新华南街XX号XXXXX大厦A座XXX楼 沈阳普日软件
+        </div>
+        <div style="margin: 7px 0;color:#777;">
+          <img src="./assets/images/time_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;">
+          2018-01-29 17:30:00
+        </div>
       </ion-item>
       <ion-item item-end>
-        <button ion-button small color="primary" (click)="doClaim()" [disabled]="!showDisplay">{{'CLAIM' | translate}}</button>
-        <button ion-button small color="primary" (click)="doHandle()" round style="float: right;">{{'HANDLE' | translate}}</button>
-        <button ion-button small color="danger" (click)="doGoback()" [disabled]="showDisplay">{{'GOBACK' | translate}}</button>
+        <button ion-button small color="primary" (click)="doHandle()" round style="float: right; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);">{{'HANDLE' | translate}}</button>
+        <button ion-button small round style="float: right; background: #fac305; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);margin-right:10px;">{{'GOBACK' | translate}}</button>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'item4'">
       <ion-item>
-        请假申请4 XXXX的请假申请
+        请假申请
       </ion-item>
       <ion-item>
-        <p style="margin: 7px 0;white-space: normal;word-wrap: break-word;word-break: break-all;"><ion-icon name="ios-pin-outline" color="primary" style="width: 14px;text-align: center;"></ion-icon> 辽宁省沈阳市铁西区新华南街XX号XXXXX大厦A座XXX楼 沈阳普日软件</p>
-        <p style="margin: 7px 0;"><ion-icon name="ios-time-outline" color="primary"></ion-icon> 2018-01-29 17:30:00</p>
+        <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;">
+          <img src="./assets/images/map_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;"> 
+          辽宁省沈阳市铁西区新华南街XX号XXXXX大厦A座XXX楼 沈阳普日软件
+        </div>
+        <div style="margin: 7px 0;color:#777;">
+          <img src="./assets/images/time_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;">
+          2018-01-29 17:30:00
+        </div>
       </ion-item>
       <ion-item item-end>
-        <button ion-button small color="primary" (click)="doClaim()" [disabled]="!showDisplay">{{'CLAIM' | translate}}</button>
-        <button ion-button small color="primary" (click)="doHandle()" round style="float: right;">{{'HANDLE' | translate}}</button>
-        <button ion-button small color="danger" (click)="doGoback()" [disabled]="showDisplay">{{'GOBACK' | translate}}</button>
+        <button ion-button small color="primary" (click)="doHandle()" round style="float: right; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);">{{'HANDLE' | translate}}</button>
+        <button ion-button small round style="float: right; background: #fac305; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);margin-right:10px;">{{'GOBACK' | translate}}</button>
       </ion-item>
     </ion-list>
   </div>

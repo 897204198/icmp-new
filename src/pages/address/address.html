@@ -14,7 +14,7 @@
 
   <ion-list *ngIf="!hidTopItem" class="icmp-list-bottom-margin">
     <button ion-item (click)="applyAndNotification()">
-      <ion-avatar class="left-avatar control-img" item-left>
+      <ion-avatar class="control-img" item-left>
         <img src="./assets/images/im/newFriends.png">
       </ion-avatar>
       {{'APPLY_AND_NOTIFICATION' | translate}}
@@ -30,7 +30,7 @@
     <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'" >
       <ion-item id="{{contact['first']}}" >{{contact['first']}}</ion-item>
       <button *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
-        <ion-avatar item-left>
+        <ion-avatar item-left class="list-avatar">
           <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
           <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
         </ion-avatar>
