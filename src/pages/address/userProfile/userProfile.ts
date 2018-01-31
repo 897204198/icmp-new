@@ -22,9 +22,12 @@ export class UserProfilePage {
   private fromUserInfo: UserInfoState;
   // 是否显示发送信息
   showSendMsg: boolean;
+  showIcon: boolean;
+  showAddIcon: boolean;
+  showDelIcon: boolean;
   // 国际化文字
   private transateContent: Object;
-  private translateDate: string[] = ['ARE_YOU_SURE_DELETE', 'DELETED', 'CANCEL', 'CONFIRM', 'FRENDLY_PROP'];
+  private translateDate: string[] = ['ARE_YOU_SURE_DELETE', 'DELETED', 'CANCEL', 'CONFIRM', 'FRENDLY_PROP', 'ADD_SUCCESS'];
   // 弹出框相关
   private confirmAlert: Alert;
   private alertOpen: boolean = false;
@@ -54,6 +57,18 @@ export class UserProfilePage {
       this.showSendMsg = false;
     }else {
       this.showSendMsg = true;
+    }
+    if (this.navParams.get('isFriend') != null) {
+      this.showIcon = true;
+      if (this.navParams.get('isFriend') === '0') {
+        this.showDelIcon = true;
+        this.showAddIcon = false;
+      }else {
+        this.showDelIcon = false;
+        this.showAddIcon = true;
+      }
+    }else {
+      this.showIcon = false;
     }
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
@@ -166,5 +181,21 @@ export class UserProfilePage {
     });
     this.confirmAlert.present();
     this.alertOpen = true;
+  }
+
+  /**
+   * 添加好友
+   */
+  addFriend() {
+    let params = {
+      'toUserId': this.toUserInfo['id'],
+      'type': '0'
+    };
+    this.http.post('/im/contact/send', params).subscribe((res: Response) => {
+      this.toastService.show(this.transateContent['ADD_SUCCESS']);
+      this.navCtrl.pop();
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 }

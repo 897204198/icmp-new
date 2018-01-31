@@ -3,8 +3,11 @@
   <ion-navbar>
     <ion-title>{{'PERSONAL_INFO' | translate}}</ion-title>
     <ion-buttons end>
-      <button ion-button clear color="primary" (click)="deleteFriend()">
+      <button *ngIf="showIcon && showDelIcon" ion-button clear color="primary" (click)="deleteFriend()">
         <ion-icon name="md-trash" style="font-size:26px;"></ion-icon>
+      </button>
+      <button *ngIf="showIcon && showAddIcon" ion-button clear color="primary" (click)="addFriend()">
+        <ion-icon name="md-add-circle" style="font-size:26px;"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
