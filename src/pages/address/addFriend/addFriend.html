@@ -10,8 +10,11 @@
 </ion-header>
 
 <ion-content class="content-gray-new">
-  <ion-searchbar placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput" (ionInput)="onInput($event)">
-  </ion-searchbar>
+  <form>
+    <ion-searchbar name="search" placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput" (ionInput)="onInput($event)"
+      (keyup)="searchUser()">
+    </ion-searchbar>
+  </form>
 
   <ion-list *ngIf="searchInput" class="icmp-list-top-margin">
     <button *ngFor="let user of userList" ion-item (click)="lookUserProfile(user)">
@@ -20,8 +23,10 @@
         <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
       </ion-avatar>
       <h2>{{user.name}}</h2>
-      <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button item-end (click)="addFriend($event, user)">添加</button>
-      <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'" ion-button item-end color="dark">已添加</button>
+      <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
+        item-end (click)="addFriend($event, user)">添加</button>
+      <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
+        ion-button item-end color="dark">已添加</button>
     </button>
   </ion-list>
 
