@@ -28,6 +28,8 @@ export class AddressPage {
   private keyword: string;
   // 隐藏顶部
   private hidTopItem: boolean = false;
+  // 隐藏字母排序
+  private selectInput: boolean = true;
 
   /**
    * 构造函数
@@ -42,16 +44,18 @@ export class AddressPage {
     private http: Http,
     private keyboard: Keyboard,
     private event: Events) {
-    this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => {
-        this.keyword = value;
-        if (this.titleFilter.value === '') {
-          this.hidTopItem = false;
-        } else {
-          this.hidTopItem = true;
+      this.titleFilter.valueChanges.debounceTime(500).subscribe(
+        value => {
+          this.keyword = value;
+          if (this.titleFilter.value === '' || this.titleFilter.value === null) {
+            this.hidTopItem = false;
+            this.selectInput = true;
+          } else {
+            this.hidTopItem = true;
+            this.selectInput = false;
+          }
         }
-      }
-    );
+      );
   }
 
   /**

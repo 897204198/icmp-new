@@ -25,10 +25,11 @@
       </ion-avatar>
       {{'GROUP' | translate}}
     </button>
+    <div *ngIf="selectInput" class="margin-bottom"></div>
   </ion-list>
   <div *ngFor="let contact of contactInfos" >
     <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'" >
-      <ion-item id="{{contact['first']}}" >{{contact['first']}}</ion-item>
+      <ion-item class="letterStyle" *ngIf="selectInput" id="{{contact['first']}}" >{{contact['first']}}</ion-item>
       <button *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
         <ion-avatar item-left class="list-avatar">
           <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
@@ -37,10 +38,11 @@
         <h2>{{user.remark}}</h2>
         <span item-end class="orgName" *ngIf="user.extendField != null">{{user.extendField.orgName}}</span>
       </button>
+      <div *ngIf="selectInput" class="margin-bottom"></div>
      </ion-list>
   </div>
   
-  <div>
+  <div *ngIf="selectInput" >
     <ul class="side">
       <li *ngFor="let letter of slider" (click)="scrollTo(letter)" id="{{letter}}" >
         <span>{{letter}}</span>
