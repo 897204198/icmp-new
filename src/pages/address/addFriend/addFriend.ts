@@ -5,49 +5,50 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../../app/services/device.service';
 import { UserProfilePage } from '../userProfile/userProfile';
 import { NavController } from 'ionic-angular';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'page-addFriend',
   templateUrl: 'addFriend.html',
 })
 export class AddFriendPage  {
-  private searchInput: string;
   private userList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;
+  // 查询拦截器
+  private titleFilter: FormControl = new FormControl();
   /**
    * 构造函数
    */
   constructor(private toastService: ToastService,
-    private navCtrl: NavController,
-    private translate: TranslateService,
-    private deviceService: DeviceService,
-    private zone: NgZone,
-    private http: Http) {
+              private navCtrl: NavController,
+              private translate: TranslateService,
+              private deviceService: DeviceService,
+              private zone: NgZone,
+              private http: Http) {
     this.translate.get(['ADD_SUCCESS']).subscribe((res: Object) => {
       this.transateContent = res;
     });
-  }
-
-  /**
-   * 改变输入框的值
-   */
-  onInput(e): void {
-    this.userList = null;
+    this.titleFilter.valueChanges.debounceTime(500).subscribe(
+      () => {
+        if (this.titleFilter.value != null && this.titleFilter.value.trim() !== ''){
+          this.searchUser();
+        } else {
+          this.userList = null;
+        }
+      }
+    );
   }
 
   /**
    * 搜索用户
    */
   searchUser() {
-    if (this.searchInput && this.searchInput.trim()){
-      this.userList = null;
-      this.http.get('/im/contact/users', { params: { 'searchText': this.searchInput } }).subscribe((res: Response) => {
-        this.userList = res.json();
-      }, (res: Response) => {
-        this.toastService.show(res.text());
-      });
-    }
+    this.http.get('/im/contact/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
+      this.userList = res.json();
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**

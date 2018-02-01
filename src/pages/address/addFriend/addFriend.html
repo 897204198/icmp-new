@@ -11,12 +11,11 @@
 
 <ion-content class="content-gray-new">
   <form>
-    <ion-searchbar name="search" placeholder="{{'SEARCH' | translate}}" [(ngModel)]="searchInput" (ionInput)="onInput($event)"
-      (keyup)="searchUser()">
+    <ion-searchbar name="search" placeholder="{{'SEARCH' | translate}}" [formControl]="titleFilter">
     </ion-searchbar>
   </form>
 
-  <ion-list *ngIf="searchInput" class="icmp-list-top-margin">
+  <ion-list class="icmp-list-top-margin">
     <button *ngFor="let user of userList" ion-item (click)="lookUserProfile(user)">
       <ion-avatar item-left>
         <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
