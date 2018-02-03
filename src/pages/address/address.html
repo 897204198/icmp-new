@@ -26,12 +26,12 @@
       </ion-avatar>
       {{'GROUP' | translate}}
     </button>
-    <div *ngIf="selectInput" class="margin-bottom"></div>
   </ion-list>
+  <div *ngIf="selectInput" class="margin-bottom"></div>
   <div *ngFor="let contact of contactInfos">
-    <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'">
+    <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'" [ngClass]="{'list-md-no-border': !selectInput}">
       <ion-item class="letterStyle" *ngIf="selectInput" id="{{contact['first']}}">{{contact['first']}}</ion-item>
-      <button *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
+      <button class="contact-no-bottom" *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none (click)="lookUserProfile(user)">
         <ion-avatar item-left class="list-avatar">
           <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
           <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
@@ -39,8 +39,8 @@
         <h2>{{user.remark}}</h2>
         <span item-end class="orgName" *ngIf="user.extendField != null">{{user.extendField.orgName}}</span>
       </button>
-      <div *ngIf="selectInput" class="margin-bottom"></div>
     </ion-list>
+    <div *ngIf="selectInput" class="margin-bottom"></div>
   </div>
 
   <div *ngIf="selectInput">

@@ -73,6 +73,10 @@ export class AddressPage {
    */
   ionViewDidEnter(): void {
     this.fetchContactInfos();
+    this.content.scrollToTop();
+    for (let i = 0; i < this.slider.length; i++) {
+      this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';
+    }
   }
 
   /**
