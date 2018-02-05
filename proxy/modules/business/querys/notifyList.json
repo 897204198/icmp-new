@@ -3,20 +3,26 @@
   "rows": [
     {
       "id": "notifyPublishQueryService",
-      "title": "清明放假通知，下班记得锁好门窗 发布时间:2017-04-03",
+      "title": "清明放假通知，下班记得锁好门窗",
+      "time": "2017年04月03日 20:00:00",
+      "image": "./assets/images/system.png",
       "style": "notice_style",
       "detailTitleBarText": "公告通知详细",
       "titleStyle": "plain"
     },
     {
       "id": "notifyPublishQueryService",
-      "title": "劳动节放假通知，假期值班安排见附件1 发布时间:207-04-27",
+      "title": "劳动节放假通知，假期值班安排见附件",
+      "time": "2017年04月27日 09:30:00",
+      "image": "./assets/images/system.png",
       "style": "notice_style",
       "detailTitleBarText": "公告通知详细"
     },
     {
       "id": "notifyPublishQueryService",
-      "title": "端午节放假通知，粽子请到5楼领取 发布时间:207-05-25",
+      "title": "端午节放假通知,假期值班安排见附件，粽子请到5楼领取",
+      "time": "2017年05月25日 14:24:56",
+      "image": "./assets/images/system.png",
       "style": "notice_style",
       "detailTitleBarText": "公告通知详细"
     }

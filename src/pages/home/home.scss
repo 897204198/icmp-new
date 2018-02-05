@@ -94,8 +94,12 @@ page-home {
       color: #f39c12;
     }
 
+    .notice-title {
+      margin-left: 16px;
+      color: #444;
+    }
+
     .notice-content {
-      padding-left: 12px;
       color: #777777;
       overflow: hidden;
       font-size: 14px;
@@ -109,6 +113,10 @@ page-home {
         white-space: nowrap;
 
       }
+    }
+
+    > button {
+      width: 50px;
     }
   }
 

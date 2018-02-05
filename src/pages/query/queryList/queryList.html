@@ -9,20 +9,30 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content class="content-gray">
+<ion-content class="content-gray-new">
   <ion-refresher *ngIf="!isTabQuery" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list *ngIf="isTabQuery">
-    <button id="e2e-tabquery-item" ion-item *ngFor="let item of queryList" (click)="goQuerySubList(item)">
-      {{item.tabName}}
-    </button>
-  </ion-list>
-  <ion-list *ngIf="!isTabQuery">
-    <button id="e2e-query-item" ion-item *ngFor="let item of queryList" (click)="goQueryDetail(item)">
-      <div [innerHtml]="getSafeHtml(item.title)"></div>
-    </button>
-  </ion-list>
+  <div class="main-row main-menus" *ngIf="isTabQuery">
+    <div id="e2e-tabquery-item" *ngFor="let item of queryList" tappable (tap)="goQuerySubList(item)" class="main-menu" [style.width]="menuWidth">
+      <img *ngIf="item.tabImage != null && item.tabImage != ''" [src]="item.tabImage">
+      <img *ngIf="item.tabImage == null || item.tabImage == ''" src="./assets/images/query/paper.pngs">
+      <div class="menu-title">{{item.tabName}}</div>
+    </div>
+  </div>
+  <div *ngIf="!isTabQuery">
+    <div *ngFor="let item of queryList">
+      <div *ngIf="item.time != null && item.time != ''" class="query-item-time">{{item.time}}</div>
+      <ion-list *ngIf="!isTabQuery" class="query-item-title" [ngClass]="{'query-item-content-border': item.time == null || item.time == ''}">
+        <button id="e2e-query-item" ion-item (click)="goQueryDetail(item)">
+          <div class="query-item-content">
+            <img *ngIf="item.image != null && item.image != ''" [src]="item.image">
+            <span [innerHtml]="getSafeHtml(item.title)"></span>
+          </div>
+        </button>
+      </ion-list>
+    </div>
+  </div>
   <ion-infinite-scroll (ionInfinite)="doInfinite()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

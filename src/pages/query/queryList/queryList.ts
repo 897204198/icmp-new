@@ -34,17 +34,27 @@ export class QueryListPage {
   queryInput: Object;
   // 下拉刷新事件
   private refresher: Refresher;
+  // 应用所占的宽度
+  private menuWidth: string;
 
   /**
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-    public navParams: NavParams,
-    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-    private http: Http,
-    private toastService: ToastService,
-    private sanitizer: DomSanitizer,
-    private modalCtrl: ModalController) { }
+              public navParams: NavParams,
+              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+              private http: Http,
+              private toastService: ToastService,
+              private sanitizer: DomSanitizer,
+              private modalCtrl: ModalController) {
+    if (screen.width <= 375) {
+      this.menuWidth = 25 + '%';
+    } else if (screen.width > 375 && screen.width <= 590) {
+      this.menuWidth = 20 + '%';
+    } else {
+      this.menuWidth = 16.6 + '%';
+    }
+  }
 
   /**
    * 每次进入页面

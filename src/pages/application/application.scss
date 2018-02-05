@@ -104,4 +104,12 @@
   .remove-circle-delete-border {
     border-top: 1px solid #dedede;
   }
+
+  .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
+    border-radius: 0;
+  }
+
+  .item-md ion-avatar ion-img, .item-md ion-avatar img {
+    border-radius: 0;
+  }
 }

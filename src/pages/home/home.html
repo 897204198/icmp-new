@@ -29,11 +29,15 @@
   <!--消息-->
   <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
     <ion-icon name="volume-up"></ion-icon>
+    <span class="notice-title">{{'LAST_NOTIFY' | translate}}</span>
+  </div>
+  <div *ngIf="notices != null && notices.length > 0" class="main-row main-notice">
     <span class="notice-content">
         <div class="e2e-notice" *ngFor="let item of notices; let i = index" [ngClass]="{'notice-first': i==0}" tappable (tap)="openNotice(item)">
           <span [innerHtml]="item.title"></span>
         </div>
     </span>
+    <button ion-button small round item-end>{{'MORE' | translate}}</button>
   </div>
 
   <!--插件-->

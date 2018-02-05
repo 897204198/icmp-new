@@ -9,4 +9,12 @@ page-query-notice-detail {
     margin-top: 10px;
     font-size: 1.3em;
   }
+  
+  .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
+    border-radius: 0;
+  }
+
+  .item-md ion-avatar ion-img, .item-md ion-avatar img {
+    border-radius: 0;
+  }
 }

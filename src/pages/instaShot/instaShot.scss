@@ -56,4 +56,29 @@ page-insta-shot {
   ion-label {
     color: black !important;
   }
+
+  .instashot-footer {
+    .toolbar-content {
+      display: flex;
+      flex-direction: row;
+
+      > button {
+        flex: 1;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0) !important;
+
+        .icon {
+          margin-right: 5px;
+          font-size: 24px;
+        }
+      }
+
+      .footer-button-sp {
+        width: 1px;
+        max-width: 1px;
+        height: 34px;
+        margin-top: 10px;
+        background-color: #ccc;
+      }
+    }
+  }
 }
