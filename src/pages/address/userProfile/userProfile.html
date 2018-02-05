@@ -4,10 +4,10 @@
     <ion-title>{{'PERSONAL_INFO' | translate}}</ion-title>
     <ion-buttons end>
       <button *ngIf="showIcon && showDelIcon" ion-button clear color="primary" (click)="deleteFriend()">
-        <ion-icon name="md-trash" style="font-size:26px;"></ion-icon>
+        <span style="font-size: 1.4rem;">{{'DELETE_FRIEND' | translate}}</span>
       </button>
       <button *ngIf="showIcon && showAddIcon" ion-button clear small color="primary" (click)="addFriend()">
-        <span style="font-size: 1.4rem;">加为好友</span>  
+        <span style="font-size: 1.4rem;">{{'ADD_FRIEND' | translate}}</span>
       </button>
     </ion-buttons>
   </ion-navbar>
