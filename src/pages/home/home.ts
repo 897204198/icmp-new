@@ -267,4 +267,14 @@ export class HomePage {
     };
     this.routersService.pageForward(this.navCtrl, menuItem);
   }
+
+  openAllNotice(): void {
+    let menuItem: any = {
+      'style': 'notice_style',
+      'page': 'query',
+      'name': '公告通知',
+      'serviceName': 'notifyPublishQueryService'
+    };
+    this.routersService.pageForward(this.navCtrl, menuItem);
+  }
 }
