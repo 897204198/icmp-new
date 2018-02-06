@@ -15,6 +15,9 @@ export interface OaConstant {
   // '' 关闭管理页
   // 其它字符，正常的密码录入框
   adminConsolePass: string;
+
+  // 聊天 key
+  chatKey: string;
 }
 
 /**
@@ -61,7 +64,8 @@ export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 const oaConstant: OaConstant = {
   baseUrl: './api',
   md5Encryption: true,
-  adminConsolePass: '123456'
+  adminConsolePass: '123456',
+  chatKey: '1166171023115752#sjoa'
 };
 
 const properPushConstant: ProperPushConstant = {

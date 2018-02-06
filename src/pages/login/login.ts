@@ -155,7 +155,8 @@ export class LoginPage {
               baseUrl: this.configsService.getBaseUrl(),
               pushUrl: this.configsService.getPushUrl(),
               token: 'Bearer ' + localStorage['token'],
-              chatId: newUserInfo.userId
+              chatId: newUserInfo.userId,
+              chatKey: this.appConstant.oaConstant.chatKey
             };
             (<any>window).huanxin.imlogin(imparams);
           }
