@@ -19,7 +19,7 @@
         "releaseAndroid": "npm run grunt:releaseAndroid && ionic cordova build android --prod --no-interactive --release --buildConfig=build.json",
         "releaseIOS": "npm run grunt:releaseIOS && ionic cordova build ios --prod --no-interactive",
         "serve": "grunt serveProxy --force && ionic-app-scripts serve",
-        "serve:real": "grunt serveProxy:real && ionic-app-scripts serve",
+        "serve:real": "grunt serveProxy:real --force && ionic-app-scripts serve",
         "serve:win": "ionic-app-scripts serve",
         "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./protractor.config.js"
     },
