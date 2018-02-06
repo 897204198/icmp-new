@@ -73,6 +73,9 @@ export class ApplicationPage {
   getInitData(): void {
     let params: URLSearchParams = new URLSearchParams();
     params.append('serviceName', this.navParams.get('serviceName'));
+    params.append('user', this.navParams.get('assignee'));
+    params.append('taskId', this.navParams.get('taskId'));
+    params.append('step', this.navParams.get('step'));
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
