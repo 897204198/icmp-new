@@ -27,7 +27,10 @@
         <button id="e2e-query-item" ion-item (click)="goQueryDetail(item)">
           <div class="query-item-content">
             <img *ngIf="item.image != null && item.image != ''" [src]="item.image">
-            <span [innerHtml]="getSafeHtml(item.title)"></span>
+            <div class="query-item-content-font" [ngClass]="{'query-item-content-font-width': item.image == null || item.image == ''}">
+              <p class="query-item-content-title" [innerHtml]="getSafeHtml(item.title)"></p>
+              <p class="query-item-content-subtitle">{{item.subTitle}}</p>
+            </div>
           </div>
         </button>
       </ion-list>
