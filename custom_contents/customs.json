@@ -14,7 +14,7 @@
       "ios": "https://www.baidu.com"
     },
     "server": {
-      "chatKey": "1166171023115752#sjoa",
+      "chatKey": "1166171023115752#demo-icmp",
       "baseUrl": "http://192.168.1.113/icmp/",
       "pushAppId": "MobileOA",
       "pushServer": "http://39.106.53.71:29091/pep-push",

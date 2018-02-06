@@ -63,9 +63,9 @@ export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 
 const oaConstant: OaConstant = {
   baseUrl: './api',
+  chatKey: '1166171023115752#demo-icmp',
   md5Encryption: true,
-  adminConsolePass: '123456',
-  chatKey: '1166171023115752#sjoa'
+  adminConsolePass: '123456'
 };
 
 const properPushConstant: ProperPushConstant = {
