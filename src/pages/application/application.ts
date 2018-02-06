@@ -71,9 +71,11 @@ export class ApplicationPage {
    * 取得初始化数据
    */
   getInitData(): void {
-    let params: Object = {
-      'serviceName': this.navParams.get('serviceName')
-    };
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('serviceName', this.navParams.get('serviceName'));
+    params.append('user', this.navParams.get('assignee'));
+    params.append('taskId', this.navParams.get('taskId'));
+    params.append('step', this.navParams.get('step'));
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {

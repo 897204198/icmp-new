@@ -18,6 +18,13 @@
         margin: 0;
         width: 100%;
       }
+
+      .label {
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+        max-width: none;
+      }
     }
 
     .form-text .text-input {
@@ -31,6 +38,12 @@
 
   .label {
     color: #000000;
+  }
+
+  ion-label[fixed] {
+    width: 130px;
+    min-width: 130px;
+    max-width: 200px;
   }
 
   .small-label {
@@ -56,6 +69,12 @@
       margin: 0;
       border-top: 0;
       border-bottom: 0;
+
+      .label {
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+      }
     }
 
     .item-block:last-child {
