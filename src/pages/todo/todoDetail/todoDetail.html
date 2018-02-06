@@ -21,7 +21,7 @@
         <p item-right class="form_text_value">{{item.default}}</p>
       </ion-item>
       <ion-item *ngIf="item.type != 'filelist' && item.type != 'table' && item.layout == 'layout_2'">
-        <h2>{{item.label}}</h2>
+        <h2 class="layout_2_content">{{item.label}}</h2>
         <p class="form_textarea_value"><span [innerHtml]="item.default"></span></p>
       </ion-item>
       <ion-item *ngIf="item.type == 'table'" class="form-table-list">
