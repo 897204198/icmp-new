@@ -15,14 +15,14 @@
     },
     "server": {
       "chatKey": "1166171023115752#demo-icmp",
-      "baseUrl": "http://192.168.1.113/icmp/",
+      "baseUrl": "http://demo.propersoft.cn:49091/icmp",
       "pushAppId": "MobileOA",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517676541",
         "theAppkey": "5411767628541"
       },
-      "hcp": "https://cloud.propersoft.cn/icmp/app-im"
+      "hcp": "http://demo.propersoft.cn"
     }
   },
   "dev": {

@@ -17,9 +17,47 @@
   </div>
   
   <div [ngSwitch]="pet">
+    <ion-list *ngSwitchCase="'item1'" style="margin: -1px 0 8px;">
+      <ion-item style="font-size: 1.5rem;color: #262626;">
+        马东的请假申请
+      </ion-item>
+      <ion-item>
+        <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;font-size: 1.4rem;margin-top: 10px;">
+          <img src="./assets/images/map_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;"> 
+          辽宁省沈阳市铁西区新华南街10号兴隆大都汇A座21楼 沈阳普日软件
+        </div>
+        <div style="margin: 7px 0;color:#777;font-size: 1.4rem;">
+          <img src="./assets/images/time_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;">
+          2018-01-29 17:30:00
+        </div>
+      </ion-item>
+      <ion-item item-end>
+        <button ion-button small color="primary" (click)="doHandle()" round style="float: right; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);">{{'HANDLE' | translate}}</button>
+        <button ion-button small round style="float: right; background: #fac305; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);margin-right:10px;">{{'GOBACK' | translate}}</button>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngSwitchCase="'item1'" style="margin: -1px 0 8px;">
+      <ion-item style="font-size: 1.5rem;color: #262626;">
+        马云的请假申请
+      </ion-item>
+      <ion-item>
+        <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;font-size: 1.4rem;margin-top: 10px;">
+          <img src="./assets/images/map_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;"> 
+          辽宁省沈阳市铁西区建设大路兴隆大都汇
+        </div>
+        <div style="margin: 7px 0;color:#777;font-size: 1.4rem;">
+          <img src="./assets/images/time_3x.png" style="width:20px;height:20px;vertical-align: text-bottom;">
+          2018-01-25 15:30:00
+        </div>
+      </ion-item>
+      <ion-item item-end>
+        <button ion-button small color="primary" (click)="doHandle()" round style="float: right; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);">{{'HANDLE' | translate}}</button>
+        <button ion-button small round style="float: right; background: #fac305; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);margin-right:10px;">{{'GOBACK' | translate}}</button>
+      </ion-item>
+    </ion-list>
     <ion-list *ngSwitchCase="'item1'">
       <ion-item style="font-size: 1.5rem;color: #262626;">
-        张三的请假申请
+        马化腾的请假申请
       </ion-item>
       <ion-item>
         <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;font-size: 1.4rem;margin-top: 10px;">
@@ -39,7 +77,7 @@
   
     <ion-list *ngSwitchCase="'item2'">
       <ion-item style="font-size: 1.5rem;color: #262626;">
-        李四的会议申请
+        李天一的会议申请
       </ion-item>
       <ion-item>
         <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;font-size: 1.4rem;margin-top: 10px;">
@@ -79,7 +117,7 @@
 
     <ion-list *ngSwitchCase="'item4'">
       <ion-item style="font-size: 1.5rem;color: #262626;">
-        刘柳的用车申请
+        柳青的用车申请
       </ion-item>
       <ion-item>
         <div style="margin: 15px 0;white-space: normal;word-wrap: break-word;word-break: break-all;color:#777;line-height: 28px;letter-spacing: 1px;font-size: 1.4rem;margin-top: 10px;">
