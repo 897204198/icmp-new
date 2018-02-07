@@ -1,4 +1,4 @@
-import { Component, ViewChild, NgZone, ElementRef, Renderer } from '@angular/core';
+import { Component, ViewChild, NgZone, ElementRef, Renderer, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Platform, Tabs, AlertController, NavController, Events } from 'ionic-angular';
 import { HomePage } from '../home/home';
@@ -19,6 +19,9 @@ import { Store } from '@ngrx/store';
 import { TODO_BADGE_STATE, IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { TodoReplaceBadageAction } from '../../app/redux/actions/todo.action';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
+import { ConfigsService } from '../../app/services/configs.service';
+import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
+import { DeviceService } from '../../app/services/device.service';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -49,6 +52,9 @@ export class TabsPage {
     private translate: TranslateService,
     private store: Store<string>,
     private elementRef: ElementRef,
+    private configsService: ConfigsService,
+    @Inject(APP_CONSTANT) private appConstant: AppConstant,
+    private deviceService: DeviceService,
     private event: Events,
     private renderer: Renderer) {
     let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO'];
@@ -68,8 +74,12 @@ export class TabsPage {
         this.tabRoots[1]['tabBadge'] = data;
       });
 
-      // 获取未读消息数量
-      this.getUnreadMessageNumber();
+      // 防止在 web 上报错
+      if (this.deviceService.getDeviceInfo().deviceType) {
+        // 获取未读消息数量
+        this.getUnreadMessageNumber();
+      }
+
       // 消息角标绑定
       this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
         this.tabRoots[2]['tabBadge'] = data;
@@ -265,6 +275,18 @@ export class TabsPage {
 
   // 获取未读消息数量
   getUnreadMessageNumber() {
+    // 获取未读消息前先登录并将 chatKey 传入
+    let userInfo: UserInfoState = this.userService.getUserInfo();
+    let params = {
+      username: userInfo.loginName,
+      password: userInfo.password0,
+      baseUrl: this.configsService.getBaseUrl(),
+      pushUrl: this.configsService.getPushUrl(),
+      token: 'Bearer ' + localStorage['token'],
+      chatId: userInfo.userId,
+      chatKey: this.appConstant.oaConstant.chatKey
+    };
+    (<any>window).huanxin.imlogin(params);
 
     (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
       this.zone.run(() => {
