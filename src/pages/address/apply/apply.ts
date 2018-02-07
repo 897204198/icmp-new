@@ -16,8 +16,6 @@ export class ApplyPage {
   private applyList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;
-  // 控制按钮点击
-  isSubmit: boolean;
 
   /**
    * 构造函数
@@ -37,7 +35,6 @@ export class ApplyPage {
    * 首次进入页面
    */
   ionViewDidLoad(): void {
-    this.isSubmit = false;
     this.fetchApplications();
   }
 
@@ -47,6 +44,9 @@ export class ApplyPage {
   fetchApplications(): void {
     this.http.get('/im/notice/notices').subscribe((res: Response) => {
       this.applyList = res.json();
+      for (let i = 0; i < this.applyList.length; i++) {
+        this.applyList[i]['isSubmit'] = false;
+      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -64,12 +64,12 @@ export class ApplyPage {
    */
   agreeApply(event: any, item: Object) {
     event.stopPropagation();
-    this.isSubmit = true;
+    item['isSubmit'] = true;
     this.http.put('/im/notice', {noticeId: item['id'], type: '2' }).subscribe(() => {
       this.toastService.show(this.transateContent['AGREED']);
       this.fetchApplications();
     }, (res: Response) => {
-      this.isSubmit = false;
+      item['isSubmit'] = false;
       this.toastService.show(res.text());
     });
   }
@@ -79,12 +79,12 @@ export class ApplyPage {
    */
   refuseApply(event: any, item: Object) {
     event.stopPropagation();
-    this.isSubmit = true;
+    item['isSubmit'] = true;
     this.http.put('/im/notice', {noticeId: item['id'], type: '3' }).subscribe(() => {
       this.toastService.show(this.transateContent['REFUSED']);
       this.fetchApplications();
     }, (res: Response) => {
-      this.isSubmit = false;
+      item['isSubmit'] = false;
       this.toastService.show(res.text());
     });
   }
