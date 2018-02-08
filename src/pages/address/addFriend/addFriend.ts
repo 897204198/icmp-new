@@ -26,7 +26,7 @@ export class AddFriendPage  {
               private deviceService: DeviceService,
               private zone: NgZone,
               private http: Http) {
-    this.translate.get(['ADD_SUCCESS']).subscribe((res: Object) => {
+    this.translate.get(['REQUEST_SENT']).subscribe((res: Object) => {
       this.transateContent = res;
     });
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
@@ -61,7 +61,7 @@ export class AddFriendPage  {
       'type': '0'
     };
     this.http.post('/im/contact/send', params).subscribe((res: Response) => {
-      this.toastService.show(this.transateContent['ADD_SUCCESS']);
+      this.toastService.show(this.transateContent['REQUEST_SENT']);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
