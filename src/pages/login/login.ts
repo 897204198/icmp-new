@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -34,7 +34,6 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-    private modalCtrl: ModalController,
     private pushService: PushService,
     private cryptoService: CryptoService,
     private backButtonService: BackButtonService,
@@ -145,8 +144,12 @@ export class LoginPage {
           };
           this.userService.saveUserInfo(newUserInfo);
           this.userService.login();
-          this.pushService.bindUserid(account, account);
+          this.navCtrl.push(TabsPage).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
 
+          this.pushService.bindUserid(account, account);
           // 避免在 web 上无法显示页面
           if (this.deviceService.getDeviceInfo().deviceType) {
             let imparams = {
@@ -160,8 +163,6 @@ export class LoginPage {
             };
             (<any>window).huanxin.imlogin(imparams);
           }
-          let modal = this.modalCtrl.create(TabsPage);
-          modal.present();
         }, (err: Response) => {
           this.toastService.show(err.text());
         });

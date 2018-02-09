@@ -92,7 +92,10 @@ export class SettingPage {
     this.userService.logout();
     this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
     // 退出
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push(LoginPage).then(() => {
+      const startIndex = this.navCtrl.getActive().index - 1;
+      this.navCtrl.remove(startIndex, 1);
+    });
     (<any>window).huanxin.imlogout();
   }
 }
