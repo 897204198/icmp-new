@@ -1,7 +1,7 @@
 {
   "demo": {
     "id": {
-      "android": "com.proper.icmp",
+      "android": "com.proper.icmp.demo",
       "ios": "com.proper.icmp.demo"
     },
     "version": {
@@ -15,20 +15,20 @@
     },
     "server": {
       "chatKey": "1166171023115752#demo-icmp",
-      "baseUrl": "http://demo.propersoft.cn:49091/icmp",
+      "baseUrl": "https://icmp.propersoft.cn/demo/api/",
       "pushAppId": "MobileOA",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
         "theAppid": "2882303761517676541",
         "theAppkey": "5411767628541"
       },
-      "hcp": "http://demo.propersoft.cn"
+      "hcp": "https://icmp.propersoft.cn/demo/"
     }
   },
   "dev": {
     "id": {
-      "android": "com.proper.icmp",
-      "ios": "com.proper.icmp.demo"
+      "android": "com.proper.icmp.dev",
+      "ios": "com.proper.icmp.dev"
     },
     "version": {
       "android": "20000-SNAPSHOT",
