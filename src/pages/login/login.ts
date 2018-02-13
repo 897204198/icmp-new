@@ -131,7 +131,7 @@ export class LoginPage {
             const startIndex = this.navCtrl.getActive().index - 1;
             this.navCtrl.remove(startIndex, 1);
           });
-          this.pushService.bindUserid(data['userId'], loginName);
+          this.pushService.bindUserid(data['id'], loginName);
         }, (err: Response) => {
           this.toastService.show(err.text());
         });
