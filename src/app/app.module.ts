@@ -128,7 +128,6 @@ export function createTranslateLoader(http: Http) {
   imports: [
     IonicModule.forRoot(MyApp, {
       tabsHideOnSubPages: 'true',
-      swipeBackEnabled: 'false',
       platforms: {
         ios: {
           backButtonText: '返回'
