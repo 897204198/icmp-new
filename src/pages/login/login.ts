@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -33,7 +33,6 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-    private modalCtrl: ModalController,
     private pushService: PushService,
     private cryptoService: CryptoService,
     private backButtonService: BackButtonService,
@@ -107,7 +106,7 @@ export class LoginPage {
     this.http.post('/user/login', params).subscribe((res: Response) => {
       if (res.json()['errMsg'] != null && res.json()['token'] == null) {
         this.toastService.show(res.json()['errMsg']);
-      }else if (res.json()['token'] != null){
+      } else if (res.json()['token'] != null) {
         localStorage.token = res.json()['token'];
         this.http.get('/user').subscribe((data: Response) => {
           let userData = data.json();
@@ -128,10 +127,11 @@ export class LoginPage {
           };
           this.userService.saveUserInfo(newUserInfo);
           this.userService.login();
-          this.pushService.bindUserid(data['id'], loginName);
-
-          let modal = this.modalCtrl.create(TabsPage);
-          modal.present();
+          this.navCtrl.push(TabsPage).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
+          this.pushService.bindUserid(data['userId'], loginName);
         }, (err: Response) => {
           this.toastService.show(err.text());
         });

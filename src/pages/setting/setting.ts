@@ -89,6 +89,9 @@ export class SettingPage {
     // 取消自动登录
     this.userService.logout();
     // 退出
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push(LoginPage).then(() => {
+      const startIndex = this.navCtrl.getActive().index - 1;
+      this.navCtrl.remove(startIndex, 1);
+    });
   }
 }
