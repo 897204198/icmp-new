@@ -284,29 +284,29 @@ export class TabsPage {
       pushUrl: this.configsService.getPushUrl(),
       token: 'Bearer ' + localStorage['token'],
       chatId: userInfo.userId,
-      chatKey: this.appConstant.oaConstant.chatKey
+      chatKey: this.appConstant.oaConstant.chatKey,
+      pushAppId: this.appConstant.properPushConstant.appId
     };
-    (<any>window).huanxin.imlogin(params);
-
-    (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
-      this.zone.run(() => {
-        if (retData.length === 0) {
-          this.store.dispatch(new ImReplaceBadageAction(''));
-        } else {
-          let total: number = 0;
-          let i: number = retData.length;
-          while (i) {
-            i--;
-            total += Number(retData[i]['unreadMessagesCount']);
-          }
-          if (total === 0) {
+    (<any>window).huanxin.imlogin(params, () => {
+      (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
+        this.zone.run(() => {
+          if (retData.length === 0) {
             this.store.dispatch(new ImReplaceBadageAction(''));
           } else {
-            this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+            let total: number = 0;
+            let i: number = retData.length;
+            while (i) {
+              i--;
+              total += Number(retData[i]['unreadMessagesCount']);
+            }
+            if (total === 0) {
+              this.store.dispatch(new ImReplaceBadageAction(''));
+            } else {
+              this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+            }
           }
-        }
-      });
-    }, (retData) => { });
-
+        });
+      }, (retData) => { });
+    });
   }
 }
