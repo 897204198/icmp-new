@@ -130,5 +130,17 @@ page-address {
     border-top: none !important;
     border-bottom: none !important;
   }
+
+  .hint {
+    padding: 1px 6px;
+    background-color: red;
+    color: white;
+    top: 70px;
+    right: 8%;
+    position: -6%;
+    position: absolute;
+    border-radius: 50%;
+    order: 5;
+  }
 }
 

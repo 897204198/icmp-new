@@ -30,6 +30,8 @@ export class AddressPage {
   private hidTopItem: boolean = false;
   // 隐藏字母排序
   private selectInput: boolean = true;
+  // 未读通知
+  private unreadData: string;
 
   /**
    * 构造函数
@@ -72,11 +74,23 @@ export class AddressPage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
+    this.getUnreadMessageCount();
     this.fetchContactInfos();
     this.content.scrollToTop();
     for (let i = 0; i < this.slider.length; i++) {
       this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';
     }
+  }
+
+  /**
+   * 获得未读申请与通知的条数
+   */
+  getUnreadMessageCount() {
+    this.http.get('/im/notice/count').subscribe((res: Response) => {
+      this.unreadData = res.json();
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**
