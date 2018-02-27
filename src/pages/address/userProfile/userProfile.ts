@@ -72,8 +72,9 @@ export class UserProfilePage {
     }
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
-    let searchUserId: string = this.navParams.get('toUserId');
-    this.getUserInfoFromNet(searchUserId);
+    let searchUserId: string = this.navParams.get('fromUserId');
+    let searchToUserId: string = this.navParams.get('toUserId');
+    this.getUserInfoFromNet(searchUserId, searchToUserId);
   }
 
   /**
@@ -88,9 +89,10 @@ export class UserProfilePage {
   /**
    * 取得用户信息
    */
-  getUserInfoFromNet(userId: string): void {
+  getUserInfoFromNet(userId: string, toUserId: string): void {
     let params = {
-      userId: userId
+      userId: userId,
+      toUserId: toUserId
     };
     this.http.get('/user/base-info', { params: params }).subscribe((res: Response) => {
       let data: Object = res.json();

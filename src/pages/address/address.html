@@ -21,7 +21,7 @@
         </ion-avatar>
         {{'APPLY_AND_NOTIFICATION' | translate}}
       </button>
-      <div *ngIf="unreadData !== 0"  class="hint">{{unreadData}}</div>
+      <div *ngIf="unreadData !== 0 && unreadData != null"  class="hint">{{unreadData}}</div>
     </div>
     <button ion-item (click)="myGroup()">
       <ion-avatar item-left class="control-img">

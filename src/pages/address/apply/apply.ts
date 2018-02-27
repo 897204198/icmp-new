@@ -56,7 +56,7 @@ export class ApplyPage {
    * 进入个人信息详情
    */
   lookUserProfile(item: Object) {
-    this.navCtrl.push(UserProfilePage, {'toUserId': item['fromUserId'], 'remark': item['nickId'], 'pageType': '0'});
+    this.navCtrl.push(UserProfilePage, {'fromUserId': item['fromUserId'], 'toUserId': item['toUserId'], 'remark': item['nickId'], 'pageType': '0'});
   }
 
   /**
