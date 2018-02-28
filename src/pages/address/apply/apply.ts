@@ -48,7 +48,11 @@ export class ApplyPage {
         this.applyList[i]['isSubmit'] = false;
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -70,7 +74,11 @@ export class ApplyPage {
       this.fetchApplications();
     }, (res: Response) => {
       item['isSubmit'] = false;
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -85,7 +93,11 @@ export class ApplyPage {
       this.fetchApplications();
     }, (res: Response) => {
       item['isSubmit'] = false;
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -101,7 +113,11 @@ export class ApplyPage {
     this.http.delete('/im/notice/' + item['id'], {params: params}).subscribe(() => {
       this.toastService.show(this.transateContent['DELETED']);
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 

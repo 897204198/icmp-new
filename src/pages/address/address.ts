@@ -19,9 +19,9 @@ import { Content } from 'ionic-angular';
 })
 export class AddressPage {
   @ViewChild(Content) content: Content;
-  private contactInfos: Array<{first: string, items: Array<Object>}> = [];
+  private contactInfos: Array<{ first: string, items: Array<Object> }> = [];
   // 右边26个字母滑动栏
-  private slider: string [] = [];
+  private slider: string[] = [];
   // 查询拦截器
   private titleFilter: FormControl = new FormControl();
   // 查询keyword
@@ -46,18 +46,18 @@ export class AddressPage {
     private http: Http,
     private keyboard: Keyboard,
     private event: Events) {
-      this.titleFilter.valueChanges.debounceTime(500).subscribe(
-        value => {
-          this.keyword = value;
-          if (this.titleFilter.value === '' || this.titleFilter.value === null) {
-            this.hidTopItem = false;
-            this.selectInput = true;
-          } else {
-            this.hidTopItem = true;
-            this.selectInput = false;
-          }
+    this.titleFilter.valueChanges.debounceTime(500).subscribe(
+      value => {
+        this.keyword = value;
+        if (this.titleFilter.value === '' || this.titleFilter.value === null) {
+          this.hidTopItem = false;
+          this.selectInput = true;
+        } else {
+          this.hidTopItem = true;
+          this.selectInput = false;
         }
-      );
+      }
+    );
   }
 
   /**
@@ -89,7 +89,11 @@ export class AddressPage {
     this.http.get('/im/notice/count').subscribe((res: Response) => {
       this.unreadData = res.json();
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -97,7 +101,7 @@ export class AddressPage {
    * 获取用户通讯录
    */
   fetchContactInfos() {
-    this.http.get('/im/contact/contacts', {params: { 'type': '0' }}).subscribe((res: Response) => {
+    this.http.get('/im/contact/contacts', { params: { 'type': '0' } }).subscribe((res: Response) => {
       this.slider = [];
       this.contactInfos = [];
       let compare = function (prop) {
@@ -105,40 +109,44 @@ export class AddressPage {
           let val1 = obj1[prop];
           let val2 = obj2[prop];
           if (!isNaN(Number(val1)) && !isNaN(Number(val2))) {
-              val1 = Number(val1);
-              val2 = Number(val2);
+            val1 = Number(val1);
+            val2 = Number(val2);
           }
           if (val1 < val2) {
-              return -1;
+            return -1;
           } else if (val1 > val2) {
-              return 1;
+            return 1;
           } else {
-              return 0;
+            return 0;
           }
         };
       };
       let temporary: Array<Object> = [];
       temporary = res.json();
-      for (let i = 0 ; i < temporary.length ; i++) {
+      for (let i = 0; i < temporary.length; i++) {
         temporary[i]['ordered'] = this.spell.GetSpell(temporary[i]['remark']);
         temporary[i]['initial'] = temporary[i]['ordered'][0][0];
       }
       temporary.sort(compare('ordered'));
-      for (let i = 0; i < temporary.length; i++){
+      for (let i = 0; i < temporary.length; i++) {
         let item = temporary[i];
         let fist = item['initial'] as string;
         let current = this.contactInfos.filter((v, num, arr) => v.first === fist);
-        if (current.length === 0 ){
-          current.push({ first: fist, items: []});
+        if (current.length === 0) {
+          current.push({ first: fist, items: [] });
           this.contactInfos.push(current[0]);
         }
         current[0].items.push(item);
       }
-      for (let i = 0; i < this.contactInfos.length; i++){
+      for (let i = 0; i < this.contactInfos.length; i++) {
         this.slider.push(this.contactInfos[i]['first']);
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -150,11 +158,11 @@ export class AddressPage {
     let temporary = false;
     for (let i = 0; i < this.contactInfos.length; i++) {
       if (this.contactInfos[i].first === letter) {
-        temporary = true ;
+        temporary = true;
       }
     }
     if (temporary) {
-      let scrollTop = this.elementref.nativeElement.querySelector( 'ion-item#' + letter ).offsetTop;
+      let scrollTop = this.elementref.nativeElement.querySelector('ion-item#' + letter).offsetTop;
       this.content.scrollTo(10, scrollTop, 300);
       for (let i = 0; i < this.slider.length; i++) {
         this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';

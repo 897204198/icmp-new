@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
   selector: 'page-addFriend',
   templateUrl: 'addFriend.html',
 })
-export class AddFriendPage  {
+export class AddFriendPage {
   private userList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;
@@ -21,17 +21,17 @@ export class AddFriendPage  {
    * 构造函数
    */
   constructor(private toastService: ToastService,
-              private navCtrl: NavController,
-              private translate: TranslateService,
-              private deviceService: DeviceService,
-              private zone: NgZone,
-              private http: Http) {
+    private navCtrl: NavController,
+    private translate: TranslateService,
+    private deviceService: DeviceService,
+    private zone: NgZone,
+    private http: Http) {
     this.translate.get(['REQUEST_SENT']).subscribe((res: Object) => {
       this.transateContent = res;
     });
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       () => {
-        if (this.titleFilter.value != null && this.titleFilter.value.trim() !== ''){
+        if (this.titleFilter.value != null && this.titleFilter.value.trim() !== '') {
           this.searchUser();
         } else {
           this.userList = null;
@@ -47,7 +47,11 @@ export class AddFriendPage  {
     this.http.get('/im/contact/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
       this.userList = res.json();
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -63,7 +67,11 @@ export class AddFriendPage  {
     this.http.post('/im/contact/send', params).subscribe((res: Response) => {
       this.toastService.show(this.transateContent['REQUEST_SENT']);
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -75,7 +83,7 @@ export class AddFriendPage  {
     if (item['status'] != null) {
       isFriend = item['status']['code'];
     }
-    this.navCtrl.push(UserProfilePage, {'toUserId': item['id'], 'remark': item['name'], 'pageType': '0', 'isFriend': isFriend});
+    this.navCtrl.push(UserProfilePage, { 'toUserId': item['id'], 'remark': item['name'], 'pageType': '0', 'isFriend': isFriend });
   }
 
   /**

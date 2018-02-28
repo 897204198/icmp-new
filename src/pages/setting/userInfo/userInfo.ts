@@ -65,8 +65,12 @@ export class UserInfoPage {
           this.userInfo['sexName'] = '女';
         }
       }
-    }, (err: Response) => {
-      this.toastService.show(err.text());
+    }, (res: Response) => {
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 }

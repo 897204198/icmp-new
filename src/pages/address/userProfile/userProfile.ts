@@ -198,7 +198,11 @@ export class UserProfilePage {
       this.toastService.show(this.transateContent['ADD_SUCCESS']);
       this.navCtrl.pop();
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 }

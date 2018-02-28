@@ -127,7 +127,7 @@ export class LoginPage {
             sexCode = userData['sex']['code'];
           }
           let newUserInfo: UserInfoState = {
-            loginName: account,
+            loginName: userData['account'],
             password: md5password,
             password0: password,
             savePassword: this.userInfo.savePassword,
@@ -144,16 +144,17 @@ export class LoginPage {
           };
           this.userService.saveUserInfo(newUserInfo);
           this.userService.login();
-          this.navCtrl.push(TabsPage).then(() => {
+          // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+          this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
             const startIndex = this.navCtrl.getActive().index - 1;
             this.navCtrl.remove(startIndex, 1);
           });
 
-          this.pushService.bindUserid(account, account);
+          this.pushService.bindUserid(newUserInfo.loginName, newUserInfo.loginName);
           // 避免在 web 上无法显示页面
           if (this.deviceService.getDeviceInfo().deviceType) {
             let imparams = {
-              username: account,
+              username: newUserInfo.loginName,
               password: password,
               baseUrl: this.configsService.getBaseUrl(),
               pushUrl: this.configsService.getPushUrl(),

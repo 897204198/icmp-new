@@ -42,7 +42,7 @@ export class AppVersionUpdateService {
       let data = res.json();
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString().substring(0, 5);
-      if (data.versionNo != null && Number(data.versionNo) > Number(cutVersionCode)) {
+      if (data.version != null && Number(data.version) > Number(cutVersionCode)) {
         if (data.note == null || data.note === '') {
           data.note = this.transateContent['APP_UPDATE_NOTE'];
         }

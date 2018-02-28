@@ -115,9 +115,12 @@ export class HttpInterceptor extends Http {
         this.store.dispatch(new RequestDecrementAction());
       }, (res) => {
         this.store.dispatch(new RequestDecrementAction());
-
         if (res.status === -1 || res.status === 0) {
-          res._body = '网络异常，请稍后再试';
+          if (res.ok === false && this.deviceService.getDeviceInfo().deviceType) {
+            res._body = null;
+          } else {
+            res._body = '网络异常，请稍后再试';
+          }
         } else if (res.status === 401) {
           res._body = null;
         } else if (res.status === 404) {
