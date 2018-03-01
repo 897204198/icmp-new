@@ -127,6 +127,7 @@ export class LoginPage {
             sexCode = userData['sex']['code'];
           }
           let newUserInfo: UserInfoState = {
+            account: account,
             loginName: userData['account'],
             password: md5password,
             password0: password,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SecureStorageService } from './secureStorage.service';
 
 export interface UserInfoState {
+  account: string;
   loginName: string;
   password: string;
   userName: string;
@@ -19,6 +20,7 @@ export interface UserInfoState {
 }
 
 export let initUserInfo: UserInfoState = {
+  account: '',
   loginName: '',
   password: '',
   userName: '',
