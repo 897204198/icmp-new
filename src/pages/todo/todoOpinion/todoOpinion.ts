@@ -282,7 +282,11 @@ export class TodoOpinionPage {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
         this.navCtrl.popToRoot();
       }, (res: Response) => {
-        this.toastService.show(res.text());
+        if (res.text()) {
+          this.toastService.show(res.text());
+        } else {
+          (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+        }
       });
     }
   }
@@ -387,7 +391,7 @@ export class TodoOpinionPage {
    * 是否转交他人办理意见改变
    */
   opinionModelChange(item: any): void {
-    this.approvalInput = {'opinions': item};
+    this.approvalInput = { 'opinions': item };
     for (let i = 0; i < this.opinionHelpList.length; i++) {
       if (this.opinionHelpList[i]['value'] === parseInt(item, 10)) {
         for (let j = 0; j < this.opinionHelpList[i]['control_name'].length; j++) {
@@ -395,12 +399,12 @@ export class TodoOpinionPage {
         }
         if (this.opinionHelpList[i]['showTextarea'] === '1') {
           this.addListShow = false;
-        }else {
+        } else {
           this.addListShow = true;
         }
         if (this.opinionHelpList[i]['showAddBtn'] === '1') {
           this.addBtnShow = true;
-        }else {
+        } else {
           this.addBtnShow = false;
         }
       }
@@ -425,7 +429,7 @@ export class TodoOpinionPage {
               this.setInputStatus(control.models[k], 'hidden');
             }
           }
-        }else if (control['type'] === 'initSelect') {
+        } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
           if (this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']] != null && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']].indexOf(option['id']) >= 0) {
             flg = true;
@@ -437,7 +441,7 @@ export class TodoOpinionPage {
             params.append('id', this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']]);
             this.http.post(url, params).subscribe((res: Response) => {
               let data = res.json().result_list;
-              for (let k = 0 ; k < this.opinionHelpOtherList.length ; k++) {
+              for (let k = 0; k < this.opinionHelpOtherList.length; k++) {
                 if (this.opinionHelpOtherList[k]['control_data'] != null) {
                   for (let p = 0; p < this.opinionHelpOtherList[k]['control_data'].length; p++) {
                     if (this.opinionHelpOtherList[k]['control_data'][p]['control_name'] === control['model']) {
@@ -448,7 +452,11 @@ export class TodoOpinionPage {
                 }
               }
             }, (res: Response) => {
-              this.toastService.show(res.text());
+              if (res.text()) {
+                this.toastService.show(res.text());
+              } else {
+                (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+              }
             });
           }
         }
@@ -504,12 +512,12 @@ export class TodoOpinionPage {
         listItem[paramsArray[i]['control_name']] = null;
       }
       for (let i = 0; i < tempArray.length; i++) {
-        let itemjson = {...tempArray[i]};
+        let itemjson = { ...tempArray[i] };
         itemjson['control_number'] = controlNumber + 1;
         this.opinionHelpOtherList[index]['control_data'].push(itemjson);
       }
       this.approvalInputTemps['selectGroup'].push(listItem);
-    }else {
+    } else {
       listItemArray.push(this.opinionHelpOtherList[0]);
       this.approvalInputTemps['joinOpinions'].push({
         'name': '',
@@ -525,7 +533,6 @@ export class TodoOpinionPage {
    */
   deleteListRow(item: Object, iList: number, type?: string): void {
     if (type != null && type === 'control') {
-      console.log(iList);
       let listItemTemp = [...this.opinionHelpOtherList];
       let index: number;
       let startIndex: number;
@@ -544,7 +551,7 @@ export class TodoOpinionPage {
       listItemTemp[index]['control_data'].splice(startIndex - delNumber + 1, delNumber);
       let listItemTempArray = [];
       for (let i = 0; i < listItemTemp[index]['control_data'].length; i++) {
-        let itemjson = {...listItemTemp[index]['control_data'][i]};
+        let itemjson = { ...listItemTemp[index]['control_data'][i] };
         if (i >= (startIndex - delNumber + 1)) {
           itemjson['control_number'] = itemjson['control_number'] - 1;
         }
@@ -552,7 +559,7 @@ export class TodoOpinionPage {
       }
       this.approvalInputTemps['selectGroup'].splice(iList, 1);
       this.opinionHelpOtherList[index]['control_data'] = listItemTempArray;
-    }else {
+    } else {
       this.approvalInputTemps['joinOpinions'].splice(iList, 1);
       this.opinionHelpOtherList.splice(iList, 1);
     }
@@ -614,9 +621,9 @@ export class TodoOpinionPage {
     if (file['id'] != null && file['id'] !== '') {
       let params: URLSearchParams = new URLSearchParams();
       params.append('fileId', file['id']);
-      this.http.post('/webController/deleteFile', params).subscribe((res: Response) => {});
+      this.http.post('/webController/deleteFile', params).subscribe((res: Response) => { });
       if (this.approvalInput[item['model']] != null) {
-        for (let i = 0 ; i < this.approvalInput[item['model']].length ; i++) {
+        for (let i = 0; i < this.approvalInput[item['model']].length; i++) {
           if (this.approvalInput[item['model']][i] === file['id']) {
             this.approvalInput[item['model']].splice(i, 1);
             break;
@@ -624,7 +631,7 @@ export class TodoOpinionPage {
         }
       }
     }
-    for (let i = 0 ; this.approvalInputTemp[item['model']].length ; i++) {
+    for (let i = 0; this.approvalInputTemp[item['model']].length; i++) {
       if (file === this.approvalInputTemp[item['model']][i]) {
         this.approvalInputTemp[item['model']].splice(i, 1);
         break;
@@ -636,12 +643,12 @@ export class TodoOpinionPage {
    * 清空未提交的附件
    */
   clearFile(): void {
-    for (let i = 0 ; i < this.opinionFilesList.length ; i++) {
+    for (let i = 0; i < this.opinionFilesList.length; i++) {
       let item = this.opinionFilesList[i];
       if (item['type'] === 'file' && this.approvalInput[item['model']] != null && this.approvalInput[item['model']].length > 0) {
         let params: URLSearchParams = new URLSearchParams();
         params.append('fileId', this.approvalInput[item['model']].join(','));
-        this.http.post('/webController/deleteFile', params).subscribe((res: Response) => {});
+        this.http.post('/webController/deleteFile', params).subscribe((res: Response) => { });
       }
     }
   }

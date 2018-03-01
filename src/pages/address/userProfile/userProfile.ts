@@ -20,11 +20,8 @@ export class UserProfilePage {
   private toUserInfo: Object = {};
   // 自己用户信息
   private fromUserInfo: UserInfoState;
-  // 是否显示发送信息
-  showSendMsg: boolean;
-  showIcon: boolean;
-  showAddIcon: boolean;
-  showDelIcon: boolean;
+  // 是否是好友
+  isFriend: boolean = false;
   // 国际化文字
   private transateContent: Object;
   private translateDate: string[] = ['ARE_YOU_SURE_DELETE', 'DELETED', 'CANCEL', 'CONFIRM', 'FRENDLY_PROP', 'ADD_SUCCESS'];
@@ -44,32 +41,16 @@ export class UserProfilePage {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private deviceService: DeviceService) {
-      this.translate.get(this.translateDate).subscribe((res: Object) => {
-        this.transateContent = res;
-      });
-    }
+    this.translate.get(this.translateDate).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
+  }
 
   /**
    * 首次进入页面
    */
   ionViewDidLoad(): void {
-    if (this.navParams.get('pageType') != null && this.navParams.get('pageType') === '0') {
-      this.showSendMsg = false;
-    }else {
-      this.showSendMsg = true;
-    }
-    if (this.navParams.get('isFriend') != null) {
-      this.showIcon = true;
-      if (this.navParams.get('isFriend') === '0') {
-        this.showDelIcon = true;
-        this.showAddIcon = false;
-      }else {
-        this.showDelIcon = false;
-        this.showAddIcon = true;
-      }
-    }else {
-      this.showIcon = false;
-    }
+    this.isFriend = this.navParams.get('isFriend') === true ? true : false;
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
     let searchUserId: string = this.navParams.get('fromUserId');
@@ -82,7 +63,7 @@ export class UserProfilePage {
    */
   ionViewWillLeave(): void {
     if (this.alertOpen) {
-     this.confirmAlert.dismiss();
+      this.confirmAlert.dismiss();
     }
   };
 
@@ -90,11 +71,17 @@ export class UserProfilePage {
    * 取得用户信息
    */
   getUserInfoFromNet(userId: string, toUserId: string): void {
-    let params = {
-      userId: userId,
-      toUserId: toUserId
-    };
-    this.http.get('/user/base-info', { params: params }).subscribe((res: Response) => {
+    let params: Object = {};
+    let url: string = '';
+    if (this.navParams.get('pageType') === 'apply') {
+      params['userId'] = userId;
+      params['toUserId'] = toUserId;
+      url = '/im/notice/base-info';
+    } else {
+      params['userId'] = toUserId;
+      url = '/user/base-info';
+    }
+    this.http.get(url, { params: params }).subscribe((res: Response) => {
       let data: Object = res.json();
       if (data['sex'] != null && data['sex'] !== '') {
         if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
@@ -152,7 +139,6 @@ export class UserProfilePage {
    * 删除好友
    */
   deleteFriend(): void {
-    console.log(this.toUserInfo);
     this.presentConfirm(this.toUserInfo['id']);
   }
 

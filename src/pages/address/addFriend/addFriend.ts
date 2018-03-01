@@ -79,11 +79,16 @@ export class AddFriendPage {
    * 进入个人信息详情
    */
   lookUserProfile(item: Object) {
-    let isFriend = null;
-    if (item['status'] != null) {
-      isFriend = item['status']['code'];
+    let isFriend: boolean = false;
+    if (item['status'] && (item['status']['code'] === '0' || item['status']['code'] === 0)) {
+      isFriend = true;
     }
-    this.navCtrl.push(UserProfilePage, { 'toUserId': item['id'], 'remark': item['name'], 'pageType': '0', 'isFriend': isFriend });
+    let params: object = {
+      toUserId: item['id'],
+      remark: item['name'],
+      isFriend: isFriend
+    };
+    this.navCtrl.push(UserProfilePage, params);
   }
 
   /**

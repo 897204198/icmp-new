@@ -3,10 +3,10 @@
   <ion-navbar>
     <ion-title>{{'PERSONAL_INFO' | translate}}</ion-title>
     <ion-buttons end>
-      <button *ngIf="showIcon && showDelIcon" ion-button clear color="primary" (click)="deleteFriend()">
+      <button *ngIf="isFriend" ion-button clear color="primary" (click)="deleteFriend()">
         <span style="font-size: 1.4rem;">{{'DELETE_FRIEND' | translate}}</span>
       </button>
-      <button *ngIf="showIcon && showAddIcon" ion-button clear small color="primary" (click)="addFriend()">
+      <button *ngIf="!isFriend" ion-button clear small color="primary" (click)="addFriend()">
         <span style="font-size: 1.4rem;">{{'ADD_FRIEND' | translate}}</span>
       </button>
     </ion-buttons>
@@ -38,7 +38,7 @@
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-footer *ngIf="showSendMsg">
+<ion-footer *ngIf="isFriend">
   <ion-toolbar>
     <button ion-button block round color="primary" (click)="chatToUser()">
       {{'SEND_MESSAGE' | translate}}

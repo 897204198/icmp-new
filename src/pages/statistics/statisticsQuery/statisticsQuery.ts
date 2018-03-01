@@ -73,7 +73,11 @@ export class StatisticsQueryPage {
         item['label'] = this.setRequiredLabel(item);
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -186,7 +190,11 @@ export class StatisticsQueryPage {
                 }
               }
             }, (res: Response) => {
-              this.toastService.show(res.text());
+              if (res.text()) {
+                this.toastService.show(res.text());
+              } else {
+                (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+              }
             });
           } else {
             for (let k = 0; k < this.template.length; k++) {

@@ -84,7 +84,7 @@ export class InstaShotPage {
     let params = {
       'serviceName': 'hospitalArea'
     };
-    this.http.get('/sys/depts', {params: params}).subscribe((res: Response) => {
+    this.http.get('/sys/depts', { params: params }).subscribe((res: Response) => {
       let data = res.json();
       // 院区信息 name、id
       this.hospitalAreaInfo = data;
@@ -99,7 +99,11 @@ export class InstaShotPage {
       // 获取对应的科室信息，默认第一个
       this.getDepartment(this.hospitalAreaCode);
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -121,7 +125,11 @@ export class InstaShotPage {
       // 所属科室列表信息
       this.initData['department'] = dataArray;
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -249,7 +257,7 @@ export class InstaShotPage {
           }
         }, (err) => {
 
-      });
+        });
     });
   }
 
@@ -278,12 +286,16 @@ export class InstaShotPage {
     this.http.post('/business/insta-shot', params).subscribe((res: Response) => {
       if (res.json().errMsg != null) {
         this.toastService.show(res.json().errMsg);
-      }else {
+      } else {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
         this.navCtrl.pop();
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 

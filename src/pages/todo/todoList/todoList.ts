@@ -104,7 +104,11 @@ export class TodoListPage {
         this.infiniteScroll.enable(false);
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     }, () => {
       this.refresherComplete();
     });
@@ -151,7 +155,11 @@ export class TodoListPage {
       let userInfo: UserInfoState = this.userService.getUserInfo();
       item['assignee'] = userInfo.loginName;
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -163,7 +171,11 @@ export class TodoListPage {
       this.toastService.show(this.transateContent['GOBACK_SUCCESS']);
       item['assignee'] = '';
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -177,7 +189,11 @@ export class TodoListPage {
         item['assignee'] = userInfo.loginName;
         this.goTodoDetailPage(item);
       }, (res: Response) => {
-        this.toastService.show(res.text());
+        if (res.text()) {
+          this.toastService.show(res.text());
+        } else {
+          (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+        }
       });
     } else {
       this.goTodoDetailPage(item);

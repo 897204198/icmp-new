@@ -209,7 +209,11 @@ export class TabsPage {
         item['assignee'] = userInfo.loginName;
         this.navCtrl.push(TodoDetailPage, item);
       }, (res: Response) => {
-        this.toastService.show(res.text());
+        if (res.text()) {
+          this.toastService.show(res.text());
+        } else {
+          (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+        }
       });
     } else {
       this.navCtrl.push(TodoDetailPage, item);

@@ -121,7 +121,11 @@ export class ApplicationPage {
         }
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -263,7 +267,11 @@ export class ApplicationPage {
         }
       }, (res: Response) => {
         this.isSubmit = false;
-        this.toastService.show(res.text());
+        if (res.text()) {
+          this.toastService.show(res.text());
+        } else {
+          (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+        }
       });
     } else {
       this.isSubmit = false;
@@ -493,7 +501,11 @@ export class ApplicationPage {
                 }
               }
             }, (res: Response) => {
-              this.toastService.show(res.text());
+              if (res.text()) {
+                this.toastService.show(res.text());
+              } else {
+                (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+              }
             });
           } else {
             if (index == null) {

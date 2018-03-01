@@ -37,12 +37,12 @@ export class HomeMenusManagerPage {
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              private dragulaService: DragulaService,
-              public http: Http,
-              private modalCtrl: ModalController,
-              private toastService: ToastService,
-              private translate: TranslateService,
-              private routersService: RoutersService) {
+    private dragulaService: DragulaService,
+    public http: Http,
+    private modalCtrl: ModalController,
+    private toastService: ToastService,
+    private translate: TranslateService,
+    private routersService: RoutersService) {
 
     // 设置功能区列数
     if (screen.width <= 375) {
@@ -116,7 +116,11 @@ export class HomeMenusManagerPage {
         this.myMenus = res.json();
       }
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.text()) {
+        this.toastService.show(res.text());
+      } else {
+        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
+      }
     });
   }
 
@@ -229,7 +233,7 @@ export class HomeMenusManagerPage {
   openApp(menu: any): void {
     if (!this.isManage) {
       if (menu['appType'] === 'folder') {
-        let modal = this.modalCtrl.create(MenuFolderComponent, {name: menu});
+        let modal = this.modalCtrl.create(MenuFolderComponent, { name: menu });
         modal.onDidDismiss(data => {
           if (data) {
             this.routersService.pageForward(this.navCtrl, data);
