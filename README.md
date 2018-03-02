@@ -105,7 +105,7 @@ $ ionic cordova run ios [--prod]
 ```
 ## modify currentProject in ionic.config.json to choose version
 $ npm run grunt:releaseIOS
-$ cordova emulate ios
+$ ionic cordova emulate ios
 ```
 
 > 无法弹出键盘时，可通过 `command + k` 触发
