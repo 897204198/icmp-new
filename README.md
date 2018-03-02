@@ -91,3 +91,21 @@ $ ionic cordova run ios [--prod]
 - 如果在后台接口不改变的情况下，需要使用新的前台，则需要用到转接口使之接口对应。
 - 使用命令node proxy/adapter-proxy-server.js启动转接口代理
 - 如果需要修改后台地址，在/proxy/adapters/common.js中，修改common.hostname, common.port, common.path = '/mobile-platform'
+
+
+桌面运行
+------
+
+### Windows
+
+可使用 [蓝叠模拟器](http://www.bluestacks.cn/) 安装 apk 使用
+
+### MacOS
+
+```
+## modify currentProject in ionic.config.json to choose version
+$ npm run grunt:releaseIOS
+$ cordova emulate ios
+```
+
+> 无法弹出键盘时，可通过 `command + k` 触发
