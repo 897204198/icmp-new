@@ -17,6 +17,8 @@ export class AdminPage {
   private baseUrl: string;
   // 推送服务器地址
   private pushUrl: string;
+  // 推送服务器地址
+  private chatKey: string;
   // 国际化文字
   private transateContent: Object;
 
@@ -38,14 +40,16 @@ export class AdminPage {
   ionViewDidEnter(): void {
     this.baseUrl = this.configsService.getBaseUrl();
     this.pushUrl = this.configsService.getPushUrl();
+    this.chatKey = this.configsService.getChatKey();
   }
 
   /**
    * 保存url
    */
-  saveUrl(outBaseUrl: HTMLInputElement, outPushUrl: HTMLInputElement): void {
-    this.configsService.setBaseUrl(outBaseUrl.value);
-    this.configsService.setPushUrl(outPushUrl.value);
+  saveUrl(): void {
+    this.configsService.setBaseUrl(this.baseUrl);
+    this.configsService.setPushUrl(this.pushUrl);
+    this.configsService.setChatKey(this.chatKey);
     this.showToastAndPop();
   }
 
@@ -55,6 +59,7 @@ export class AdminPage {
   resetUrl(): void {
     this.configsService.setBaseUrl('');
     this.configsService.setPushUrl('');
+    this.configsService.setChatKey('');
     this.showToastAndPop();
   }
 

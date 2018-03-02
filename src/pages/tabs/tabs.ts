@@ -283,9 +283,9 @@ export class TabsPage {
       password: this.userInfo.password0,
       baseUrl: this.configsService.getBaseUrl(),
       pushUrl: this.configsService.getPushUrl(),
+      chatKey: this.configsService.getChatKey(),
       token: 'Bearer ' + localStorage['token'],
       chatId: this.userInfo.userId,
-      chatKey: this.appConstant.oaConstant.chatKey,
       pushAppId: this.appConstant.properPushConstant.appId
     };
     (<any>window).huanxin.imlogin(params, () => {

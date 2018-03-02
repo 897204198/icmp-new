@@ -35,6 +35,17 @@ export class ConfigsService {
   }
 
   /**
+   * 取得 ChatKey
+   */
+  getChatKey(): string {
+    if (localStorage.getItem('chatKey') != null && localStorage.getItem('chatKey') !== '') {
+      return localStorage.getItem('chatKey');
+    } else {
+      return this.appConstant.oaConstant.chatKey;
+    }
+  }
+
+  /**
    * 设置http请求地址
    */
   setBaseUrl(baseUrl: string): void {
@@ -53,6 +64,17 @@ export class ConfigsService {
       localStorage.setItem('pushUrl', pushUrl);
     } else {
       localStorage.removeItem('pushUrl');
+    }
+  }
+
+  /**
+   * 设置 ChatKey
+   */
+  setChatKey(chatKey: string): void {
+    if (chatKey != null && chatKey !== '') {
+      localStorage.setItem('chatKey', chatKey);
+    } else {
+      localStorage.removeItem('chatKey');
     }
   }
 }
