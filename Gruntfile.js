@@ -160,7 +160,7 @@ module.exports = function(grunt) {
               replacement: 'baseUrl: \'' + customs[conf.currentProject].server.baseUrl + '\','
             },
             {
-              match: /chatKey: '1166171023115752#demo-icmp',/,
+              match: /chatKey: '.*',/,
               replacement: 'chatKey: \'' + customs[conf.currentProject].server.chatKey + '\','
             },
             {
