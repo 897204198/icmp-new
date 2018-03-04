@@ -156,7 +156,7 @@ module.exports = function(grunt) {
         options: {
           patterns: [
             {
-              match: /baseUrl: '\.\/api',/,
+              match: /baseUrl: '.*',/,
               replacement: 'baseUrl: \'' + customs[conf.currentProject].server.baseUrl + '\','
             },
             {
