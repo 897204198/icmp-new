@@ -10,7 +10,7 @@
   "DEVELOPER_MODE": "开发者模式",
   "SERVER_URL": "服务器地址",
   "PUSH_URL": "推送服务器地址",
-  "RESET_URL": "重置地址",
+  "RESET_CONFIG": "重置设置",
   "SETTING_SUCCESS": "设置成功",
   "ACCOUNT": "账号",
   "PASSWORD": "密码",
