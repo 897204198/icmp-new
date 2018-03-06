@@ -59,10 +59,10 @@ export class ResetPasswordPage {
     }
   }
   // 修改密码
-  modifyPassword(account: string, originPassword: string, password: string): void {
+  modifyPassword(account: string, originPassword: string, newPassword: string): void {
     // 加密密码
     let md5password0: string = originPassword;
-    let md5password1: string = password;
+    let md5password1: string = newPassword;
     if (this.appConstant.oaConstant.md5Encryption) {
       md5password0 = this.cryptoService.hashMD5(md5password0, true);
       md5password1 = this.cryptoService.hashMD5(md5password1, true);
@@ -74,11 +74,10 @@ export class ResetPasswordPage {
       'newPassword': md5password1
     };
     this.http.put('/user/update-password', params).subscribe((res: Response) => {
-      let password0: string = md5password1;
       this.userInfo = {
         ...this.userInfo,
-        password,
-        password0
+        password: md5password1,
+        password0: newPassword
       };
       this.userService.saveUserInfo(this.userInfo);
       this.userService.login();
