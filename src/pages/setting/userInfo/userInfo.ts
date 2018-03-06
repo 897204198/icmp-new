@@ -14,6 +14,7 @@ export class UserInfoPage {
 
   // 用户信息
   private userInfo: Object = {};
+  public surname: string;
   private localUserInfo: UserInfoState;
 
   /**
@@ -22,7 +23,6 @@ export class UserInfoPage {
   constructor(private http: Http,
     private toastService: ToastService,
     private userService: UserService) { }
-
   /**
    * 首次进入页面
    */
@@ -36,6 +36,7 @@ export class UserInfoPage {
     */
   getUserInfoFromLocal(): void {
     this.localUserInfo = this.userService.getUserInfo();
+    this.surname = this.localUserInfo.userName[0];
     this.userInfo['name'] = this.localUserInfo.userName;
     this.userInfo['phone'] = this.localUserInfo.phone;
     this.userInfo['email'] = this.localUserInfo.email;

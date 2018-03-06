@@ -8,6 +8,10 @@
       "android": "20000-SNAPSHOT",
       "ios": "20000-SNAPSHOT"
     },
+    "appVersion": {
+      "android": "20001",
+      "ios": "20001"
+    },
     "name": "掌上办公",
     "updateUrl": {
       "android": "https://www.pgyer.com/1jup",
@@ -33,6 +37,10 @@
     "version": {
       "android": "20000-SNAPSHOT",
       "ios": "20000-SNAPSHOT"
+    },
+    "appVersion": {
+      "android": "20001",
+      "ios": "20001"
     },
     "name": "掌上办公开发",
     "updateUrl": {

@@ -12,6 +12,7 @@ import { DeviceInfoState, DeviceService } from '../../app/services/device.servic
 import { PushService } from '../../app/services/push.service';
 import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
+import { ResetPasswordPage } from './resetPassword/resetPassword';
 
 /**
  * 设置首页
@@ -38,7 +39,8 @@ export class SettingPage {
   generalPage: any;
   // 关于我们页
   aboutPage: any;
-
+  resetPasswordPage: any;
+  surname: string;
   /**
    * 构造函数
    */
@@ -54,18 +56,18 @@ export class SettingPage {
     this.safeAndPrivacyPage = SafeAndPrivacyPage;
     this.generalPage = GeneralPage;
     this.aboutPage = AboutPage;
-
+    this.resetPasswordPage = ResetPasswordPage;
     this.translate.get(['ALREADY_LATEST_VERSION']).subscribe((res: Object) => {
       this.transateContent = res;
     });
   }
-
   /**
    * 首次进入页面
    */
   ionViewDidLoad(): void {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
+    this.surname = this.userInfo.userName[0];
     // 获取当前程序的版本名
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo == null) {

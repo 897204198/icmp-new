@@ -84,6 +84,7 @@ import { CreateGroupPage } from '../pages/address/group/createGroup';
 import { Keyboard } from '@ionic-native/keyboard';
 import { UserProfilePage } from '../pages/address/userProfile/userProfile';
 import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginShow.component';
+import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -141,7 +142,8 @@ export function createTranslateLoader(http: Http) {
     ApplyPage,
     GroupPage,
     CreateGroupPage,
-    UserProfilePage
+    UserProfilePage,
+    ResetPasswordPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -202,7 +204,8 @@ export function createTranslateLoader(http: Http) {
     ApplyPage,
     GroupPage,
     CreateGroupPage,
-    UserProfilePage
+    UserProfilePage,
+    ResetPasswordPage
   ],
   providers: [
     StatusBar,

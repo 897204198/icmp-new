@@ -10,12 +10,8 @@
       <p class="setting-content-name">{{userInfo?.userName}}</p>
       <p>{{'ACCOUNT' | translate}}：{{userInfo?.loginName}}</p>
     </div>
-    <div class="setting-content-circle"></div>
-    <div class="setting-content-img">
-      <ion-avatar>
-        <img *ngIf="userInfo.headImage" [src]=userInfo.headImage>
-        <img *ngIf="!userInfo.headImage" src="./assets/images/user.jpg">
-      </ion-avatar>
+    <div class="setting-content-circle">
+      <div class="setting-content-circle-inner">{{surname}}</div>
     </div>
   </div>
 
@@ -33,6 +29,9 @@
   </ion-list> -->
 
   <ion-list class="icmp-list-bottom-margin">
+    <button id="e2e-resetpassword" ion-item [navPush]="resetPasswordPage">
+      {{'RESET_PASSWORD' | translate}}
+    </button>
     <button id="e2e-checkversion" ion-item (tap)="checkVersion()">
       {{'CHECK_VERSION' | translate}}
       <span item-end>{{appVersionName}}</span>

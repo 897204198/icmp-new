@@ -121,3 +121,16 @@ ion-content {
     }
   }
 }
+
+.alert-md .alert-title {
+  font-size: 19px;  
+}
+
+.confirm {
+  ion-icon {
+    display: block;
+    color: color($colors, primary);
+    font-size: 5em;
+    line-height: 140px;
+  }
+}

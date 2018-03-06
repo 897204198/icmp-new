@@ -7,8 +7,7 @@
 <ion-content class="content-gray-new">
   <div class="user-head-image-div">
     <div class="user-head-image-div-img">
-      <img *ngIf="!userInfo.headImageContent" src="./assets/images/user.jpg">
-      <img *ngIf="userInfo.headImageContent" [src]="userInfo.headImageContent">
+      {{surname}}
     </div>
     <div class="user-head-image-div-content">
       <p>{{userInfo?.name}}</p>
