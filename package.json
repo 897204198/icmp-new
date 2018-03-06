@@ -5,7 +5,6 @@
     "description": "Ionic CMP APP",
     "private": true,
     "scripts": {
-        "bumpVer": "grunt bumpVer",
         "clean": "ionic-app-scripts clean",
         "lint": "ionic-app-scripts lint --bailOnLintError true",
         "build": "ionic-app-scripts build --prod --no-interactive",

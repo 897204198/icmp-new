@@ -98,11 +98,11 @@ module.exports = function(grunt) {
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].version.android)) + '"'
+              replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.android) + '"'
             },
             {
               match: /android-versionCode="\d*"/,
-              replacement: 'android-versionCode="' + delSnapVer(customs[conf.currentProject].version.android) + '"'
+              replacement: 'android-versionCode="' + customs[conf.currentProject].appVersion.android + '"'
             }
           ]
         },
@@ -119,11 +119,11 @@ module.exports = function(grunt) {
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].version.ios)) + '"'
+              replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.ios) + '"'
             },
             {
               match: /ios-CFBundleVersion="\d*"/,
-              replacement: 'ios-CFBundleVersion="' + delSnapVer(customs[conf.currentProject].version.ios) + '"'
+              replacement: 'ios-CFBundleVersion="' + customs[conf.currentProject].appVersion.ios + '"'
             }
           ]
         },
@@ -196,22 +196,7 @@ module.exports = function(grunt) {
       bumpVer: {
         options: {
           patterns: [
-            {
-              match: /"version": "\d*\.\d*\.\d*-*\w*"/,
-              replacement: '"version": "' + formalVer(conf.version) + '"'
-            },
-            {
-              match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(delSnapVer(conf.version)) + '"'
-            },
-            {
-              match: /-(\w*)ersion(\w*)="(\d*)"/g,
-              replacement: '-$1ersion$2="' + delSnapVer(conf.version) + '"'
-            },
-            {
-              match: /"version":\s*{\s*"android":\s*"\d*-*\w*",\s*"ios":\s*"\d*-*\w*"/,
-              replacement: '"version": {\n      "android": "' + conf.version + '",\n      "ios": "' + conf.version + '"'
-            }
+            
           ]
         },
         files: [
