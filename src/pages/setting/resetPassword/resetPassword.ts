@@ -55,11 +55,11 @@ export class ResetPasswordPage {
     } else if (!reg.test(newPassword1.value)) {
       this.toastService.show(this.transateContent['PASSWORD_RULES']);
     } else {
-      this.modifyPassword(this.userInfo.userId, originPassword.value, newPassword1.value);
+      this.modifyPassword(originPassword.value, newPassword1.value);
     }
   }
   // 修改密码
-  modifyPassword(account: string, originPassword: string, newPassword: string): void {
+  modifyPassword(originPassword: string, newPassword: string): void {
     // 加密密码
     let md5password0: string = originPassword;
     let md5password1: string = newPassword;
@@ -69,11 +69,10 @@ export class ResetPasswordPage {
     }
     // 请求参数
     let params: Object = {
-      'userId': account,
       'originPassword': md5password0,
       'newPassword': md5password1
     };
-    this.http.put('/user/update-password', params).subscribe((res: Response) => {
+    this.http.put('/user/password', params).subscribe((res: Response) => {
       this.userInfo = {
         ...this.userInfo,
         password: md5password1,
