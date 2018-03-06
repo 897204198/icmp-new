@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
@@ -44,6 +44,7 @@ export class LoginPage {
     private translate: TranslateService,
     private toastService: ToastService,
     private deviceService: DeviceService,
+    private zone: NgZone,
     private http: Http,
     private userService: UserService,
     private appVersionUpdateService: AppVersionUpdateService) {
@@ -145,13 +146,7 @@ export class LoginPage {
           };
           this.userService.saveUserInfo(newUserInfo);
           this.userService.login();
-          // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-          this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
-            const startIndex = this.navCtrl.getActive().index - 1;
-            this.navCtrl.remove(startIndex, 1);
-          });
 
-          this.pushService.bindUserid(newUserInfo.loginName, newUserInfo.loginName);
           // 避免在 web 上无法显示页面
           if (this.deviceService.getDeviceInfo().deviceType) {
             let imparams = {
@@ -164,7 +159,22 @@ export class LoginPage {
               chatId: newUserInfo.userId,
               pushAppId: this.appConstant.properPushConstant.appId
             };
-            (<any>window).huanxin.imlogin(imparams);
+            (<any>window).huanxin.imlogin(imparams, () => {
+              this.zone.run(() => {
+                // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+                this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+                  const startIndex = this.navCtrl.getActive().index - 1;
+                  this.navCtrl.remove(startIndex, 1);
+                });
+              });
+            });
+            this.pushService.bindUserid(newUserInfo.loginName, newUserInfo.loginName);
+          } else {
+            // Web 版不进行推送绑定，直接进首页
+            this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+              const startIndex = this.navCtrl.getActive().index - 1;
+              this.navCtrl.remove(startIndex, 1);
+            });
           }
         }, (err: Response) => {
           this.toastService.show(err.text());

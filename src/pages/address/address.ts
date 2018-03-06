@@ -19,6 +19,7 @@ import { Content } from 'ionic-angular';
 })
 export class AddressPage {
   @ViewChild(Content) content: Content;
+  private cacaheArray: Array<Object> = [];
   private contactInfos: Array<{ first: string, items: Array<Object> }> = [];
   // 右边26个字母滑动栏
   private slider: string[] = [];
@@ -102,6 +103,13 @@ export class AddressPage {
    */
   fetchContactInfos() {
     this.http.get('/im/contact/contacts', { params: { 'type': '0' } }).subscribe((res: Response) => {
+      let temporary: Array<Object> = [];
+      temporary = res.json();
+      if (this.cacaheArray.toString() === temporary.toString()) {
+        return;
+      } else {
+        this.cacaheArray = temporary;
+      }
       this.slider = [];
       this.contactInfos = [];
       let compare = function (prop) {
@@ -121,8 +129,6 @@ export class AddressPage {
           }
         };
       };
-      let temporary: Array<Object> = [];
-      temporary = res.json();
       for (let i = 0; i < temporary.length; i++) {
         temporary[i]['ordered'] = this.spell.GetSpell(temporary[i]['remark']);
         temporary[i]['initial'] = temporary[i]['ordered'][0][0];

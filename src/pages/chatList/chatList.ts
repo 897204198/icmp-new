@@ -44,9 +44,11 @@ export class ChatListPage {
     (<any>window).huanxin.addMessageListener('', (addRetData) => {
       (<any>window).huanxin.getChatList('', (retData) => {
         this.zone.run(() => {
-          this.chatList = retData;
-          this.checkRedMessage();
-          this.changeUnreadMessageNumber();
+          if (this.chatList.toString() !== retData.toString()) {
+            this.chatList = retData;
+            this.checkRedMessage();
+            this.changeUnreadMessageNumber();
+          }
         });
       }, (retData) => { });
     }, (addRetData) => { });
@@ -62,9 +64,11 @@ export class ChatListPage {
   ionViewDidEnter(): void {
     (<any>window).huanxin.getChatList('', (retData) => {
       this.zone.run(() => {
-        this.chatList = retData;
-        this.checkRedMessage();
-        this.changeUnreadMessageNumber();
+        if (this.chatList.toString() !== retData.toString()) {
+          this.chatList = retData;
+          this.checkRedMessage();
+          this.changeUnreadMessageNumber();
+        }
       });
     });
   }
