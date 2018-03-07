@@ -44,33 +44,16 @@ export class ChatListPage {
     (<any>window).huanxin.addMessageListener('', (addRetData) => {
       (<any>window).huanxin.getChatList('', (retData) => {
         this.zone.run(() => {
-          if (this.chatList.toString() !== retData.toString()) {
             this.chatList = retData;
             this.checkRedMessage();
             this.changeUnreadMessageNumber();
-          }
         });
-      }, (retData) => { });
-    }, (addRetData) => { });
+      });
+    });
     if (this.keyboard != null) {
       this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
     }
-  }
-
-  /**
-   * 每次进入页面
-   */
-  ionViewDidEnter(): void {
-    (<any>window).huanxin.getChatList('', (retData) => {
-      this.zone.run(() => {
-        if (this.chatList.toString() !== retData.toString()) {
-          this.chatList = retData;
-          this.checkRedMessage();
-          this.changeUnreadMessageNumber();
-        }
-      });
-    });
   }
 
   /**

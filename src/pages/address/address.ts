@@ -12,6 +12,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { UserProfilePage } from './userProfile/userProfile';
 import { SpellService } from '../../app/services/spell.service';
 import { Content } from 'ionic-angular';
+import { UtilsService } from '../../app/services/utils.service';
 
 @Component({
   selector: 'page-address',
@@ -19,7 +20,9 @@ import { Content } from 'ionic-angular';
 })
 export class AddressPage {
   @ViewChild(Content) content: Content;
-  private cacaheArray: Array<Object> = [];
+  // 缓存数组
+  private cacaheArray: Array<any> = [];
+  // 通讯录信息
   private contactInfos: Array<{ first: string, items: Array<Object> }> = [];
   // 右边26个字母滑动栏
   private slider: string[] = [];
@@ -44,6 +47,7 @@ export class AddressPage {
     private deviceService: DeviceService,
     private spell: SpellService,
     private zone: NgZone,
+    private utils: UtilsService,
     private http: Http,
     private keyboard: Keyboard,
     private event: Events) {
@@ -105,11 +109,12 @@ export class AddressPage {
     this.http.get('/im/contact/contacts', { params: { 'type': '0' } }).subscribe((res: Response) => {
       let temporary: Array<Object> = [];
       temporary = res.json();
-      if (this.cacaheArray.toString() === temporary.toString()) {
+      if (this.utils.arraysEqual(this.cacaheArray, res.json())) {
         return;
       } else {
-        this.cacaheArray = temporary;
+        this.cacaheArray = res.json();
       }
+
       this.slider = [];
       this.contactInfos = [];
       let compare = function (prop) {
@@ -229,5 +234,7 @@ export class AddressPage {
       item['headImage'] = './assets/images/user.jpg';
     }
   }
+
+
 }
 
