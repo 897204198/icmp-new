@@ -286,7 +286,12 @@ export class TabsPage {
       chatKey: this.configsService.getChatKey(),
       token: 'Bearer ' + localStorage['token'],
       chatId: this.userInfo.userId,
-      pushAppId: this.appConstant.properPushConstant.appId
+      pushAppId: this.appConstant.properPushConstant.appId,
+      ext: {
+        from_user_id: this.userInfo.loginName,
+        from_username: this.userInfo.userName,
+        from_headportrait: this.userInfo.headImage
+      }
     };
     (<any>window).huanxin.imlogin(params, () => {
       this.getUnreadMessageNumber();

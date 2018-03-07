@@ -135,7 +135,7 @@ export class LoginPage {
             savePassword: this.userInfo.savePassword,
             userId: userData['id'],
             userName: userData['name'],
-            headImage: userData['headImage'],
+            headImage: userData['headImageContent'] ? userData['headImageContent'] : '',
             jobNumber: userData['jobNumber'],
             phone: userData['phone'],
             email: userData['email'],
@@ -157,7 +157,12 @@ export class LoginPage {
               chatKey: this.configsService.getChatKey(),
               token: 'Bearer ' + localStorage['token'],
               chatId: newUserInfo.userId,
-              pushAppId: this.appConstant.properPushConstant.appId
+              pushAppId: this.appConstant.properPushConstant.appId,
+              ext: {
+                from_user_id: newUserInfo.loginName,
+                from_username: newUserInfo.userName,
+                from_headportrait: newUserInfo.headImage
+              }
             };
             (<any>window).huanxin.imlogin(imparams, () => {
               this.zone.run(() => {
