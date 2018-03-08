@@ -15,7 +15,11 @@ module.exports = function(grunt) {
     }else {
       hasSuffix = false;
     }
-    if (typeof versionCode === 'string' && (versionCode.length === 5 || hasSuffix)) {
+    if (typeof versionCode === 'string' && versionCode.length > 5) {
+      return parseInt(versionCode.substr(0, 1)) + '.' +
+        parseInt(versionCode.substr(1, 2)) + '.' +
+        parseInt(versionCode.substr(3, 2)) + '.' + versionCode.substr(5);
+    } else if (typeof versionCode === 'string' && (versionCode.length === 5 || hasSuffix)) {
       if (hasSuffix) {
         return parseInt(versionCode.substr(0, 1)) + '.' +
         parseInt(versionCode.substr(1, 2)) + '.' +
@@ -97,7 +101,7 @@ module.exports = function(grunt) {
               replacement: 'id="' + customs[conf.currentProject].id.android + '"'
             },
             {
-              match: /version="\d*\.\d*\.\d*"/,
+              match: /version=".*"/,
               replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.android) + '"'
             },
             {
@@ -118,7 +122,7 @@ module.exports = function(grunt) {
               replacement: 'id="' + customs[conf.currentProject].id.ios + '"'
             },
             {
-              match: /version="\d*\.\d*\.\d*"/,
+              match: /version=".*"/,
               replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.ios) + '"'
             },
             {

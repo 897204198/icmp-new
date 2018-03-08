@@ -9,8 +9,8 @@
       "ios": "20000-SNAPSHOT"
     },
     "appVersion": {
-      "android": "20001",
-      "ios": "20001"
+      "android": "2000000",
+      "ios": "2000000"
     },
     "name": "掌上办公",
     "updateUrl": {
@@ -39,8 +39,8 @@
       "ios": "20000-SNAPSHOT"
     },
     "appVersion": {
-      "android": "20001",
-      "ios": "20001"
+      "android": "2000000",
+      "ios": "2000000"
     },
     "name": "掌上办公开发",
     "updateUrl": {
