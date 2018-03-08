@@ -20,8 +20,6 @@ export class ResetPasswordPage {
   private userInfo: UserInfoState = initUserInfo;
   // 国际化文字
   private transateContent: Object;
-  // 是否显示遮罩层
-  private isShow: boolean;
 
   /**
    * 构造函数
@@ -34,14 +32,14 @@ export class ResetPasswordPage {
     private translate: TranslateService,
     private http: Http,
     private toastService: ToastService) {
-    let translateKeys: string[] = ['CONFIRM', 'INPUT_OLD_PASSWORD', 'OLD_ERROR', 'INPUT_NEW_PASSWORD', 'INPUT_NEW_PASSWORD_AGAIN', 'DIFFERENCE', 'PASSWORD_RULES'];
+    let translateKeys: string[] = ['CONFIRM', 'INPUT_OLD_PASSWORD', 'OLD_ERROR', 'INPUT_NEW_PASSWORD', 'INPUT_NEW_PASSWORD_AGAIN', 'DIFFERENCE', 'PASSWORD_RULES', 'SUCCESS_MODIFY'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
   }
   reset(originPassword: HTMLInputElement, newPassword0: HTMLInputElement, newPassword1: HTMLInputElement) {
     this.userInfo = this.userService.getUserInfo();
-    let reg = /^[A-Za-z\d]{6,}$/;
+    let reg = /^[A-Za-z\d]{6, 20}$/;
     if (originPassword.value === '') {
       this.toastService.show(this.transateContent['INPUT_OLD_PASSWORD']);
     } else if (originPassword.value !== this.userInfo.password0) {
@@ -76,17 +74,14 @@ export class ResetPasswordPage {
       this.userInfo = {
         ...this.userInfo,
         password: md5password1,
-        password0: newPassword
+        password0: newPassword,
+        savePassword: false
       };
       this.userService.saveUserInfo(this.userInfo);
-      this.userService.login();
-      this.isShow = true;
+      this.toastService.show(this.transateContent['SUCCESS_MODIFY']);
+      this.navCtrl.pop();
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
-  }
-  // 跳回上级页面
-  returnPage() {
-    this.navCtrl.pop();
   }
 }
