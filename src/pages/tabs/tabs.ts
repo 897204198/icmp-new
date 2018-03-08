@@ -135,7 +135,7 @@ export class TabsPage {
   doOpenNotification(event: any): void {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
-    } else if (event.properCustoms.from_user_id) {
+    } else if (event.properCustoms.push_type === 'chat') {
       if (event.properAlert) {
         // 应用内
       } else {
