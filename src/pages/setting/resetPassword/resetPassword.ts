@@ -39,7 +39,7 @@ export class ResetPasswordPage {
   }
   reset(originPassword: HTMLInputElement, newPassword0: HTMLInputElement, newPassword1: HTMLInputElement) {
     this.userInfo = this.userService.getUserInfo();
-    let reg = /^[A-Za-z\d]{6, 20}$/;
+    let reg = /^[A-Za-z\d]{6,20}$/;
     if (originPassword.value === '') {
       this.toastService.show(this.transateContent['INPUT_OLD_PASSWORD']);
     } else if (originPassword.value !== this.userInfo.password0) {
