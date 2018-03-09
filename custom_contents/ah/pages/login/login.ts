@@ -110,15 +110,17 @@ export class LoginPage {
           userName: data['user']['name'],
           password0: password,
           userId: data['userId'],
+          headImage: data['headImage'],
           savePassword: this.userInfo.savePassword
         };
 
         this.userService.saveUserInfo(newUserInfo);
         this.userService.login();
+        this.navCtrl.push(TabsPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
         this.pushService.bindUserid(data['userId'], loginName);
-
-        let modal = this.modalCtrl.create(TabsPage);
-        modal.present();
       } else if (data.result === '2') {
         if (data.errMsg != null && data.errMsg !== '') {
           this.toastService.show(data.errMsg);
