@@ -101,11 +101,11 @@ module.exports = function(grunt) {
               replacement: 'id="' + customs[conf.currentProject].id.android + '"'
             },
             {
-              match: /version=".*"/,
+              match: /version="[^"]*"/,
               replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.android) + '"'
             },
             {
-              match: /android-versionCode="\d*"/,
+              match: /android-versionCode="[^"]*"/,
               replacement: 'android-versionCode="' + customs[conf.currentProject].appVersion.android + '"'
             }
           ]
@@ -122,11 +122,11 @@ module.exports = function(grunt) {
               replacement: 'id="' + customs[conf.currentProject].id.ios + '"'
             },
             {
-              match: /version=".*"/,
+              match: /version="[^"]*"/,
               replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.ios) + '"'
             },
             {
-              match: /ios-CFBundleVersion="\d*"/,
+              match: /ios-CFBundleVersion="[^"]*"/,
               replacement: 'ios-CFBundleVersion="' + customs[conf.currentProject].appVersion.ios + '"'
             }
           ]
