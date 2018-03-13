@@ -48,11 +48,7 @@ export class CreateGroupPage {
       this.navCtrl.pop();
     }, (res: Response) => {
       this.isSumbit = false;
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 }

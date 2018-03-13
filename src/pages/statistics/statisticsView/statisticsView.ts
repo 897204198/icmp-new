@@ -58,11 +58,7 @@ export class StatisticsViewPage {
         this.createChart(i, this.statisticsDate['charts'][i]['json']);
       }
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 

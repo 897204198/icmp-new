@@ -99,11 +99,7 @@ export class InstaShotPage {
       // 获取对应的科室信息，默认第一个
       this.getDepartment(this.hospitalAreaCode);
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -125,11 +121,7 @@ export class InstaShotPage {
       // 所属科室列表信息
       this.initData['department'] = dataArray;
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -291,11 +283,7 @@ export class InstaShotPage {
         this.navCtrl.pop();
       }
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 

@@ -282,11 +282,7 @@ export class TodoOpinionPage {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
         this.navCtrl.popToRoot();
       }, (res: Response) => {
-        if (res.text()) {
-          this.toastService.show(res.text());
-        } else {
-          (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-        }
+        this.toastService.show(res.text());
       });
     }
   }
@@ -452,11 +448,7 @@ export class TodoOpinionPage {
                 }
               }
             }, (res: Response) => {
-              if (res.text()) {
-                this.toastService.show(res.text());
-              } else {
-                (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-              }
+              this.toastService.show(res.text());
             });
           }
         }

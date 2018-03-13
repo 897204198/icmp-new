@@ -47,11 +47,7 @@ export class AddFriendPage {
     this.http.get('/im/contact/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
       this.userList = res.json();
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -67,11 +63,7 @@ export class AddFriendPage {
     this.http.post('/im/contact/send', params).subscribe((res: Response) => {
       this.toastService.show(this.transateContent['REQUEST_SENT']);
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 

@@ -91,12 +91,7 @@ export class SearchboxComponent {
         this.infiniteScroll.enable(false);
       }
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        this.viewCtrl.dismiss();
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     }, () => {
       this.refresherComplete();
     });

@@ -48,11 +48,7 @@ export class ApplyPage {
         this.applyList[i]['isSubmit'] = false;
       }
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -85,11 +81,7 @@ export class ApplyPage {
       this.fetchApplications();
     }, (res: Response) => {
       item['isSubmit'] = false;
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -104,11 +96,7 @@ export class ApplyPage {
       this.fetchApplications();
     }, (res: Response) => {
       item['isSubmit'] = false;
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -124,11 +112,7 @@ export class ApplyPage {
     this.http.delete('/im/notice/' + item['id'], { params: params }).subscribe(() => {
       this.toastService.show(this.transateContent['DELETED']);
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 

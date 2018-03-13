@@ -135,10 +135,10 @@ export class TabsPage {
   doOpenNotification(event: any): void {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
-    } else if (event.properCustoms.push_type === 'chat') {
+    } else if (event.properCustoms.from_user_id) {
       if (event.properAlert) {
         // 应用内
-      } else {
+      } else if (event.properCustoms.push_type === 'chat') {
         let params: Object = {};
         if (event.properCustoms.chatType === 'singleChat') {
           params['to_user_id'] = event.properCustoms.from_user_id;
@@ -209,11 +209,7 @@ export class TabsPage {
         item['assignee'] = userInfo.loginName;
         this.navCtrl.push(TodoDetailPage, item);
       }, (res: Response) => {
-        if (res.text()) {
-          this.toastService.show(res.text());
-        } else {
-          (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-        }
+        this.toastService.show(res.text());
       });
     } else {
       this.navCtrl.push(TodoDetailPage, item);

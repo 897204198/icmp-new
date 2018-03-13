@@ -94,11 +94,7 @@ export class AddressPage {
     this.http.get('/im/notice/count').subscribe((res: Response) => {
       this.unreadData = res.json();
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
@@ -153,11 +149,7 @@ export class AddressPage {
         this.slider.push(this.contactInfos[i]['first']);
       }
     }, (res: Response) => {
-      if (res.text()) {
-        this.toastService.show(res.text());
-      } else {
-        (<any>window).huanxin.showNativeAlert({ type: 'logout' });
-      }
+      this.toastService.show(res.text());
     });
   }
 
