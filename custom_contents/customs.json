@@ -9,8 +9,8 @@
       "ios": "20000-SNAPSHOT"
     },
     "appVersion": {
-      "android": "2000002",
-      "ios": "2000002"
+      "android": "20000",
+      "ios": "20000"
     },
     "name": "掌上办公",
     "updateUrl": {
@@ -39,8 +39,8 @@
       "ios": "20000-SNAPSHOT"
     },
     "appVersion": {
-      "android": "2000002",
-      "ios": "2000002"
+      "android": "2000003",
+      "ios": "2000003"
     },
     "name": "掌上办公开发",
     "updateUrl": {
@@ -49,7 +49,7 @@
     },
     "server": {
       "chatKey": "1166171023115752#icmp",
-      "baseUrl": "http://192.168.1.111/icmp/",
+      "baseUrl": "https://icmp.propersoft.cn/dev/api/",
       "pushAppId": "MobileOADev",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
