@@ -85,6 +85,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { UserProfilePage } from '../pages/address/userProfile/userProfile';
 import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginShow.component';
 import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
+import { AppMinimize } from '@ionic-native/app-minimize';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -237,6 +238,7 @@ export function createTranslateLoader(http: Http) {
     Camera,
     ImagePicker,
     PhotoService,
+    AppMinimize,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

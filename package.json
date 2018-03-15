@@ -140,7 +140,8 @@
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
             },
             "cordova-plugin-file": {},
-            "cordova-plugin-proper-HuanXin": {}
+            "cordova-plugin-proper-HuanXin": {},
+            "cordova-plugin-appminimize": {}
         },
         "platforms": [
             "android",
