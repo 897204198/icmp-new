@@ -14,7 +14,7 @@ export class PushService {
   /**
    * 构造函数
    */
-  constructor(@Inject(APP_CONSTANT) private appConstant: AppConstant, private configsService: ConfigsService) {}
+  constructor(@Inject(APP_CONSTANT) private appConstant: AppConstant, private configsService: ConfigsService) { }
 
   /**
    * 初始化目标对象
@@ -33,7 +33,7 @@ export class PushService {
     if (this.targetObj) {
       let properPushConstant: ProperPushConstant = this.appConstant.properPushConstant;
       properPushConstant.pushUrl = this.configsService.getPushUrl();
-      this.targetObj.init(properPushConstant, () => {}, () => {});
+      this.targetObj.init(properPushConstant, () => { }, () => { });
     }
   }
 
@@ -59,13 +59,10 @@ export class PushService {
   /**
    * 绑定用户
    */
-  bindUserid(userid: string, otherInfo?: string): void {
+  bindUserid(userid: string): void {
     if (this.targetObj) {
-      let kvs = {
-        userid: userid,
-        otherInfo: otherInfo || ''
-      };
-      this.targetObj.bindUserid(kvs, () => { }, () => { });
+      let kvs = { userid: userid, otherInfo: '', unbindOtherDevice: true };
+      this.targetObj.bindUserid(kvs);
     }
   }
 
