@@ -44,9 +44,9 @@ export class ChatListPage {
     (<any>window).huanxin.addMessageListener('', (addRetData) => {
       (<any>window).huanxin.getChatList('', (retData) => {
         this.zone.run(() => {
-            this.chatList = retData;
-            this.checkRedMessage();
-            this.changeUnreadMessageNumber();
+          this.chatList = retData;
+          this.checkRedMessage();
+          this.changeUnreadMessageNumber();
         });
       });
     });
@@ -112,7 +112,11 @@ export class ChatListPage {
   removeConversation(item: Object) {
     let index = this.chatList.indexOf(item);
     this.chatList.splice(index, 1);
-    (<any>window).huanxin.removeConversation(item);
+    (<any>window).huanxin.removeConversation(item, () => {
+      this.zone.run(() => {
+        this.changeUnreadMessageNumber();
+      });
+    });
   }
 
   /**
