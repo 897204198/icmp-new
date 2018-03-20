@@ -120,7 +120,7 @@ export class LoginPage {
           const startIndex = this.navCtrl.getActive().index - 1;
           this.navCtrl.remove(startIndex, 1);
         });
-        this.pushService.bindUserid(data['userId']);
+        this.pushService.bindUserid(data['userId'], loginName);
       } else if (data.result === '2') {
         if (data.errMsg != null && data.errMsg !== '') {
           this.toastService.show(data.errMsg);
