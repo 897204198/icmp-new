@@ -52,7 +52,7 @@ export class UserInfoPage {
     let params = {
       userId: this.localUserInfo.userId
     };
-    this.http.get('/user/base-info', { params: params }).subscribe((res: Response) => {
+    this.http.get('/user/info', { params: params }).subscribe((res: Response) => {
       let data = res.json();
       this.userInfo['deptName'] = data.deptName;
       this.userInfo['jobName'] = data.jobName;

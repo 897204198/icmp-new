@@ -91,7 +91,7 @@ export class AddressPage {
    * 获得未读申请与通知的条数
    */
   getUnreadMessageCount() {
-    this.http.get('/im/notice/count').subscribe((res: Response) => {
+    this.http.get('/notices/count').subscribe((res: Response) => {
       this.unreadData = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -102,7 +102,7 @@ export class AddressPage {
    * 获取用户通讯录
    */
   fetchContactInfos() {
-    this.http.get('/im/contact/contacts', { params: { 'type': '0' } }).subscribe((res: Response) => {
+    this.http.get('/im/contacts', { params: { 'type': '0' } }).subscribe((res: Response) => {
       let temporary: Array<Object> = [];
       temporary = res.json();
       if (this.utils.arraysEqual(this.cacaheArray, res.json())) {

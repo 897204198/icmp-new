@@ -71,16 +71,10 @@ export class UserProfilePage {
    * 取得用户信息
    */
   getUserInfoFromNet(userId: string, toUserId: string): void {
-    let params: Object = {};
-    let url: string = '';
-    if (this.navParams.get('pageType') === 'apply') {
-      params['userId'] = userId;
-      params['toUserId'] = toUserId;
-      url = '/im/notice/base-info';
-    } else {
-      params['userId'] = toUserId;
-      url = '/user/base-info';
-    }
+    let params: Object = {
+      userId: toUserId
+    };
+    let url: string  = '/user/info';
     this.http.get(url, { params: params }).subscribe((res: Response) => {
       let data: Object = res.json();
       if (data['sex'] != null && data['sex'] !== '') {
@@ -158,7 +152,7 @@ export class UserProfilePage {
           text: this.transateContent['CONFIRM'],
           handler: () => {
             this.alertOpen = false;
-            this.http.delete('/im/contact/' + this.toUserInfo['id']).subscribe((res: Response) => {
+            this.http.delete('/im/contacts/' + this.toUserInfo['id']).subscribe((res: Response) => {
               this.toastService.show(this.transateContent['DELETED']);
               this.navCtrl.pop();
             }, (err: Response) => {
@@ -180,7 +174,7 @@ export class UserProfilePage {
       'toUserId': this.toUserInfo['id'],
       'type': '0'
     };
-    this.http.post('/im/contact/send', params).subscribe((res: Response) => {
+    this.http.post('/im/contacts/application', params).subscribe((res: Response) => {
       this.toastService.show(this.transateContent['ADD_SUCCESS']);
       this.navCtrl.pop();
     }, (res: Response) => {

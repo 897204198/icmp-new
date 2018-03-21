@@ -42,7 +42,7 @@ export class ApplyPage {
    * 获取所有申请通知
    */
   fetchApplications(): void {
-    this.http.get('/im/notice/notices').subscribe((res: Response) => {
+    this.http.get('/notices').subscribe((res: Response) => {
       this.applyList = res.json();
       for (let i = 0; i < this.applyList.length; i++) {
         this.applyList[i]['isSubmit'] = false;
@@ -76,7 +76,7 @@ export class ApplyPage {
   agreeApply(event: any, item: Object) {
     event.stopPropagation();
     item['isSubmit'] = true;
-    this.http.put('/im/notice', { noticeId: item['id'], type: '2' }).subscribe(() => {
+    this.http.put('/im/contacts/application', { noticeId: item['id'], type: 'agree' }).subscribe(() => {
       this.toastService.show(this.transateContent['AGREED']);
       this.fetchApplications();
     }, (res: Response) => {
@@ -91,7 +91,7 @@ export class ApplyPage {
   refuseApply(event: any, item: Object) {
     event.stopPropagation();
     item['isSubmit'] = true;
-    this.http.put('/im/notice', { noticeId: item['id'], type: '3' }).subscribe(() => {
+    this.http.put('/im/contacts/application', { noticeId: item['id'], type: 'reject' }).subscribe(() => {
       this.toastService.show(this.transateContent['REFUSED']);
       this.fetchApplications();
     }, (res: Response) => {
@@ -109,7 +109,7 @@ export class ApplyPage {
     let params = {
       noticeId: item['id']
     };
-    this.http.delete('/im/notice/' + item['id'], { params: params }).subscribe(() => {
+    this.http.delete('/notices/' + item['id'], { params: params }).subscribe(() => {
       this.toastService.show(this.transateContent['DELETED']);
     }, (res: Response) => {
       this.toastService.show(res.text());

@@ -44,7 +44,7 @@ export class AddFriendPage {
    * 搜索用户
    */
   searchUser() {
-    this.http.get('/im/contact/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
+    this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
       this.userList = res.json();
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -60,7 +60,7 @@ export class AddFriendPage {
       'toUserId': user['id'],
       'type': '0'
     };
-    this.http.post('/im/contact/send', params).subscribe((res: Response) => {
+    this.http.post('/im/contacts/application', params).subscribe((res: Response) => {
       this.toastService.show(this.transateContent['REQUEST_SENT']);
     }, (res: Response) => {
       this.toastService.show(res.text());
