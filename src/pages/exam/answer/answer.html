@@ -1,0 +1,22 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title>考试</ion-title>
+    <ion-buttons end>
+      
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <section class="exam-cover">
+    <p class="exam-cover-p">试卷名称</p>
+    <p>{{examContent?.examName}}</p>
+    <p class="exam-cover-p">试卷描述</p>
+    <p *ngFor="let item of examContent?.description">{{item}}</p>
+    <p class="exam-cover-time exam-cover-p">考试时常 <span>{{examContent?.countdown}}分钟</span></p>
+    <button ion-button small round>开始答题</button>
+  </section> 
+</ion-content>
+<ion-footer>
+ 
+</ion-footer>

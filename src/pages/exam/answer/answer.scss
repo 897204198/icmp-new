@@ -1,0 +1,31 @@
+page-exam-answer {
+
+  @mixin pMargin() {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .exam-cover {
+    font-size: 14px;
+    padding: 16px;
+
+    > .exam-cover-p {
+      @include pMargin();
+    }
+
+    > .exam-cover-time {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 36px;
+      font-weight: normal;
+
+      > span {
+        margin-left: 10px;
+      }
+    }
+
+    > button {
+      width: 100%;
+    }
+  }
+}

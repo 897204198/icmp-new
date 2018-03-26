@@ -11,6 +11,7 @@ import { InstaShotPage } from '../../pages/instaShot/instaShot';
 import { ApplicationPage } from '../../pages/application/application';
 import { StatisticsQueryPage } from '../../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statisticsView';
+import { ExamAnswerPage } from '../../pages/exam/answer/answer';
 
 /**
  * 路由服务
@@ -56,6 +57,8 @@ export class RoutersService {
       navCtrl.push(StatisticsQueryPage, menu);
     } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
+    } else if (menu.page === this.icmpConstant.page.examAnswer) {
+      navCtrl.push(ExamAnswerPage, menu);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }

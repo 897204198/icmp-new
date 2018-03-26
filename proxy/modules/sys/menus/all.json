@@ -95,5 +95,17 @@
         "page": "instaShot"
       }
     ]
+  },
+  {
+    "typeCode": "category",
+    "typeName": "考试",
+    "apps": [
+      {
+        "id": "5",
+        "name": "答题",
+        "icon": "./assets/images/application.png",
+        "page": "examAnswer"
+      }
+    ]
   }
 ]

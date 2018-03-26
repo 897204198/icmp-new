@@ -22,6 +22,9 @@ export interface PageIdConstant {
 
   // 统计页面
   statisticsView: string;
+
+  // 考试答题页面
+  examAnswer: string;
 }
 
 /**
@@ -54,7 +57,8 @@ export const pageIdConstant: PageIdConstant = {
   todoList: 'bpm',
   instaShot: 'instaShot',
   statisticsSearch: 'statisticsSearch',
-  statisticsView: 'statisticsView'
+  statisticsView: 'statisticsView',
+  examAnswer: 'examAnswer'
 };
 
 export const icmpConstant: IcmpConstant = {

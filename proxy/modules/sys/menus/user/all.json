@@ -51,5 +51,11 @@
     "data": {
       "example": "a"
     }
+  },
+  {
+    "id": "5",
+    "name": "答题",
+    "icon": "./assets/images/application.png",
+    "page": "examAnswer"
   }
 ]
