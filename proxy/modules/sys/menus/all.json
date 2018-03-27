@@ -102,9 +102,9 @@
     "apps": [
       {
         "id": "5",
-        "name": "答题",
+        "name": "我的考试",
         "icon": "./assets/images/application.png",
-        "page": "examAnswer"
+        "page": "examList"
       }
     ]
   }

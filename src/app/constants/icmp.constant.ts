@@ -24,7 +24,7 @@ export interface PageIdConstant {
   statisticsView: string;
 
   // 考试答题页面
-  examAnswer: string;
+  examList: string;
 }
 
 /**
@@ -58,7 +58,7 @@ export const pageIdConstant: PageIdConstant = {
   instaShot: 'instaShot',
   statisticsSearch: 'statisticsSearch',
   statisticsView: 'statisticsView',
-  examAnswer: 'examAnswer'
+  examList: 'examList'
 };
 
 export const icmpConstant: IcmpConstant = {
