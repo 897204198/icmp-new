@@ -24,7 +24,11 @@
           <span class="red-message">{{user.redMessage}}</span>
           <span>{{user.lastMessage}}</span>
         </div>
-        <p class="time" item-end>{{user.lastMessageTime}}</p>
+        <div *ngIf="user.notification==1" class="right-div" item-end>
+          <p class="time">{{user.lastMessageTime}}</p>
+          <ion-icon name="notifications-off"></ion-icon>
+        </div>
+        <p *ngIf="user.notification==undefined||user.notification==0" class="only-time" item-end>{{user.lastMessageTime}}</p>
       </button>
       <!-- 侧滑删除 -->
       <ion-item-options side="right">
