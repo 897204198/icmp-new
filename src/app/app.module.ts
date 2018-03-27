@@ -86,8 +86,6 @@ import { UserProfilePage } from '../pages/address/userProfile/userProfile';
 import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginShow.component';
 import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
 import { AppMinimize } from '@ionic-native/app-minimize';
-import { ExamAnswerPage } from '../pages/exam/answer/answer';
-import { ExamListPage } from '../pages/exam/examList/examList';
 import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
@@ -148,8 +146,6 @@ export function createTranslateLoader(http: Http) {
     CreateGroupPage,
     UserProfilePage,
     ResetPasswordPage,
-    ExamAnswerPage,
-    ExamListPage,
     ExamCustomFramePage
   ],
   imports: [
@@ -213,8 +209,6 @@ export function createTranslateLoader(http: Http) {
     CreateGroupPage,
     UserProfilePage,
     ResetPasswordPage,
-    ExamAnswerPage,
-    ExamListPage,
     ExamCustomFramePage
   ],
   providers: [
