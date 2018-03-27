@@ -57,10 +57,19 @@ page-chat-list {
     }
   }
 
-  .time {
+  .right-div {
+    margin-top: 10px !important;
+    text-align: right;
+    .time {
+      font-size: 11px;
+    }
+  }
+
+  .only-time {
     margin-top: -20px !important;
     font-size: 11px;
   }
+  
 
   .item {
     position: relative;
