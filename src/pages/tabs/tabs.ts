@@ -148,7 +148,7 @@ export class TabsPage {
           params['from_username'] = event.properCustoms.to_username;
           params['from_headportrait'] = event.properCustoms.to_headportrait;
         } else {
-          params['from_user_id'] = this.userInfo.userId;
+          params['from_user_id'] = this.userInfo.loginName;
           params['from_username'] = this.userInfo.userName;
           params['from_headportrait'] = this.userInfo.headImage;
           params['to_user_id'] = event.properCustoms.to_user_id;
