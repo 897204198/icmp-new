@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { NavParams } from 'ionic-angular';
 
 @Component({
   selector: 'page-exam-custom-frame',
@@ -10,8 +11,8 @@ export class ExamCustomFramePage {
   myURL: SafeUrl = '';
   token: string = localStorage.getItem('token');
 
-  constructor(private sanitizer: DomSanitizer) {
-    let dangerousVideoUrl = 'https://cloud.propersoft.cn/pea/master/#/customFrame/exam?token=' + this.token;
+  constructor(private sanitizer: DomSanitizer, public navParams: NavParams) {
+    let dangerousVideoUrl = this.navParams.data.data.url + '?token=' + this.token + '&questionnaireNo=' + this.navParams.data.data.questionnaireNo;
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
   }
 }

@@ -56,6 +56,10 @@
     "id": "5",
     "name": "我的考试",
     "icon": "./assets/images/application.png",
-    "page": "examList"
+    "page": "examList",
+    "data": {
+      "questionnaireNo": "qnnre1",
+      "url": "https://cloud.propersoft.cn/pea/master/#/customFrame/exam"
+    }
   }
 ]
