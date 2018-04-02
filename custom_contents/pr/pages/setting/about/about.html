@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'ABOUT_US' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray-new">
+  <div class="user-head-image-div">
+    <img src="./assets/images/proper_logo.png">
+  </div>
+  <p>{{'PROPER_PALM_OA' | translate}}</p>
+  <ion-list>
+    <!--无关内容先屏蔽-->
+    <!-- <button id="e2e-feedback" ion-item [navPush]="feedbackPage">
+      {{'FEEDBACK' | translate}}
+    </button> -->
+    <button id="e2e-downloadAddress" ion-item [navPush]="downloadAddressPage">
+      {{'APP_DOWNLOAD_ADDRESS' | translate}}
+    </button>
+    <button id="e2e-proper" ion-item [navPush]="properPage">
+      {{'ABOUT_PROPER' | translate}}
+    </button>
+  </ion-list>
+</ion-content>
