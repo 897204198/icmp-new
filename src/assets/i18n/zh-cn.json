@@ -171,5 +171,6 @@
   "INPUT_NEW_PASSWORD_AGAIN": "请再次输入新密码",
   "DIFFERENCE": "两次密码不一致，请重新输入",
   "SUCCESS_MODIFY": "修改成功",
-  "PASSWORD_RULES": "密码需要填写6~20个字符，可由英文、数字组成"
+  "PASSWORD_RULES": "密码需要填写6~20个字符，可由英文、数字组成",
+  "MY_QUESTIONNAIRE": "我的考试"
 }
