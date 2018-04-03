@@ -225,11 +225,11 @@
     "server": {
       "chatKey": "1166171023115752#pr",
       "baseUrl": "https://icmp.propersoft.cn/api/",
-      "pushAppId": "MobileOADemo",
+      "pushAppId": "MobileOAPr",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
-        "theAppid": "2882303761517720027",
-        "theAppkey": "5551772098027"
+        "theAppid": "2882303761517759408",
+        "theAppkey": "5931775920408"
       },
       "hcp": ""
     }
