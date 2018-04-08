@@ -87,6 +87,7 @@ import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginSh
 import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
+import { MacAddressPage } from '../pages/macAddress/macAddress';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -146,7 +147,8 @@ export function createTranslateLoader(http: Http) {
     CreateGroupPage,
     UserProfilePage,
     ResetPasswordPage,
-    ExamCustomFramePage
+    ExamCustomFramePage,
+    MacAddressPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -209,7 +211,8 @@ export function createTranslateLoader(http: Http) {
     CreateGroupPage,
     UserProfilePage,
     ResetPasswordPage,
-    ExamCustomFramePage
+    ExamCustomFramePage,
+    MacAddressPage
   ],
   providers: [
     StatusBar,

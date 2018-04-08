@@ -61,5 +61,11 @@
       "questionnaireNo": "qnnre1",
       "url": "https://cloud.propersoft.cn/pea/master/#/customFrame/exam"
     }
+  },
+  {
+    "id": "5",
+    "name": "Mac地址申请",
+    "icon": "./assets/images/application.png",
+    "page": "macAddress"
   }
 ]

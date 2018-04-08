@@ -172,5 +172,19 @@
   "DIFFERENCE": "两次密码不一致，请重新输入",
   "SUCCESS_MODIFY": "修改成功",
   "PASSWORD_RULES": "密码需要填写6~20个字符，可由英文、数字组成",
-  "MY_QUESTIONNAIRE": "我的考试"
+  "MY_QUESTIONNAIRE": "我的考试",
+  "MAC_ADDRESS_MANAGE": "Mac 地址管理",
+  "SELF_APPLY": "自助申请",
+  "BIND_STATE": "绑定状态",
+  "APPLY_CATEGORY": "申请类别",
+  "APPLY_PEOPLE": "申请人",
+  "FACILITY_USER": "设备使用人",
+  "FACILITY_NAME": "设备名称",
+  "MAC_ADDRESS": "Mac地址",
+  "BIND": "绑定",
+  "UNBIND": "解绑",
+  "PLEASE_ENTER": "请输入",
+  "PLEASE_ENTER_MAC_ADDRESS": "请输入Mac地址",
+  "SUBMIT_APPLY": "提交申请",
+  "WAIT_CHECK": "待审核"
 }
