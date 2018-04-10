@@ -98,4 +98,16 @@ export class UtilsService {
       return true;
     }
   }
+
+  /**
+   * 是否是正确的 Mac 地址
+   */
+  isMacAddress(value: string): boolean {
+    let reg = /^[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}$/;
+    if (reg.test(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

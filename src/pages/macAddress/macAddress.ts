@@ -4,6 +4,7 @@ import { UserInfoState, initUserInfo, UserService } from '../../app/services/use
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
 import { Http, Response } from '@angular/http';
+import { UtilsService } from '../../app/services/utils.service';
 
 @Component({
   selector: 'page-mac-address',
@@ -29,9 +30,10 @@ export class MacAddressPage {
     private userService: UserService,
     private translate: TranslateService,
     private toastService: ToastService,
+    private utils: UtilsService,
     private http: Http) {
 
-    this.translate.get(['REQUIRE_NOT', 'SUBMIT_SUCCESS']).subscribe((res: Object) => {
+    this.translate.get(['REQUIRE_NOT', 'SUBMIT_SUCCESS', 'PLEASE_ENTER_RIGHT_MAC_ADDRESS']).subscribe((res: Object) => {
       this.transateContent = res;
     });
 
@@ -40,7 +42,7 @@ export class MacAddressPage {
 
     this.submitInfo['appliTypeCode'] = '0';
     this.submitInfo['applicant'] = this.userInfo.userName;
-    this.submitInfo['username'] = '';
+    this.submitInfo['username'] = this.userInfo.userName;
     this.submitInfo['name'] = '';
     this.submitInfo['macAddress'] = '';
 
@@ -74,6 +76,8 @@ export class MacAddressPage {
       this.submitInfo['macAddress'].length === 0 ||
       this.submitInfo['name'].length === 0) {
       this.toastService.show(this.transateContent['REQUIRE_NOT']);
+    } else if (!this.utils.isMacAddress(this.submitInfo['macAddress'])) {
+      this.toastService.show(this.transateContent['PLEASE_ENTER_RIGHT_MAC_ADDRESS']);
     } else {
       this.http.post('/mac/app', this.submitInfo).subscribe((res: Response) => {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);

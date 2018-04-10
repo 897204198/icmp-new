@@ -27,7 +27,7 @@
 
       <ion-item>
         <ion-label color="dark">{{'APPLY_PEOPLE' | translate}}</ion-label>
-        <div class="gray-label" item-content>{{submitInfo.applicant}}</div>
+        <ion-input type="text" text-right [(ngModel)]="submitInfo.applicant" [disabled]=true></ion-input>
       </ion-item>
 
       <ion-item>
