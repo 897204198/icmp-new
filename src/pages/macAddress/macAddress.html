@@ -42,7 +42,7 @@
 
       <ion-item>
         <ion-label color="dark">{{'MAC_ADDRESS' | translate}}</ion-label>
-        <ion-input type="text" text-right [(ngModel)]="submitInfo.macAddress" placeholder="{{'PLEASE_ENTER_MAC_ADDRESS' | translate}}"></ion-input>
+        <ion-input type="text" text-right [(ngModel)]="submitInfo.macAddress" placeholder="E0:00:00:00:B0:00"></ion-input>
       </ion-item>
     </ion-list>
 
@@ -54,8 +54,9 @@
 
     <ion-list *ngSwitchCase="'state'">
       <ion-item *ngFor="let info of bindArray">
-        <h2>{{info?.applicant}}</h2>
-        <p>{{info?.macAddress}}</p>
+        <p>{{'FACILITY_USER' | translate}}: {{info?.applicant}}</p>
+        <p>{{'FACILITY_NAME' | translate}}: {{info?.name}}</p>
+        <p>{{'MAC_ADDRESS' | translate}}: {{info?.macAddress}}</p>
         <button ion-button item-end *ngIf="info.actualTypeCode == 1" (click)="changeBind(info)">{{'BIND' | translate}}</button>
         <button ion-button item-end *ngIf="info.actualTypeCode == 0" (click)="changeBind(info)">{{'UNBIND' | translate}}</button>
         <div class="gray-label" item-content *ngIf="info.actualTypeCode == 2">{{'WAIT_CHECK' | translate}}</div>
