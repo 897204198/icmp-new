@@ -54,7 +54,7 @@
 
     <ion-list *ngSwitchCase="'state'">
       <ion-item *ngFor="let info of bindArray">
-        <p>{{'FACILITY_USER' | translate}}: {{info?.applicant}}</p>
+        <p>{{'FACILITY_USER' | translate}}: {{info?.username}}</p>
         <p>{{'FACILITY_NAME' | translate}}: {{info?.name}}</p>
         <p>{{'MAC_ADDRESS' | translate}}: {{info?.macAddress}}</p>
         <button ion-button item-end *ngIf="info.actualTypeCode == 1" (click)="changeBind(info)">{{'BIND' | translate}}</button>
