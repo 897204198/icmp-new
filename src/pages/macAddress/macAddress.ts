@@ -43,7 +43,7 @@ export class MacAddressPage {
 
     this.submitInfo['appliTypeCode'] = '0';
     this.submitInfo['applicant'] = this.userInfo.userName;
-    this.submitInfo['username'] = '';
+    this.submitInfo['username'] = this.userInfo.userName;
     this.submitInfo['name'] = '';
     this.submitInfo['macAddress'] = '';
 
