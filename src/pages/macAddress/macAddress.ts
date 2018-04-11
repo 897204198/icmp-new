@@ -22,6 +22,7 @@ export class MacAddressPage {
   private submitInfo: Object = {};
   // 绑定状态列表
   private bindArray: Array<Object> = [];
+
   /**
    * 构造函数
    */
@@ -42,7 +43,7 @@ export class MacAddressPage {
 
     this.submitInfo['appliTypeCode'] = '0';
     this.submitInfo['applicant'] = this.userInfo.userName;
-    this.submitInfo['username'] = this.userInfo.userName;
+    this.submitInfo['username'] = '';
     this.submitInfo['name'] = '';
     this.submitInfo['macAddress'] = '';
 
