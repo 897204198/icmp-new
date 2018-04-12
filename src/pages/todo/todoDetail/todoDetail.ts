@@ -134,7 +134,8 @@ export class TodoDetailPage {
       let params: Object = {
         assignee: this.navParams.get('assignee'),
         taskId: this.navParams.get('taskId'),
-        step: this.navParams.get('step')
+        step: this.navParams.get('step'),
+        isChange: true
       };
       this.navCtrl.push(ApplicationPage, params);
     }
