@@ -8,8 +8,8 @@ var common = module.exports = {};
 // common.hostname = 'localhost';
 // common.port = 8080;
 // common.path = '/pep';
-common.hostname = '192.168.1.240';
-common.port = 9999;
+common.hostname = '192.168.1.241';
+common.port = 7777;
 common.path = '/mobile-platform';
 common.realPath = '';
 global.userName = '';
@@ -77,15 +77,15 @@ function parseJson(param)
 {
     var obj={};
     var keyvalue=[];
-    var key="",value="";       
+    var key="",value="";
     var paraString = param.split("&");
     for(var i in paraString)
     {
         keyvalue=paraString[i].split("=");
         key=keyvalue[0];
         value=keyvalue[1];
-        obj[key]=value;            
-    }        
+        obj[key]=value; 
+    }
     return obj;
 };
 
