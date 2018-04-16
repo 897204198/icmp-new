@@ -25,8 +25,12 @@ common.parsePostData = function(req, res, callback) {
   req.addListener('end', function() {
     //console.log('callback: ', callback);
     //console.log('postData: %s', postData);
-    var data = JSON.parse(postData);
-    callback(req, res, data);
+    try {
+      var data = JSON.parse(postData);
+      callback(req, res, data);
+    } catch (err) {
+      console.log(err);
+    }
   });
 };
 
@@ -101,7 +105,7 @@ common.dispatchData = function (str, resParams) {
       } else {
         chunkResult = {errMsg: '未知错误'};
       }
-      resParams.writeHeader(404, {'Content-Type': 'text/plain;charset=UTF-8'});
+      resParams.writeHeader(400, {'Content-Type': 'text/plain;charset=UTF-8'});
     } else if (chunkResult.result === '0') {
       resParams.writeHeader(200, {'Content-Type': 'text/plain;charset=UTF-8'});
     }

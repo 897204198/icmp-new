@@ -107,84 +107,80 @@ export class LoginPage {
       'password': md5password
     };
     this.http.post('/user/login', params).subscribe((res: Response) => {
-      if (res.json()['errMsg'] != null) {
-        this.toastService.show(res.json()['errMsg']);
-      } else {
-        let userData = res.json();
-        this.http.post('/user/bind', { userId: userData['id'] }).subscribe((data) => {
-          localStorage.token = data['_body'];
-          let status: string = '';
-          if (userData['status'] != null && userData['status'] !== '') {
-            status = userData['status']['code'];
+      let userData = res.json();
+      this.http.post('/user/bind', { userId: userData['id'] }).subscribe((data) => {
+        localStorage.token = data['_body'];
+        let status: string = '';
+        if (userData['status'] != null && userData['status'] !== '') {
+          status = userData['status']['code'];
+        }
+        let sex: string = '';
+        let sexCode: string = '';
+        if (userData['sex'] != null && userData['sex'] !== '') {
+          if (userData['sex']['code'] === '0' || userData['sex']['code'] === 0) {
+            sex = '男';
+          } else {
+            sex = '女';
           }
-          let sex: string = '';
-          let sexCode: string = '';
-          if (userData['sex'] != null && userData['sex'] !== '') {
-            if (userData['sex']['code'] === '0' || userData['sex']['code'] === 0) {
-              sex = '男';
-            } else {
-              sex = '女';
-            }
-            sexCode = userData['sex']['code'];
-          }
-          let newUserInfo: UserInfoState = {
-            account: account,
-            loginName: userData['account'],
-            password: md5password,
-            password0: password,
-            savePassword: this.userInfo.savePassword,
-            userId: userData['id'],
-            userName: userData['name'],
-            headImage: userData['headImageContent'] ? userData['headImageContent'] : '',
-            jobNumber: userData['jobNumber'],
-            phone: userData['phone'],
-            email: userData['email'],
-            outter: userData['outter'],
-            sexCode: sexCode,
-            sex: sex,
-            status: status
-          };
-          this.userService.saveUserInfo(newUserInfo);
-          this.userService.login();
+          sexCode = userData['sex']['code'];
+        }
+        let newUserInfo: UserInfoState = {
+          account: account,
+          loginName: userData['account'],
+          password: md5password,
+          password0: password,
+          savePassword: this.userInfo.savePassword,
+          userId: userData['id'],
+          userName: userData['name'],
+          headImage: userData['headImageContent'] ? userData['headImageContent'] : '',
+          jobNumber: userData['jobNumber'],
+          phone: userData['phone'],
+          email: userData['email'],
+          outter: userData['outter'],
+          sexCode: sexCode,
+          sex: sex,
+          status: status
+        };
+        this.userService.saveUserInfo(newUserInfo);
+        this.userService.login();
 
-          // 避免在 web 上无法显示页面
-          if (this.deviceService.getDeviceInfo().deviceType) {
-            let imparams = {
-              username: newUserInfo.loginName,
-              password: password,
-              baseUrl: this.configsService.getBaseUrl(),
-              pushUrl: this.configsService.getPushUrl(),
-              chatKey: this.configsService.getChatKey(),
-              token: 'Bearer ' + localStorage['token'],
-              chatId: newUserInfo.userId,
-              pushAppId: this.appConstant.properPushConstant.appId,
-              ext: {
-                from_user_id: newUserInfo.loginName,
-                from_username: newUserInfo.userName,
-                from_headportrait: newUserInfo.headImage
-              }
-            };
-            (<any>window).huanxin.imlogin(imparams, () => {
-              this.zone.run(() => {
-                // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-                this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
-                  const startIndex = this.navCtrl.getActive().index - 1;
-                  this.navCtrl.remove(startIndex, 1);
-                });
+        // 避免在 web 上无法显示页面
+        if (this.deviceService.getDeviceInfo().deviceType) {
+          let imparams = {
+            username: newUserInfo.loginName,
+            password: password,
+            baseUrl: this.configsService.getBaseUrl(),
+            pushUrl: this.configsService.getPushUrl(),
+            chatKey: this.configsService.getChatKey(),
+            token: 'Bearer ' + localStorage['token'],
+            chatId: newUserInfo.userId,
+            pushAppId: this.appConstant.properPushConstant.appId,
+            ext: {
+              from_user_id: newUserInfo.loginName,
+              from_username: newUserInfo.userName,
+              from_headportrait: newUserInfo.headImage
+            }
+          };
+          (<any>window).huanxin.imlogin(imparams, () => {
+            this.zone.run(() => {
+              // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+              this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+                const startIndex = this.navCtrl.getActive().index - 1;
+                this.navCtrl.remove(startIndex, 1);
               });
             });
-            this.pushService.bindUserid(newUserInfo.loginName);
-          } else {
-            // Web 版不进行推送绑定，直接进首页
-            this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
-              const startIndex = this.navCtrl.getActive().index - 1;
-              this.navCtrl.remove(startIndex, 1);
-            });
-          }
-        }, (err: Response) => {
-          this.toastService.show(err.text());
-        });
-      }
+          });
+          this.pushService.bindUserid(newUserInfo.loginName);
+        } else {
+          // Web 版不进行推送绑定，直接进首页
+          this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
+        }
+      }, (err: Response) => {
+        this.toastService.show(err.text());
+      });
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

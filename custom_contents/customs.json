@@ -254,7 +254,7 @@
     },
     "server": {
       "chatKey": "1166171023115752#ykoa",
-      "baseUrl": "",
+      "baseUrl": "http://192.168.1.102/app-im/",
       "pushAppId": "MobileOAYk",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {

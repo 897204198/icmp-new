@@ -16,6 +16,9 @@ export class ToastService {
    * 弹出提示框
    */
   show(message: string, duration?: number, position?: string): void {
+    if (message != null && message.indexOf('errMsg') !== -1) {
+      message = JSON.parse(message).errMsg;
+    }
     if (message != null && message !== '') {
       if (duration == null) {
         duration = 3000;

@@ -27,8 +27,8 @@ var onReq = function(req, res) {
 
   var handler = {}, curPath = '';
   try {
-    curPath = common.url2path(req, '.');  
-　　var reg = /\/\d+/;   
+    curPath = common.url2path(req, '.');
+　　var reg = /\/\d+/;
 　　var replaceUrl = curPath.replace(reg, '/uriparam'); 
     if (curPath.indexOf('./adapters/business/querys/') !== -1) {
       replaceUrl = './adapters/business/querys/uriparam';

@@ -54,8 +54,8 @@ handler.onPost = function (req, res, data) {
         common.jsonRes(req, res, '/cuiwc');
       }
     } else {
-      res.writeHeader(401, { 'Content-Type': 'application/json' });
-      res.end('');
+      res.writeHeader(400, { 'Content-Type': 'application/json' });
+      res.end('密码错误');
     }
   }
 };

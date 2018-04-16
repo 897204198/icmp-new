@@ -9,6 +9,7 @@ var common = require('../../common.js');
 handler.onPost = function (reqParams, resParams, data) {
   var post_data = {};
   post_data = data;
+  post_data.loginName = post_data.account;
 
   console.log('=================================');
   console.log('enter login');
@@ -26,7 +27,7 @@ handler.onPost = function (reqParams, resParams, data) {
   }
 
   var req = http.request(options, function (res) {
-    var resContent;  
+    var resContent;
     var str = '';
     res.setEncoding('utf8'); 
     res.on('data', function (chunk) {
@@ -36,11 +37,16 @@ handler.onPost = function (reqParams, resParams, data) {
     res.on('end', function () {
       var chunkResult = common.dispatchData(str, resParams);
       if (chunkResult.result === '0') {
+        console.log(chunkResult);
         global.userName = data.loginName;
         global.passWord = data.password;
         global.user = chunkResult.user;
         global.token = data.loginName;
         chunkResult.token = data.loginName;
+        chunkResult.id = chunkResult.userId;
+        chunkResult.outter = chunkResult.user.outter;
+        chunkResult.account = chunkResult.jobNumber;
+        chunkResult.name = chunkResult.user.name;
       }
       resContent = chunkResult;
       resParams.end(JSON.stringify(resContent));
