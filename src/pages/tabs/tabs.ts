@@ -63,7 +63,7 @@ export class TabsPage {
     private deviceService: DeviceService,
     private event: Events,
     private renderer: Renderer) {
-    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'ACCOUNT_ERROR_RELOGIN'];
+    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -350,7 +350,7 @@ export class TabsPage {
    */
   logOut(imIsOpen: string): void {
     let alert = this.alertCtrl.create({
-      title: this.transateContent['ACCOUNT_ERROR_RELOGIN'],
+      title: imIsOpen === '0' ? this.transateContent['IM_CLOSE'] : this.transateContent['IM_OPEN'],
       message: '',
       buttons: [
         {
