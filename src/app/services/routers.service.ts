@@ -13,6 +13,7 @@ import { StatisticsQueryPage } from '../../pages/statistics/statisticsQuery/stat
 import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statisticsView';
 import { ExamCustomFramePage } from '../../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../../pages/macAddress/macAddress';
+import { EmailPage } from '../../pages/email/email';
 
 /**
  * 路由服务
@@ -62,6 +63,8 @@ export class RoutersService {
       navCtrl.push(ExamCustomFramePage, menu);
     } else if (menu.page === this.icmpConstant.page.macAddress) {
       navCtrl.push(MacAddressPage, menu);
+    } else if (menu.page === this.icmpConstant.page.email) {
+      navCtrl.push(EmailPage, menu);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }

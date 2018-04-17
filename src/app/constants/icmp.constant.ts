@@ -28,6 +28,9 @@ export interface PageIdConstant {
 
   // Mac 地址申请页面
   macAddress: string;
+
+  // 邮箱页面
+  email: string;
 }
 
 /**
@@ -62,7 +65,8 @@ export const pageIdConstant: PageIdConstant = {
   statisticsSearch: 'statisticsSearch',
   statisticsView: 'statisticsView',
   examList: 'examList',
-  macAddress: 'macAddress'
+  macAddress: 'macAddress',
+  email: 'email'
 };
 
 export const icmpConstant: IcmpConstant = {
