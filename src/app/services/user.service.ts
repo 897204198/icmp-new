@@ -49,7 +49,7 @@ export class UserService {
   /**
    * 构造函数
    */
-  constructor(private secureStorageService: SecureStorageService) {}
+  constructor(private secureStorageService: SecureStorageService) { }
 
   /**
    * 判断是否登录
@@ -88,5 +88,16 @@ export class UserService {
    */
   getUserInfo(): UserInfoState {
     return this.secureStorageService.getObject(UserService.SEC_KEY_USER_INFO);
+  }
+
+  /**
+   * 取得用户信息
+   */
+  imIsOpen(): boolean {
+    if (localStorage.getItem('imIsOpen') === '1') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

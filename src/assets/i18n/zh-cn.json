@@ -189,5 +189,6 @@
   "PLEASE_ENTER_RIGHT_MAC_ADDRESS": "请输入正确的Mac地址",
   "SUBMIT_APPLY": "提交申请",
   "WAIT_CHECK": "待审核",
-  "MY_EMAIL": "我的邮箱"
+  "MY_EMAIL": "我的邮箱",
+  "ACCOUNT_ERROR_RELOGIN": "账号异常，请重新登录"
 }

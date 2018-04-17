@@ -161,8 +161,13 @@ export class LoginPage {
               from_headportrait: newUserInfo.headImage
             }
           };
-          (<any>window).huanxin.imlogin(imparams, () => {
+          (<any>window).huanxin.imlogin(imparams, (loginData) => {
             this.zone.run(() => {
+              if (loginData === 'user_not_found') {
+                localStorage.setItem('imIsOpen', '0');
+              } else {
+                localStorage.setItem('imIsOpen', '1');
+              }
               // 如果是从登录页登录的，则在 tabs 页不执行自动登录
               this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
                 const startIndex = this.navCtrl.getActive().index - 1;

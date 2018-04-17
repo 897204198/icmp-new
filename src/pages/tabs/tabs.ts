@@ -63,7 +63,7 @@ export class TabsPage {
     private deviceService: DeviceService,
     private event: Events,
     private renderer: Renderer) {
-    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO'];
+    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'ACCOUNT_ERROR_RELOGIN'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -120,13 +120,21 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    return [
-      { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-      { root: TodoListPage, tabTitle: '待办', tabIcon: 'list-box', tabBadge: '', params: { processName: '', title: '待办列表' } },
-      { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
-      { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-      { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-    ];
+    if (this.userService.imIsOpen()) {
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: TodoListPage, tabTitle: '待办', tabIcon: 'list-box', tabBadge: '', params: { processName: '', title: '待办列表' } },
+        { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
+        { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+      ];
+    } else {
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: TodoListPage, tabTitle: '待办', tabIcon: 'list-box', tabBadge: '', params: { processName: '', title: '待办列表' } },
+        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+      ];
+    }
   }
 
   /**
@@ -289,8 +297,15 @@ export class TabsPage {
         from_headportrait: this.userInfo.headImage
       }
     };
-    (<any>window).huanxin.imlogin(params, () => {
-      this.getUnreadMessageNumber();
+    (<any>window).huanxin.imlogin(params, (loginData) => {
+      this.zone.run(() => {
+        if (loginData === 'user_not_found' && this.userService.imIsOpen()) {
+          this.logOut('0');
+        } else if (loginData !== 'user_not_found' && !this.userService.imIsOpen()) {
+          this.logOut('1');
+        }
+        this.getUnreadMessageNumber();
+      });
     });
   }
 
@@ -328,5 +343,35 @@ export class TabsPage {
         }
       });
     }, (retData) => { });
+  }
+
+  /**
+   * 退出登录
+   */
+  logOut(imIsOpen: string): void {
+    let alert = this.alertCtrl.create({
+      title: this.transateContent['ACCOUNT_ERROR_RELOGIN'],
+      message: '',
+      buttons: [
+        {
+          text: '确定',
+          handler: () => {
+            localStorage.setItem('imIsOpen', imIsOpen);
+            // 推送服务取消与当前用户的绑定关系
+            this.pushService.unBindUserid();
+            // 取消自动登录
+            this.userService.logout();
+            this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
+            // 退出
+            this.navCtrl.push(LoginPage).then(() => {
+              const startIndex = this.navCtrl.getActive().index - 1;
+              this.navCtrl.remove(startIndex, 1);
+            });
+            (<any>window).huanxin.imlogout();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
