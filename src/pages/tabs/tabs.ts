@@ -349,29 +349,23 @@ export class TabsPage {
    * 退出登录
    */
   logOut(imIsOpen: string): void {
-    let alert = this.alertCtrl.create({
-      title: imIsOpen === '0' ? this.transateContent['IM_CLOSE'] : this.transateContent['IM_OPEN'],
-      message: '',
-      buttons: [
-        {
-          text: '确定',
-          handler: () => {
-            localStorage.setItem('imIsOpen', imIsOpen);
-            // 推送服务取消与当前用户的绑定关系
-            this.pushService.unBindUserid();
-            // 取消自动登录
-            this.userService.logout();
-            this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
-            // 退出
-            this.navCtrl.push(LoginPage).then(() => {
-              const startIndex = this.navCtrl.getActive().index - 1;
-              this.navCtrl.remove(startIndex, 1);
-            });
-            (<any>window).huanxin.imlogout();
-          }
-        }
-      ]
+    let params: Object = {};
+    params['alertContent'] = imIsOpen === '0' ? this.transateContent['IM_CLOSE'] : this.transateContent['IM_OPEN'];
+    (<any>window).huanxin.showNativeAlert(params, () => {
+      this.zone.run(() => {
+        localStorage.setItem('imIsOpen', imIsOpen);
+        // 推送服务取消与当前用户的绑定关系
+        this.pushService.unBindUserid();
+        // 取消自动登录
+        this.userService.logout();
+        this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
+        // 退出
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+        (<any>window).huanxin.imlogout();
+      });
     });
-    alert.present();
   }
 }
