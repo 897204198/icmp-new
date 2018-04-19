@@ -88,6 +88,7 @@ import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword'
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../pages/macAddress/macAddress';
+import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
 import { EmailPage } from '../pages/email/email';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
@@ -150,6 +151,7 @@ export function createTranslateLoader(http: Http) {
     ResetPasswordPage,
     ExamCustomFramePage,
     MacAddressPage,
+    OrganizationAddressPage,
     EmailPage
   ],
   imports: [
@@ -215,6 +217,7 @@ export function createTranslateLoader(http: Http) {
     ResetPasswordPage,
     ExamCustomFramePage,
     MacAddressPage,
+    OrganizationAddressPage,
     EmailPage
   ],
   providers: [

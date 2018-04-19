@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: 'addFriend.html',
 })
 export class AddFriendPage {
+  // 用户列表
   private userList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;

@@ -189,6 +189,7 @@
   "PLEASE_ENTER_RIGHT_MAC_ADDRESS": "请输入正确的Mac地址",
   "SUBMIT_APPLY": "提交申请",
   "WAIT_CHECK": "待审核",
+  "ORGANIZATION_ADDRESS": "组织通讯录",
   "MY_EMAIL": "我的邮箱",
   "IM_CLOSE": "您的IM聊天权限已被管理员关闭，请退出后重新登录",
   "IM_OPEN": "您的账号已开通IM聊天权限，请退出后重新登录"

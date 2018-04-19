@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'ORGANIZATION_ADDRESS' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="content-gray-new">
+  <form>
+    <ion-searchbar name="search" placeholder="{{'SEARCH' | translate}}" [formControl]="titleFilter">
+    </ion-searchbar>
+  </form>
+
+  <!-- 搜索列表 -->
+  <ion-list *ngIf="isSearch">
+    <button *ngFor="let user of searchUserList" ion-item (click)="lookUserProfile(user)">
+      <ion-avatar item-left>
+        <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
+        <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
+      </ion-avatar>
+      <h2>{{user.name}}</h2>
+      <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
+        item-end (click)="addFriend($event, user)">添加</button>
+      <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
+        ion-button item-end color="dark">已添加</button>
+    </button>
+  </ion-list>
+
+  <div *ngIf="!isSearch">
+    <!-- 顶部滑动列表 -->
+    <ion-scroll scrollX>
+      <div *ngFor="let item of organizationList; let i = index" class="scroll-item">
+        <button ion-button clear class="horizontal-button" (click)="changeOrganization(item, i)">{{item?.organizationName}}</button>
+        <span *ngIf="i!=organizationList.length-1" class="separator-span">/</span>
+      </div>
+    </ion-scroll>
+
+    <!-- 左侧列表 -->
+    <ion-list class="left-list">
+      <button *ngFor="let item of subOrganizationList" ion-item (click)="changeSubOrganization(item)" class="gray-button" detail-none
+        text-wrap>
+        <h2>{{item?.organizationName}}</h2>
+      </button>
+    </ion-list>
+
+    <!-- 右侧列表 -->
+    <ion-list class="right-list">
+      <button *ngFor="let user of userList" ion-item (click)="lookUserProfile(user)" detail-none>
+        <ion-avatar item-left>
+          <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
+          <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
+        </ion-avatar>
+        <h2>{{user.name}}</h2>
+        <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
+          item-end (click)="addFriend($event, user)">添加</button>
+        <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
+          ion-button item-end color="dark">已添加</button>
+      </button>
+    </ion-list>
+  </div>
+
+</ion-content>

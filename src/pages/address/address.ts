@@ -13,6 +13,7 @@ import { UserProfilePage } from './userProfile/userProfile';
 import { SpellService } from '../../app/services/spell.service';
 import { Content } from 'ionic-angular';
 import { UtilsService } from '../../app/services/utils.service';
+import { OrganizationAddressPage } from './organizationAddress/organizationAddress';
 
 @Component({
   selector: 'page-address',
@@ -194,6 +195,13 @@ export class AddressPage {
    */
   myGroup() {
     this.navCtrl.push(GroupPage);
+  }
+
+  /**
+   * 组织通讯录
+   */
+  organizationAddress() {
+    this.navCtrl.push(OrganizationAddressPage);
   }
 
   /**
