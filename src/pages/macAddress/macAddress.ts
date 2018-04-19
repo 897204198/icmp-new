@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { NavController, Platform } from 'ionic-angular';
 import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
 import { Http, Response } from '@angular/http';
 import { UtilsService } from '../../app/services/utils.service';
+import { DeviceService, DeviceInfoState } from '../../app/services/device.service';
 
 @Component({
   selector: 'page-mac-address',
@@ -31,6 +32,9 @@ export class MacAddressPage {
     private userService: UserService,
     private translate: TranslateService,
     private toastService: ToastService,
+    private deviceService: DeviceService,
+    private zone: NgZone,
+    public platform: Platform,
     private utils: UtilsService,
     private http: Http) {
 
@@ -46,7 +50,16 @@ export class MacAddressPage {
     this.submitInfo['username'] = this.userInfo.userName;
     this.submitInfo['name'] = '';
     this.submitInfo['macAddress'] = '';
-
+    let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+    this.platform.ready().then(() => {
+      if (deviceInfo.deviceType === 'android') {
+        (<any>window).MacPlugin.getMacAddress('', (macAddress) => {
+          this.zone.run(() => {
+            this.submitInfo['macAddress'] = macAddress;
+          });
+        });
+      }
+    });
   }
 
   /**

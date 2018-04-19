@@ -79,6 +79,7 @@
         "cordova-plugin-x-toast": "2.6.0",
         "cordova-sqlite-storage": "2.0.4",
         "cordova-plugin-proper-HuanXin": "1.0.0",
+        "cordova-plugin-getMacaddress": "1.0.0",
         "echarts": "3.7.2",
         "ionic-angular": "3.4.2",
         "ionic-plugin-keyboard": "2.2.1",
@@ -141,7 +142,8 @@
             },
             "cordova-plugin-file": {},
             "cordova-plugin-proper-HuanXin": {},
-            "cordova-plugin-appminimize": {}
+            "cordova-plugin-appminimize": {},
+            "cordova-plugin-getMacaddress": {}
         },
         "platforms": [
             "android",
