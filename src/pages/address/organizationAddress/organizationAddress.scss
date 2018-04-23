@@ -56,6 +56,10 @@ page-organizationAddress {
     float: left;
     .gray-button {
       background-color: #f0f4f7;
+      color: gray;
+      h2 {
+        font-size: 14px;
+      }
     }
   }
 
@@ -63,6 +67,9 @@ page-organizationAddress {
     width: 67%;
     margin-top: 2px;
     float: left;
+    h2 {
+      font-size: 14px;
+    }
   }
   
   ion-scroll[scrollX] {

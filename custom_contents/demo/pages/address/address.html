@@ -27,12 +27,6 @@
       </ion-avatar>
       {{'GROUP' | translate}}
     </button>
-    <button ion-item (click)="organizationAddress()">
-      <ion-avatar item-left class="control-img">
-        <img src="./assets/images/im/organization.png">
-      </ion-avatar>
-      {{'ORGANIZATION_ADDRESS' | translate}}
-    </button>
   </ion-list>
   <div *ngIf="selectInput" class="margin-bottom"></div>
   <div *ngFor="let contact of contactInfos">

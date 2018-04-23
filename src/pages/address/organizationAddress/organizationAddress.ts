@@ -72,7 +72,7 @@ export class OrganizationAddressPage {
       {
         organizationName: '普日软件',
         organizationId: 'root',
-        leafCount: 3
+        leafCount: 1
       }
     ];
   }
@@ -143,7 +143,7 @@ export class OrganizationAddressPage {
    * refreshSubOrg 控制左侧列表是否刷新
    */
   getOrganization() {
-    this.http.get('/im/organization', { params: { 'organizationId': this.organizationId } })
+    this.http.get('/im/contacts/organization', { params: { 'organizationId': this.organizationId } })
       .subscribe((res: Response) => {
         this.userList = res.json()[0]['contacts'];
         this.cacheList = res.json();
