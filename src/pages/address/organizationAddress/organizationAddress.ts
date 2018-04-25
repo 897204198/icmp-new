@@ -37,11 +37,6 @@ export class OrganizationAddressPage {
   // 部门用户列表
   private userList: Array<Object> = [];
 
-  // 子部门缓存列表
-  private cacheList: Array<Object> = [];
-  // 标签
-  private selectCache: boolean = false;
-
   /**
    * 构造函数
    */
@@ -68,13 +63,6 @@ export class OrganizationAddressPage {
       }
     );
     this.userInfo = this.userService.getUserInfo();
-    this.organizationList = [
-      {
-        organizationName: '普日软件',
-        organizationId: 'root',
-        leafCount: 1
-      }
-    ];
   }
 
   /**
@@ -100,11 +88,8 @@ export class OrganizationAddressPage {
    * 改变组织
    */
   changeOrganization(item: Object, i: number) {
-    if (i !== this.organizationList.length - 1) {
-      this.organizationId = item['organizationId'];
-      this.selectCache = false;
-      this.getOrganization();
-    }
+    this.organizationId = item['organizationId'];
+    this.getOrganization();
     const spliceLength: number = this.organizationList.length - i - 1;
     this.organizationList.splice(i + 1, spliceLength);
   }
@@ -113,29 +98,11 @@ export class OrganizationAddressPage {
    * 改变下级组织
    */
   changeSubOrganization(item: Object) {
+    this.organizationId = item['organizationId'];
     if (item['leafCount'] !== 0 && item['leafCount'] !== '0') {
-      this.organizationId = item['organizationId'];
-      this.selectCacheAction(item, false);
-      this.getOrganization();
-    } else {
-      this.selectCacheAction(item, true);
-      for (const iterator of this.cacheList) {
-        if (item['organizationId'] === iterator['organizationId']) {
-          this.userList = iterator['contacts'];
-        }
-      }
+      this.organizationList.push(item);
     }
-  }
-
-  /**
-   * 下级组织切换面包屑处理
-   */
-  selectCacheAction(item: Object, isCache: boolean) {
-    if (this.selectCache) {
-      this.organizationList.pop();
-    }
-    this.organizationList.push(item);
-    this.selectCache = isCache;
+    this.getOrganization();
   }
 
   /**
@@ -145,16 +112,16 @@ export class OrganizationAddressPage {
   getOrganization() {
     this.http.get('/im/contacts/organization', { params: { 'organizationId': this.organizationId } })
       .subscribe((res: Response) => {
-        this.userList = res.json()[0]['contacts'];
-        this.cacheList = res.json();
-        this.subOrganizationList = [];
-        for (const iterator of res.json()) {
-          const org: Object = {
-            organizationName: iterator['organizationName'],
-            organizationId: iterator['organizationId'],
-            leafCount: iterator['leafCount']
+        this.userList = res.json()['contacts'];
+        if (res.json()['leafCount'] !== 0 && res.json()['leafCount'] !== '0') {
+          this.subOrganizationList = res.json()['orgs'];
+        }
+        if (this.organizationId === 'root') {
+          let item: Object = {
+            organizationId: res.json()['organizationId'],
+            organizationName: res.json()['organizationName']
           };
-          this.subOrganizationList.push(org);
+          this.organizationList = [item];
         }
       }, (res: Response) => {
         this.toastService.show(res.text());

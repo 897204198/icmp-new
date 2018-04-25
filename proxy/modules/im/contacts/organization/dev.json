@@ -1,0 +1,34 @@
+{
+  "organizationId": "dev",
+  "organizationName": "研发部",
+  "leafCount": 3,
+  "orgs": [
+    {
+      "organizationId": "qd",
+      "organizationName": "前端",
+      "leafCount": 0
+    },
+    {
+      "organizationId": "ydd",
+      "organizationName": "移动端",
+      "leafCount": 0
+    },
+    {
+      "organizationId": "hd",
+      "organizationName": "后端",
+      "leafCount": 0
+    }
+  ],
+  "contacts": [
+    {
+      "id": "hex",
+      "name": "何鑫",
+      "account": "hex",
+      "phone": "18888888888",
+      "email":"18888888888@qq.com",
+      "sex": {"code": "0"},
+      "status": {"code": "0"},
+      "headImageContent": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+    }
+  ]
+}

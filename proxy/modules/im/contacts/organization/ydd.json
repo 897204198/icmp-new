@@ -1,0 +1,17 @@
+{
+  "organizationId": "ydd",
+  "organizationName": "移动端",
+  "leafCount": 0,
+  "contacts": [
+    {
+      "id": "liym",
+      "name": "李一鸣",
+      "account": "liym",
+      "phone": "18888888888",
+      "email":"18888888888@qq.com",
+      "sex": {"code": "0"},
+      "status": {"code": "0"},
+      "headImageContent": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+    }
+  ]
+}

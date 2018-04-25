@@ -26,15 +26,19 @@
   <ion-list>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.sexName != null">
       {{'SEX' | translate}}
-      <p item-right>{{toUserInfo.sexName}}</p>
+      <p item-right>{{toUserInfo?.sexName}}</p>
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.phone != null">
       {{'PHONE' | translate}}
-      <p item-right>{{toUserInfo.phone}}</p>
+      <p item-right>{{toUserInfo?.phone}}</p>
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
       {{'EMAIL' | translate}}
-      <p item-right>{{toUserInfo.email}}</p>
+      <p item-right>{{toUserInfo?.email}}</p>
+    </ion-item>
+    <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
+      {{'DEPARTMENT' | translate}}
+      <p item-right>{{toUserInfo?.orgName}}</p>
     </ion-item>
   </ion-list>
 </ion-content>
