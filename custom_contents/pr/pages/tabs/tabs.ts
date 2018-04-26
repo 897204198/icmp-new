@@ -63,7 +63,7 @@ export class TabsPage {
     private deviceService: DeviceService,
     private event: Events,
     private renderer: Renderer) {
-    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO'];
+    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -76,14 +76,14 @@ export class TabsPage {
       // 自动登录
       this.autoLogin();
       // 待办角标绑定
-      // this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
-      //   this.tabRoots[1]['tabBadge'] = data;
-      // });
+      this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+        this.tabRoots[1]['tabBadge'] = data;
+      });
 
       // 消息角标绑定
-      // this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
-      //   this.tabRoots[2]['tabBadge'] = data;
-      // });
+      this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
+        this.tabRoots[2]['tabBadge'] = data;
+      });
     });
 
   }
@@ -120,17 +120,19 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    // return [
-    //   { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-    //   { root: TodoListPage, tabTitle: '待办', tabIcon: 'list-box', tabBadge: '', params: { processName: '', title: '待办列表' } },
-    //   { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
-    //   { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-    //   { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-    // ];
-    return [
-      { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-      { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-    ];
+    if (this.userService.imIsOpen()) {
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
+        { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+      ];
+    } else {
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+      ];
+    }
   }
 
   /**
@@ -293,8 +295,15 @@ export class TabsPage {
         from_headportrait: this.userInfo.headImage
       }
     };
-    (<any>window).huanxin.imlogin(params, () => {
-      this.getUnreadMessageNumber();
+    (<any>window).huanxin.imlogin(params, (loginData) => {
+      this.zone.run(() => {
+        if (loginData === 'user_not_found' && this.userService.imIsOpen()) {
+          this.logOut('0');
+        } else if (loginData !== 'user_not_found' && !this.userService.imIsOpen()) {
+          this.logOut('1');
+        }
+        this.getUnreadMessageNumber();
+      });
     });
   }
 
@@ -332,5 +341,29 @@ export class TabsPage {
         }
       });
     }, (retData) => { });
+  }
+
+  /**
+   * 退出登录
+   */
+  logOut(imIsOpen: string): void {
+    let params: Object = {};
+    params['alertContent'] = imIsOpen === '0' ? this.transateContent['IM_CLOSE'] : this.transateContent['IM_OPEN'];
+    (<any>window).huanxin.showNativeAlert(params, () => {
+      this.zone.run(() => {
+        localStorage.setItem('imIsOpen', imIsOpen);
+        // 推送服务取消与当前用户的绑定关系
+        this.pushService.unBindUserid();
+        // 取消自动登录
+        this.userService.logout();
+        this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
+        // 退出
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+        (<any>window).huanxin.imlogout();
+      });
+    });
   }
 }
