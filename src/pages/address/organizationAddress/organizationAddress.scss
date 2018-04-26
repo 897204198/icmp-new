@@ -111,7 +111,13 @@ page-organizationAddress {
   
         &.subject-scroll-left {
           width: 33%;
-  
+          .gray-button { 
+            background-color: #f0f4f7; 
+            color: gray; 
+            h2 {
+              font-size: 14px;
+            }
+          }
           .item-ios {
             background-color: transparent;
           }
@@ -120,6 +126,9 @@ page-organizationAddress {
         &.subject-scroll-right {
           width: 67%;
           background: #ffffff;
+          h2 {
+            font-size: 14px;
+          }
         }
   
         .subject-div {
@@ -130,9 +139,7 @@ page-organizationAddress {
           .left-activated-icon {
             display: none;
           }
-          h2 {
-            font-size: 14px;
-          }
+
         }
       }
     }
