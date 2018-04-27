@@ -334,6 +334,7 @@ export class ApplicationPage {
           this.input[item['model']][index][itemList['model']] = data.id;
           this.searchboxChange(item, index, itemList);
         }
+        this.setControl(item, data);
       }
     });
     modal.present();

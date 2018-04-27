@@ -1,0 +1,116 @@
+{
+  "template": [
+    {
+      "model": "approvalPersonName",
+      "default": "洪晓明",
+      "label": "申请人",
+      "type": "label"
+    },
+    {
+      "model": "approvalPersonId",
+      "default": "AA9A26B7-1659-4D9F-B83D-369C15627109",
+      "type": "hidden"
+    },
+    {
+      "model": "deptmentId",
+      "category": "single",
+      "default": "60EBB5AB-287B-4D49-9511-109EA8A9E520",
+      "data": [
+        {
+          "id": "60EBB5AB-287B-4D49-9511-109EA8A9E520",
+          "name": "骨科24病区"
+        }
+      ],
+      "label": "申请科室",
+      "type": "select"
+    },
+    {
+      "model": "approvalTime",
+      "default": "2018-04-18",
+      "label": "申请时间",
+      "type": "label"
+    },
+    {
+      "model": "title",
+      "default": "被推荐人基本信息",
+      "type": "title"
+    },
+    {
+      "label": "被推荐人姓名",
+      "searchUrl": "/demo/selectSearchboxQuery",
+      "type": "searchbox"
+    },
+    {
+      "model": "sex",
+      "label": "被推荐人性别",
+      "type": "label"
+    },
+    {
+      "model": "birthday",
+      "label": "被推荐人出生日期",
+      "type": "label"
+    },
+    {
+      "model": "reDeptmentId",
+      "category": "single",
+      "data": [],
+      "label": "被推荐人科室",
+      "type": "select"
+    },
+    {
+      "model": "jobName",
+      "label": "被推荐人职称",
+      "type": "label"
+    },
+    {
+      "model": "isDeApproval",
+      "default": "是",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "data": [
+        {
+          "id": "是",
+          "controls": [
+            {
+              "models": [
+                "chooseDeptmentId"
+              ],
+              "type": "display"
+            },
+            {
+              "model": "chooseDeptmentId",
+              "type": "initSelect",
+              "url": "/webController/selectSearchboxQuery?serviceName\u003dTheStarApplicationService\u0026type\u003d6"
+            }
+          ],
+          "name": "是"
+        },
+        {
+          "id": "否",
+          "name": "否"
+        }
+      ],
+      "label": "是否需要职能部门审批",
+      "type": "radio"
+    },
+    {
+      "model": "chooseDeptmentId",
+      "status": "hidden",
+      "label": "选择部门",
+      "type": "select"
+    },
+    {
+      "model": "description",
+      "label": "故障描述",
+      "type": "textarea"
+    }
+  ],
+  "taskId": "",
+  "result": "0",
+  "title": "宁波市鄞州区第二医院季度服务之星上报单",
+  "shenpi_btn_text": "提交",
+  "shenpi_type": "forward"
+}

@@ -34,11 +34,12 @@ export class SearchboxComponent {
   /**
    * 构造函数
    */
-  constructor(public navParams: NavParams,
-              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-              private http: Http, private el: ElementRef,
-              private toastService: ToastService,
-              public viewCtrl: ViewController) {
+  constructor(
+    public navParams: NavParams,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private http: Http, private el: ElementRef,
+    private toastService: ToastService,
+    public viewCtrl: ViewController) {
     this.title = navParams.get('title');
     this.multiple = navParams.get('multiple');
   }
@@ -81,7 +82,7 @@ export class SearchboxComponent {
       if (isInit) {
         this.searchResults = data;
       } else {
-        for (let i = 0 ; i < data.length ; i++) {
+        for (let i = 0; i < data.length; i++) {
           this.searchResults.push(data[i]);
         }
       }
@@ -150,18 +151,24 @@ export class SearchboxComponent {
    * 选择事件
    */
   searchboxSelect(result?: Object): void {
+    let params: Object = new Object();
     if (result == null) {
       let ids: string[] = [];
       let names: string[] = [];
-      for (let i = 0 ; i < this.searchSelect.length ; i++) {
+      for (let i = 0; i < this.searchSelect.length; i++) {
         if (this.searchSelect[i]) {
           ids.push(this.searchResults[i]['id']);
           names.push(this.searchResults[i]['name']);
         }
       }
-      this.viewCtrl.dismiss({id: ids.join(','), name: names.join(',')});
+      this.viewCtrl.dismiss({ id: ids.join(','), name: names.join(',') });
     } else {
-      this.viewCtrl.dismiss({id: result['id'], name: result['name']});
+      params = {
+        id: result['id'],
+        name: result['name'],
+        controls: result['controls']
+      };
+      this.viewCtrl.dismiss(params);
     }
   }
 }
