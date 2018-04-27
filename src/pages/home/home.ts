@@ -25,7 +25,7 @@ export class HomePage {
   // 是否显示轮播图
   private hasBanner: boolean = false;
   // 我的应用列表
-  private menus: Object[];
+  private menus: Object[] = [];
   // 我的插件列表
   private plugins: Object[] = [];
   // 通知消息列表
@@ -151,9 +151,9 @@ export class HomePage {
    * 设置首页应用列表
    */
   setAppList(): void {
-    this.menus = [];
     this.http.get('/sys/menus/user').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
+        this.menus = [];
         let data = res.json();
         for (let i = 0; i < data.length; i++) {
           if (data[i].total > 99) {
@@ -171,9 +171,9 @@ export class HomePage {
    * 设置首页插件列表
    */
   setPlugins(): void {
-    this.plugins = [];
     this.http.get('/sys/plugins/user').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
+        this.plugins = [];
         this.plugins = res.json();
       }
     }, (res: Response) => {
@@ -185,7 +185,6 @@ export class HomePage {
    * 获取通知消息列表
    */
   setNotice(): void {
-    this.notices = [];
     let params = {
       'pageNo': '1',
       'pageSize': '3',
@@ -193,6 +192,7 @@ export class HomePage {
     };
     this.http.get('/business/querys', { params: params }).subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
+        this.notices = [];
         let data = res.json().rows;
         for (let i = 0; i < data.length; i++) {
           // 去除html
