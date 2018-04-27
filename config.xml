@@ -102,7 +102,7 @@
     <plugin name="cordova-plugin-photo-library" spec="2.0.4">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
     </plugin>
-    <plugin name="cordova-plugin-proper-properpush" spec="1.1.1" />
+    <plugin name="cordova-plugin-proper-properpush" spec="1.1.2" />
     <plugin name="cordova-plugin-proper-update-version" spec="1.0.2" />
     <plugin name="cordova-plugin-proper-telerik-imagepicker" spec="2.1.8">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="是否允许此App访问你的媒体资料库？" />
