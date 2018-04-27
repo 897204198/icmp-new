@@ -25,6 +25,8 @@ export class OrganizationAddressPage {
   private userInfo: UserInfoState = initUserInfo;
   // 用户信息（用户名、密码、昵称等）
   private isSearch: boolean = false;
+  // 面包屑是否是最后一层
+  private isLast: boolean = false;
 
   // 搜索组织ID，默认为 root
   private organizationId: string = 'root';
@@ -92,6 +94,7 @@ export class OrganizationAddressPage {
     this.getOrganization();
     const spliceLength: number = this.organizationList.length - i - 1;
     this.organizationList.splice(i + 1, spliceLength);
+    this.isLast = false;
   }
 
   /**
@@ -100,6 +103,17 @@ export class OrganizationAddressPage {
   changeSubOrganization(item: Object) {
     this.organizationId = item['organizationId'];
     if (item['leafCount'] !== 0 && item['leafCount'] !== '0') {
+      if (this.isLast === true) {
+        this.organizationList.pop();
+      }
+      this.isLast = false;
+      this.organizationList.push(item);
+    } else {
+      if (this.isLast === true) {
+        this.organizationList.pop();
+      } else {
+        this.isLast = true;
+      }
       this.organizationList.push(item);
     }
     this.getOrganization();
@@ -107,7 +121,6 @@ export class OrganizationAddressPage {
 
   /**
    * 获取组织
-   * refreshSubOrg 控制左侧列表是否刷新
    */
   getOrganization() {
     this.http.get('/im/contacts/organization', { params: { 'organizationId': this.organizationId } })

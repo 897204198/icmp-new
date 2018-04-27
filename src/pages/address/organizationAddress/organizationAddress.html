@@ -52,9 +52,9 @@
         </ion-avatar>
         <h2>{{user.name}}</h2>
         <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
-          item-end (click)="addFriend($event, user)">添加</button>
+          item-end (click)="addFriend($event, user)">{{'ADD' | translate}}</button>
         <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
-          ion-button item-end color="dark">已添加</button>
+          ion-button item-end color="dark">{{'ADDED' | translate}}</button>
       </button>
     </ion-scroll>
   </div>

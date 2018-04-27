@@ -140,6 +140,7 @@
   "FAIL_PHOTO": "获取图片失败",
   "MAX_PHOTO": "图片不能大于九张",
   "ADD": "添加",
+  "ADDED": "添加",
   "NEWS": "消息",
   "ADDRESS": "通讯录",
   "APPLY_AND_NOTIFICATION": "申请与通知",

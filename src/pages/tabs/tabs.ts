@@ -77,12 +77,20 @@ export class TabsPage {
       this.autoLogin();
       // 待办角标绑定
       this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
-        this.tabRoots[1]['tabBadge'] = data;
+        for (let i = 0; i < this.tabRoots.length; i++) {
+          if (this.tabRoots[i]['tabTitle'] === '待办') {
+            this.tabRoots[i]['tabBadge'] = data;
+          }
+        }
       });
 
       // 消息角标绑定
       this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
-        this.tabRoots[2]['tabBadge'] = data;
+        for (let i = 0; i < this.tabRoots.length; i++) {
+          if (this.tabRoots[i]['tabTitle'] === '消息') {
+            this.tabRoots[i]['tabBadge'] = data;
+          }
+        }
       });
     });
 
