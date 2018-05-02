@@ -42,6 +42,7 @@
         text-wrap>
         <h2>{{item?.organizationName}}</h2>
       </button>
+      <div style="height: 52px;"></div>
     </ion-scroll>
     <!-- 右侧列表 -->
     <ion-scroll scrollY class="subject-scroll subject-scroll-right">
@@ -56,6 +57,7 @@
         <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
           ion-button item-end color="dark">{{'ADDED' | translate}}</button>
       </button>
+      <div style="height: 52px;"></div>
     </ion-scroll>
   </div>
 

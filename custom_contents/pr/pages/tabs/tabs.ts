@@ -9,7 +9,6 @@ import { TodoDetailPage } from '../todo/todoDetail/todoDetail';
 import { UserService, UserInfoState } from '../../app/services/user.service';
 import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TodoListPage } from '../todo/todoList/todoList';
 import { QueryDetailPage } from '../query/queryDetail/queryDetail';
 import { QueryNoticeDetailPage } from '../query/queryNoticeDetail/queryNoticeDetail';
 import { AddressPage } from '../address/address';
