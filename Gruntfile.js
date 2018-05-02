@@ -98,11 +98,11 @@ module.exports = function(grunt) {
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].version.android)) + '"'
+              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].appVersion.android)) + '"'
             },
             {
               match: /android-versionCode="\d*"/,
-              replacement: 'android-versionCode="' + delSnapVer(customs[conf.currentProject].version.android) + '"'
+              replacement: 'android-versionCode="' + delSnapVer(customs[conf.currentProject].appVersion.android) + '"'
             }
           ]
         },
@@ -119,11 +119,11 @@ module.exports = function(grunt) {
             },
             {
               match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].version.ios)) + '"'
+              replacement: 'version="' + formalVer(delSnapVer(customs[conf.currentProject].appVersion.ios)) + '"'
             },
             {
               match: /ios-CFBundleVersion="\d*"/,
-              replacement: 'ios-CFBundleVersion="' + delSnapVer(customs[conf.currentProject].version.ios) + '"'
+              replacement: 'ios-CFBundleVersion="' + delSnapVer(customs[conf.currentProject].appVersion.ios) + '"'
             }
           ]
         },
