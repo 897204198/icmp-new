@@ -151,28 +151,29 @@ export class TabsPage {
   doOpenNotification(event: any): void {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
-    } else if (event.properCustoms.bean.from_user_id) {
+    } else if (event.properCustoms.bean) {
       if (event.properAlert) {
         // 应用内
       } else if (event.properCustoms.push_type === 'chat') {
+        let chatInfo: any = JSON.parse(event.properCustoms.bean);
         let params: Object = {};
         if (event.properCustoms.chatType === 'singleChat') {
-          params['to_user_id'] = event.properCustoms.bean.from_user_id;
-          params['to_username'] = event.properCustoms.bean.from_username;
-          params['to_headportrait'] = event.properCustoms.bean.from_headportrait;
-          params['from_user_id'] = event.properCustoms.bean.to_user_id;
-          params['from_username'] = event.properCustoms.bean.to_username;
-          params['from_headportrait'] = event.properCustoms.bean.to_headportrait;
+          params['to_user_id'] = chatInfo.from_user_id;
+          params['to_username'] = chatInfo.from_username;
+          params['to_headportrait'] = chatInfo.from_headportrait;
+          params['from_user_id'] = chatInfo.to_user_id;
+          params['from_username'] = chatInfo.to_username;
+          params['from_headportrait'] = chatInfo.to_headportrait;
         } else {
           params['from_user_id'] = this.userInfo.loginName;
           params['from_username'] = this.userInfo.userName;
           params['from_headportrait'] = this.userInfo.headImage;
-          params['to_user_id'] = event.properCustoms.bean.to_user_id;
-          params['to_username'] = event.properCustoms.bean.to_username;
-          params['to_headportrait'] = event.properCustoms.bean.to_headportrait;
+          params['to_user_id'] = chatInfo.to_user_id;
+          params['to_username'] = chatInfo.to_username;
+          params['to_headportrait'] = chatInfo.to_headportrait;
         }
         params['chatType'] = event.properCustoms.chatType;
-        params['chatId'] = event.properCustoms.bean.chatId;
+        params['chatId'] = chatInfo.chatId;
         (<any>window).huanxin.chat(params);
       }
     } else {
