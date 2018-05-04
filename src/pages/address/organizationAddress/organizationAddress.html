@@ -13,7 +13,7 @@
 <ion-content class="content-gray-new organization-content">
 
   <!-- 搜索列表 -->
-  <ion-list *ngIf="isSearch">
+  <ion-scroll scrollY *ngIf="isSearch" style="height: 100%;">
     <button *ngFor="let user of searchUserList" ion-item (click)="lookUserProfile(user)">
       <ion-avatar item-left>
         <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
@@ -25,7 +25,7 @@
       <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
         ion-button item-end color="dark">已添加</button>
     </button>
-  </ion-list>
+  </ion-scroll>
 
   <!-- 顶部滑动列表 -->
   <ion-scroll *ngIf="!isSearch" scrollX>
