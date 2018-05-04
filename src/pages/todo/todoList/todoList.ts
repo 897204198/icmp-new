@@ -25,7 +25,7 @@ export class TodoListPage {
   // 页码
   private pageNo: number = 0;
   // 待办列表
-  private todoList: Object[];
+  private todoList: Object[] = [];
   // 待办总数
   private todoTotal: number = 0;
   // 下拉刷新事件
@@ -64,7 +64,6 @@ export class TodoListPage {
    * 初始化待办列表
    */
   initTodoList(): void {
-    this.todoList = null;
     this.pageNo = 1;
     this.infiniteScroll.enable(true);
     this.getTodoList(true);
@@ -79,6 +78,7 @@ export class TodoListPage {
     params.append('pageSize', this.icmpConstant.pageSize);
     params.append('processName', this.navParams.get('processName'));
     this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+      this.todoList = [];
       let data = res.json();
       this.todoTotal = data.total;
       // 修复其他待办页会影响 tabs 上待办的角标

@@ -428,9 +428,10 @@ export class TodoOpinionPage {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          if (this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']] != null && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']].indexOf(option['id']) >= 0) {
+          if (this.approvalInputTemps['selectGroup'] && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']] != null && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']].indexOf(option['id']) >= 0) {
             flg = true;
           }
+
           if (flg) {
             let url = control['url'];
             let params: URLSearchParams = new URLSearchParams();
