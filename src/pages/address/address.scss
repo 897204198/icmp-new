@@ -1,9 +1,5 @@
 page-address {
 
-  .scroll-content {
-    -webkit-overflow-scrolling: auto !important;
-  }
-
   .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
     border-radius: inherit;
   }
@@ -104,6 +100,7 @@ page-address {
     text-align: center;
     list-style: none;
     position: fixed;
+    z-index: 999;
     right: 1%;
     top: 50%;
     transform: translate(0, -50%);

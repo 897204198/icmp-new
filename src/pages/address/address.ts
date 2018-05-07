@@ -74,6 +74,7 @@ export class AddressPage {
       this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
     }
+    this.fetchContactInfos();
   }
 
   /**
@@ -83,9 +84,6 @@ export class AddressPage {
     this.getUnreadMessageCount();
     this.fetchContactInfos();
     this.content.scrollToTop();
-    for (let i = 0; i < this.slider.length; i++) {
-      this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';
-    }
   }
 
   /**
@@ -107,6 +105,10 @@ export class AddressPage {
       let temporary: Array<Object> = [];
       temporary = res.json();
       if (this.utils.arraysEqual(this.cacaheArray, res.json())) {
+        for (let i = 0; i < this.slider.length; i++) {
+          this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';
+        }
+        this.elementref.nativeElement.querySelector('li#' + this.slider[0]).style.color = '#488aff';
         return;
       } else {
         this.cacaheArray = res.json();
@@ -152,6 +154,23 @@ export class AddressPage {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+  }
+
+  /**
+   * content滚动
+   */
+  ionScroll() {
+    let scrollTop = this.content.scrollTop;
+    for (let i = 0; i < this.slider.length; i++) {
+      this.elementref.nativeElement.querySelector('li#' + this.slider[i]).style.color = '#777';
+    }
+    for (let value of this.slider) {
+      let top = this.elementref.nativeElement.querySelector('ion-item#' + value).offsetTop;
+      if (top > scrollTop) {
+        this.elementref.nativeElement.querySelector('li#' + value).style.color = '#488aff';
+        break;
+      }
+    }
   }
 
   /**
