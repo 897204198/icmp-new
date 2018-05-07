@@ -1,5 +1,9 @@
 page-address {
 
+  .scroll-content {
+    -webkit-overflow-scrolling: auto !important;
+  }
+
   .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
     border-radius: inherit;
   }
