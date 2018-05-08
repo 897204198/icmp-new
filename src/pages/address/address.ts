@@ -166,7 +166,9 @@ export class AddressPage {
     }
     for (let value of this.slider) {
       let top = this.elementref.nativeElement.querySelector('ion-item#' + value).offsetTop;
-      if (top > scrollTop) {
+      let eleHeight = this.elementref.nativeElement.querySelector('div.' + value).offsetHeight;
+      let tops = top + eleHeight + 15;
+      if (tops > scrollTop) {
         this.elementref.nativeElement.querySelector('li#' + value).style.color = '#488aff';
         break;
       }

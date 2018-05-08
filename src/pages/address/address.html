@@ -35,7 +35,7 @@
     </button>
   </ion-list>
   <div *ngIf="selectInput" class="margin-bottom"></div>
-  <div *ngFor="let contact of contactInfos">
+  <div *ngFor="let contact of contactInfos" class="{{contact['first']}}">
     <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'" [ngClass]="{'list-md-no-border': !selectInput}">
       <ion-item class="letterStyle" *ngIf="selectInput" id="{{contact['first']}}">{{contact['first']}}</ion-item>
       <button class="contact-no-bottom" *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none
