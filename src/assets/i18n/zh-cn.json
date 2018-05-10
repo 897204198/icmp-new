@@ -139,5 +139,9 @@
   "FAIL_PHOTO": "获取图片失败",
   "MAX_PHOTO": "图片不能大于九张",
   "ADD": "添加",
-  "CONTROL": "操作"
+  "CONTROL": "操作",
+  "TRANSOTHERS": "是否转交他人办理",
+  "OPINION": "办理意见",
+  "ADD_PERSON": "增加人员",
+  "ASSIGNEE_PERSON": "转办人"
 }

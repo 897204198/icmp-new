@@ -19,8 +19,10 @@ handler.onPost = function (req, res, data) {
       common.jsonRes(req, res, '/all_6');
     } else if (data.processName === 'processName7') {
       common.jsonRes(req, res, '/all_7');
+    } else if (data.processName === 'processName8') {
+      common.jsonRes(req, res, '/all_8');
     } else {
-      common.jsonRes(req, res, '/all_7');
+      common.jsonRes(req, res, '/all_8');
     }
   }
 };

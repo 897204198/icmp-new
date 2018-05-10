@@ -74,6 +74,7 @@ import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { StatisticsQueryPage } from '../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../pages/statistics/statisticsView/statisticsView';
+import { TodoMissionOpinionPage } from '../pages/todo/todoOpinion/mission/missionOpinion';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -122,6 +123,7 @@ export function createTranslateLoader(http: Http) {
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
+    TodoMissionOpinionPage,
     QueryDetailPage,
     InstaShotPage
   ],
@@ -176,6 +178,7 @@ export function createTranslateLoader(http: Http) {
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
+    TodoMissionOpinionPage,
     QueryDetailPage,
     InstaShotPage
   ],

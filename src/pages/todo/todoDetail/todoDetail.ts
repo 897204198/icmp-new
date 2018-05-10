@@ -6,6 +6,7 @@ import { FileService } from '../../../app/services/file.service';
 import { TodoOpinionPage } from '../todoOpinion/todoOpinion';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationPage } from '../../application/application';
+import { TodoMissionOpinionPage } from '../todoOpinion/mission/missionOpinion';
 
 /**
  * 待办详情页面
@@ -127,9 +128,14 @@ export class TodoDetailPage {
         commentDefault: this.todoDetail['shenpi_comment_default'],
         processName: this.navParams.get('processName'),
         taskId: this.navParams.get('taskId'),
-        step: this.navParams.get('step')
+        step: this.navParams.get('step'),
+        pageId: this.todoDetail['pageId']
       };
-      this.navCtrl.push(TodoOpinionPage, params);
+      if (this.todoDetail['pageId'] === 'todo-opinion-mission') {
+        this.navCtrl.push(TodoMissionOpinionPage, params);
+      } else {
+        this.navCtrl.push(TodoOpinionPage, params);
+      }
     } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
       let params: Object = {
         assignee: this.navParams.get('assignee'),
