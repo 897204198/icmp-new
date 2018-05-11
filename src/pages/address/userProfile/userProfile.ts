@@ -24,7 +24,7 @@ export class UserProfilePage {
   isFriend: boolean = false;
   // 国际化文字
   private transateContent: Object;
-  private translateDate: string[] = ['ARE_YOU_SURE_DELETE', 'DELETED', 'CANCEL', 'CONFIRM', 'FRENDLY_PROP', 'ADD_SUCCESS'];
+  private translateDate: string[] = ['ARE_YOU_SURE_DELETE', 'DELETED', 'CANCEL', 'CONFIRM', 'FRENDLY_PROP', 'REQUEST_SENT'];
   // 弹出框相关
   private confirmAlert: Alert;
   private alertOpen: boolean = false;
@@ -175,7 +175,7 @@ export class UserProfilePage {
       'type': '0'
     };
     this.http.post('/im/contacts/application', params).subscribe((res: Response) => {
-      this.toastService.show(this.transateContent['ADD_SUCCESS']);
+      this.toastService.show(this.transateContent['REQUEST_SENT']);
       this.navCtrl.pop();
     }, (res: Response) => {
       this.toastService.show(res.text());
