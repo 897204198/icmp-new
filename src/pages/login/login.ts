@@ -66,8 +66,6 @@ export class LoginPage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    // 检查版本更新
-    this.appVersionUpdateService.checkAppVersion(true);
     this.userInfo = this.userService.getUserInfo();
     if (!this.userInfo) {
       this.userInfo = initUserInfo;
