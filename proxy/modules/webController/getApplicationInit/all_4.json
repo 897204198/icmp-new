@@ -36,6 +36,9 @@
       "type": "title"
     },
     {
+      "model": "recommended",
+      "defaultId": "60EBB5AB-287B-4D49-9511-109EA8A9E599",
+      "defaultName": "姓名666",
       "label": "被推荐人姓名",
       "searchUrl": "/demo/selectSearchboxQuery",
       "type": "searchbox"
