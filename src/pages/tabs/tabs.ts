@@ -249,42 +249,24 @@ export class TabsPage {
 
   // 获取待办数量
   autoLogin() {
-    // 如果是从登录页进来，则直接获取会话列表未读数
-    if (this.navParams.get('isAutoLogin') === false) {
-      this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
-        let todos = res.json();
-        // redux传值
-        if (todos.total === 0) {
-          this.store.dispatch(new TodoReplaceBadageAction(''));
-        } else {
-          this.store.dispatch(new TodoReplaceBadageAction(todos.total));
-        }
-      });
-      if (this.deviceService.getDeviceInfo().deviceType) {
-        // 获取未读消息数量
-        this.getUnreadMessageNumber();
+    this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
+      let todos = res.json();
+      // redux传值
+      if (todos.total === 0) {
+        this.store.dispatch(new TodoReplaceBadageAction(''));
+      } else {
+        this.store.dispatch(new TodoReplaceBadageAction(todos.total));
       }
-    } else {
-      // 调用 bind 接口更新 token
-      this.http.post('/user/bind', { userId: this.userInfo.userId }).subscribe((data: Response) => {
-        localStorage.token = data['_body'];
-        // 防止在 web 上报错
-        if (this.deviceService.getDeviceInfo().deviceType) {
-          // im 自动登录
-          this.imlogin();
-        }
-        this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
-          let todos = res.json();
-          // redux传值
-          if (todos.total === 0) {
-            this.store.dispatch(new TodoReplaceBadageAction(''));
-          } else {
-            this.store.dispatch(new TodoReplaceBadageAction(todos.total));
-          }
-        });
-      }, (res: Response) => {
-        this.toastService.show(res.text());
-      });
+    });
+
+    // 防止在 web 上报错
+    if (this.deviceService.getDeviceInfo().deviceType) {
+      // 如果是从登录页进来，则直接获取会话列表未读数
+      if (this.navParams.get('isAutoLogin') === false) {
+        this.getUnreadMessageNumber();
+      } else {
+        this.imlogin();
+      }
     }
   }
 
