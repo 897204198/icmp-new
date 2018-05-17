@@ -1,0 +1,92 @@
+<icmp-spinner *ngIf="isShowSpinner == true" [isShow]=true></icmp-spinner>
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{'INSTASHOT' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="submitInstaShot()">
+        {{'SUBMIT' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="content-gray">
+  <ion-list class="icmp-list-top-margin" radio-group>
+    <ion-item>
+      <ion-label>{{'IS_ANONYMITY' | translate}}</ion-label>
+      <ion-select (ionChange)="toggleIsAnonymity()" [(ngModel)]="submitInfo.isAnonymity" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-option value=1>{{'YES' | translate}}</ion-option>
+        <ion-option value=0>{{'NO' | translate}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="isShow">
+      <ion-label>{{'REPORT_PERSION' | translate}}</ion-label>
+      <div class="gray-label" item-content>{{userInfo.userName}}</div>
+    </ion-item>
+    <ion-item *ngIf="isShow">
+      <ion-label>{{'JOB_NUM' | translate}}</ion-label>
+      <div class="gray-label" item-content>{{submitInfo.jobNum}}</div>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'DEPARTMENTS' | translate}}</ion-label>
+      <ion-select placeholder="{{'PLEASE_SELECT' | translate}}" (ionChange)="clickDepartmentOption()" [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-option *ngFor="let info2 of initData.department" value="{{info2}}">{{info2}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'CONTACT_INFORMATION' | translate}}</ion-label>
+      <ion-input class="custom-input" type="number" placeholder="{{'PLEASE_ENTER_TEL' | translate}}" [(ngModel)]="submitInfo.tel"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'CATEGORY' | translate}}</ion-label>
+      <ion-select placeholder="{{'PLEASE_SELECT' | translate}}" (ionChange)="clickHospitalAreaOption()" [(ngModel)]="submitInfo.hospitalArea" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-option *ngFor="let info of initData.hospitalArea" value="{{info}}">{{info}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'REPORT_TIME' | translate}}</ion-label>
+      <ion-datetime placeholder="{{'PLEASE_SELECT_DATE' | translate}}" class="gray-label" displayFormat="YYYY-MM-DD" [(ngModel)]="submitInfo.date" cancelText="{{'CANCEL' | translate}}" doneText="{{'CONFIRM' | translate}}" min="{{time}}"></ion-datetime>
+    </ion-item>
+  </ion-list>
+  <div class="gray-div">
+    {{'DESCRIBE' | translate}}
+  </div>
+  <textarea [(ngModel)]="submitInfo.content" placeholder="{{'PLACE_AND_DESCRIBE' | translate}}"></textarea>
+  <div class="gray-div">
+    {{'UPLOAD_ACCESSORY' | translate}}
+  </div>
+
+  <ion-list class="accessory-list">
+    <ion-item-sliding *ngFor="let photo of photoList">
+      <ion-item>
+        <ion-avatar item-left>
+          <img src="{{photo.imageUrl}}">
+        </ion-avatar>
+        <h2>{{photo.imageName}}</h2>
+        <!-- <p>519.0KB</p> -->
+      </ion-item>
+      <ion-item-options>
+        <button ion-button color="danger" (click)="deletePhoto(photo)">{{'DELETE' | translate}}</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div class="accessory-button" tappable (tap)="getPhotoFromCamera()">
+    <div class="inside-button">
+      <ion-icon name="camera"></ion-icon>
+      {{'PHOTOGRAPH' | translate}}...
+    </div>
+  </div>
+  <div class="accessory-button" tappable (tap)="getPhotoFromAlbum()">
+    <div class="inside-button">
+      <ion-icon name="image"></ion-icon>
+      {{'ALBUM' | translate}}...
+    </div>
+  </div>
+  <div class="gray-div">
+    {{'INSTASHOT_INFO' | translate}}
+  </div>
+
+</ion-content>
