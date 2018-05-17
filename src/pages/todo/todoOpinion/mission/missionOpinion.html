@@ -1,3 +1,4 @@
+<!-- 任务下达 -->
 <icmp-spinner></icmp-spinner>
 <ion-header>
   <ion-navbar>
@@ -12,19 +13,23 @@
 <ion-content class="content-gray">
   <!-- 选项 -->
   <ion-list radio-group [(ngModel)]="selectOpinion">
-    <ion-list-header>
-      {{'TRANSOTHERS' | translate}}
-    </ion-list-header>
-    <ion-item *ngFor="let opinion of opinionList">
-      <ion-label>{{opinion.name}}</ion-label>
-      <ion-radio value="{{opinion.value}}"></ion-radio>
+    <ion-item>
+      <ion-label>{{'TRANSOTHERS' | translate}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'YES' | translate}}</ion-label>
+      <ion-radio value="yes"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'NO' | translate}}</ion-label>
+      <ion-radio value="no"></ion-radio>
     </ion-item>
   </ion-list>
 
   <!-- 选择否的内容 -->
   <ion-list class="list-margrin-top" *ngIf="selectOpinion === 'no'">
     <ion-item>
-      <ion-label>{{'OPINION' | translate}}</ion-label>
+      <ion-label>{{'HANDLE_OPINION' | translate}}</ion-label>
     </ion-item>
     <ion-item>
       <ion-textarea rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="comment"></ion-textarea>    
@@ -86,7 +91,7 @@
         <div *ngIf="deviceType == null || deviceType == '' || deviceType == 'android'">
           <div class="file-header">
             <span>{{'ATTACHMENT' | translate}}</span>
-            <button ion-button color="primary" small (click)="fileChoose()">
+            <button ion-button color="primary" small (click)="fileChoose(iList)">
               {{'CHOOSE_FILE' | translate}}
             </button>
           </div>
@@ -96,7 +101,7 @@
               <ion-item *ngFor="let file of item['fileList']">
                 <h2>{{file.name}}</h2>
                 <ion-spinner *ngIf="file.id == null" item-end></ion-spinner>
-                <button *ngIf="file.id != null" ion-button clear item-end color="danger" (click)="deleteFile(file)">{{'DELETE' | translate}}</button>
+                <button *ngIf="file.id != null" ion-button clear item-end color="danger" (click)="deleteFile(file, iList)">{{'DELETE' | translate}}</button>
               </ion-item>
             </div>
           </ion-list>

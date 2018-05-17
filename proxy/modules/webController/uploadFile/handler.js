@@ -3,7 +3,7 @@
 var handler = module.exports = {};
 
 handler.onPost = function (req, res, data) {
-  var returnData = "http://chuantu.biz/t5/166/1502331697x3066599431.png";
+  var returnData = "testfileId";
   res.writeHeader(200, {'Content-Type': 'application/json'});
   res.end(returnData);
 };

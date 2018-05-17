@@ -28,6 +28,7 @@
   "NOTICE_DETAILED": "公告通知详细",
   "MANAGE": "管理",
   "COMPLETE": "完成",
+  "NOT_COMPLETE": "无法完成",
   "PLUGIN_NAME": "插件名称...",
   "APP_NAME": "应用名称...",
   "MY_APPLICATION": "我的应用",
@@ -141,7 +142,15 @@
   "ADD": "添加",
   "CONTROL": "操作",
   "TRANSOTHERS": "是否转交他人办理",
-  "OPINION": "办理意见",
+  "ASSIGNEE_PERSON": "转办人",
+  "HANDLE_OPINION": "办理意见",
+  "FEED_BACK_OPINION": "反馈意见",
+  "HANDLE_TOGETHER_OPINION": "协办意见",
   "ADD_PERSON": "增加人员",
-  "ASSIGNEE_PERSON": "转办人"
+  "HANDLE_STATE": "办理状态",
+  "HANDLE_RESULT": "办理结果",
+  "HANDLE_SITUATION": "办理情况",
+  "FEED_BACK": "反馈",
+  "HANDLE_TOGETHER": "协办",
+  "HANDLE_DEPT": "协办部门"
 }

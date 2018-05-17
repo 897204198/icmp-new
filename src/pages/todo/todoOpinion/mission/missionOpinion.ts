@@ -4,10 +4,10 @@ import { Http, Response } from '@angular/http';
 import { TranslateService } from '@ngx-translate/core';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
-// import { FileTransferObject, FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer';
+import { FileTransferObject, FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer';
 import { DeviceService } from '../../../../app/services/device.service';
-// import { UserService } from '../../../../app/services/user.service';
-// import { ConfigsService } from '../../../../app/services/configs.service';
+import { UserService } from '../../../../app/services/user.service';
+import { ConfigsService } from '../../../../app/services/configs.service';
 import { ToastService } from '../../../../app/services/toast.service';
 import { UtilsService } from '../../../../app/services/utils.service';
 import { SearchboxComponent } from '../../../../app/component/searchbox/searchbox.component';
@@ -21,8 +21,6 @@ import { SearchboxComponent } from '../../../../app/component/searchbox/searchbo
 })
 export class TodoMissionOpinionPage {
 
-  // 审批意见选项
-  private opinionList: Object[];
   // 选择的选项
   private selectOpinion: string = 'no';
   // 选择否时的textarea内容
@@ -33,15 +31,7 @@ export class TodoMissionOpinionPage {
   private opinionInputList: Object = {
     'list': []
   };
-  // opinionInputList内的单项
-  private opinionItem: Object = {
-    sponsor: {
-      id: '',
-      name: ''
-    },
-    comment: '',
-    fileList: []
-  };
+
   // 转办人列表
   private sponsorList: Object = {};
   // 弹出框对象
@@ -61,17 +51,17 @@ export class TodoMissionOpinionPage {
     public alertCtrl: AlertController,
     private fileChooser: FileChooser,
     private filePath: FilePath,
-    // private transfer: FileTransfer,
+    private transfer: FileTransfer,
     private deviceService: DeviceService,
-    // private userService: UserService,
-    // private configsService: ConfigsService,
+    private userService: UserService,
+    private configsService: ConfigsService,
     private http: Http,
     private toastService: ToastService,
     private utilsService: UtilsService,
     private translate: TranslateService,
     private modalCtrl: ModalController) {
     let translateKeys: string[] = ['VALI_REQUIRED', 'PROMPT_INFO', 'CANCEL', 'YES', 'NO',
-    'CONFIRM', 'SUBMIT_OPINION_CONFIRM', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'REQUIRE_NOT'];
+      'CONFIRM', 'SUBMIT_OPINION_CONFIRM', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'REQUIRE_NOT'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -83,7 +73,15 @@ export class TodoMissionOpinionPage {
   ionViewDidLoad(): void {
     this.deviceType = this.deviceService.getDeviceInfo().deviceType;
     this.setApprovalItems();
-    this.opinionInputList['list'].push(this.opinionItem);
+    let initItem: Object = {
+      sponsor: {
+        id: '',
+        name: ''
+      },
+      comment: '',
+      fileList: []
+    };
+    this.opinionInputList['list'].push(initItem);
   }
 
   /**
@@ -93,7 +91,6 @@ export class TodoMissionOpinionPage {
     if (this.alertOpen) {
       this.confirmAlert.dismiss();
     }
-    this.clearFile();
   }
 
   /**
@@ -101,10 +98,6 @@ export class TodoMissionOpinionPage {
    */
   setApprovalItems(): void {
     this.sponsorList = this.navParams.get('approval')[0].sponsor;
-    this.opinionList = [
-      {value: 'yes', name: this.transateContent['YES']},
-      {value: 'no', name: this.transateContent['NO']}
-    ];
   }
 
   /**
@@ -165,22 +158,38 @@ export class TodoMissionOpinionPage {
    */
   submitOpinionHttp(): void {
     if (this.submitValidate()) {
+      const inputSubList = this.opinionInputList['list'];
       let assigneeId = [];
       let taskContent = [];
       let assigneeFile = [];
       let submitUtl: string = this.navParams.get('submitUtl');
       let params: URLSearchParams = new URLSearchParams();
-      for (let i = 0; i < this.opinionInputList['list'].length; i++) {
-        assigneeId.push(this.opinionInputList['list'][i]['sponsor']['id']);
-        taskContent.push(this.opinionInputList['list'][i]['comment']);
-        if (this.opinionInputList['list'][i]['fileList'].length > 0) {
-          assigneeFile.push(this.opinionInputList['list'][i]['fileList'].toString());
+
+      // 选择否时的附件
+      if (this.selectOpinion === 'no') {
+        let fileArray = [];
+        for (let i = 0; i < this.fileList.length; i++) {
+          const fileId = this.fileList[i]['id'];
+          fileArray.push(fileId);
+        }
+        params.append('uploadFileId', fileArray.toString());
+      } else {
+        for (let i = 0; i < inputSubList.length; i++) {
+          assigneeId.push(inputSubList[i]['sponsor']['id']);
+          taskContent.push(inputSubList[i]['comment']);
+          if (inputSubList[i]['fileList'].length > 0) {
+            let fileArray = [];
+            for (let j = 0; j < inputSubList[i]['fileList'].length; j++) {
+              const fileId = inputSubList[i]['fileList'][j]['id'];
+              fileArray.push(fileId);
+            }
+            assigneeFile.push(fileArray.toString());
+          }
         }
       }
+
       params.append('passOther', this.selectOpinion);
       params.append('opinion', this.comment);
-      // 选择否时的附件
-      params.append('uploadFileId', this.fileList.toString());
 
       // 选择是时
       params.append('assigneeId', assigneeId.toString());
@@ -234,7 +243,7 @@ export class TodoMissionOpinionPage {
    * 嵌套表格添加行
    */
   addListRow(): void {
-    this.opinionItem = {
+    let initItem: Object = {
       sponsor: {
         id: '',
         name: ''
@@ -242,7 +251,7 @@ export class TodoMissionOpinionPage {
       comment: '',
       fileList: []
     };
-    this.opinionInputList['list'].push(this.opinionItem);
+    this.opinionInputList['list'].push(initItem);
   }
 
   /**
@@ -255,24 +264,68 @@ export class TodoMissionOpinionPage {
   /**
    * 选择附件
    */
-  fileChoose(item: Object): void {
+  fileChoose(iList: number): void {
+    let item: Object = this.opinionInputList[iList];
+    this.fileChooser.open().then((uri) => {
+      this.filePath.resolveNativePath(uri).then((filePath) => {
+        let file: Object = {
+          name: filePath.substr(filePath.lastIndexOf('/') + 1)
+        };
+        this.uploadFile(filePath, item, file, iList);
+      }, () => {
+        this.toastService.show(this.transateContent['FILE_UPLOAD_ERROR']);
+      });
+    });
   }
 
   /**
    * 上传文件
    */
-  uploadFile(filePath: string, item: Object, file: Object): void {
+  uploadFile(filePath: string, item: Object, file: Object, iList: number): void {
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    let options: FileUploadOptions = {
+      fileKey: 'file',
+      fileName: filePath.substr(filePath.lastIndexOf('/') + 1),
+      mimeType: 'multipart/form-data'
+    };
+    let userInfo = this.userService.getUserInfo();
+    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName, options).then((data) => {
+      file['id'] = data.response;
+      if (this.selectOpinion === 'no') {
+        this.fileList.push(file);
+      } else {
+        this.opinionInputList['list'][iList]['fileList'].push(file);
+      }
+    }, () => {
+      this.toastService.show(this.transateContent['FILE_GET_ERROR']);
+    });
   }
 
   /**
    * 删除文件
    */
-  deleteFile(file: Object): void {
+  deleteFile(file: Object, iList: number): void {
+    let item: Object = this.opinionInputList['list'][iList];
+    if (file['id'] != null && file['id'] !== '') {
+      let params: URLSearchParams = new URLSearchParams();
+      params.append('fileId', file['id']);
+      this.http.post('/webController/deleteFile', params).subscribe((res: Response) => { });
+      if (this.selectOpinion === 'no') {
+        for (let i = 0; i < this.fileList.length; i++) {
+          if (this.fileList[i]['id'] === file['id']) {
+            this.fileList.splice(i, 1);
+            break;
+          }
+        }
+      } else {
+        for (let i = 0; i < item['fileList'].length; i++) {
+          if (item['fileList'][i]['id'] === file['id']) {
+            this.opinionInputList['list'][iList]['fileList'].splice(i, 1);
+            break;
+          }
+        }
+      }
+    }
   }
 
-  /**
-   * 清空未提交的附件
-   */
-  clearFile(): void {
-  }
 }

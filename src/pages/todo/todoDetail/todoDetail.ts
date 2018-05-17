@@ -7,6 +7,7 @@ import { TodoOpinionPage } from '../todoOpinion/todoOpinion';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationPage } from '../../application/application';
 import { TodoMissionOpinionPage } from '../todoOpinion/mission/missionOpinion';
+import { TodoWorkContactPage } from '../todoOpinion/workContact/workContact';
 
 /**
  * 待办详情页面
@@ -133,7 +134,9 @@ export class TodoDetailPage {
       };
       if (this.todoDetail['pageId'] === 'todo-opinion-mission') {
         this.navCtrl.push(TodoMissionOpinionPage, params);
-      } else {
+      } else if (this.todoDetail['pageId'] === 'todo-work-contact') {
+        this.navCtrl.push(TodoWorkContactPage, params);
+      }  else {
         this.navCtrl.push(TodoOpinionPage, params);
       }
     } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
