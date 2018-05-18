@@ -8,6 +8,10 @@
       "android": "10001-SNAPSHOT",
       "ios": "10001-SNAPSHOT"
     },
+    "appVersion": {
+      "android": "10000",
+      "ios": "10000"
+    },
     "name": "掌上办公",
     "updateUrl": {
       "android": "https://www.baidu.com",
