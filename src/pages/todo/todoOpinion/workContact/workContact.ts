@@ -69,7 +69,8 @@ export class TodoWorkContactPage {
         personLabel: this.workContact['personTitle'],
         personId: '',
         personName: '',
-        personUrl: this.workContact['personUrl']
+        personUrl: this.workContact['personUrl'],
+        deptPerson: []
       }
     ];
   }
@@ -86,7 +87,7 @@ export class TodoWorkContactPage {
   /**
    * 科室查询框选择
    */
-  deptSearchboxSelect(item: Object): void {
+  searchboxSelect(item: Object): void {
     let multiple: boolean = false;
     let params: Object = { 'title': item['deptLabel'], 'multiple': multiple, 'searchUrl': item['deptUrl'] };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
@@ -94,25 +95,25 @@ export class TodoWorkContactPage {
       if (data != null) {
         item['deptId'] = data.id;
         item['deptName'] = data.name;
+        this.getDeptPerson(item, data.id);
       }
     });
     modal.present();
   }
 
   /**
-   * 人员查询框选择
+   * 获取科室人员
    */
-  personSearchboxSelect(item: Object): void {
-    let multiple: boolean = false;
-    let params: Object = { 'title': item['personLabel'], 'multiple': multiple, 'searchUrl': item['personUrl'] };
-    let modal = this.modalCtrl.create(SearchboxComponent, params);
-    modal.onDidDismiss(data => {
-      if (data != null) {
-        item['personId'] = data.id;
-        item['personName'] = data.name;
-      }
+  getDeptPerson(item: Object, deptId: string) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('deptId', deptId);
+    this.http.post(item['personUrl'], params).subscribe(data => {
+      item['deptPerson'] = JSON.parse(data.json().deptpersons).list;
+      item['personId'] = data.json().pId;
+      item['personName'] = data.json().pName;
+    }, (res: Response) => {
+      this.toastService.show(res.text());
     });
-    modal.present();
   }
 
   /**
@@ -146,7 +147,7 @@ export class TodoWorkContactPage {
    * 提交验证
    */
   submitValidate(): boolean {
-    if (this.handleStatus === '1' || this.handleResult === '2') {
+    if (this.handleStatus === '1') {
       if (this.handleSituation === '') {
         this.toastService.show(this.transateContent['VALI_REQUIRED']);
         return false;
@@ -173,9 +174,14 @@ export class TodoWorkContactPage {
   submitOpinionHttp(): void {
     if (this.submitValidate()) {
       let params: URLSearchParams = new URLSearchParams();
+      params.append('pageId', this.navParams.get('pageId'));
+      params.append('processName', this.navParams.get('processName'));
+      params.append('taskId', this.navParams.get('taskId'));
+      params.append('step', this.navParams.get('step'));
+
       params.append('handleStatus', this.handleStatus);
       params.append('handleResult', this.handleResult);
-      if (this.handleStatus === '1' || this.handleResult === '2') {
+      if (this.handleStatus === '1') {
         params.append('handleSituation', this.handleSituation);
       } else {
         params.append('joinComments', this.joinComments);

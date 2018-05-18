@@ -187,31 +187,6 @@ module.exports = function(grunt) {
         files: [
           {expand: true, flatten: true, src: ['<%= app.src %>/app/constants/app.constant.ts', '<%= app.src %>/app/constants/icmp.constant.ts'], dest: '<%= app.src %>/app/constants'}
         ]
-      },
-      bumpVer: {
-        options: {
-          patterns: [
-            {
-              match: /"version": "\d*\.\d*\.\d*-*\w*"/,
-              replacement: '"version": "' + formalVer(conf.version) + '"'
-            },
-            {
-              match: /version="\d*\.\d*\.\d*"/,
-              replacement: 'version="' + formalVer(delSnapVer(conf.version)) + '"'
-            },
-            {
-              match: /-(\w*)ersion(\w*)="(\d*)"/g,
-              replacement: '-$1ersion$2="' + delSnapVer(conf.version) + '"'
-            },
-            {
-              match: /"version":\s*{\s*"android":\s*"\d*-*\w*",\s*"ios":\s*"\d*-*\w*"/,
-              replacement: '"version": {\n      "android": "' + conf.version + '",\n      "ios": "' + conf.version + '"'
-            }
-          ]
-        },
-        files: [
-          {expand: true, src: ['config.xml', 'package.json', './custom_contents/customs.json']}
-        ]
       }
     }
   });

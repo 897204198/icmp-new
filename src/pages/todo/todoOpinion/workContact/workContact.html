@@ -11,8 +11,8 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <!-- 选项 -->
-  <ion-list radio-group [(ngModel)]="handleStatus" *ngIf="handleResult == '1'">
+  <!-- 办理状态 -->
+  <ion-list radio-group [(ngModel)]="handleStatus">
     <ion-item>
       <ion-label>{{'HANDLE_STATE' | translate}}</ion-label>
     </ion-item>
@@ -26,7 +26,8 @@
     </ion-item>
   </ion-list>
 
-  <ion-list radio-group [(ngModel)]="handleResult">
+  <!-- 办理结果 -->
+  <ion-list radio-group [(ngModel)]="handleResult" *ngIf="handleStatus == '1'">
     <ion-item>
       <ion-label>{{'HANDLE_RESULT' | translate}}</ion-label>
     </ion-item>
@@ -40,7 +41,8 @@
     </ion-item>
   </ion-list>
 
-  <ion-list class="list-margrin-top" *ngIf="handleStatus == '1' || handleResult == '2'">
+  <!-- 办理情况 -->
+  <ion-list class="list-margrin-top" *ngIf="handleStatus == '1'">
     <ion-item>
       <ion-label>{{'HANDLE_SITUATION' | translate}}</ion-label>
     </ion-item>
@@ -49,7 +51,8 @@
     </ion-item>
   </ion-list>
 
-  <ion-list class="list-margrin-top" *ngIf="handleStatus == '2' && handleResult == '1'">
+  <!-- 协办部门 -->
+  <ion-list class="list-margrin-top" *ngIf="handleStatus == '2'">
     <ion-item [ngStyle]="{'border-top': '1px solid #dedede'}">
       {{'HANDLE_DEPT' | translate}}
       <button item-end ion-button clear class="add-btn" (click)="addListRow()">
@@ -58,39 +61,27 @@
       </button>
     </ion-item>
     <div *ngFor="let item of handleOpinion;let iList = index">
-        <ion-item *ngIf="iList != 0" [ngStyle]="{'border-top': '1px solid #dedede'}">
-            {{'HANDLE_DEPT' | translate}}
-        </ion-item>
-        <ion-item>
-            <ion-label>{{item.deptLabel}}</ion-label>
-            <ion-input
-              class="searchbox-name"
-              type="text"
-              placeholder="{{'PLEASE_SELECT' | translate}}"
-              tappable
-              (click)="deptSearchboxSelect(item)"
-              [(ngModel)]="item['deptName']"
-              disabled="true">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>{{item.personLabel}}</ion-label>
-            <ion-input
-              class="searchbox-name"
-              type="text"
-              placeholder="{{'PLEASE_SELECT' | translate}}"
-              tappable
-              (click)="personSearchboxSelect(item)"
-              [(ngModel)]="item['personName']"
-              disabled="true">
-            </ion-input>
-        </ion-item>
-        <ion-item *ngIf="iList != 0">
-            {{'CONTROL' | translate}}
-            <button ion-button color="danger" small item-end (click)="deleteListRow(iList)">
-              {{'DELETE' | translate}}
-            </button>
-        </ion-item>
+      <ion-item *ngIf="iList != 0" [ngStyle]="{'border-top': '1px solid #dedede'}">
+        {{'HANDLE_DEPT' | translate}}
+      </ion-item>
+      <ion-item>
+        <ion-label>{{item.deptLabel}}</ion-label>
+        <ion-input class="searchbox-name" type="text" placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="searchboxSelect(item)"
+          [(ngModel)]="item['deptName']" disabled="true">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{item.personLabel}}</ion-label>
+        <ion-select [(ngModel)]="item['personId']" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+          <ion-option *ngFor="let option of item.deptPerson" [value]="option.value">{{option.key}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="iList != 0">
+        {{'CONTROL' | translate}}
+        <button ion-button color="danger" small item-end (click)="deleteListRow(iList)">
+          {{'DELETE' | translate}}
+        </button>
+      </ion-item>
     </div>
     <ion-item>
       <ion-label>{{'HANDLE_TOGETHER_OPINION' | translate}}</ion-label>

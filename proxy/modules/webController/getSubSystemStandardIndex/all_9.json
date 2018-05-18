@@ -12,7 +12,7 @@
         "deptTitle": "科室",
         "deptUrl": "/demo/selectSearchboxQuery",
         "personTitle": "人员",
-        "personUrl": "/demo/selectSearchboxQuery"
+        "personUrl": "/webController/getOneDeptAllPerson"
       }
     }
   ],
