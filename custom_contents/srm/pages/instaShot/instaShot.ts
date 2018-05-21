@@ -68,6 +68,7 @@ export class InstaShotPage {
     // 获取用户资料，上报人只能是自己不可修改
     this.userInfo = this.userService.getUserInfo();
     this.submitInfo['username'] = this.userInfo.userName;
+    this.submitInfo['userId'] = this.userInfo.userId;
 
     this.submitInfo['isAnonymity'] = 0;
     this.gethospitalArea();
@@ -83,6 +84,7 @@ export class InstaShotPage {
     let m = (date.getMonth() + 1) > 10 ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1));
     let d = (date.getDate()) > 10 ? date.getDate() : ('0' + date.getDate());
     this.time = y + '-' + m + '-' + d;
+    this.submitInfo['date'] = this.time;
   }
 
   // 获取员工工号
@@ -200,9 +202,9 @@ export class InstaShotPage {
 
   // 提交随手拍
   submitInstaShot() {
-    let count = Object.keys(this.submitInfo).length;
+    // let count = Object.keys(this.submitInfo).length;
     // 判断是否填写必填项
-    if (count !== 8 || this.submitInfo['tel'] === '' || this.submitInfo['content'] === '') {
+    if (!this.departmentCode || !this.hospitalAreaCode) {
       this.toastService.show(this.transateContent['REQUIRE_NOT']);
       return;
     }
@@ -259,6 +261,7 @@ export class InstaShotPage {
      */
     let params: URLSearchParams = new URLSearchParams();
     params.append('username', this.submitInfo['username']);
+    params.append('userId', this.submitInfo['userId']);
     params.append('jobNum', this.submitInfo['jobNum']);
     params.append('isAnonymity', this.submitInfo['isAnonymity']);
     params.append('content', this.submitInfo['content']);

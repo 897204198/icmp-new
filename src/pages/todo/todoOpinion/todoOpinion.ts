@@ -364,6 +364,8 @@ export class TodoOpinionPage {
    * 下拉选择事件
    */
   selectChange(item: Object): void {
+    console.log(this.controls, this.approvalInput, this.opinionList, this.opinionOtherList);
+    
     let data = item['control_list'];
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
@@ -423,7 +425,26 @@ export class TodoOpinionPage {
             }
           } else {
             for (let k = 0; k < control.models.length; k++) {
-              this.setInputStatus(control.models[k], 'hidden');
+              let flg = true;
+              a: for (let m = 0; m < item['control_list'].length; m++) {
+                if (this.approvalInput[item['control_name']] != null && this.approvalInput[item['control_name']].indexOf(item['control_list'][m]['id']) >= 0) {
+                  if (item['control_list'][m]['controls'] != null) {
+                    for (let n = 0; n < item['control_list'][m]['controls'].length; n++) {
+                      if (item['control_list'][m]['controls'][n]['type'] === 'display') {
+                        for (let z = 0; z < item['control_list'][m]['controls'][n]['models'].length; z++) {
+                          if (item['control_list'][m]['controls'][n]['models'][z] === control.models[k]) {
+                            flg = false;
+                            break a;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              if (flg) {
+                this.setInputStatus(control.models[k], 'hidden');
+              }
             }
           }
         } else if (control['type'] === 'initSelect') {
@@ -447,6 +468,28 @@ export class TodoOpinionPage {
                       break;
                     }
                   }
+                }
+              }
+            }, (res: Response) => {
+              this.toastService.show(res.text());
+            });
+          }
+          if (this.approvalInput[item['control_name']] != null && this.approvalInput[item['control_name']].indexOf(option['id']) >= 0) {
+            let url = control['url'];
+            let params: URLSearchParams = new URLSearchParams();
+            params.append('serviceName', this.navParams.get('serviceName'));
+            params.append('id', this.approvalInput[item['control_name']]);
+            this.http.post(url, params).subscribe((res: Response) => {
+              let data = res.json().result_list;
+              for (let k = 0; k < this.opinionOtherList.length; k++) {
+                if (this.opinionOtherList[k]['control_name'] === control.models[0]) {
+                  if (this.opinionOtherList[k]['control_default']) {
+                    this.approvalInput[this.opinionOtherList[k]['control_name']] = this.opinionOtherList[k]['control_default'];
+                  } else {
+                    this.approvalInput[this.opinionOtherList[k]['control_name']] = null;
+                  }
+                  this.opinionOtherList[k]['control_list'] = data;
+                  break;
                 }
               }
             }, (res: Response) => {

@@ -67,6 +67,7 @@
   "COMPANY_ADDRESS": "辽宁省沈阳市铁西区卫工街建设大路兴隆大都会培训楼21楼",
   "CONTACT_TEL": "联系电话",
   "CONTACT_EMAIL": "联系邮箱",
+  "CONTACT_INFORMATION": "联系方式",
   "NEW_NOTICE_PROMPT": "当程序在运行时，你可以设置是否需要声音或者震动",
   "VOICE": "声音",
   "VIBRATE": "震动",
@@ -152,5 +153,8 @@
   "HANDLE_SITUATION": "办理情况",
   "FEED_BACK": "反馈",
   "HANDLE_TOGETHER": "协办",
-  "HANDLE_DEPT": "协办部门"
+  "HANDLE_DEPT": "协办部门",
+  "CATEGORY": "类别",
+  "REPORT_TIME": "上报时间",
+  "PLEASE_ENTER_TEL": "请输入手机号"
 }
