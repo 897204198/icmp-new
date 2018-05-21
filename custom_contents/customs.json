@@ -19,7 +19,7 @@
     },
     "server": {
       "chatKey": "1166171023115752#demo-icmp",
-      "baseUrl": "https://icmp2.propersoft.cn/demo/api/",
+      "baseUrl": "https://icmp.propersoft.cn/demo/api/",
       "pushAppId": "MobileOADemo",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
