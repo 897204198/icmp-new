@@ -148,15 +148,8 @@ export class TodoWorkContactPage {
    */
   submitValidate(): boolean {
     if (this.handleStatus === '1') {
-      if (this.handleSituation === '') {
-        this.toastService.show(this.transateContent['VALI_REQUIRED']);
-        return false;
-      }
+      return true;
     } else {
-      if (this.joinComments === '') {
-        this.toastService.show(this.transateContent['VALI_REQUIRED']);
-        return false;
-      }
       for (let i = 0; i < this.handleOpinion.length; i++) {
         const item = this.handleOpinion[i];
         if (item['deptId'] === '' || item['personId'] === '') {
