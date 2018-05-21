@@ -364,8 +364,6 @@ export class TodoOpinionPage {
    * 下拉选择事件
    */
   selectChange(item: Object): void {
-    console.log(this.controls, this.approvalInput, this.opinionList, this.opinionOtherList);
-    
     let data = item['control_list'];
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);

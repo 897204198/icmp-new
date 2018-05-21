@@ -187,8 +187,8 @@ export class TodoWorkContactPage {
         params.append('joinComments', this.joinComments);
         for (let i = 0; i < this.handleOpinion.length; i++) {
           const item = this.handleOpinion[i];
-          params.append('coDeptName' + i, item['deptId']);
-          params.append('copersonname' + i, item['personId']);
+          params.append('coDeptId' + i, item['deptId']);
+          params.append('copersonid' + i, item['personId']);
         }
       }
       this.http.post(this.navParams.get('submitUtl'), params).subscribe((res: Response) => {
