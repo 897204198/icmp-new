@@ -86,11 +86,7 @@ module.exports = function(grunt) {
           {expand: true, cwd: './custom_contents/' + conf.currentProject + '/resources', src: ['**'], dest: './resources/'},
           {expand: true, cwd: './custom_contents/' + conf.currentProject + '/images', src: ['**'], dest: '<%= app.src %>/assets/images/'},
           {expand: true, cwd: './custom_contents/' + conf.currentProject + '/jsons', src: ['**'], dest: '<%= app.src %>/assets/jsons/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages/login', src: ['**'], dest: '<%= app.src %>/pages/login/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages/home', src: ['**'], dest: '<%= app.src %>/pages/home/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages/setting', src: ['**'], dest: '<%= app.src %>/pages/setting/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages/tabs', src: ['**'], dest: '<%= app.src %>/pages/tabs/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages/address', src: ['**'], dest: '<%= app.src %>/pages/address/'}
+          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages', src: ['**'], dest: '<%= app.src %>/pages/'}
         ]
       }
     },
