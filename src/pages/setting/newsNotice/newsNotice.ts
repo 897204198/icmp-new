@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * 新消息通知设置
@@ -12,21 +12,21 @@ export class NewsNoticePage {
   /**
    * 构造函数
    */
-  constructor() {}
+  constructor() { }
 
   /**
    * 首次进入页面
    */
-  ionViewDidLoad(): void {}
+  ionViewDidLoad(): void { }
 
   /**
    * 声音开关
    */
-  changeVoice(voice: HTMLInputElement): void {}
+  changeVoice(voice: HTMLInputElement): void { }
 
   /**
    * 震动开关
    */
-  changeVibrate(vibrate: HTMLInputElement): void {}
+  changeVibrate(vibrate: HTMLInputElement): void { }
 
 }

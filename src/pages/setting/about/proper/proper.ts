@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * 关于普日软件 ts
@@ -18,6 +18,6 @@ export class ProperPage {
   /**
    * 首次进入页面
    */
-  ionViewDidLoad(): void {}
+  ionViewDidLoad(): void { }
 
 }

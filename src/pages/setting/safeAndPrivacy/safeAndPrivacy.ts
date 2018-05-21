@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * 安全与隐私设置
@@ -12,11 +12,11 @@ export class SafeAndPrivacyPage {
   /**
    * 构造函数
    */
-  constructor() {}
+  constructor() { }
 
   /**
    * 首次进入页面
    */
-  ionViewDidLoad(): void {}
+  ionViewDidLoad(): void { }
 
 }
