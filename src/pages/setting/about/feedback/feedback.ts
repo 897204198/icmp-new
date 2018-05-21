@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 /**
@@ -13,12 +13,12 @@ export class FeedbackPage {
   /**
    * 构造函数
    */
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController) { }
 
   /**
    * 首次进入页面
    */
-  ionViewDidLoad(): void {}
+  ionViewDidLoad(): void { }
 
   /**
    * 提交意见反馈

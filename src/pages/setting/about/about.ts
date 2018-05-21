@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { FeedbackPage } from './feedback/feedback';
 import { ProperPage } from './proper/proper';
 import { DownloadAddressPage } from './downloadAddress/downloadAddress';
@@ -31,6 +31,6 @@ export class AboutPage {
   /**
    * 首次进入页面
    */
-  ionViewDidLoad(): void {}
+  ionViewDidLoad(): void { }
 
 }

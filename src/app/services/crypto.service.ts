@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * 加密算法相关的服务
@@ -11,7 +11,7 @@ export class CryptoService {
   /**
    * 构造函数
    */
-  constructor() {}
+  constructor() { }
 
   /**
    * MD5加密字符串

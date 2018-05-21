@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ConfigsService } from './configs.service';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { UserService, UserInfoState } from './user.service';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -18,7 +17,6 @@ import { DeviceInfoState, DeviceService } from './device.service';
 export class FileService {
 
   constructor(private configsService: ConfigsService,
-    private inAppBrowser: InAppBrowser,
     private userService: UserService,
     private transfer: FileTransfer,
     private fileOpener: FileOpener,
