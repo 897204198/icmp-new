@@ -8,7 +8,7 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content class="content-gray-new">
+<ion-content class="content-gray-new" (ionScroll)="ionScroll()">
   <form>
     <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}">
     </ion-searchbar>
@@ -27,9 +27,15 @@
       </ion-avatar>
       {{'GROUP' | translate}}
     </button>
+    <!-- <button ion-item (click)="organizationAddress()">
+      <ion-avatar item-left class="control-img">
+        <img src="./assets/images/im/organization.png">
+      </ion-avatar>
+      {{'ORGANIZATION_ADDRESS' | translate}}
+    </button> -->
   </ion-list>
   <div *ngIf="selectInput" class="margin-bottom"></div>
-  <div *ngFor="let contact of contactInfos">
+  <div *ngFor="let contact of contactInfos" class="{{contact['first']}}">
     <ion-list class="icmp-list-bottom-margin" *ngIf="contact['items'].length != '0'" [ngClass]="{'list-md-no-border': !selectInput}">
       <ion-item class="letterStyle" *ngIf="selectInput" id="{{contact['first']}}">{{contact['first']}}</ion-item>
       <button class="contact-no-bottom" *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none
@@ -44,12 +50,11 @@
     </ion-list>
     <div *ngIf="selectInput" class="margin-bottom"></div>
   </div>
-
-  <div *ngIf="selectInput">
-    <ul class="side">
-      <li *ngFor="let letter of slider" (click)="scrollTo(letter)" id="{{letter}}">
-        <span>{{letter}}</span>
-      </li>
-    </ul>
-  </div>
 </ion-content>
+<div *ngIf="selectInput">
+  <ul class="side">
+    <li *ngFor="let letter of slider" (click)="scrollTo(letter)" id="{{letter}}">
+      <span>{{letter}}</span>
+    </li>
+  </ul>
+</div>
