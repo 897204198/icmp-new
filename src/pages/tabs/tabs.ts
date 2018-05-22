@@ -174,6 +174,7 @@ export class TabsPage {
         }
         params['chatType'] = event.properCustoms.chatType;
         params['chatId'] = chatInfo.chatId;
+        params['isPush'] = '1';
         (<any>window).huanxin.chat(params);
       }
     } else {
