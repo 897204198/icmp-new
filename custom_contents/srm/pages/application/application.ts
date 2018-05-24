@@ -65,6 +65,7 @@ export class ApplicationPage {
   }
 
   ionViewDidLoad(): void {
+    this.userInfo = this.userService.getUserInfo();
     this.deviceType = this.deviceService.getDeviceInfo().deviceType;
     this.getInitData();
   }
