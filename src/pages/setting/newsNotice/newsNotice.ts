@@ -21,7 +21,7 @@ export class NewsNoticePage {
       this.openVoice = data;
     });
     this.nativeStorage.getItem('openVibrate').then(data => {
-      this.openVoice = data;
+      this.openVibrate = data;
     });
   }
 
