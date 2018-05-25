@@ -1,20 +1,30 @@
-import { SpellService } from './services/spell.service';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { UniqueDeviceID } from '@ionic-native/unique-device-id';
-import { Device } from '@ionic-native/device';
-import { AppVersion } from '@ionic-native/app-version';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppMinimize } from '@ionic-native/app-minimize';
+import { AppVersion } from '@ionic-native/app-version';
+import { Camera } from '@ionic-native/camera';
+import { Device } from '@ionic-native/device';
+import { File } from '@ionic-native/file';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FileOpener } from '@ionic-native/file-opener';
+import { FilePath } from '@ionic-native/file-path';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Keyboard } from '@ionic-native/keyboard';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { BackButtonService } from './services/backButton.service';
 import { AdminPage } from '../pages/login/admin/admin';
 import { LoginPage } from '../pages/login/login';
+import { SpellService } from './services/spell.service';
 import { ToastService } from './services/toast.service';
 import { APP_CONSTANT, appConstant } from './constants/app.constant';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -47,8 +57,6 @@ import { GeneralPage } from '../pages/setting/general/general';
 import { QueryNoticeDetailPage } from '../pages/query/queryNoticeDetail/queryNoticeDetail';
 import { FileTypeImageComponent } from './component/fileTypeImage/fileTypeImage.component';
 import { FileService } from './services/file.service';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
 import { QueryListPage } from '../pages/query/queryList/queryList';
 import { QueryListConditionPage } from '../pages/query/queryListCondition/queryListCondition';
 import { SearchboxComponent } from './component/searchbox/searchbox.component';
@@ -66,13 +74,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { reducer } from './redux/app.reducer';
 import { IcmpSpinnerComponent } from './component/spinner/spinner.component';
 import { InstaShotPage } from '../pages/instaShot/instaShot';
-import { Camera } from '@ionic-native/camera';
 import { PhotoService } from './services/photo.service';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { FileOpener } from '@ionic-native/file-opener';
 import { ApplicationPage } from '../pages/application/application';
-import { FileChooser } from '@ionic-native/file-chooser';
-import { FilePath } from '@ionic-native/file-path';
 import { StatisticsQueryPage } from '../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../pages/statistics/statisticsView/statisticsView';
 import { AddressPage } from '../pages/address/address';
@@ -81,11 +84,9 @@ import { AddFriendPage } from '../pages/address/addFriend/addFriend';
 import { ApplyPage } from '../pages/address/apply/apply';
 import { GroupPage } from '../pages/address/group/group';
 import { CreateGroupPage } from '../pages/address/group/createGroup';
-import { Keyboard } from '@ionic-native/keyboard';
 import { UserProfilePage } from '../pages/address/userProfile/userProfile';
 import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginShow.component';
 import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
-import { AppMinimize } from '@ionic-native/app-minimize';
 import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../pages/macAddress/macAddress';
 import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
@@ -251,6 +252,7 @@ export function createTranslateLoader(http: Http) {
     ImagePicker,
     PhotoService,
     AppMinimize,
+    NativeStorage,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}
