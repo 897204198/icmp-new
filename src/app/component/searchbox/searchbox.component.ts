@@ -79,6 +79,7 @@ export class SearchboxComponent {
     params.append('searchName', this.searchName);
     this.http.post(this.navParams.get('searchUrl'), params).subscribe((res: Response) => {
       let data = res.json().result_list;
+      let arrId = [];
       if (isInit) {
         this.searchResults = data;
       } else {
@@ -89,6 +90,16 @@ export class SearchboxComponent {
       this.infiniteScrollComplete();
       if ((data == null || data.length < Number(this.icmpConstant.pageSize)) && this.infiniteScroll != null) {
         this.infiniteScroll.enable(false);
+      }
+      if (this.navParams.get('id')) {
+        arrId = this.navParams.get('id').split(',');
+        for (let i = 0; i < this.searchResults.length; i ++) {
+          for (let value of arrId) {
+            if (this.searchResults[i]['id'] === value) {
+              this.searchSelect[i] = true;
+            }
+          }
+        }
       }
     }, (res: Response) => {
       this.toastService.show(res.text());

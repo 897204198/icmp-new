@@ -62,7 +62,7 @@
       <ion-label *ngIf="opinion.type === 'radio'">{{opinion.name}}</ion-label>
       <ion-radio *ngIf="opinion.type === 'radio'" value="{{opinion.value}}"></ion-radio>
     </ion-item>
-    <ion-item *ngIf="!addListShow && opinionTextare.showTextarea == '1' && !hideComment && opinionTextare.type == 'textarea'">
+    <ion-item *ngIf="!addListShow && opinionTextare && opinionTextare.showTextarea == '1' && !hideComment && opinionTextare.type == 'textarea'">
       <ion-textarea rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="approvalInput.comments"></ion-textarea>
     </ion-item>
   </ion-list>

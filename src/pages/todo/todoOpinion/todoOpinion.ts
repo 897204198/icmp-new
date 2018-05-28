@@ -142,6 +142,15 @@ export class TodoOpinionPage {
           this.controls[this.opinionHelpList[i]['value']] = this.opinionHelpList[i]['control_name'];
         }
         if (this.opinionHelpList[i]['type'] === 'file') {
+          if (this.opinionHelpList[i]['default_file']) {
+            this.approvalInputTemp[this.opinionHelpList[i]['model']] = this.opinionHelpList[i]['default_file'];
+            for (let value of this.opinionHelpList[i]['default_file']) {
+              if (!this.approvalInput[this.opinionHelpList[i]['model']]) {
+                this.approvalInput[this.opinionHelpList[i]['model']] = [];
+              }
+              this.approvalInput[this.opinionHelpList[i]['model']].push(value['id']);
+            }
+          }
           this.opinionFilesList.push(this.opinionHelpList[i]);
         }
         if (this.opinionHelpList[i]['type'] === 'textarea') {
@@ -295,7 +304,7 @@ export class TodoOpinionPage {
     if (item['control_type'] === 'select_person') {
       searchUrl = '/webController/searchPerson';
     }
-    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl };
+    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.approvalInput[item['control_name']] };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
@@ -315,7 +324,7 @@ export class TodoOpinionPage {
     if (item['control_type'] === 'select_person') {
       searchUrl = '/webController/searchPerson';
     }
-    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl };
+    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.approvalInputTemps['joinOpinions'][iList]['id'] };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
@@ -335,6 +344,9 @@ export class TodoOpinionPage {
     }
     if (this.controls[this.approvalInput['opinion']] != null) {
       if (this.controls[this.approvalInput['opinion']].indexOf(item['control_name']) >= 0) {
+        if (item['control_default'] && item['control_list']) {
+          this.selectChange(item);
+        }
         return true;
       }
     }
