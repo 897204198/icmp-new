@@ -91,6 +91,7 @@ import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../pages/macAddress/macAddress';
 import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
 import { EmailPage } from '../pages/email/email';
+import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.component';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -115,6 +116,7 @@ export function createTranslateLoader(http: Http) {
     PluginColldoctorComponent,
     PluginRegRemindComponent,
     PluginShowComponent,
+    IcmpPlaceholderComponent,
     FileTypeImageComponent,
     TabsPage,
     AdminPage,
