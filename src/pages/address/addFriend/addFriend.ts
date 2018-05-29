@@ -18,6 +18,8 @@ export class AddFriendPage {
   private transateContent: Object;
   // 查询拦截器
   private titleFilter: FormControl = new FormControl();
+  // 是否显示placeholder
+  private isShow: boolean = false;
   /**
    * 构造函数
    */
@@ -32,10 +34,12 @@ export class AddFriendPage {
     });
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       () => {
+        this.isShow = true;
         if (this.titleFilter.value != null && this.titleFilter.value.trim() !== '') {
           this.searchUser();
         } else {
           this.userList = null;
+          this.isShow = false;
         }
       }
     );

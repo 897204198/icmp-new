@@ -14,7 +14,7 @@
 
   <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}">
   </ion-searchbar>
-
+  <icmp-placeholder *ngIf="isShow && !count" placeholder="{{keyword}}"></icmp-placeholder>
   <ion-list class="icmp-list-bottom-margin">
     <button *ngFor="let group of allGroups | searchFilter: 'groupName': keyword" ion-item detail-none (click)="chatToGroup(group)">
       <ion-avatar item-left>

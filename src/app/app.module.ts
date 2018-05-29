@@ -255,6 +255,7 @@ export function createTranslateLoader(http: Http) {
     PhotoService,
     AppMinimize,
     NativeStorage,
+    SearchFilterPipe,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

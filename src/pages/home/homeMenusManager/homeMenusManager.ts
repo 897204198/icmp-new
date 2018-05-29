@@ -8,6 +8,7 @@ import { ModalController, NavController } from 'ionic-angular';
 import { MenuFolderComponent } from '../../../app/component/menuFolder/menuFolder.component';
 import { RoutersService } from '../../../app/services/routers.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SearchFilterPipe } from '../../../app/pipes/searchFilter/searchFilter';
 
 /**
  * 首页应用组件
@@ -32,6 +33,10 @@ export class HomeMenusManagerPage {
   private menuWidth: string;
   // 国际化文字
   private transateContent: Object;
+  // 搜索匹配的条数
+  private count: number = 0;
+  // 是否显示placeholder
+  private isShow: boolean = false;
 
   /**
    * 构造函数
@@ -41,6 +46,7 @@ export class HomeMenusManagerPage {
     public http: Http,
     private modalCtrl: ModalController,
     private toastService: ToastService,
+    private SearchFilter: SearchFilterPipe,
     private translate: TranslateService,
     private routersService: RoutersService) {
 
@@ -59,7 +65,19 @@ export class HomeMenusManagerPage {
     });
 
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => this.keyword = value
+      value => {
+        this.isShow = true;
+        this.count = 0;
+        this.keyword = value;
+        if (this.titleFilter.value) {
+          for (let option of this.categoryMenus) {
+            let len = this.SearchFilter.transform(option['menus'], 'name', value).length;
+            this.count += len;
+          }
+        } else {
+          this.isShow = false;
+        }
+      }
     );
   }
 
