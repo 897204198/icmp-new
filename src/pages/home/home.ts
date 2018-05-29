@@ -18,8 +18,6 @@ export class HomePage {
 
   // 轮播图对象
   @ViewChild('ionCarouselSlides') slider: Slides;
-  // 轮播图高度
-  private bannerlHeight: string = '';
   // 是否显示页面头
   private shadowShow: boolean = false;
   // 是否显示轮播图
@@ -53,9 +51,6 @@ export class HomePage {
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
-    // 轮播图高度
-    let width = document.body.clientWidth;
-    this.bannerlHeight = width / 2 + 'px';
   }
 
   /**
@@ -95,15 +90,6 @@ export class HomePage {
   ionViewWillLeave(): void {
     clearInterval(this.intervalSlideId);
     clearInterval(this.intervalId);
-  }
-
-  /**
-   * 窗口大小改变事件
-   */
-  onResize(): void {
-    let width = document.body.clientWidth;
-    this.bannerlHeight = 3 * width / 5 + 'px';
-    this.slider.resize();
   }
 
   /**
