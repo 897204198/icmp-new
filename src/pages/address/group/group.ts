@@ -6,7 +6,6 @@ import { CreateGroupPage } from './createGroup';
 import { ToastService } from '../../../app/services/toast.service';
 import { UserService, initUserInfo, UserInfoState } from '../../../app/services/user.service';
 import { DeviceService } from '../../../app/services/device.service';
-import { SearchFilterPipe } from '../../../app/pipes/searchFilter/searchFilter';
 
 @Component({
   selector: 'page-group',
@@ -22,10 +21,6 @@ export class GroupPage {
   private keyword: string;
   // 用户信息数据
   userInfo: UserInfoState = initUserInfo;
-  // 搜索匹配的条数
-  private count: number = 0;
-  // 是否显示placeholder
-  private isShow: boolean = false;
 
   /**
    * 构造函数
@@ -35,19 +30,9 @@ export class GroupPage {
     private userService: UserService,
     private deviceService: DeviceService,
     private zone: NgZone,
-    private SearchFilter: SearchFilterPipe,
     private http: Http) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => {
-        this.isShow = true;
-        this.count = 0;
-        this.keyword = value;
-        if (this.titleFilter.value) {
-          this.count = this.SearchFilter.transform(this.allGroups, 'groupName', value).length;
-        } else {
-          this.isShow = false;
-        }
-      }
+      value => this.keyword = value
     );
   }
 

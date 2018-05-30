@@ -63,10 +63,6 @@
   "APP_DOWNLOAD_SKIP_PROMPT": "即将跳转到APP下载页面",
   "PROMPT_INFO": "提示",
   "COMPANY_NAME": "沈阳普日软件技术有限公司",
-  "COMPANY_ADDRESS_NAME": "公司地址",
-  "COMPANY_ADDRESS": "辽宁省沈阳市铁西区卫工街建设大路兴隆大都会培训楼21楼",
-  "CONTACT_TEL": "联系电话",
-  "CONTACT_EMAIL": "联系邮箱",
   "NEW_NOTICE_PROMPT": "当程序在运行时，你可以设置是否需要声音或者震动",
   "VOICE": "声音",
   "VIBRATE": "震动",
@@ -193,5 +189,8 @@
   "ORGANIZATION_ADDRESS": "组织通讯录",
   "MY_EMAIL": "我的邮箱",
   "IM_CLOSE": "您的IM聊天权限已被管理员关闭，请退出后重新登录",
-  "IM_OPEN": "您的账号已开通IM聊天权限，请退出后重新登录"
+  "IM_OPEN": "您的账号已开通IM聊天权限，请退出后重新登录",
+  "COMPANY_WEB": "www.propersoft.cn",
+  "OOPSTORM_CONTANT": "<p class='oop-Storm-p'>隶属于沈阳普日软件技术有限公司</p><p class='oop-Storm-p'>主要负责设计研发满足用户需求的软件产品</p><p class='oop-Storm-p oop-div'>人员组织架构：</p><div class='oopStorm-div'><div class='oopStorm-div-item'>系统工程师</div><div class='oopStorm-div-item1'>JAVA高级开发工程师</div><div class='oopStorm-div-item'>测试团队</div></div><div class='oopStorm-div'><div class='oopStorm-div-item'>web前端开发工程师</div><div class='oopStorm-div-item'>UI/UE设计师</div></div><p class='oop-Storm-p oop-div'>我们坚持用户为王的软件设计原则</p><p class='oop-Storm-p'>团队技术成熟、人员配置完善、软件开发经验丰富</p><p class='oop-Storm-p'>致力于一UED为前提的产品开发路线，做用户体验度高的产品</p>",
+  "BUTTON_TEXT":"我已阅读并了解"
 }

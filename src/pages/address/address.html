@@ -13,7 +13,6 @@
     <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}">
     </ion-searchbar>
   </form>
-  <icmp-placeholder *ngIf="hidTopItem && !count" placeholder="{{keyword}}"></icmp-placeholder>
   <ion-list *ngIf="!hidTopItem" class="icmp-list-bottom-margin">
     <button ion-item (click)="applyAndNotification()">
       <ion-avatar class="control-img" item-left>

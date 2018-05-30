@@ -14,7 +14,6 @@ import { SpellService } from '../../app/services/spell.service';
 import { Content } from 'ionic-angular';
 import { UtilsService } from '../../app/services/utils.service';
 import { OrganizationAddressPage } from './organizationAddress/organizationAddress';
-import { SearchFilterPipe } from '../../app/pipes/searchFilter/searchFilter';
 
 @Component({
   selector: 'page-address',
@@ -38,8 +37,6 @@ export class AddressPage {
   private selectInput: boolean = true;
   // 未读通知
   private unreadData: string;
-  // 搜索匹配的条数
-  private count: number = 0;
 
   /**
    * 构造函数
@@ -53,12 +50,10 @@ export class AddressPage {
     private zone: NgZone,
     private utils: UtilsService,
     private http: Http,
-    private SearchFilter: SearchFilterPipe,
     private keyboard: Keyboard,
     private event: Events) {
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
       value => {
-        this.count = 0;
         this.keyword = value;
         if (this.titleFilter.value === '' || this.titleFilter.value === null) {
           this.hidTopItem = false;
@@ -66,10 +61,6 @@ export class AddressPage {
         } else {
           this.hidTopItem = true;
           this.selectInput = false;
-          for (let option of this.contactInfos) {
-            let len = this.SearchFilter.transform(option['items'], 'remark', value).length;
-            this.count += len;
-          }
         }
       }
     );

@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
-import { FeedbackPage } from './feedback/feedback';
-import { ProperPage } from './proper/proper';
-import { DownloadAddressPage } from './downloadAddress/downloadAddress';
+import { NavController, AlertController, Alert } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DeviceService, DeviceInfoState } from '../../../app/services/device.service';
+import { AppVersionUpdateService } from '../../../app/services/appVersionUpdate.service';
+import { TranslateService } from '@ngx-translate/core';
+import { OopStormPage } from './oopStorm/oopStorm';
+
+
 
 /**
  * 关于我们
@@ -12,25 +17,73 @@ import { DownloadAddressPage } from './downloadAddress/downloadAddress';
 })
 export class AboutPage {
 
-  // 意见反馈页
-  feedbackPage: any;
-  // App下载地址页
-  downloadAddressPage: any;
-  // 关于普日软件页
-  properPage: any;
+  // 国际化文字
+  private transateContent: Object;
+  // 弹出框对象
+  private confirmAlert: Alert;
+  // 弹出框是否打开
+  private alertOpen: boolean = false;
+  // 版本号
+  versionNumber: string = '';
+  // 版本码
+  versionCode: string = '';
 
-  /**
-   * 构造函数
-   */
-  constructor() {
-    this.feedbackPage = FeedbackPage;
-    this.downloadAddressPage = DownloadAddressPage;
-    this.properPage = ProperPage;
+  constructor(
+    public navCtrl: NavController,
+    private translate: TranslateService,
+    private deviceService: DeviceService,
+    public alertCtrl: AlertController,
+    private appVersionUpdateService: AppVersionUpdateService,
+    private inAppBrowser: InAppBrowser) {
+    this.translate.get(['PROMPT_INFO', 'APP_DOWNLOAD_SKIP_PROMPT', 'CANCEL', 'CONFIRM']).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
+  }
+
+  ionViewDidLoad() {
+    // 获取当前程序的版本名
+    let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+    if (deviceInfo !== null) {
+      this.versionNumber = deviceInfo.versionNumber;
+      this.versionCode = deviceInfo.versionCode;
+    }
+  }
+
+  // 跳转到公司主页
+  oopStormWebClk() {
+    this.inAppBrowser.create('http://www.propersoft.cn', '_system');
+  }
+
+  // 页面跳转
+  oopStormClk() {
+    this.navCtrl.push(OopStormPage, {versionNumber: this.versionNumber, versionCode: this.versionCode});
   }
 
   /**
-   * 首次进入页面
+   * 点击下载
    */
-  ionViewDidLoad(): void { }
+  downloadApp() {
+    this.confirmAlert = this.alertCtrl.create({
+      title: this.transateContent['PROMPT_INFO'],
+      message: this.transateContent['APP_DOWNLOAD_SKIP_PROMPT'],
+      buttons: [
+        {
+          text: this.transateContent['CANCEL'],
+          handler: () => {
+            this.alertOpen = false;
+          }
+        },
+        {
+          text: this.transateContent['CONFIRM'],
+          handler: () => {
+            let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+            this.appVersionUpdateService.doUpdateVersion(deviceInfo.deviceType);
+          }
+        }
+      ]
+    });
+    this.confirmAlert.present();
+    this.alertOpen = true;
+  }
 
 }

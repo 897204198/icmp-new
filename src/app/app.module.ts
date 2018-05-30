@@ -48,9 +48,7 @@ import { RoutersService } from './services/routers.service';
 import { SettingPage } from '../pages/setting/setting';
 import { UserInfoPage } from '../pages/setting/userInfo/userInfo';
 import { AboutPage } from '../pages/setting/about/about';
-import { DownloadAddressPage } from '../pages/setting/about/downloadAddress/downloadAddress';
 import { FeedbackPage } from '../pages/setting/about/feedback/feedback';
-import { ProperPage } from '../pages/setting/about/proper/proper';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
@@ -92,6 +90,7 @@ import { MacAddressPage } from '../pages/macAddress/macAddress';
 import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
 import { EmailPage } from '../pages/email/email';
 import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.component';
+import { OopStormPage } from '../pages/setting/about/oopStorm/oopStorm';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -127,9 +126,7 @@ export function createTranslateLoader(http: Http) {
     SettingPage,
     UserInfoPage,
     AboutPage,
-    ProperPage,
     FeedbackPage,
-    DownloadAddressPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -155,7 +152,8 @@ export function createTranslateLoader(http: Http) {
     ExamCustomFramePage,
     MacAddressPage,
     OrganizationAddressPage,
-    EmailPage
+    EmailPage,
+    OopStormPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -193,9 +191,7 @@ export function createTranslateLoader(http: Http) {
     SettingPage,
     UserInfoPage,
     AboutPage,
-    ProperPage,
     FeedbackPage,
-    DownloadAddressPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -221,7 +217,8 @@ export function createTranslateLoader(http: Http) {
     ExamCustomFramePage,
     MacAddressPage,
     OrganizationAddressPage,
-    EmailPage
+    EmailPage,
+    OopStormPage
   ],
   providers: [
     StatusBar,
@@ -255,7 +252,6 @@ export function createTranslateLoader(http: Http) {
     PhotoService,
     AppMinimize,
     NativeStorage,
-    SearchFilterPipe,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

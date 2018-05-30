@@ -23,7 +23,6 @@
       </div>
     </div>
   </div>
-  <icmp-placeholder *ngIf="isShow && !count" placeholder="{{keyword}}"></icmp-placeholder>
   <div class="menus row-division" *ngIf="!isManage">
     <div *ngFor="let categoryMenu of categoryMenus, let i = index" (press)="pressEvent($event)">
       <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
@@ -48,5 +47,4 @@
       </div>
     </div>
   </div>
-
 </ion-content>
