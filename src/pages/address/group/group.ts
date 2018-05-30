@@ -37,18 +37,16 @@ export class GroupPage {
     private zone: NgZone,
     private SearchFilter: SearchFilterPipe,
     private http: Http) {
-    this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => {
-        this.isShow = true;
-        this.count = 0;
-        this.keyword = value;
-        if (this.titleFilter.value) {
-          this.count = this.SearchFilter.transform(this.allGroups, 'groupName', value).length;
-        } else {
-          this.isShow = false;
-        }
+    this.titleFilter.valueChanges.debounceTime(500).subscribe((value) => {
+      this.isShow = true;
+      this.count = 0;
+      this.keyword = value;
+      if (this.titleFilter.value) {
+        this.count = this.SearchFilter.transform(this.allGroups, 'groupName', value).length;
+      } else {
+        this.isShow = false;
       }
-    );
+    });
   }
 
   /**

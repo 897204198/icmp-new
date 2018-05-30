@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { DeviceService } from '../../app/services/device.service';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Events } from 'ionic-angular';
+import { SearchFilterPipe } from '../../app/pipes/searchFilter/searchFilter';
 
 @Component({
   selector: 'page-chat-list',
@@ -20,6 +21,10 @@ export class ChatListPage {
   private titleFilter: FormControl = new FormControl();
   // 查询keyword
   private keyword: string;
+  // 搜索匹配的条数 
+  private count: number = 0;
+  // 是否显示placeholder 
+  private isShow: boolean = false;
 
   /**
    * 构造函数
@@ -27,18 +32,33 @@ export class ChatListPage {
   constructor(private zone: NgZone,
     private userService: UserService,
     private deviceService: DeviceService,
+    private SearchFilter: SearchFilterPipe,
     private store: Store<string>,
     private keyboard: Keyboard,
     private event: Events) {
-    this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => this.keyword = value
-    );
+    this.titleFilter.valueChanges.debounceTime(500).subscribe((value) => {
+      this.isShow = true;
+      this.count = 0;
+      this.keyword = value;
+      if (this.titleFilter.value) {
+        this.count = this.SearchFilter.transform(this.chatList, 'toChatNickName', value).length;
+      } else {
+        this.isShow = false;
+      }
+    });
   }
 
   /**
    * 首次进入页面
    */
   ionViewDidLoad() {
+    this.chatList = [
+      {
+        'toChatNickName': 'asdf',
+        'lastMessage': 'adfs',
+        'lastMessageTime': '1021312'
+      }
+    ];
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
     (<any>window).huanxin.addMessageListener('', (addRetData) => {

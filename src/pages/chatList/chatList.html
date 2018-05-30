@@ -8,7 +8,7 @@
     <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}">
     </ion-searchbar>
   </form>
-
+  <icmp-placeholder *ngIf="isShow && !count" placeholder="{{keyword}}"></icmp-placeholder>
   <ion-list class="icmp-list-bottom-margin">
     <ion-item-sliding *ngFor="let user of chatList | searchFilter: 'toChatNickName': keyword">
       <button ion-item detail-none (click)="chatToUserOrGroup(user)">

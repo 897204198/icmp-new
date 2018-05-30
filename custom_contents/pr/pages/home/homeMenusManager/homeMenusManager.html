@@ -14,7 +14,7 @@
   <div class="menus">
     <div class="menus-title">{{'MY_APPLICATION' | translate}}</div>
     <div class="menus-content" [dragula]="'bag-one'" [dragulaModel]="myMenus">
-      <div *ngFor="let menu of myMenus" [style.width]="menuWidth" tappable (tap)="openApp(menu)">
+      <div *ngFor="let menu of myMenus" [style.width]="menuWidth" (press)="pressEvent($event)" tappable (tap)="openApp(menu)">
         <div class="setting-menu" (contextmenu)="contextmenuEvent($event)" (touchstart)="touchstartEvent($event)" (touchend)="touchendEvent($event)" (touchmove)="dragulaMove($event)" (pointermove)="dragulaMove($event)">
           <img [src]="menu.icon">
           <div class="menu-text">{{menu.name}}</div>
@@ -23,8 +23,9 @@
       </div>
     </div>
   </div>
+  <icmp-placeholder *ngIf="isShow && !count" placeholder="{{keyword}}"></icmp-placeholder>
   <div class="menus row-division" *ngIf="!isManage">
-    <div *ngFor="let categoryMenu of categoryMenus, let i = index">
+    <div *ngFor="let categoryMenu of categoryMenus, let i = index" (press)="pressEvent($event)">
       <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
       <div class="menus-content">
         <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'name': keyword" tappable (tap)="openApp(menu)" [style.width]="menuWidth">
@@ -47,4 +48,5 @@
       </div>
     </div>
   </div>
+
 </ion-content>
