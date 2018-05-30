@@ -21,9 +21,6 @@ export class OopStormPage {
     translate.get(this.translateArray).subscribe((res: object) => {
       this.description = res['OOPSTORM_CONTANT'];
     });
-  };
-
-  ionViewDidEnter() {
     this.versionNumber = this.navParams.get('versionNumber');
     this.versionCode = this.navParams.get('versionCode');
   }
