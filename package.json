@@ -135,9 +135,7 @@
             "cordova-plugin-file-opener2": {},
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-file": {},
-            "cordova-plugin-proper-HuanXin": {},
-            "cordova-plugin-appminimize": {},
-            "cordova-plugin-getMacaddress": {}
+            "cordova-android-support-gradle-release": {}
         },
         "platforms": [
             "android",
