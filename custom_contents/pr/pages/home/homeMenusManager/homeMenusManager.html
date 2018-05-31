@@ -11,10 +11,11 @@
 </ion-header>
 <ion-content class="content-gray-new">
   <ion-searchbar [formControl]="titleFilter" placeholder="{{'APP_NAME' | translate}}"></ion-searchbar>
-  <div class="menus">
+  <icmp-placeholder *ngIf="isShow && !count" placeholder="{{keyword}}"></icmp-placeholder>
+  <div class="menus" *ngIf="!isShow || count">
     <div class="menus-title">{{'MY_APPLICATION' | translate}}</div>
     <div class="menus-content" [dragula]="'bag-one'" [dragulaModel]="myMenus">
-      <div *ngFor="let menu of myMenus" [style.width]="menuWidth" (press)="pressEvent($event)" tappable (tap)="openApp(menu)">
+      <div *ngFor="let menu of myMenus | searchFilter: 'name': keyword" [style.width]="menuWidth" (press)="pressEvent($event)" tappable (tap)="openApp(menu)">
         <div class="setting-menu" (contextmenu)="contextmenuEvent($event)" (touchstart)="touchstartEvent($event)" (touchend)="touchendEvent($event)" (touchmove)="dragulaMove($event)" (pointermove)="dragulaMove($event)">
           <img [src]="menu.icon">
           <div class="menu-text">{{menu.name}}</div>
@@ -23,10 +24,9 @@
       </div>
     </div>
   </div>
-  <icmp-placeholder *ngIf="isShow && !count" placeholder="{{keyword}}"></icmp-placeholder>
-  <div class="menus row-division" *ngIf="!isManage">
+  <div class="menus row-division" *ngIf="!isManage && (!isShow || count)">
     <div *ngFor="let categoryMenu of categoryMenus, let i = index" (press)="pressEvent($event)">
-      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
+      <div class="menus-title" *ngIf="(categoryMenu.menus | searchFilter: 'name': keyword).length" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
       <div class="menus-content">
         <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'name': keyword" tappable (tap)="openApp(menu)" [style.width]="menuWidth">
           <img [src]="menu.icon">
@@ -35,9 +35,9 @@
       </div>
     </div>
   </div>
-  <div class="menus row-division" *ngIf="isManage">
+  <div class="menus row-division" *ngIf="isManage && (!isShow || count)">
     <div *ngFor="let categoryMenu of categoryMenus, let i = index">
-      <div class="menus-title" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
+      <div class="menus-title" *ngIf="(categoryMenu.menus | searchFilter: 'name': keyword).length" [ngClass]="{'menus-first': i == 0}">{{categoryMenu.typeName}}</div>
       <div class="menus-content">
         <div class="setting-menu" *ngFor="let menu of categoryMenu.menus | searchFilter: 'name': keyword" [style.width]="menuWidth">
           <img [src]="menu.icon">
