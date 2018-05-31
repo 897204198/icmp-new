@@ -47,7 +47,7 @@ export class MyApp {
       // 初始化推送插件
       this.pushService.init();
       // 更新
-      this.appVersionUpdateService.checkAppVersion(true);
+      this.appVersionUpdateService.checkAppVersion(true, true);
     });
 
     // 初始国际化

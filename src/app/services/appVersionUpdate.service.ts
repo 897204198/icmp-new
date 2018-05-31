@@ -19,19 +19,20 @@ export class AppVersionUpdateService {
   /**
    * 构造函数
    */
-  constructor(private http: Http,
-              private alertCtrl: AlertController,
-              private inAppBrowser: InAppBrowser,
-              @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
-              private deviceService: DeviceService,
-              private translate: TranslateService,
-              private toastService: ToastService) {
+  constructor(
+    private http: Http,
+    private alertCtrl: AlertController,
+    private inAppBrowser: InAppBrowser,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private deviceService: DeviceService,
+    private translate: TranslateService,
+    private toastService: ToastService) {
   }
 
   /**
    * 检查版本更新
    */
-  checkAppVersion(hiddenToast: boolean): void {
+  checkAppVersion(hiddenToast: boolean, isFirst?: boolean) {
     // 必须写在这里，否则无法英文转中文
     let translateKeys: string[] = ['APP_UPDATE_NOTE', 'PROMPT_INFO', 'UPDATE', 'NO_UPDATE', 'NEXT_TIME'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -50,23 +51,29 @@ export class AppVersionUpdateService {
           let confirmAlert = this.alertCtrl.create({
             title: this.transateContent['PROMPT_INFO'],
             message: data.note,
-              buttons: [
-                {
-                  text: this.transateContent['UPDATE'],
-                  handler: () => {
-                    this.doUpdateVersion(deviceInfo.deviceType);
-                  }
+            buttons: [
+              {
+                text: this.transateContent['UPDATE'],
+                handler: () => {
+                  this.doUpdateVersion(deviceInfo.deviceType);
                 }
-              ]
-            });
-            confirmAlert.present();
+              }
+            ]
+          });
+          confirmAlert.present();
         } else {
           let confirmAlert = this.alertCtrl.create({
             title: this.transateContent['PROMPT_INFO'],
             message: data.note,
             buttons: [
               {
-                text: this.transateContent['NEXT_TIME']
+                text: this.transateContent['NEXT_TIME'],
+                role: 'cancel',
+                handler: () => {
+                  if (isFirst && deviceInfo.deviceType === 'android') {
+                    this.autoRun();
+                  }
+                }
               },
               {
                 text: this.transateContent['UPDATE'],
@@ -82,6 +89,9 @@ export class AppVersionUpdateService {
         if (!hiddenToast) {
           this.toastService.show(this.transateContent['NO_UPDATE']);
         }
+        if (isFirst && deviceInfo.deviceType === 'android') {
+          this.autoRun();
+        }
       }
     });
   }
@@ -89,11 +99,43 @@ export class AppVersionUpdateService {
   /**
    * 更新版本
    */
-  doUpdateVersion(deviceType: string): void {
+  doUpdateVersion(deviceType: string) {
     if (deviceType === 'android') {
       this.inAppBrowser.create(this.icmpConstant.androidUpdateUrl, '_system');
     } else {
       this.inAppBrowser.create(this.icmpConstant.iosUpdateUrl, '_system');
     }
+  }
+
+  /**
+   * 自启动提示
+   */
+  autoRun() {
+    if (localStorage.getItem('ignore_autorun') === '1') {
+      return;
+    }
+    let translateKeys: string[] = ['CONFIRM', 'NO_NOTICE', 'PROMPT_INFO'];
+    this.translate.get(translateKeys).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
+    let alert = this.alertCtrl.create({
+      title: this.transateContent['PROMPT_INFO'],
+      message: '请开启此 App 的自动启动，以确保及时接收到新的消息通知。',
+      buttons: [
+        {
+          text: this.transateContent['NO_NOTICE'],
+          handler: () => {
+            localStorage.setItem('ignore_autorun', '1');
+          }
+        },
+        {
+          text: this.transateContent['CONFIRM'],
+          handler: () => {
+            (<any>window).huanxin.autorun('');
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
