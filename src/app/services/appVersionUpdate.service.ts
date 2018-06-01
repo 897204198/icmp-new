@@ -55,7 +55,7 @@ export class AppVersionUpdateService {
               {
                 text: this.transateContent['UPDATE'],
                 handler: () => {
-                  this.doUpdateVersion(deviceInfo.deviceType, data.iosUrl, data.androidUrl);
+                  this.doUpdateVersion(deviceInfo.deviceType, data.url);
                 }
               }
             ]
@@ -78,7 +78,7 @@ export class AppVersionUpdateService {
               {
                 text: this.transateContent['UPDATE'],
                 handler: () => {
-                  this.doUpdateVersion(deviceInfo.deviceType, data.iosUrl, data.androidUrl);
+                  this.doUpdateVersion(deviceInfo.deviceType, data.url);
                 }
               }
             ]
@@ -99,16 +99,16 @@ export class AppVersionUpdateService {
   /**
    * 更新版本
    */
-  doUpdateVersion(deviceType: string, iosUrl?: string, androidUrl?: string) {
+  doUpdateVersion(deviceType: string, url?: string) {
     if (deviceType === 'android') {
-      if (androidUrl) {
-        this.inAppBrowser.create(androidUrl, '_system');
+      if (url) {
+        this.inAppBrowser.create(url, '_system');
       } else {
         this.inAppBrowser.create(this.icmpConstant.androidUpdateUrl, '_system');
       }
     } else {
-      if (iosUrl) {
-        this.inAppBrowser.create(iosUrl, '_system');
+      if (url) {
+        this.inAppBrowser.create(url, '_system');
       } else {
         this.inAppBrowser.create(this.icmpConstant.iosUpdateUrl, '_system');
       }
