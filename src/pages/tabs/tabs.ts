@@ -115,6 +115,10 @@ export class TabsPage {
       let content = this.queryElement(SelectTab, '.scroll-content');
       this.renderer.setElementStyle(content, 'margin-bottom', this.mb);
     });
+    if (localStorage.getItem('tabs') === '1') {
+      this.appVersionUpdateService.checkAppVersion(true, true);
+      localStorage.setItem('tabs', '0');
+    }
   }
 
   /**

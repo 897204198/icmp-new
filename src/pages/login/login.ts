@@ -63,6 +63,16 @@ export class LoginPage {
   }
 
   /**
+   * 首次进入页面
+   */
+  ionViewDidLoad() {
+    if (localStorage.getItem('login') === '1') {
+      this.appVersionUpdateService.checkAppVersion(true, true);
+      localStorage.setItem('login', '0');
+    }
+  }
+
+  /**
    * 每次进入页面
    */
   ionViewDidEnter(): void {

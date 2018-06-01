@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserService } from './services/user.service';
 import { DeviceService } from './services/device.service';
 import { PushService } from './services/push.service';
-import { AppVersionUpdateService } from './services/appVersionUpdate.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,13 +26,14 @@ export class MyApp {
               private userService: UserService,
               private deviceService: DeviceService,
               private pushService: PushService,
-              private translate: TranslateService,
-              private appVersionUpdateService: AppVersionUpdateService) {
+              private translate: TranslateService) {
 
     // 判断是否已登录
     if (this.userService.isLogin()) {
+      localStorage.setItem('tabs', '1');
       this.rootPage = TabsPage;
     } else {
+      localStorage.setItem('login', '1');
       this.rootPage = LoginPage;
     }
 
@@ -46,8 +46,6 @@ export class MyApp {
       this.deviceService.setDeviceInfo();
       // 初始化推送插件
       this.pushService.init();
-      // 更新
-      this.appVersionUpdateService.checkAppVersion(true, true);
     });
 
     // 初始国际化
