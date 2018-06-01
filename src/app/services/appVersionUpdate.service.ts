@@ -119,32 +119,32 @@ export class AppVersionUpdateService {
    * 自启动提示
    */
   autoRun() {
-    if (localStorage.getItem('ignore_autorun') === '1') {
-      return;
-    }
-    let translateKeys: string[] = ['CONFIRM', 'NO_NOTICE', 'PROMPT_INFO'];
-    this.translate.get(translateKeys).subscribe((res: Object) => {
-      this.transateContent = res;
-    });
-    let alert = this.alertCtrl.create({
-      title: this.transateContent['PROMPT_INFO'],
-      message: '请开启此 App 的自动启动，以确保及时接收到新的消息通知。',
-      buttons: [
-        {
-          text: this.transateContent['NO_NOTICE'],
-          handler: () => {
-            localStorage.setItem('ignore_autorun', '1');
-          }
-        },
-        {
-          text: this.transateContent['CONFIRM'],
-          handler: () => {
-            (<any>window).huanxin.autorun('');
-          }
-        }
-      ]
-    });
-    alert.present();
+    // if (localStorage.getItem('ignore_autorun') === '1') {
+    //   return;
+    // }
+    // let translateKeys: string[] = ['CONFIRM', 'NO_NOTICE', 'PROMPT_INFO'];
+    // this.translate.get(translateKeys).subscribe((res: Object) => {
+    //   this.transateContent = res;
+    // });
+    // let alert = this.alertCtrl.create({
+    //   title: this.transateContent['PROMPT_INFO'],
+    //   message: '请开启此 App 的自动启动，以确保及时接收到新的消息通知。',
+    //   buttons: [
+    //     {
+    //       text: this.transateContent['NO_NOTICE'],
+    //       handler: () => {
+    //         localStorage.setItem('ignore_autorun', '1');
+    //       }
+    //     },
+    //     {
+    //       text: this.transateContent['CONFIRM'],
+    //       handler: () => {
+    //         (<any>window).huanxin.autorun('');
+    //       }
+    //     }
+    //   ]
+    // });
+    // alert.present();
   }
 }
 
