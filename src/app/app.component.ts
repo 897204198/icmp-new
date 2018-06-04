@@ -21,14 +21,15 @@ export class MyApp {
   /**
    * 构造函数
    */
-  constructor(statusBar: StatusBar,
-              splashScreen: SplashScreen,
-              private platform: Platform,
-              private userService: UserService,
-              private deviceService: DeviceService,
-              private pushService: PushService,
-              private translate: TranslateService,
-              private appVersionUpdateService: AppVersionUpdateService) {
+  constructor(
+    statusBar: StatusBar,
+    splashScreen: SplashScreen,
+    private platform: Platform,
+    private userService: UserService,
+    private deviceService: DeviceService,
+    private pushService: PushService,
+    private translate: TranslateService,
+    private appVersionUpdateService: AppVersionUpdateService) {
 
     // 判断是否已登录
     if (this.userService.isLogin()) {
@@ -39,7 +40,11 @@ export class MyApp {
 
     // noinspection TypeScriptUnresolvedFunction
     this.platform.ready().then(() => {
-      statusBar.styleDefault();
+      if (this.platform.is('android')) {
+        statusBar.styleLightContent();
+      } else {
+        statusBar.styleDefault();
+      }
       splashScreen.hide();
 
       // 设置设备信息
