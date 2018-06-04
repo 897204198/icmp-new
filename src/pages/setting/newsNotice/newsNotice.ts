@@ -39,4 +39,18 @@ export class NewsNoticePage {
     this.nativeStorage.setItem('openVibrate', this.openVibrate);
   }
 
+  /**
+   * 开启自动启动
+   */
+  openAutoRun() {
+    (<any>window).huanxin.autorun('');
+  }
+
+  /**
+   * 允许后台运行
+   */
+  allowBackstageRun() {
+    (<any>window).huanxin.backstagerun('');
+  }
+
 }
