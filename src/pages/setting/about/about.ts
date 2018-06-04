@@ -28,6 +28,8 @@ export class AboutPage {
   versionNumber: string = '';
   // 版本码
   versionCode: string = '';
+  // 热部署版本
+  chcpVersion: string = '';
   // 版本更新内容
   description: string = '';
 
@@ -51,12 +53,17 @@ export class AboutPage {
       this.versionNumber = deviceInfo.versionNumber;
       this.versionCode = deviceInfo.versionCode;
     }
+    if ((<any>window).chcp != null) {
+      (<any>window).chcp.getVersionInfo((err: any, data: Object) => {
+        this.chcpVersion = data['currentWebVersion'];
+      });
+    }
     this.getVersionDescription();
   }
 
   // 版本更新说明
   getVersionDescription() {
-    this.http.get('/sys/app/versions/' + '20000052').subscribe((res: Response) => {
+    this.http.get('/sys/app/versions/' + this.versionCode).subscribe((res: Response) => {
       this.description = res.json().note;
     });
   }
@@ -68,7 +75,11 @@ export class AboutPage {
 
   // 页面跳转
   oopStormClk() {
-    this.navCtrl.push(OopStormPage, { versionNumber: this.versionNumber, versionCode: this.versionCode });
+    this.navCtrl.push(OopStormPage, {
+      versionNumber: this.versionNumber,
+      versionCode: this.versionCode,
+      chcpVersion: this.chcpVersion
+    });
   }
 
   /**

@@ -14,6 +14,8 @@ export class OopStormPage {
   versionNumber: string = '';
   // 版本码
   versionCode: string = '';
+  // 热部署版本 
+  chcpVersion: string = '';
   // 描述
   description: string = '';
 
@@ -23,6 +25,7 @@ export class OopStormPage {
     });
     this.versionNumber = this.navParams.get('versionNumber');
     this.versionCode = this.navParams.get('versionCode');
+    this.chcpVersion = this.navParams.get('chcpVersion');
   }
 
   close() {
