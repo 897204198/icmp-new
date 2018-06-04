@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'NEW_NOTICE' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="content-gray-new">
+  <div class="icmp-list-header">
+    {{'NEW_NOTICE_PROMPT' | translate}}
+  </div>
+  <ion-list class="icmp-list-bottom-margin">
+    <ion-item>
+      <ion-label>{{'VOICE' | translate}}</ion-label>
+      <ion-toggle color="primary" [(ngModel)]="openVoice" (ionChange)="changeVoice()"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'VIBRATE' | translate}}</ion-label>
+      <ion-toggle color="primary" [(ngModel)]="openVibrate" (ionChange)="changeVibrate()"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>
