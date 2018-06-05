@@ -52,13 +52,6 @@ export class ChatListPage {
    * 首次进入页面
    */
   ionViewDidLoad() {
-    this.chatList = [
-      {
-        'toChatNickName': 'asdf',
-        'lastMessage': 'adfs',
-        'lastMessageTime': '1021312'
-      }
-    ];
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
     (<any>window).huanxin.addMessageListener('', (addRetData) => {
