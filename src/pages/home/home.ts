@@ -18,12 +18,10 @@ export class HomePage {
 
   // 轮播图对象
   @ViewChild('ionCarouselSlides') slider: Slides;
-  // 轮播图高度 
+  // 轮播图高度
   private bannerlHeight: string = '';
   // 是否显示页面头
   private shadowShow: boolean = false;
-  // 是否显示轮播图
-  private hasBanner: boolean = false;
   // 我的应用列表
   private menus: Object[] = [];
   // 我的插件列表
@@ -53,9 +51,9 @@ export class HomePage {
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
-    // 轮播图高度 
+    // 轮播图高度
     let width = document.body.clientWidth;
-    this.bannerlHeight = width / 2 + 'px';
+    this.bannerlHeight = width * 572 / 1280 + 'px';
   }
 
   /**
@@ -74,10 +72,6 @@ export class HomePage {
     this.setPlugins();
 
     // 轮播图处理
-    this.hasBanner = false;
-    setTimeout(() => {
-      this.hasBanner = true;
-    }, 200);
     this.zone.runOutsideAngular(() => {
       this.intervalSlideId = setInterval(() => {
         this.zone.run(() => {
@@ -97,12 +91,12 @@ export class HomePage {
     clearInterval(this.intervalId);
   }
 
-  /** 
-   * 窗口大小改变事件 
+  /**
+   * 窗口大小改变事件
    */
   onResize(): void {
     let width = document.body.clientWidth;
-    this.bannerlHeight = 3 * width / 5 + 'px';
+    this.bannerlHeight = width * 572 / 1280 + 'px';
     this.slider.resize();
   }
 
