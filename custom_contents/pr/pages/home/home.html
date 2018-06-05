@@ -6,8 +6,8 @@
 <ion-content class="content-gray-new home-content">
 
   <!--轮播图-->
-  <div class="home-carousel" [style.height]="bannerlHeight" (window:resize)="onResize()"> 
-    <ion-slides *ngIf="hasBanner" #ionCarouselSlides loop="true" pager [style.height]="bannerlHeight">
+  <div class="home-carousel" [style.height]="bannerlHeight" (window:resize)="onResize()">
+    <ion-slides #ionCarouselSlides loop="true" pager [style.height]="bannerlHeight">
       <ion-slide [style.height]="bannerlHeight">
         <img src="./assets/images/ad1.png" [style.height]="bannerlHeight">
         <div class="carousel-font"></div>
