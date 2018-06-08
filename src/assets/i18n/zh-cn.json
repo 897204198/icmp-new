@@ -197,5 +197,6 @@
   "OPEN_TM_AUTO_NOTICE": "请开启自动启动且允许后台运行，以确保及时接收到新消息通知。",
   "OPEN_AUTO_RUN": "开启自动启动",
   "SET_UP": "前往设置",
-  "ALLOW_BACKSTAGE_RUN": "允许后台运行"
+  "ALLOW_BACKSTAGE_RUN": "允许后台运行",
+  "NO_DATA": "没有更多数据"
 }

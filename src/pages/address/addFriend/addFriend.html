@@ -11,17 +11,24 @@
   </form>
   <icmp-placeholder *ngIf="isShow && !userList.length" placeholder="{{keyword}}"></icmp-placeholder>
   <ion-list class="icmp-list-top-margin">
-    <button *ngFor="let user of userList" ion-item (click)="lookUserProfile(user)">
-      <ion-avatar item-left>
-        <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
-        <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
-      </ion-avatar>
-      <h2>{{user.name}}</h2>
-      <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
-        item-end (click)="addFriend($event, user)">{{'ADD' | translate}}</button>
-      <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
-        ion-button item-end color="dark">{{'ADDED' | translate}}</button>
-    </button>
+    <div *ngFor="let user of userList; let i = index">
+        <button *ngIf="i<showNumber" ion-item (click)="lookUserProfile(user)">
+            <ion-avatar item-left>
+              <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
+              <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
+            </ion-avatar>
+            <h2>{{user.name}}</h2>
+            <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
+              item-end (click)="addFriend($event, user)">{{'ADD' | translate}}</button>
+            <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
+              ion-button item-end color="dark">{{'ADDED' | translate}}</button>
+          </button>
+    </div>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载中...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

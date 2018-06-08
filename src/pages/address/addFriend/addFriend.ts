@@ -14,12 +14,19 @@ import { FormControl } from '@angular/forms';
 export class AddFriendPage {
   // 用户列表
   private userList: Array<Object> = [];
+  // 所有用户列表
+  private allUserList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;
   // 查询拦截器
   private titleFilter: FormControl = new FormControl();
   // 是否显示placeholder
   private isShow: boolean = false;
+  // 显示数量
+  private showNumber: number = 15;
+  // 查询keyword
+  private keyword: string;
+
   /**
    * 构造函数
    */
@@ -29,20 +36,24 @@ export class AddFriendPage {
     private deviceService: DeviceService,
     private zone: NgZone,
     private http: Http) {
-    this.translate.get(['REQUEST_SENT']).subscribe((res: Object) => {
+    this.translate.get(['REQUEST_SENT', 'NO_DATA']).subscribe((res: Object) => {
       this.transateContent = res;
     });
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      () => {
-        this.isShow = true;
+      (value) => {
+        this.keyword = value;
         if (this.titleFilter.value != null && this.titleFilter.value.trim() !== '') {
           this.searchUser();
         } else {
-          this.userList = null;
+          this.userList = this.allUserList;
           this.isShow = false;
         }
       }
     );
+    this.http.get('/im/contacts/users').subscribe((res: Response) => {
+      this.userList = res.json();
+      this.allUserList = res.json();
+    }, (res: Response) => {});
   }
 
   /**
@@ -51,9 +62,24 @@ export class AddFriendPage {
   searchUser() {
     this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
       this.userList = res.json();
+      this.isShow = true;
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+  }
+
+  /**
+   * 上拉加载
+   */
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      if (this.userList.length < this.showNumber) {
+        this.toastService.show(this.transateContent['NO_DATA']);
+      } else {
+        this.showNumber += 15;
+      }
+      infiniteScroll.complete();
+    }, 800);
   }
 
   /**

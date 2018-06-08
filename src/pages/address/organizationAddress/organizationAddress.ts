@@ -39,6 +39,11 @@ export class OrganizationAddressPage {
   // 部门用户列表
   private userList: Array<Object> = [];
 
+  // 显示数量
+  private showNumber: number = 15;
+  // 查询keyword
+  private keyword: string;
+
   /**
    * 构造函数
    */
@@ -50,14 +55,14 @@ export class OrganizationAddressPage {
     private userService: UserService,
     private navCtrl: NavController,
     private deviceService: DeviceService) {
-    this.translate.get(['REQUEST_SENT']).subscribe((res: Object) => {
+    this.translate.get(['REQUEST_SENT', 'NO_DATA']).subscribe((res: Object) => {
       this.transateContent = res;
     });
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      () => {
+      (value) => {
+        this.keyword = value;
         if (this.titleFilter.value != null && this.titleFilter.value.trim() !== '') {
           this.searchUser();
-          this.isSearch = true;
         } else {
           this.searchUserList = [];
           this.isSearch = false;
@@ -81,9 +86,24 @@ export class OrganizationAddressPage {
     this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } })
       .subscribe((res: Response) => {
         this.searchUserList = res.json();
+        this.isSearch = true;
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
+  }
+
+  /**
+   * 上拉加载
+   */
+  doInfinite(infiniteScroll) {
+    setTimeout(() => {
+      if (this.searchUserList.length < this.showNumber) {
+        this.toastService.show(this.transateContent['NO_DATA']);
+      } else {
+        this.showNumber += 15;
+      }
+      infiniteScroll.complete();
+    }, 800);
   }
 
   /**
