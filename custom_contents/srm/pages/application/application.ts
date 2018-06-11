@@ -534,7 +534,11 @@ export class ApplicationPage {
               if (index == null) {
                 for (let k = 0; k < this.template.length; k++) {
                   if (this.template[k]['model'] === control['model']) {
-                    this.template[k]['data'] = data;
+                    if (this.template[k]['type'] === 'text') {
+                      this.input[this.template[k]['model']] = data;
+                    } else {
+                      this.template[k]['data'] = data;
+                    }
                     break;
                   }
                 }
