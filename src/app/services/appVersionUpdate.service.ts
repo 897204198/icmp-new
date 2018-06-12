@@ -39,11 +39,11 @@ export class AppVersionUpdateService {
       this.transateContent = res;
     });
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-    this.http.get('/sys/app/versions/latest').subscribe((res: Response) => {
+    this.http.get('/app/versions/latest').subscribe((res: Response) => {
       let data = res.json();
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString();
-      if (data.ver != null && Number(data.ver) > Number(cutVersionCode)) {
+      if (data.ver != null && data.ver !== cutVersionCode) {
         if (data.note == null || data.note === '') {
           data.note = this.transateContent['APP_UPDATE_NOTE'];
         }
@@ -55,7 +55,7 @@ export class AppVersionUpdateService {
               {
                 text: this.transateContent['UPDATE'],
                 handler: () => {
-                  this.doUpdateVersion(deviceInfo.deviceType, data.androidUrl, data.iosUrl);
+                  this.doUpdateVersion(deviceInfo.deviceType, data);
                 }
               }
             ]
@@ -78,7 +78,7 @@ export class AppVersionUpdateService {
               {
                 text: this.transateContent['UPDATE'],
                 handler: () => {
-                  this.doUpdateVersion(deviceInfo.deviceType, data.androidUrl, data.iosUrl);
+                  this.doUpdateVersion(deviceInfo.deviceType, data);
                 }
               }
             ]
@@ -99,21 +99,36 @@ export class AppVersionUpdateService {
   /**
    * 更新版本
    */
-  doUpdateVersion(deviceType: string, androidUrl?: string, iosUrl?: string) {
-    alert(androidUrl + iosUrl);
+  doUpdateVersion(deviceType: string, data?: any) {
     if (deviceType === 'android') {
-      if (androidUrl) {
-        this.inAppBrowser.create(androidUrl, '_system');
+      if (data.androidUrl) {
+        this.updateAndroidVersion(data);
       } else {
         this.inAppBrowser.create(this.icmpConstant.androidUpdateUrl, '_system');
       }
     } else {
-      if (iosUrl) {
-        this.inAppBrowser.create(iosUrl, '_system');
+      if (data.iosUrl) {
+        this.inAppBrowser.create(data.iosUrl, '_system');
       } else {
         this.inAppBrowser.create(this.icmpConstant.iosUpdateUrl, '_system');
       }
     }
+  }
+
+  /**
+   * 安卓应用更新插件
+   */
+  updateAndroidVersion(data: any) {
+    (<any>window).plugins.UpdateVersion.isUpdating(function (s) {
+      if (!s.updating) {
+        let versionInfo = {
+          ver: data.ver || '0',
+          url: data.androidUrl || '',
+          note: data.note.replace(/(<br>)/g, '\n') || '有新版本需要更新！'
+        };
+        (<any>window).plugins.UpdateVersion.checkVersion(versionInfo);
+      }
+    });
   }
 
   /**

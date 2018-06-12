@@ -70,7 +70,7 @@
         "cordova-plugin-inappbrowser": "3.0.0",
         "cordova-plugin-nativestorage": "2.3.1",
         "cordova-plugin-proper-properpush": "1.1.2",
-        "cordova-plugin-proper-update-version": "1.0.2",
+        "cordova-plugin-proper-update-version": "1.0.3",
         "cordova-plugin-splashscreen": "5.0.2",
         "cordova-plugin-statusbar": "2.4.2",
         "cordova-plugin-proper-telerik-imagepicker": "2.1.8",
