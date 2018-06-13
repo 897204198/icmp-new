@@ -238,7 +238,8 @@
       "values": [
         {
           "id": "aa.txt",
-          "name": "文本文件.txt"
+          "name": "文本文件.txt",
+          "thumbImage": "https://avatars1.githubusercontent.com/u/16334445?s=460&v=4"
         },
         {
           "id": "aa.docx",

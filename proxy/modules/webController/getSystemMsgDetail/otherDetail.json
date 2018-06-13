@@ -40,7 +40,8 @@
       "values": [
         {
           "id": "0",
-          "name": "aaa.doc"
+          "name": "aaa.doc",
+          "thumbImage": "https://avatars1.githubusercontent.com/u/16334445?s=460&v=4"
         },
         {
           "id": "1",

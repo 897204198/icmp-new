@@ -3,8 +3,7 @@
   "result": "0",
   "title": "清明放假通知",
   "createUserName": "王小红",
-  "fileList": [
-    {
+  "fileList": [{
       "fileId": "aa.txt",
       "fileName": "文本文件.txt"
     },
@@ -22,7 +21,8 @@
     },
     {
       "fileId": "aa.png",
-      "fileName": "png图片.png"
+      "fileName": "png图片.png",
+      "thumbImage": "https://avatars1.githubusercontent.com/u/16334445?s=460&v=4"
     },
     {
       "fileId": "aa",
