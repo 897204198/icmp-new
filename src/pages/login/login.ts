@@ -1,6 +1,6 @@
 import { Component, Inject, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController } from 'ionic-angular';
+import { NavController, Events } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -46,6 +46,7 @@ export class LoginPage {
     private deviceService: DeviceService,
     private zone: NgZone,
     private http: Http,
+    private events: Events,
     private userService: UserService,
     private appVersionUpdateService: AppVersionUpdateService) {
     let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
@@ -180,6 +181,7 @@ export class LoginPage {
               this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
                 const startIndex = this.navCtrl.getActive().index - 1;
                 this.navCtrl.remove(startIndex, 1);
+                this.events.publish('logined');
               });
             });
           });
@@ -189,6 +191,7 @@ export class LoginPage {
           this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
             const startIndex = this.navCtrl.getActive().index - 1;
             this.navCtrl.remove(startIndex, 1);
+            this.events.publish('logined');
           });
         }
       }, (err: Response) => {

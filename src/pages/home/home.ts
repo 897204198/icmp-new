@@ -1,11 +1,12 @@
 import { Component, ElementRef, ViewChild, NgZone, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, Slides } from 'ionic-angular';
+import { NavController, Slides, Events } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
+import { SecureStorageService } from '../../app/services/secureStorage.service';
 
 /**
  * 首页
@@ -35,6 +36,8 @@ export class HomePage {
   private noticeMarginIndex: number = 0;
   // 国际化文字
   private transateContent: Object;
+  // 是否是首次加载
+  private isFirst: boolean = true;
 
   /**
    * 构造函数
@@ -46,7 +49,9 @@ export class HomePage {
     private toastService: ToastService,
     private translate: TranslateService,
     private routersService: RoutersService,
-    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant) {
+    private secureStorageService: SecureStorageService,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    public events: Events) {
     let translateKeys: string[] = ['NOTICE_DETAILED'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -54,6 +59,13 @@ export class HomePage {
     // 轮播图高度
     let width = document.body.clientWidth;
     this.bannerlHeight = width * 572 / 1280 + 'px';
+    this.getCache();
+    // 保证登录成功后再请求接口
+    events.subscribe('logined', () => {
+      this.setNotice();
+      this.setAppList();
+      this.setPlugins();
+    });
   }
 
   /**
@@ -67,9 +79,14 @@ export class HomePage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    this.setNotice();
-    this.setAppList();
-    this.setPlugins();
+    // 首次不加载
+    if (!this.isFirst) {
+      this.getCache();
+      this.setNotice();
+      this.setAppList();
+      this.setPlugins();
+    }
+    this.isFirst = false;
 
     // 轮播图处理
     this.zone.runOutsideAngular(() => {
@@ -81,6 +98,22 @@ export class HomePage {
         });
       }, 3000);
     });
+  }
+
+  /**
+   * 获取缓存
+   */
+  getCache() {
+    this.notices = this.secureStorageService.getObject('home_notice');
+    if (this.notices && this.notices.length > 0) {
+      this.notices.push(this.secureStorageService.getObject('home_notice')[0]);
+      this.noticeMarginIndex = 0;
+      setTimeout(() => {
+        this.noticeScroll();
+      }, 200);
+    }
+    this.menus = this.secureStorageService.getObject('home_applist');
+    this.plugins = this.secureStorageService.getObject('home_plugins');
   }
 
   /**
@@ -155,6 +188,7 @@ export class HomePage {
           }
           this.menus.push(data[i]);
         }
+        this.secureStorageService.putObject('home_applist', this.menus);
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -169,6 +203,7 @@ export class HomePage {
       if (res._body != null && res._body !== '') {
         this.plugins = [];
         this.plugins = res.json();
+        this.secureStorageService.putObject('home_plugins', this.plugins);
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -194,6 +229,7 @@ export class HomePage {
           data[i].title = tempStr.replace(/<[^>]+>/g, '');
         }
         this.notices = data;
+        this.secureStorageService.putObject('home_notice', this.notices);
         if (this.notices.length > 0) {
           this.notices.push(data[0]);
           this.noticeMarginIndex = 0;

@@ -60,7 +60,7 @@ export class TabsPage {
     private configsService: ConfigsService,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private deviceService: DeviceService,
-    private event: Events,
+    private events: Events,
     private renderer: Renderer) {
     let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -101,14 +101,14 @@ export class TabsPage {
   ionViewDidLoad() {
     let tabs = this.queryElement(this.elementRef.nativeElement, '.tabbar');
     let tabsHeight = tabs.clientHeight + 'px';
-    this.event.subscribe('hideTabs', () => {
+    this.events.subscribe('hideTabs', () => {
       this.renderer.setElementStyle(tabs, 'display', 'none');
       let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
       let content = this.queryElement(SelectTab, '.scroll-content');
       this.mb = tabsHeight;
       this.renderer.setElementStyle(content, 'margin-bottom', '0');
     });
-    this.event.subscribe('showTabs', () => {
+    this.events.subscribe('showTabs', () => {
       this.renderer.setElementStyle(tabs, 'display', '');
       let SelectTab = this.tabRef.getSelected()._elementRef.nativeElement;
       let content = this.queryElement(SelectTab, '.scroll-content');
@@ -247,24 +247,43 @@ export class TabsPage {
 
   // 获取待办数量
   autoLogin() {
-    this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
-      let todos = res.json();
-      // redux传值
-      if (todos.total === 0) {
-        this.store.dispatch(new TodoReplaceBadageAction(''));
-      } else {
-        this.store.dispatch(new TodoReplaceBadageAction(todos.total));
-      }
-    });
-
-    // 防止在 web 上报错
-    if (this.deviceService.getDeviceInfo().deviceType) {
-      // 如果是从登录页进来，则直接获取会话列表未读数
-      if (this.navParams.get('isAutoLogin') === false) {
+    // 如果是从登录页进来，则直接获取会话列表未读数
+    if (this.navParams.get('isAutoLogin') === false) {
+      this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
+        let todos = res.json();
+        // redux传值
+        if (todos.total === 0) {
+          this.store.dispatch(new TodoReplaceBadageAction(''));
+        } else {
+          this.store.dispatch(new TodoReplaceBadageAction(todos.total));
+        }
+      });
+      if (this.deviceService.getDeviceInfo().deviceType) {
+        // 获取未读消息数量
         this.getUnreadMessageNumber();
-      } else {
-        this.imlogin();
       }
+    } else {
+      // 调用 bind 接口更新 token
+      this.http.post('/user/bind', { userId: this.userInfo.userId }).subscribe((data: Response) => {
+        localStorage.token = data['_body'];
+        this.events.publish('logined');
+        // 防止在 web 上报错
+        if (this.deviceService.getDeviceInfo().deviceType) {
+          // im 自动登录
+          this.imlogin();
+        }
+        this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
+          let todos = res.json();
+          // redux传值
+          if (todos.total === 0) {
+            this.store.dispatch(new TodoReplaceBadageAction(''));
+          } else {
+            this.store.dispatch(new TodoReplaceBadageAction(todos.total));
+          }
+        });
+      }, (res: Response) => {
+        this.toastService.show(res.text());
+      });
     }
   }
 
