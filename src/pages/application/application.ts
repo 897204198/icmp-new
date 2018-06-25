@@ -49,7 +49,7 @@ export class ApplicationPage {
     private deviceService: DeviceService,
     private userService: UserService,
     private toastService: ToastService) {
-    let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING'];
+    let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING', 'PLEASE_INPUT_NUMBER'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -364,6 +364,18 @@ export class ApplicationPage {
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
+    if (this.input[item['latModel']]) {
+      if (this.input[item['model']] && this.input[item['latModel']]) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.append('patient', this.input[item['model']]);
+        params.append('num', this.input[item['latModel']]);
+        for (const value of this.template) {
+          if (item['latModel'] === value['model']) {
+            this.inputData(value, params);
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -385,6 +397,38 @@ export class ApplicationPage {
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
+  }
+
+  /**
+   * inputs失去焦点事件
+   */
+  onBlur(value: string, item: Object): void {
+    value = value.replace(/[^0-9]/g, '').substring(0, 7);
+    if (value.length < 7 && value.length !== 0) {
+      let len = 7 - value.length;
+      for (let i = 0; i < len; i++) {
+        value = 0 + value;
+      }
+    }
+    this.input[item['model']] = value;
+    if (this.input[item['model']] && this.input[item['preModel']]) {
+      let params: URLSearchParams = new URLSearchParams();
+      params.append('patient', this.input[item['preModel']]);
+      params.append('num', this.input[item['model']]);
+      this.inputData(item, params);
+    }
+  }
+
+  /**
+   * 获取inputData
+   */
+  inputData(item: Object, params): void {
+    this.http.post(item['inputUrl'], params).subscribe((res: Response) => {
+      let data = res.json();
+      this.setControl(item, data);
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**
@@ -464,7 +508,7 @@ export class ApplicationPage {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          if (item['type'] === 'date' || item['type'] === 'searchbox') {
+          if (item['type'] === 'date' || item['type'] === 'searchbox' || (item['inputUrl'] && this.input[item['model']])) {
             flg = true;
           } else {
             if (index == null) {

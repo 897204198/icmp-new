@@ -1,0 +1,9 @@
+{
+  "controls": [
+    {
+      "model": "personNames",
+      "type": "initSelect",
+      "url": "/demo/selectSearchboxQuery"
+    }
+  ]
+}

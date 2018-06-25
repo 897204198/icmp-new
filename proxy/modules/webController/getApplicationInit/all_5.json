@@ -1,0 +1,63 @@
+{
+  "template": [
+    {
+      "model": "repairOrgId",
+      "latModel": "personName",
+      "category": "single",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "data": [
+        {
+          "id": "e8061074-d194-450a-95cc-82ec8f820f09",
+          "name": "安全保卫部"
+        },
+        {
+          "id": "ea14e470-23fc-405c-99e1-82b11d3d2d12",
+          "name": "医疗设备部"
+        },
+        {
+          "id": "aa12ea0e-fa40-4780-a02b-142720868e29",
+          "name": "计算机中心"
+        },
+        {
+          "id": "bcf20891-101f-4324-96a5-9d6f4bf686ec",
+          "name": "后勤保障部"
+        }
+      ],
+      "label": "维修科室",
+      "type": "select"
+    },
+    {
+      "model": "personName",
+      "preModel": "repairOrgId",
+      "label": "报修人",
+      "inputUrl": "/webController/getInputData",
+      "placeholder": "djfiejfi",
+      "type": "text"
+    },
+    {
+      "model": "personNames",
+      "label": "报修人",
+      "type": "text"
+    },
+    {
+      "model": "description",
+      "label": "故障描述",
+      "type": "textarea"
+    },
+    {
+      "model": "fileId",
+      "category": "multi",
+      "label": "附件",
+      "type": "file"
+    }
+  ],
+  "taskId": "",
+  "result": "0",
+  "title": "营口市人民医院报修申请",
+  "shenpi_btn_text": "提交",
+  "shenpi_type": "forward"
+}
