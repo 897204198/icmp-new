@@ -1,7 +1,7 @@
 <icmp-spinner></icmp-spinner>
 <ion-header>
   <ion-navbar>
-    <ion-title id="e2e-todoopinion-title">{{'APPROVAL_OPINION' | translate}}</ion-title>
+    <ion-title id="e2e-todoopinion-title">{{(subApproval ? 'EVALUATE' : 'APPROVAL_OPINION') | translate}}</ion-title>
     <ion-buttons end>
       <button id="e2e-submit-button" ion-button clear color="primary" (click)="submitOpinion()">
         {{'SUBMIT' | translate}}
@@ -45,7 +45,7 @@
       <ion-radio value="{{opinion.value}}"></ion-radio>
     </ion-item>
     <ion-item>
-      <ion-textarea rows="4" *ngIf="!hideComment" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="approvalInput.comments"></ion-textarea>
+      <ion-textarea rows="4" *ngIf="!hideComment" placeholder="{{(subApproval ? 'PLEASE_ENTER_EVALUATE' : 'PLEASE_ENTER_APPROVAL_OPINION') | translate}}" [(ngModel)]="approvalInput.comments"></ion-textarea>
     </ion-item>
   </ion-list>
   <ion-list *ngIf="opinionHelpList != null && opinionHelpList.length > 0" radio-group [(ngModel)]="approvalInput.opinion" (ngModelChange)="opinionModelChange(approvalInput.opinion)" [ngStyle]="{'margin': '0'}">

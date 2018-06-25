@@ -94,6 +94,28 @@ export class TodoDetailPage {
   }
 
   /**
+   * 审批评价
+   */
+  subApproval(): void {
+    let submitUtl: string = this.todoDetail['submit_path'];
+    if (submitUtl == null || submitUtl === '') {
+      submitUtl = '/webController/dealProcess';
+    }
+    let params: Object = {
+      approval: this.todoDetail['approval'],
+      submitUtl: submitUtl,
+      hideComment: false,
+      commentDefault: this.todoDetail['shenpi_comment_default'],
+      processName: this.navParams.get('processName'),
+      taskId: this.navParams.get('taskId'),
+      step: this.navParams.get('step'),
+      pageId: this.todoDetail['pageId'],
+      subApproval: true
+    };
+    this.navCtrl.push(TodoOpinionPage, params);
+  }
+
+  /**
    * 审批办理
    */
   approval(): void {

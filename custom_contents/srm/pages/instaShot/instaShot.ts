@@ -202,9 +202,11 @@ export class InstaShotPage {
 
   // 提交随手拍
   submitInstaShot() {
-    // let count = Object.keys(this.submitInfo).length;
     // 判断是否填写必填项
-    if (!this.departmentCode || !this.hospitalAreaCode) {
+    if (this.isShow && (!this.departmentCode || !this.hospitalAreaCode)) {
+      this.toastService.show(this.transateContent['REQUIRE_NOT']);
+      return;
+    } else if (!this.isShow && !this.hospitalAreaCode) {
       this.toastService.show(this.transateContent['REQUIRE_NOT']);
       return;
     }

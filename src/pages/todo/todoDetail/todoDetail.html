@@ -3,6 +3,9 @@
   <ion-navbar>
     <ion-title id="e2e-tododetail-title">{{'TODO_DETAIL' | translate}}</ion-title>
     <ion-buttons end>
+      <button id="e2e-banli-button" *ngIf="hasApprovalBtn && todoDetail.shenpi_btn_text === '已阅'" ion-button clear color="primary" (click)="subApproval()">
+        {{'EVALUATE' | translate}}
+      </button>
       <button id="e2e-banli-button" *ngIf="hasApprovalBtn" ion-button clear color="primary" (click)="approval()">
         {{btnText}}
       </button>

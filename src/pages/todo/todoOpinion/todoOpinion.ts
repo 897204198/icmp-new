@@ -58,6 +58,7 @@ export class TodoOpinionPage {
   deviceType: string = '';
   fileIndex: number = 0;
   fileReIndex: number = 0;
+  subApproval: boolean = false;
 
   /**
    * 构造函数
@@ -88,6 +89,7 @@ export class TodoOpinionPage {
   ionViewDidLoad(): void {
     this.deviceType = this.deviceService.getDeviceInfo().deviceType;
     this.hideComment = this.navParams.get('hideComment');
+    this.subApproval = this.navParams.get('subApproval');
     if (this.navParams.get('commentDefault') != null) {
       this.approvalInput['comments'] = this.navParams.get('commentDefault');
     }

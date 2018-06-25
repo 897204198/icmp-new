@@ -29,13 +29,13 @@
       <ion-label>{{'JOB_NUM' | translate}}</ion-label>
       <div class="gray-label" item-content>{{submitInfo.jobNum}}</div>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="isShow">
       <ion-label>{{'DEPARTMENTS' | translate}}</ion-label>
       <ion-select placeholder="{{'PLEASE_SELECT' | translate}}" (ionChange)="clickDepartmentOption()" [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
         <ion-option *ngFor="let info2 of initData.department" value="{{info2}}">{{info2}}</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="isShow">
       <ion-label>{{'CONTACT_INFORMATION' | translate}}</ion-label>
       <ion-input class="custom-input" type="number" placeholder="{{'PLEASE_ENTER_TEL' | translate}}" [(ngModel)]="submitInfo.tel"></ion-input>
     </ion-item>

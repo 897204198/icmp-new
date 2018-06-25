@@ -1,0 +1,89 @@
+{
+  "shenpi_hide_comment": true,
+  "result": "0",
+  "shenpi_btn_text": "已阅",
+  "approval": [
+    [
+      {
+        "name": "满意",
+        "value": "0"
+      },
+      {
+        "name": "比较满意",
+        "value": "1"
+      },
+      {
+        "name": "不满意",
+        "value": "2"
+      }
+    ]
+  ],
+  "shenpi_type": "forward",
+  "form_title": "随手拍上报单",
+  "forms": [
+    {
+      "layout": "layout_1",
+      "value": "王者生",
+      "label": "上报人",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "label": "工号",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "儿科",
+      "label": "上报科室",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "",
+      "label": "联系方式",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "反馈问题",
+      "label": "类别",
+      "type": "text"
+    },
+    {
+      "layout": "layout_1",
+      "value": "",
+      "label": "上报时间",
+      "type": "text"
+    },
+    {
+      "layout": "layout_2",
+      "value": "444",
+      "label": "问题描述",
+      "type": "text"
+    },
+    {
+      "layout": "layout_2",
+      "value": "22",
+      "label": "办理意见",
+      "type": "text"
+    },
+    {
+      "values": [
+        {
+          "id": "47a44b5a-17ea-4b18-842f-adac13745314",
+          "name": "201805211421380.png"
+        }
+      ],
+      "layout": "layout_2",
+      "label": "附件",
+      "type": "filelist"
+    },
+    {
+      "values": [],
+      "layout": "layout_2",
+      "label": "办理附件",
+      "type": "filelist"
+    }
+  ]
+}

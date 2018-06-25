@@ -156,5 +156,7 @@
   "HANDLE_DEPT": "协办部门",
   "CATEGORY": "类别",
   "REPORT_TIME": "上报时间",
-  "PLEASE_ENTER_TEL": "请输入手机号"
+  "PLEASE_ENTER_TEL": "请输入手机号",
+  "EVALUATE": "评价",
+  "PLEASE_ENTER_EVALUATE": "请输入评价原因"
 }
