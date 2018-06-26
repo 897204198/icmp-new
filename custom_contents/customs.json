@@ -48,11 +48,11 @@
     },
     "server": {
       "baseUrl": "http://218.25.115.50:80/mobile-platform",
-      "pushAppId": "MobileOA",
+      "pushAppId": "MobileOAsrm",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
-        "theAppid": "2882303761517583764",
-        "theAppkey": "5691758319764"
+        "theAppid": "2882303761517828287",
+        "theAppkey": "5341782859287"
       },
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
