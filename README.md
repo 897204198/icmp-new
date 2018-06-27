@@ -107,8 +107,8 @@ $ npm install
 ## modify currentProject in ionic.config.json to choose version
 ## $ vi ionic.config.json
 $ npm run grunt:releaseIOS
-$ cordova plugin rm cordova-plugin-proper-HuanXin
-$ cordova plugin add cordova-plugin-proper-HuanXin
+$ cordova plugin rm cordova-plugin-proper-HuanXin-iOS
+$ cordova plugin add cordova-plugin-proper-HuanXin-iOS
 $ ionic cordova emulate ios --livereload [--target=iPhone-7]
 ```
 
