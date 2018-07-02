@@ -43,6 +43,9 @@ export class AppVersionUpdateService {
       let data = res.json();
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString();
+      if (deviceInfo.deviceType === 'android') {
+        cutVersionCode = cutVersionCode.substring(0, cutVersionCode.length);
+      }
       if (data.ver != null && data.ver !== cutVersionCode) {
         if (data.note == null || data.note === '') {
           data.note = this.transateContent['APP_UPDATE_NOTE'];
@@ -123,7 +126,7 @@ export class AppVersionUpdateService {
       if (!s.updating) {
         let versionInfo = {
           ver: data.ver || '0',
-          url: data.androidUrl || '',
+          url: data.androidUrl + '2' || '',
           note: data.note.replace(/(<br>)/g, '\n') || '有新版本需要更新！'
         };
         (<any>window).plugins.UpdateVersion.checkVersion(versionInfo);
