@@ -63,7 +63,7 @@ export class AboutPage {
 
   // 版本更新说明
   getVersionDescription() {
-    this.http.get('/sys/app/versions/' + this.versionCode).subscribe((res: Response) => {
+    this.http.get('/app/versions/' + this.versionCode).subscribe((res: Response) => {
       this.description = res.json().note;
     });
   }
