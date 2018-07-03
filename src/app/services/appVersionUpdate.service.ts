@@ -43,8 +43,10 @@ export class AppVersionUpdateService {
       let data = res.json();
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString();
-      if (deviceInfo.deviceType === 'android' && cutVersionCode.charAt(cutVersionCode.length – 1) === '2') {
-        cutVersionCode = cutVersionCode.substring(0, cutVersionCode.length);
+      if (deviceInfo.deviceType === 'android') {
+        if (cutVersionCode.charAt(cutVersionCode.length – 1) === '2') {
+          cutVersionCode = cutVersionCode.substring(0, cutVersionCode.length);
+        }
       }
       if (data.ver != null && data.ver !== cutVersionCode) {
         if (data.note == null || data.note === '') {
