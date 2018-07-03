@@ -46,7 +46,7 @@ export class AppVersionUpdateService {
       if (deviceInfo.deviceType === 'android') {
         let num = cutVersionCode.length - 1;
         if (cutVersionCode.charAt(num) === '2') {
-          cutVersionCode = cutVersionCode.substring(0, cutVersionCode.length);
+          cutVersionCode = cutVersionCode.substring(0, num);
         }
       }
       if (data.ver != null && data.ver !== cutVersionCode) {
