@@ -122,11 +122,12 @@ export class AppVersionUpdateService {
    * 安卓应用更新插件
    */
   updateAndroidVersion(data: any) {
+    let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     (<any>window).plugins.UpdateVersion.isUpdating(function (s) {
       if (!s.updating) {
         let versionInfo = {
           ver: data.ver || '0',
-          url: data.androidUrl + '2' || '',
+          url: deviceInfo.versionCode.toString() || '',
           note: data.note.replace(/(<br>)/g, '\n') || '有新版本需要更新！'
         };
         (<any>window).plugins.UpdateVersion.checkVersion(versionInfo);
