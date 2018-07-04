@@ -41,6 +41,7 @@ export class SettingPage {
   aboutPage: any;
   resetPasswordPage: any;
   surname: string;
+
   /**
    * 构造函数
    */
@@ -64,7 +65,7 @@ export class SettingPage {
   /**
    * 首次进入页面
    */
-  ionViewDidLoad(): void {
+  ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
     this.surname = this.userInfo.userName[0];
@@ -80,14 +81,14 @@ export class SettingPage {
   /**
    * 检查更新
    */
-  checkVersion(): void {
+  checkVersion() {
     this.appVersionUpdateService.checkAppVersion(false);
   }
 
   /**
    * 退出登录
    */
-  logOut(): void {
+  logOut() {
     // 推送服务取消与当前用户的绑定关系
     this.pushService.unBindUserid();
     // 取消自动登录
