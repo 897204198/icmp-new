@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { DeviceService, DeviceInfoState } from '../../../app/services/device.service';
 
 /**
  * 新消息通知设置
@@ -12,17 +13,24 @@ export class NewsNoticePage {
 
   openVoice: boolean = false;
   openVibrate: boolean = false;
+  isAndroid: boolean = false;
 
   /**
    * 构造函数
    */
-  constructor(private nativeStorage: NativeStorage) {
+  constructor(
+    private nativeStorage: NativeStorage,
+    private deviceService: DeviceService) {
     this.nativeStorage.getItem('openVoice').then(data => {
       this.openVoice = data;
     });
     this.nativeStorage.getItem('openVibrate').then(data => {
       this.openVibrate = data;
     });
+    const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+    if (deviceInfo.deviceType === 'android') {
+      this.isAndroid = true;
+    }
   }
 
   /**

@@ -21,7 +21,7 @@
   <div class="icmp-list-header">
     {{'OPEN_TM_AUTO_NOTICE' | translate}}
   </div>
-  <ion-list class="icmp-list-margin">
+  <ion-list *ngIf="isAndroid" class="icmp-list-margin">
     <ion-item detail-push (click)="openAutoRun()">
       <ion-label>{{'OPEN_AUTO_RUN' | translate}}</ion-label>
       <div item-content class="icmp-item-color">{{'SET_UP' | translate}}</div>  
