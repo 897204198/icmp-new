@@ -114,6 +114,10 @@ export class TabsPage {
       let content = this.queryElement(SelectTab, '.scroll-content');
       this.renderer.setElementStyle(content, 'margin-bottom', this.mb);
     });
+    if (localStorage.getItem('tabs') === '1') {
+      this.appVersionUpdateService.checkAppVersion(true, true);
+      localStorage.setItem('tabs', '0');
+    }
   }
 
   /**
@@ -249,15 +253,6 @@ export class TabsPage {
   autoLogin() {
     // 如果是从登录页进来，则直接获取会话列表未读数
     if (this.navParams.get('isAutoLogin') === false) {
-      this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
-        let todos = res.json();
-        // redux传值
-        if (todos.total === 0) {
-          this.store.dispatch(new TodoReplaceBadageAction(''));
-        } else {
-          this.store.dispatch(new TodoReplaceBadageAction(todos.total));
-        }
-      });
       if (this.deviceService.getDeviceInfo().deviceType) {
         // 获取未读消息数量
         this.getUnreadMessageNumber();
@@ -272,15 +267,6 @@ export class TabsPage {
           // im 自动登录
           this.imlogin();
         }
-        this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
-          let todos = res.json();
-          // redux传值
-          if (todos.total === 0) {
-            this.store.dispatch(new TodoReplaceBadageAction(''));
-          } else {
-            this.store.dispatch(new TodoReplaceBadageAction(todos.total));
-          }
-        });
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
