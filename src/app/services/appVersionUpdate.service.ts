@@ -68,28 +68,32 @@ export class AppVersionUpdateService {
           });
           confirmAlert.present();
         } else {
-          let confirmAlert = this.alertCtrl.create({
-            title: this.transateContent['PROMPT_INFO'],
-            message: data.note,
-            buttons: [
-              {
-                text: this.transateContent['NEXT_TIME'],
-                role: 'cancel',
-                handler: () => {
-                  if (isFirst && deviceInfo.deviceType === 'android') {
-                    this.autoRun();
+          if (deviceInfo.deviceType === 'android' && data.androidUrl) {
+            this.doUpdateVersion(deviceInfo.deviceType, data);
+          } else {
+            let confirmAlert = this.alertCtrl.create({
+              title: this.transateContent['PROMPT_INFO'],
+              message: data.note,
+              buttons: [
+                {
+                  text: this.transateContent['NEXT_TIME'],
+                  role: 'cancel',
+                  handler: () => {
+                    if (isFirst && deviceInfo.deviceType === 'android') {
+                      this.autoRun();
+                    }
+                  }
+                },
+                {
+                  text: this.transateContent['UPDATE'],
+                  handler: () => {
+                    this.doUpdateVersion(deviceInfo.deviceType, data);
                   }
                 }
-              },
-              {
-                text: this.transateContent['UPDATE'],
-                handler: () => {
-                  this.doUpdateVersion(deviceInfo.deviceType, data);
-                }
-              }
-            ]
-          });
-          confirmAlert.present();
+              ]
+            });
+            confirmAlert.present();
+          }
         }
       } else {
         if (!hiddenToast) {
