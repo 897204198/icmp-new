@@ -30,6 +30,7 @@ export class ApplicationPage {
   deviceType: string = '';
   fileIndex: number = 0;
   fileReIndex: number = 0;
+  extra: string = '';
 
   private serviceName: string = '';
 
@@ -92,6 +93,7 @@ export class ApplicationPage {
       this.serviceName = data['serviceName'];
       this.title = data['title'];
       this.template = data['template'];
+      this.extra = data['extra'];
 
       for (let i = 0; i < this.template.length; i++) {
         let item = this.template[i];

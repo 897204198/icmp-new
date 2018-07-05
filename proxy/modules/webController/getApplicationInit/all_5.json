@@ -59,5 +59,6 @@
   "result": "0",
   "title": "营口市人民医院报修申请",
   "shenpi_btn_text": "提交",
-  "shenpi_type": "forward"
+  "shenpi_type": "forward",
+  "extra": "备注：遇到各种意外事件造成患者严重伤害、死亡的紧急情况（如意外坠楼、术中死亡、住院期间意外死亡等），30分钟内电话报告医务部。"
 }
