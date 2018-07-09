@@ -52,6 +52,12 @@ export class AboutPage {
     if (deviceInfo !== null) {
       this.versionNumber = deviceInfo.versionNumber;
       this.versionCode = deviceInfo.versionCode;
+      if (deviceInfo.deviceType === 'android') {
+        let num = this.versionCode.length - 1;
+        if (this.versionCode.charAt(num) === '2') {
+          this.versionCode = this.versionCode.substring(0, num);
+        }
+      }
     }
     if ((<any>window).chcp != null) {
       (<any>window).chcp.getVersionInfo((err: any, data: Object) => {
