@@ -51,13 +51,15 @@ export class AboutPage {
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo !== null) {
       this.versionNumber = deviceInfo.versionNumber;
-      this.versionCode = deviceInfo.versionCode;
+      // 截取版本号
+      let cutVersionCode: string = deviceInfo.versionCode.toString();
       if (deviceInfo.deviceType === 'android') {
-        let num = this.versionCode.length - 1;
-        if (this.versionCode.charAt(num) === '2') {
-          this.versionCode = this.versionCode.substring(0, num);
+        let num = cutVersionCode.length - 1;
+        if (cutVersionCode.charAt(num) === '2') {
+          cutVersionCode = cutVersionCode.substring(0, num);
         }
       }
+      this.versionCode = cutVersionCode;
     }
     if ((<any>window).chcp != null) {
       (<any>window).chcp.getVersionInfo((err: any, data: Object) => {

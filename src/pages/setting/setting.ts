@@ -13,6 +13,7 @@ import { PushService } from '../../app/services/push.service';
 import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
 import { ResetPasswordPage } from './resetPassword/resetPassword';
+import { FeedbackPage } from './feedback/feedback';
 
 /**
  * 设置首页
@@ -37,6 +38,8 @@ export class SettingPage {
   safeAndPrivacyPage: any;
   // 通用页
   generalPage: any;
+  // 意见反馈页
+  feedbackPage: any = FeedbackPage;
   // 关于我们页
   aboutPage: any;
   resetPasswordPage: any;
@@ -52,6 +55,7 @@ export class SettingPage {
     private deviceService: DeviceService,
     private translate: TranslateService,
     private appVersionUpdateService: AppVersionUpdateService) {
+
     this.userInfoPage = UserInfoPage;
     this.newsNoticePage = NewsNoticePage;
     this.safeAndPrivacyPage = SafeAndPrivacyPage;
