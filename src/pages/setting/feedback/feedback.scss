@@ -48,6 +48,15 @@
   .positive-bg {
     background-color: color($colors, primary) !important;
   }
+
+  .content-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-top: 16px;
+    text-align: center;
+  }
 }
 
 .feedbackList-footer {
