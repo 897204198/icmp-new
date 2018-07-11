@@ -69,6 +69,7 @@
         "cordova-plugin-filepath": "1.3.0",
         "cordova-plugin-inappbrowser": "3.0.0",
         "cordova-plugin-nativestorage": "2.3.1",
+        "cordova-plugin-proper-device": "1.0.0",
         "cordova-plugin-proper-properpush": "1.1.2",
         "cordova-plugin-proper-update-version": "1.0.3",
         "cordova-plugin-splashscreen": "5.0.2",
@@ -140,7 +141,8 @@
             "cordova-plugin-appminimize": {},
             "cordova-plugin-getMacaddress": {},
             "cordova-plugin-nativestorage": {},
-            "cordova-android-support-gradle-release": {}
+            "cordova-android-support-gradle-release": {},
+            "cordova-plugin-proper-device": {}
         },
         "platforms": [
             "android",
