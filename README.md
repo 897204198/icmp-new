@@ -84,7 +84,7 @@ $ ionic cordova run ios [--prod]
 
 ### android及ios程序调试方法
 
-- [Chrome调试Android应用](http://ask.dcloud.net.cn/docs/#http://ask.dcloud.net.cn/article/69)
+- [Chrome调试Android应用](https://www.jianshu.com/p/2a3e3f0b562b)
 - [Safari调试iOS应用](http://ask.dcloud.net.cn/docs/#http://ask.dcloud.net.cn/article/143)
 
 ### 使用代理数据转接口
@@ -113,3 +113,28 @@ $ ionic cordova emulate ios --livereload [--target=iPhone-7]
 ```
 
 > 无法弹出键盘时，可通过 `command + k` 触发
+
+iOS 打包
+-----
+
+没有证书的移步该网站 [iOS 企业版打包流程](https://www.jianshu.com/p/5866152476df)
+
+如果使用已经有该证书的电脑打包，以**掌上办公开发**为例，输入以下步骤执行即可：
+
+
+1. **npm run releaseIOS**  
+`这一步执行完后，实际上已经打出 ipa 了，但是必须执行 2、3 步骤才能正确设置推送配置。`
+2. **设置 code sign**  
+`打开项目文件 platforms/ios/掌上办公开发.xcworkspace`
+<img src="./iOS/codesign.jpg">
+
+3. **打开推送开关**
+<img src="./iOS/push.jpg">
+`如果最后没有生成 .entitlements 文件，则重新从步骤2开始执行`
+4. 前三步完成后可以选择使用以下命令进行打包
+
+```
+ionic cordova build ios --prod --release --device --no-interactive --buildConfig build.json
+// 打包完成后 ipa 路径为 platforms/ios/build/device/掌上办公开发.ipa
+```
+或者使用上面提到的 [iOS 企业版打包流程](https://www.jianshu.com/p/5866152476df) 中 13-14 步骤进行打包也可以。

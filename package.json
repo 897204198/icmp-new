@@ -16,7 +16,7 @@
         "grunt:releaseIOS": "npm run build:prepare && grunt build:releaseIOS",
         "debugAndroid": "npm run grunt:releaseAndroid && ionic cordova build android --prod --no-interactive",
         "releaseAndroid": "npm run grunt:releaseAndroid && ionic cordova build android --prod --no-interactive --release --buildConfig=build.json",
-        "releaseIOS": "npm run grunt:releaseIOS && ionic cordova build ios --prod --no-interactive",
+        "releaseIOS": "npm run grunt:releaseIOS && ionic cordova build ios --prod --release --device --no-interactive --buildConfig build.json",
         "serve": "grunt serveProxy --force && ionic-app-scripts serve",
         "serve:real": "grunt serveProxy:real --force && ionic-app-scripts serve",
         "serve:win": "ionic-app-scripts serve",
@@ -67,7 +67,6 @@
         "cordova-plugin-file-transfer": "1.7.1",
         "cordova-plugin-filechooser": "1.0.1",
         "cordova-plugin-filepath": "1.3.0",
-        "cordova-plugin-getMacaddress": "1.0.0",
         "cordova-plugin-inappbrowser": "3.0.0",
         "cordova-plugin-nativestorage": "2.3.1",
         "cordova-plugin-proper-device": "1.0.0",
@@ -138,11 +137,8 @@
             "cordova-plugin-file-opener2": {},
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-file": {},
-            "cordova-plugin-appminimize": {},
-            "cordova-plugin-getMacaddress": {},
             "cordova-plugin-nativestorage": {},
-            "cordova-plugin-proper-device": {},
-            "cordova-android-support-gradle-release": {}
+            "cordova-plugin-proper-device": {}
         },
         "platforms": [
             "android",
