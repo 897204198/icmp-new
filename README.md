@@ -128,11 +128,11 @@ iOS 打包
 `打开项目文件 platforms/ios/掌上办公开发.xcworkspace`
 <img src="./iOS/codesign.jpg">
 
-3. **打开推送开关**
+3. **打开推送开关**  
 <img src="./iOS/push.jpg">
 `如果最后没有生成 .entitlements 文件，则重新从步骤2开始执行`
 
-4. 前三步完成后可以选择使用以下命令进行打包
+4. 前三步完成后可以选择使用以下命令进行打包  
 
 ```
 ionic cordova build ios --prod --release --device --no-interactive --buildConfig build.json
