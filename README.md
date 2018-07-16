@@ -124,13 +124,14 @@ iOS 打包
 
 1. **npm run releaseIOS**  
 `这一步执行完后，实际上已经打出 ipa 了，但是必须执行 2、3 步骤才能正确设置推送配置。`
+
 2. **设置 code sign**  
 `打开项目文件 platforms/ios/掌上办公开发.xcworkspace`
 <img src="./iOS/codesign.jpg">
 
 3. **打开推送开关**  
-<img src="./iOS/push.jpg">
 `如果最后没有生成 .entitlements 文件，则重新从步骤2开始执行`
+<img src="./iOS/push.jpg">
 
 4. 前三步完成后可以选择使用以下命令进行打包  
 
