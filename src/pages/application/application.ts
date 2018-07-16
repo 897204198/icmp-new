@@ -318,11 +318,11 @@ export class ApplicationPage {
     if (index == null) {
       let multiple: boolean = (item['category'] === 'multi');
       let searchUrl = item['searchUrl'];
-      params = { 'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
+      params = { 'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.input[item['model']] };
     } else {
       let multiple: boolean = (itemList['category'] === 'multi');
       let searchUrl = itemList['searchUrl'];
-      params = { 'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
+      params = { 'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.input[item['model']][index][itemList['model']] };
     }
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
