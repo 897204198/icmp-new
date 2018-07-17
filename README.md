@@ -127,11 +127,11 @@ iOS 打包
 
 2. **设置 code sign**  
 `打开项目文件 platforms/ios/掌上办公开发.xcworkspace`
-<img src="./iOS/codesign.jpg">
+<img src="./other/codesign.jpg">
 
 3. **打开推送开关**  
 `如果最后没有生成 .entitlements 文件，则重新从步骤2开始执行`
-<img src="./iOS/push.jpg">
+<img src="./other/push.jpg">
 
 4. 前三步完成后可以选择使用以下命令进行打包  
 
