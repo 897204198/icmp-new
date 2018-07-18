@@ -68,15 +68,14 @@ export class RoutersService {
       if (deviceInfo.deviceType === 'android') {
         navCtrl.push(ExamCustomFramePage, menu);
       } else {
-        let url = menu.data.url + '?token=' + localStorage.getItem('token') + '&questionnaireNo=' + menu.data.questionnaireNo;
-        const browser = this.iab.create(url, '_blank', { 'closebuttoncaption': '返回', 'location': 'no', 'toolbar': 'no' });
+        let url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
         browser.on('loadstop').subscribe(event => {
           browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
           let loop = setInterval(() => {
             browser.executeScript({
               code: 'localStorage.getItem("If_Can_Back");'
             }).then(values => {
-              console.log(JSON.stringify(values));
               let If_Can_Back = values[0];
               if (If_Can_Back === 'back') {
                 clearInterval(loop);
