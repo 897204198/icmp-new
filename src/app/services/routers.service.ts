@@ -14,6 +14,8 @@ import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statis
 import { ExamCustomFramePage } from '../../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../../pages/macAddress/macAddress';
 import { EmailPage } from '../../pages/email/email';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DeviceInfoState, DeviceService } from './device.service';
 
 /**
  * 路由服务
@@ -27,9 +29,11 @@ export class RoutersService {
   /**
    * 构造函数
    */
-  constructor( @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+  constructor(@Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private toastService: ToastService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private deviceService: DeviceService,
+    private iab: InAppBrowser) {
     this.translate.get(['NO_DETAILED_INFO']).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -60,7 +64,28 @@ export class RoutersService {
     } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
     } else if (menu.page === this.icmpConstant.page.examList) {
-      navCtrl.push(ExamCustomFramePage, menu);
+      const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+      if (deviceInfo.deviceType === 'android') {
+        navCtrl.push(ExamCustomFramePage, menu);
+      } else {
+        let url = menu.data.url + '?token=' + localStorage.getItem('token') + '&questionnaireNo=' + menu.data.questionnaireNo;
+        const browser = this.iab.create(url, '_blank', { 'closebuttoncaption': '返回', 'location': 'no', 'toolbar': 'no' });
+        browser.on('loadstop').subscribe(event => {
+          browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+          let loop = setInterval(() => {
+            browser.executeScript({
+              code: 'localStorage.getItem("If_Can_Back");'
+            }).then(values => {
+              console.log(JSON.stringify(values));
+              let If_Can_Back = values[0];
+              if (If_Can_Back === 'back') {
+                clearInterval(loop);
+                browser.close();
+              }
+            });
+          }, 500);
+        });
+      }
     } else if (menu.page === this.icmpConstant.page.macAddress) {
       navCtrl.push(MacAddressPage, menu);
     } else if (menu.page === this.icmpConstant.page.email) {
