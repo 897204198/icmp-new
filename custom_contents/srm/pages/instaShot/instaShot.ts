@@ -22,7 +22,7 @@ export class InstaShotPage {
   // 是否显示遮罩
   private isShowSpinner: boolean = false;
   // 用户信息（用户名、密码、昵称等）
-  private userInfo: UserInfoState = initUserInfo;
+  private userInfo: any = {};
   // 列表选项
   private initData: Object = {};
 
@@ -125,12 +125,14 @@ export class InstaShotPage {
     let params: URLSearchParams = new URLSearchParams();
     params.append('serviceName', 'department');
     this.http.post('/webController/getInstaShotInfo', params).subscribe((res: Response) => {
-      let data = res.json().data;
+      let resp = res.json();
       if (res.json().result === '0') {
+        this.submitInfo['tel'] = resp.phone;
+        this.submitInfo['department'] = resp.deptId;
         // 科室信息 name、code
-        this.departmentInfo = data;
+        this.departmentInfo = resp.data;
         // 临时的 Array，循环获取所属类别列表数据
-        let dataArray: Array<string> = this.getNameInfoFromArray(data);
+        let dataArray: Array<string> = this.getNameInfoFromArray(resp.data);
         // 所属科室列表信息
         this.initData['department'] = dataArray;
       } else {

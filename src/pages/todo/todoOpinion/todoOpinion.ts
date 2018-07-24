@@ -326,7 +326,7 @@ export class TodoOpinionPage {
     if (item['control_type'] === 'select_person') {
       searchUrl = '/webController/searchPerson';
     }
-    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.approvalInputTemps['joinOpinions'][iList]['id'] };
+    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.approvalInputTemps['joinOpinions'][iList]['id'], 'name': this.approvalInputTemps['joinOpinions'][iList]['name'] };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
@@ -346,9 +346,9 @@ export class TodoOpinionPage {
     }
     if (this.controls[this.approvalInput['opinion']] != null) {
       if (this.controls[this.approvalInput['opinion']].indexOf(item['control_name']) >= 0) {
-        if (item['control_default'] && item['control_list']) {
-          this.selectChange(item);
-        }
+        // if (item['control_default'] && item['control_list']) {
+        //   this.selectChange(item);
+        // }
         return true;
       }
     }
@@ -494,7 +494,7 @@ export class TodoOpinionPage {
             this.http.post(url, params).subscribe((res: Response) => {
               let data = res.json().result_list;
               for (let k = 0; k < this.opinionOtherList.length; k++) {
-                if (this.opinionOtherList[k]['control_name'] === control.models[0]) {
+                if (this.opinionOtherList[k]['control_name'] === control.model) {
                   if (this.opinionOtherList[k]['control_default']) {
                     this.approvalInput[this.opinionOtherList[k]['control_name']] = this.opinionOtherList[k]['control_default'];
                   } else {

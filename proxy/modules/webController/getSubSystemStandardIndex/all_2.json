@@ -34,9 +34,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -53,9 +51,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -72,9 +68,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -91,9 +85,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -110,9 +102,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -129,9 +119,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -148,9 +136,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -167,9 +153,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
@@ -186,9 +170,7 @@
                 "type": "display"
               },
               {
-                "models": [
-                  "contentId"
-                ],
+                "model": "contentId",
                 "type": "initSelect",
                 "url": "/webController/selectSearchboxQuery?serviceName\u003dRepairPhoneRepairApplyService\u0026type\u003d8"
               }
