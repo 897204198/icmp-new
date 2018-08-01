@@ -51,7 +51,15 @@ export class AboutPage {
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo !== null) {
       this.versionNumber = deviceInfo.versionNumber;
-      this.versionCode = deviceInfo.versionCode;
+      // 截取版本号
+      let cutVersionCode: string = deviceInfo.versionCode.toString();
+      if (deviceInfo.deviceType === 'android') {
+        let num = cutVersionCode.length - 1;
+        if (cutVersionCode.charAt(num) === '2') {
+          cutVersionCode = cutVersionCode.substring(0, num);
+        }
+      }
+      this.versionCode = cutVersionCode;
     }
     if ((<any>window).chcp != null) {
       (<any>window).chcp.getVersionInfo((err: any, data: Object) => {
@@ -63,7 +71,7 @@ export class AboutPage {
 
   // 版本更新说明
   getVersionDescription() {
-    this.http.get('/sys/app/versions/' + this.versionCode).subscribe((res: Response) => {
+    this.http.get('/app/versions/' + this.versionCode).subscribe((res: Response) => {
       this.description = res.json().note;
     });
   }

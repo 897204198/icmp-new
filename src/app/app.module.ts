@@ -48,7 +48,7 @@ import { RoutersService } from './services/routers.service';
 import { SettingPage } from '../pages/setting/setting';
 import { UserInfoPage } from '../pages/setting/userInfo/userInfo';
 import { AboutPage } from '../pages/setting/about/about';
-import { FeedbackPage } from '../pages/setting/about/feedback/feedback';
+import { FeedbackPage } from '../pages/setting/feedback/feedback';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
@@ -91,6 +91,8 @@ import { OrganizationAddressPage } from '../pages/address/organizationAddress/or
 import { EmailPage } from '../pages/email/email';
 import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.component';
 import { OopStormPage } from '../pages/setting/about/oopStorm/oopStorm';
+import { ImagePreviewPage } from '../pages/setting/feedback/imagePreview';
+import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directive';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -153,7 +155,9 @@ export function createTranslateLoader(http: Http) {
     MacAddressPage,
     OrganizationAddressPage,
     EmailPage,
-    OopStormPage
+    OopStormPage,
+    ImagePreviewPage,
+    IcmpKeyboardAttachDirective
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -218,7 +222,8 @@ export function createTranslateLoader(http: Http) {
     MacAddressPage,
     OrganizationAddressPage,
     EmailPage,
-    OopStormPage
+    OopStormPage,
+    ImagePreviewPage
   ],
   providers: [
     StatusBar,

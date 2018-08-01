@@ -198,5 +198,6 @@
   "OPEN_AUTO_RUN": "开启自动启动",
   "SET_UP": "前往设置",
   "ALLOW_BACKSTAGE_RUN": "允许后台运行",
-  "NO_DATA": "没有更多数据"
+  "NO_DATA": "没有更多数据",
+  "HAS_SOME_FEEDBACK": "对APP有什么意见，请告诉我们"
 }
