@@ -18,8 +18,9 @@
     <div *ngFor="let user of searchUserList; let i = index">
       <button *ngIf="i<showNumber" ion-item (click)="lookUserProfile(user)">
         <ion-avatar item-left>
-          <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
-          <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
+          <div class="word-head-image">
+            <div class="word-head-image-content">{{user.name.substring(0, 1)}}</div>
+          </div>
         </ion-avatar>
         <h2>{{user.name}}</h2>
         <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
@@ -56,8 +57,9 @@
       <ion-scroll scrollY class="subject-scroll subject-scroll-right">
         <button *ngFor="let user of userList" ion-item (click)="lookUserProfile(user)" detail-none>
           <ion-avatar item-left>
-            <img *ngIf="!user.headImageContent" [src]="setWordHeadImage(user)">
-            <img *ngIf="user.headImageContent" [src]=user.headImageContent (error)="setWordHeadImage(user)">
+            <div class="word-head-image">
+              <div class="word-head-image-content">{{user.name.substring(0, 1)}}</div>
+            </div>
           </ion-avatar>
           <h2>{{user.name}}</h2>
           <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button

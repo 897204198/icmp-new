@@ -42,8 +42,9 @@
       <button class="contact-no-bottom" *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none
         (click)="lookUserProfile(user)">
         <ion-avatar item-left class="list-avatar">
-          <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
-          <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
+          <div class="word-head-image">
+            <div class="word-head-image-content">{{user.remark.substring(0, 1)}}</div>
+          </div>
         </ion-avatar>
         <h2>{{user.remark}}</h2>
         <span item-end class="orgName" *ngIf="user.extendField != null">{{user.extendField.orgName}}</span>
