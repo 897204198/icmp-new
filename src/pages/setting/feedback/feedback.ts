@@ -29,7 +29,7 @@ export class FeedbackPage implements DoCheck {
   // 文件上传/下载地址
   fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
-  token: string = '?token=' + localStorage['token'];
+  token: string = '?access_token=' + localStorage['token'];
 
   constructor(
     private http: Http,
