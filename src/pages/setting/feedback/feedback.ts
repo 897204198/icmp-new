@@ -1,4 +1,4 @@
-import { Component, ElementRef, DoCheck, ViewChild } from '@angular/core';
+import { Component, ElementRef, DoCheck, ViewChild, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Content, ActionSheetController, ModalController } from 'ionic-angular';
 import 'rxjs/Rx';
@@ -33,6 +33,7 @@ export class FeedbackPage implements DoCheck {
 
   constructor(
     private http: Http,
+    private zone: NgZone,
     private toastService: ToastService,
     private configsService: ConfigsService,
     private el: ElementRef,
@@ -100,29 +101,31 @@ export class FeedbackPage implements DoCheck {
     this.spinnerShow = true;
     this.appVersion.getVersionNumber().then((versionNumber: string) => {
       (<any>window).ProperDevice.getDeviceInfo('', (info) => {
-        let params: Object = {
-          opinion: this.inputOpinion,
-          pictureId: pictureId,
-          appVersion: versionNumber,
-          mobileModel: info.mobileModel,
-          netType: info.netType,
-          platform: info.platform
-        };
-        if (pictureId) {
-          delete params['opinion'];
-        }
-        this.http.post('/user/feedback', params).subscribe((res: Response) => {
-          this.getFeedbackList();
-          if (!pictureId) {
-            this.inputOpinion = '';
+        this.zone.run(() => {
+          let params: Object = {
+            opinion: this.inputOpinion,
+            pictureId: pictureId,
+            appVersion: versionNumber,
+            mobileModel: info.mobileModel,
+            netType: info.netType,
+            platform: info.platform
+          };
+          if (pictureId) {
+            delete params['opinion'];
           }
-          this.spinnerShow = false;
-          setTimeout(() => {
-            this.content.scrollToBottom(0);
-          }, 200);
-        }, (res: Response) => {
-          this.spinnerShow = false;
-          this.toastService.show(res.text());
+          this.http.post('/user/feedback', params).subscribe((res: Response) => {
+            this.getFeedbackList();
+            if (!pictureId) {
+              this.inputOpinion = '';
+            }
+            this.spinnerShow = false;
+            setTimeout(() => {
+              this.content.scrollToBottom(0);
+            }, 200);
+          }, (res: Response) => {
+            this.spinnerShow = false;
+            this.toastService.show(res.text());
+          });
         });
       }, (err) => {
         this.toastService.show('获取信息失败');

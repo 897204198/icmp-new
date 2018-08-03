@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
+import { Keyboard } from '@ionic-native/keyboard';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -23,6 +24,7 @@ export class MyApp {
   constructor(
     statusBar: StatusBar,
     splashScreen: SplashScreen,
+    keyboard: Keyboard,
     private platform: Platform,
     private userService: UserService,
     private deviceService: DeviceService,
@@ -40,6 +42,7 @@ export class MyApp {
 
     // noinspection TypeScriptUnresolvedFunction
     this.platform.ready().then(() => {
+      keyboard.disableScroll(true);
       if (this.platform.is('android')) {
         statusBar.styleLightContent();
       } else {

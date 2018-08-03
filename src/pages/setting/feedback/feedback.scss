@@ -94,5 +94,9 @@
       padding: 4px 12px;
     }
   }
+
+  .positive-border {
+    border-color: color($colors, primary);
+  }
   
 }
