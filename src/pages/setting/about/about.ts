@@ -30,8 +30,8 @@ export class AboutPage {
   versionCode: string = '';
   // 热部署版本
   chcpVersion: string = '';
-  // 版本更新内容
-  description: string = '';
+  // 版本数据
+  versionData: string = '';
 
   constructor(
     public navCtrl: NavController,
@@ -72,7 +72,7 @@ export class AboutPage {
   // 版本更新说明
   getVersionDescription() {
     this.http.get('/app/versions/' + this.versionCode).subscribe((res: Response) => {
-      this.description = res.json().note;
+      this.versionData = res.json();
     });
   }
 
@@ -108,7 +108,7 @@ export class AboutPage {
           text: this.transateContent['CONFIRM'],
           handler: () => {
             let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-            this.appVersionUpdateService.doUpdateVersion(deviceInfo.deviceType);
+            this.appVersionUpdateService.doUpdateVersion(deviceInfo.deviceType, this.versionData);
           }
         }
       ]

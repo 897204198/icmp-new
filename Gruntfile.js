@@ -173,6 +173,10 @@ module.exports = function(grunt) {
               replacement: 'chatKey: \'' + customs[conf.currentProject].server.chatKey + '\','
             },
             {
+              match: /adminConsolePass: '.*'/,
+              replacement: 'adminConsolePass: \'' + customs[conf.currentProject].server.adminConsolePass + '\''
+            },
+            {
               match: /'appId': '.*',/,
               replacement: '\'appId\': \'' + customs[conf.currentProject].server.pushAppId + '\','
             },

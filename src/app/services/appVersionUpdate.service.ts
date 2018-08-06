@@ -6,6 +6,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AlertController } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from './toast.service';
+import { AppVersion } from '@ionic-native/app-version';
 
 /**
  * APP版本检查更新服务
@@ -23,6 +24,7 @@ export class AppVersionUpdateService {
     private http: Http,
     private alertCtrl: AlertController,
     private inAppBrowser: InAppBrowser,
+    private appVersion: AppVersion,
     @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private deviceService: DeviceService,
     private translate: TranslateService,
@@ -42,48 +44,26 @@ export class AppVersionUpdateService {
     this.http.get('/app/versions/latest').subscribe((res: Response) => {
       let data = res.json();
       // 截取版本号
-      let cutVersionCode: string = deviceInfo.versionCode.toString();
-      if (deviceInfo.deviceType === 'android') {
-        let num = cutVersionCode.length - 1;
-        if (cutVersionCode.charAt(num) === '2') {
-          cutVersionCode = cutVersionCode.substring(0, num);
+      this.appVersion.getVersionCode().then((versionCode: string) => {
+        let cutVersionCode: string = versionCode;
+        // 安卓去2
+        if (deviceInfo.deviceType === 'android') {
+          let num = cutVersionCode.length - 1;
+          if (cutVersionCode.charAt(num) === '2') {
+            cutVersionCode = cutVersionCode.substring(0, num);
+          }
         }
-      }
-      if (data.ver != null && data.ver !== cutVersionCode) {
-        if (data.note == null || data.note === '') {
-          data.note = this.transateContent['APP_UPDATE_NOTE'];
-        }
-        if (data.forceUpdate) {
-          let confirmAlert = this.alertCtrl.create({
-            title: this.transateContent['PROMPT_INFO'],
-            message: data.note,
-            buttons: [
-              {
-                text: this.transateContent['UPDATE'],
-                handler: () => {
-                  this.doUpdateVersion(deviceInfo.deviceType, data);
-                }
-              }
-            ]
-          });
-          confirmAlert.present();
-        } else {
-          if (deviceInfo.deviceType === 'android' && data.androidUrl) {
-            this.doUpdateVersion(deviceInfo.deviceType, data);
-          } else {
+        // 判断 ver 是否为空
+        if (data.ver != null && data.ver !== cutVersionCode) {
+          if (data.note == null || data.note === '') {
+            data.note = this.transateContent['APP_UPDATE_NOTE'];
+          }
+          // 是否为 forceUpdate
+          if (data.forceUpdate) {
             let confirmAlert = this.alertCtrl.create({
               title: this.transateContent['PROMPT_INFO'],
               message: data.note,
               buttons: [
-                {
-                  text: this.transateContent['NEXT_TIME'],
-                  role: 'cancel',
-                  handler: () => {
-                    if (isFirst && deviceInfo.deviceType === 'android') {
-                      this.autoRun();
-                    }
-                  }
-                },
                 {
                   text: this.transateContent['UPDATE'],
                   handler: () => {
@@ -93,16 +73,43 @@ export class AppVersionUpdateService {
               ]
             });
             confirmAlert.present();
+          } else {
+            if (deviceInfo.deviceType === 'android' && data.androidUrl) {
+              this.doUpdateVersion(deviceInfo.deviceType, data);
+            } else {
+              let confirmAlert = this.alertCtrl.create({
+                title: this.transateContent['PROMPT_INFO'],
+                message: data.note,
+                buttons: [
+                  {
+                    text: this.transateContent['NEXT_TIME'],
+                    role: 'cancel',
+                    handler: () => {
+                      if (isFirst && deviceInfo.deviceType === 'android') {
+                        this.autoRun();
+                      }
+                    }
+                  },
+                  {
+                    text: this.transateContent['UPDATE'],
+                    handler: () => {
+                      this.doUpdateVersion(deviceInfo.deviceType, data);
+                    }
+                  }
+                ]
+              });
+              confirmAlert.present();
+            }
+          }
+        } else {
+          if (!hiddenToast) {
+            this.toastService.show(this.transateContent['NO_UPDATE']);
+          }
+          if (isFirst && deviceInfo.deviceType === 'android') {
+            this.autoRun();
           }
         }
-      } else {
-        if (!hiddenToast) {
-          this.toastService.show(this.transateContent['NO_UPDATE']);
-        }
-        if (isFirst && deviceInfo.deviceType === 'android') {
-          this.autoRun();
-        }
-      }
+      });
     });
   }
 
