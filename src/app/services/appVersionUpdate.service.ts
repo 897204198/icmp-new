@@ -45,7 +45,7 @@ export class AppVersionUpdateService {
       let data = res.json();
       // 截取版本号
       this.appVersion.getVersionCode().then((versionCode: string) => {
-        let cutVersionCode: string = versionCode;
+        let cutVersionCode: string = versionCode.toString();
         // 安卓去2
         if (deviceInfo.deviceType === 'android') {
           let num = cutVersionCode.length - 1;
