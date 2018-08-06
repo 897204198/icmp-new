@@ -101,10 +101,15 @@ page-address {
     list-style: none;
     position: fixed;
     z-index: 999;
-    right: 1%;
+    right: 2%;
     top: 50%;
     transform: translate(0, -50%);
     color: #777;
+    overflow-y: scroll;
+    max-height: 70%;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   
   .side span {
@@ -112,7 +117,15 @@ page-address {
     font: size 12px;
     text-align: center;
   }
-  
+
+  .dynamic-side {
+    padding: 0 25px;
+    font-size: 1.7rem;
+    li {
+      margin: 15px 0px;
+    }
+  }
+
   .margin-bottom {
     margin-bottom: 16px !important;
     margin: -1px 0 16px;

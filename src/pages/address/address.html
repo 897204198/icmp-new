@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header (touchstart)="toggle()">
   <ion-navbar>
     <ion-title>{{'ADDRESS' | translate}}</ion-title>
     <ion-buttons end>
@@ -8,7 +8,7 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content class="content-gray-new" (ionScroll)="ionScroll()">
+<ion-content class="content-gray-new" (ionScroll)="ionScroll()" (touchstart)="toggle()">
   <form>
     <ion-searchbar [formControl]="titleFilter" placeholder="{{'SEARCH' | translate}}">
     </ion-searchbar>
@@ -54,7 +54,7 @@
   </div>
 </ion-content>
 <div *ngIf="selectInput">
-  <ul class="side">
+  <ul class="side" [ngClass]="{'dynamic-side': isDynamic}">
     <li *ngFor="let letter of slider" (click)="scrollTo(letter)" id="{{letter}}">
       <span>{{letter}}</span>
     </li>

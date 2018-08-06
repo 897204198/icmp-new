@@ -40,6 +40,8 @@ export class AddressPage {
   private unreadData: string;
   // 搜索匹配的条数
   private count: number = 0;
+  // 设置字母滑动栏样式
+  private isDynamic: boolean = false;
 
   /**
    * 构造函数
@@ -189,6 +191,7 @@ export class AddressPage {
    * @param letter 
    */
   scrollTo(letter) {
+    this.isDynamic = true;
     let temporary = false;
     for (let i = 0; i < this.contactInfos.length; i++) {
       if (this.contactInfos[i].first === letter) {
@@ -265,6 +268,11 @@ export class AddressPage {
     }
   }
 
-
+  /**
+   * 切换字母滑动栏样式
+   */
+  toggle() {
+    this.isDynamic = false;
+  }
 }
 
