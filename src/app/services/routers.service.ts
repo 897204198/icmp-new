@@ -11,9 +11,11 @@ import { InstaShotPage } from '../../pages/instaShot/instaShot';
 import { ApplicationPage } from '../../pages/application/application';
 import { StatisticsQueryPage } from '../../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statisticsView';
+import { ExamCustomFramePage } from '../../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../../pages/macAddress/macAddress';
 import { EmailPage } from '../../pages/email/email';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { DeviceInfoState, DeviceService } from './device.service';
 
 /**
  * 路由服务
@@ -30,6 +32,7 @@ export class RoutersService {
   constructor(@Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private toastService: ToastService,
     private translate: TranslateService,
+    private deviceService: DeviceService,
     private iab: InAppBrowser) {
     this.translate.get(['NO_DETAILED_INFO']).subscribe((res: Object) => {
       this.transateContent = res;
@@ -61,22 +64,27 @@ export class RoutersService {
     } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
     } else if (menu.page === this.icmpConstant.page.examList) {
-      let url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
-      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-      browser.on('loadstop').subscribe(event => {
-        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-        let loop = setInterval(() => {
-          browser.executeScript({
-            code: 'localStorage.getItem("If_Can_Back");'
-          }).then(values => {
-            let If_Can_Back = values[0];
-            if (If_Can_Back === 'back') {
-              clearInterval(loop);
-              browser.close();
-            }
-          });
-        }, 500);
-      });
+      const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+      if (deviceInfo.deviceType === 'android') {
+        navCtrl.push(ExamCustomFramePage, menu);
+      } else {
+        let url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+        browser.on('loadstop').subscribe(event => {
+          browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+          let loop = setInterval(() => {
+            browser.executeScript({
+              code: 'localStorage.getItem("If_Can_Back");'
+            }).then(values => {
+              let If_Can_Back = values[0];
+              if (If_Can_Back === 'back') {
+                clearInterval(loop);
+                browser.close();
+              }
+            });
+          }, 500);
+        });
+      }
     } else if (menu.page === this.icmpConstant.page.macAddress) {
       navCtrl.push(MacAddressPage, menu);
     } else if (menu.page === this.icmpConstant.page.email) {
