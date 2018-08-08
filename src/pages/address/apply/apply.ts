@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../../app/services/device.service';
-// import { UserProfilePage } from '../userProfile/userProfile';
+import { UserProfilePage } from '../userProfile/userProfile';
 import { NavController } from 'ionic-angular';
 
 @Component({
@@ -56,18 +56,23 @@ export class ApplyPage {
    * 进入个人信息详情
    */
   lookUserProfile(item: Object) {
-    // let isFriend = false;
-    // if (item['state'] != null && (item['state']['code'] === '2' || item['state']['code'] === 2)) {
-    //   isFriend = true;
-    // }
-    // let params = {
-    //   fromUserId: item['fromUserId'],
-    //   toUserId: item['toUserId'],
-    //   remark: item['nickId'],
-    //   pageType: 'apply',
-    //   isFriend: isFriend
-    // };
-    // this.navCtrl.push(UserProfilePage, params);
+    let params = {
+      fromUserId: item['fromUserId'],
+      toUserId: item['toUserId'],
+      remark: item['nickId'],
+      isFriend: false
+    };
+    if (item['state'] != null && (item['state']['code'].toString() === '2')) {
+      params['isFriend'] = true;
+    }
+    if (item['state'] != null &&
+      item['state']['code'] === '1' ||
+      item['state']['code'] === '2' ||
+      item['state']['code'] === '3') {
+      params['fromUserId'] = item['toUserId'];
+      params['toUserId'] = item['fromUserId'];
+    }
+    this.navCtrl.push(UserProfilePage, params);
   }
 
   /**

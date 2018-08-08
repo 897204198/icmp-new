@@ -71,11 +71,7 @@ export class UserProfilePage {
    * 取得用户信息
    */
   getUserInfoFromNet(userId: string, toUserId: string): void {
-    let params: Object = {
-      userId: toUserId
-    };
-    let url: string  = '/user/info';
-    this.http.get(url, { params: params }).subscribe((res: Response) => {
+    this.http.get('/user/info?userId=' + toUserId).subscribe((res: Response) => {
       let data: Object = res.json();
       if (data['sex'] != null && data['sex'] !== '') {
         if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
