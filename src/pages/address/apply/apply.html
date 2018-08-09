@@ -10,8 +10,9 @@
     <ion-item-sliding *ngFor="let user of applyList">
       <button ion-item (click)="lookUserProfile(user)">
         <ion-avatar item-left>
-          <img *ngIf="!user.headImage" [src]="setWordHeadImage(user)">
-          <img *ngIf="user.headImage" [src]=user.headImage (error)="setWordHeadImage(user)">
+          <div class="word-head-image">
+            <div class="word-head-image-content">{{user.toChatNickName.substring(0, 1)}}</div>
+          </div>
         </ion-avatar>
         <h2>{{user.nickId}}</h2>
         <button class="clear-btn" [disabled]='user.isSubmit' *ngIf="user.state.code == 1" mode="md" ion-button clear item-end color="danger" (click)="refuseApply($event, user)">{{'REFUSE' | translate}}</button>
