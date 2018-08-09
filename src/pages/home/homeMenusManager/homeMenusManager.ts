@@ -98,7 +98,7 @@ export class HomeMenusManagerPage {
    */
   getAllMenus(): void {
     this.categoryMenus = [];
-    this.http.get('/sys/menus').subscribe((res: Response) => {
+    this.http.get('/app/applications/all').subscribe((res: Response) => {
       let allMenus = res.json();
       let noGroupMenus = {};
       noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
@@ -107,7 +107,7 @@ export class HomeMenusManagerPage {
       for (let i = 0; i < allMenus.length; i++) {
         let menu = allMenus[i];
         menu.menus = [];
-        if (menu.typeCode === 'category') {
+        if (menu.code === 'category') {
           for (let apps of menu['apps']) {
             menu.menus.push(apps);
           }
@@ -129,7 +129,7 @@ export class HomeMenusManagerPage {
    */
   getMyMenus(): void {
     this.myMenus = [];
-    this.http.get('/sys/menus/user').subscribe((res: any) => {
+    this.http.get('/app/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.myMenus = res.json();
       }
@@ -235,7 +235,7 @@ export class HomeMenusManagerPage {
     let params: Object = {
       'ids': ids.join(',')
     };
-    this.http.put('/sys/menus/user', params).subscribe(() => {
+    this.http.put('/app/applications', params).subscribe(() => {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

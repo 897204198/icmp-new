@@ -178,7 +178,7 @@ export class HomePage {
    * 设置首页应用列表
    */
   setAppList(): void {
-    this.http.get('/sys/menus/user').subscribe((res: any) => {
+    this.http.get('/app/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.menus = [];
         let data = res.json();
