@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { DeviceService, DeviceInfoState } from '../../../app/services/device.service';
 
@@ -19,6 +19,7 @@ export class NewsNoticePage {
    * 构造函数
    */
   constructor(
+    private zone: NgZone,
     private nativeStorage: NativeStorage,
     private deviceService: DeviceService) {
     this.nativeStorage.getItem('openVoice').then(data => {
@@ -29,7 +30,13 @@ export class NewsNoticePage {
     });
     const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo.deviceType === 'android') {
-      this.isAndroid = true;
+      (<any>window).huanxin.phoneBrand('', (data) => {
+        this.zone.run(() => {
+          if (data !== 'phone') {
+            this.isAndroid = true;
+          }
+        });
+      });
     }
   }
 

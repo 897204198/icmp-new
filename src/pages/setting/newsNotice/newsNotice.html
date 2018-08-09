@@ -18,7 +18,7 @@
       <ion-toggle color="primary" [(ngModel)]="openVibrate" (ionChange)="changeVibrate()"></ion-toggle>
     </ion-item>
   </ion-list>
-  <!-- <div class="icmp-list-header">
+  <div *ngIf="isAndroid" class="icmp-list-header">
     {{'OPEN_TM_AUTO_NOTICE' | translate}}
   </div>
   <ion-list *ngIf="isAndroid" class="icmp-list-margin">
@@ -30,6 +30,6 @@
       <ion-label>{{'ALLOW_BACKSTAGE_RUN' | translate}}</ion-label>
       <div item-content class="icmp-item-color">{{'SET_UP' | translate}}</div>  
     </ion-item>
-  </ion-list> -->
+  </ion-list>
   
 </ion-content>
