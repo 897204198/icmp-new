@@ -24,6 +24,8 @@ import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
 import { DeviceService } from '../../app/services/device.service';
 import { LoginPage } from '../login/login';
 import { PushService } from '../../app/services/push.service';
+import { FeedbackPage } from '../setting/feedback/feedback';
+import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -152,7 +154,7 @@ export class TabsPage {
   /**
    * 推送打开事件处理
    */
-  doOpenNotification(event: any): void {
+  doOpenNotification(event: any) {
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
     } else if (event.properCustoms.bean) {
@@ -208,6 +210,10 @@ export class TabsPage {
           this.doOpenNotificationNoticeQuery(event.properCustoms);
         } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
           this.doOpenNotificationQuery(event.properCustoms);
+        } else if ('feedback' === event.properCustoms.gdpr_mpage) {
+          this.doOpenNotificationFeedback(event.properCustoms);
+        } else if ('examList' === event.properCustoms.gdpr_mpage) {
+          this.doOpenNotificationExamlist(event.properCustoms);
         }
       }
     }
@@ -216,7 +222,7 @@ export class TabsPage {
   /**
    * 推送通知打开待办
    */
-  doOpenNotificationTodo(customsDic: any): void {
+  doOpenNotificationTodo(customsDic: any) {
     let item: Object = {
       systemId: customsDic['systemId'],
       taskId: customsDic['taskId'],
@@ -238,26 +244,41 @@ export class TabsPage {
     }
   }
 
-  /** 
-   * 推送通知打开查询 
-   */
-  doOpenNotificationQuery(customsDic: any): void {
+  // 推送通知打开查询 
+  doOpenNotificationQuery(customsDic: any) {
     this.navCtrl.push(QueryDetailPage, customsDic);
   }
 
-  /** 
-   * 推送通知打开通知查询 
-   */
-  doOpenNotificationNoticeQuery(customsDic: any): void {
+  // 推送通知打开通知查询
+  doOpenNotificationNoticeQuery(customsDic: any) {
     this.navCtrl.push(QueryNoticeDetailPage, customsDic);
   }
 
-  // 获取待办数量
+  // 推送通知打开意见反馈
+  doOpenNotificationFeedback(customsDic: any) {
+    this.events.subscribe('logined', () => {
+      this.navCtrl.push(FeedbackPage);
+    });
+  }
 
-  // 获取待办数量
+  // 推送通知打开流程
+  doOpenNotificationExamlist(customsDic: any) {
+    this.events.subscribe('logined', () => {
+      const data = {
+        title: customsDic.title,
+        data: {
+          url: customsDic.url
+        }
+      };
+      this.navCtrl.push(ExamCustomFramePage, data);
+    });
+  }
+
+  // 自动登录
   autoLogin() {
     // 如果是从登录页进来，则直接获取会话列表未读数
     if (this.navParams.get('isAutoLogin') === false) {
+      // 获取待办数量
       this.http.get('/bpm/todos', { params: { 'pageNo': '1', 'pageSize': '0' } }).subscribe((res: Response) => {
         let todos = res.json();
         // redux传值
@@ -365,7 +386,7 @@ export class TabsPage {
   /**
    * 退出登录
    */
-  logOut(imIsOpen: string): void {
+  logOut(imIsOpen: string) {
     let params: Object = {};
     params['alertContent'] = imIsOpen === '0' ? this.transateContent['IM_CLOSE'] : this.transateContent['IM_OPEN'];
     (<any>window).huanxin.showNativeAlert(params, () => {
