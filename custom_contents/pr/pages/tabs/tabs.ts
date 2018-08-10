@@ -262,6 +262,7 @@ export class TabsPage {
     if (!this.isFirst) {
       const data = {
         title: customsDic.title,
+        isPush: true,
         data: {
           url: customsDic.url
         }

@@ -18,7 +18,12 @@ export class ExamCustomFramePage {
 
   constructor(private sanitizer: DomSanitizer, public navParams: NavParams, private navCtrl: NavController) {
     this.title = this.navParams.data.name;
-    let dangerousVideoUrl = this.navParams.data.data.url + '?token=' + this.token + '&title=' + this.title;
+    let dangerousVideoUrl = '';
+    if (this.navParams.data.isPush === true) {
+      dangerousVideoUrl = this.navParams.data.data.url + '&token=' + this.token + '&title=' + this.title;
+    } else {
+      dangerousVideoUrl = this.navParams.data.data.url + '?token=' + this.token + '&title=' + this.title;
+    }
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
     window.addEventListener('message', event => {
       if (event.data === 'back') {
