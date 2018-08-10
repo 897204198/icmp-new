@@ -42,6 +42,8 @@ export class TabsPage {
   mb: any;
   // 用户信息
   userInfo: UserInfoState = this.userService.getUserInfo();
+  // 是否是首次加载
+  private isFirst: boolean = true;
 
   /**
    * 构造函数
@@ -256,6 +258,11 @@ export class TabsPage {
 
   // 推送通知打开意见反馈
   doOpenNotificationFeedback(customsDic: any) {
+    // 首次不加载
+    if (!this.isFirst) {
+      this.navCtrl.push(FeedbackPage);
+    }
+    this.isFirst = false;
     this.events.subscribe('logined', () => {
       this.navCtrl.push(FeedbackPage);
     });
@@ -263,6 +270,17 @@ export class TabsPage {
 
   // 推送通知打开流程
   doOpenNotificationExamlist(customsDic: any) {
+    // 首次不加载
+    if (!this.isFirst) {
+      const data = {
+        title: customsDic.title,
+        data: {
+          url: customsDic.url
+        }
+      };
+      this.navCtrl.push(ExamCustomFramePage, data);
+    }
+    this.isFirst = false;
     this.events.subscribe('logined', () => {
       const data = {
         title: customsDic.title,
