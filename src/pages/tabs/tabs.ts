@@ -26,6 +26,7 @@ import { LoginPage } from '../login/login';
 import { PushService } from '../../app/services/push.service';
 import { FeedbackPage } from '../setting/feedback/feedback';
 import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -66,6 +67,7 @@ export class TabsPage {
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private deviceService: DeviceService,
     private events: Events,
+    private iab: InAppBrowser,
     private renderer: Renderer) {
     let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -272,25 +274,43 @@ export class TabsPage {
   doOpenNotificationExamlist(customsDic: any) {
     // 首次不加载
     if (!this.isFirst) {
-      const data = {
-        title: customsDic.title,
-        isPush: true,
-        data: {
-          url: customsDic.url
-        }
-      };
-      this.navCtrl.push(ExamCustomFramePage, data);
+      this.openExamlist(customsDic);
     }
     this.isFirst = false;
     this.events.subscribe('logined', () => {
-      const data = {
-        title: customsDic.title,
-        data: {
-          url: customsDic.url
-        }
-      };
-      this.navCtrl.push(ExamCustomFramePage, data);
+      this.openExamlist(customsDic);
     });
+  }
+
+  // 打开推送通知
+  openExamlist(customsDic: any) {
+    const data = {
+      title: customsDic.title,
+      isPush: true,
+      data: {
+        url: customsDic.url
+      }
+    };
+    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
+      this.navCtrl.push(ExamCustomFramePage, data);
+    } else {
+      let url = data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + data.title;
+      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+      browser.on('loadstop').subscribe(event => {
+        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+        let loop = setInterval(() => {
+          browser.executeScript({
+            code: 'localStorage.getItem("If_Can_Back");'
+          }).then(values => {
+            let If_Can_Back = values[0];
+            if (If_Can_Back === 'back') {
+              clearInterval(loop);
+              browser.close();
+            }
+          });
+        }, 500);
+      });
+    }
   }
 
   // 自动登录
