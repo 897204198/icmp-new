@@ -1,6 +1,6 @@
 import { Component, Inject, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, Events } from 'ionic-angular';
+import { NavController, Events, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -39,6 +39,7 @@ export class LoginPage {
     private backButtonService: BackButtonService,
     private platform: Platform,
     private alertCtrl: AlertController,
+    private navParams: NavParams,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private configsService: ConfigsService,
     private translate: TranslateService,
@@ -181,7 +182,9 @@ export class LoginPage {
               this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
                 const startIndex = this.navCtrl.getActive().index - 1;
                 this.navCtrl.remove(startIndex, 1);
-                this.events.publish('logined');
+                if (this.navParams.data.loginStatus !== 'logout') {
+                  this.events.publish('logined');
+                }
               });
             });
           });
