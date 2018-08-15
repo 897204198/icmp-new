@@ -107,17 +107,10 @@ export class HomeMenusManagerPage {
       for (let i = 0; i < allMenus.length; i++) {
         let menu = allMenus[i];
         menu.menus = [];
-        if (menu.code === 'category') {
-          for (let apps of menu['apps']) {
-            menu.menus.push(apps);
-          }
-          this.categoryMenus.push(menu);
-        } else {
-          noGroupMenus['menus'].push(menu);
+        for (let apps of menu['apps']) {
+          menu.menus.push(apps);
         }
-      }
-      if (noGroupMenus['menus'].length > 0) {
-        this.categoryMenus.push(noGroupMenus);
+        this.categoryMenus.push(menu);
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
