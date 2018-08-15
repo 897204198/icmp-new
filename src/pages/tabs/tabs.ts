@@ -216,8 +216,6 @@ export class TabsPage {
           this.doOpenNotificationQuery(event.properCustoms);
         } else if ('feedback' === event.properCustoms.gdpr_mpage) {
           this.doOpenNotificationFeedback(event.properCustoms);
-        } else if ('examList' === event.properCustoms.gdpr_mpage) {
-          this.doOpenNotificationExamlist(event.properCustoms);
         }
       }
     }
