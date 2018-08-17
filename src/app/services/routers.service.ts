@@ -69,6 +69,7 @@ export class RoutersService {
         navCtrl.push(ExamCustomFramePage, menu);
       } else {
         let url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        url = url.replace('#', '?v=' + new Date().getTime() + '#');
         const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
         browser.on('loadstop').subscribe(event => {
           browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });

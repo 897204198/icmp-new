@@ -275,7 +275,7 @@ export class TabsPage {
       title: customsDic.title,
       isPush: true,
       data: {
-        url: customsDic.url
+        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#')
       }
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
