@@ -104,9 +104,12 @@ export class UserInfoPage {
   readFile(file: any): void {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
-    fileReader.addEventListener('load', () => {
+    // fileReader.addEventListener('load', () => {
+    //   this.userInfo['avatar'] = fileReader.result;
+    // });
+    fileReader.onload = () => {
       this.userInfo['avatar'] = fileReader.result;
-    });
+    }
   }
 
   /**

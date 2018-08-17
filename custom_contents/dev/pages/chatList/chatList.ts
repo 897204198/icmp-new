@@ -35,8 +35,8 @@ export class ChatListPage {
    * 构造函数
    */
   constructor(private zone: NgZone,
-    private userService: UserService,
     private configsService: ConfigsService,
+    private userService: UserService,
     private deviceService: DeviceService,
     private SearchFilter: SearchFilterPipe,
     private store: Store<string>,
@@ -126,7 +126,8 @@ export class ChatListPage {
     item['from_headportrait'] = this.userInfo.headImage;
     item['to_user_id'] = item['toChatUsername'];
     item['to_username'] = item['toChatNickName'];
-    item['to_headportrait'] = item['headImage'];
+    item['to_headportrait'] =  `${this.fileUrl}${item['avatar']}${this.token}`;
+    // item['to_headportrait'] = item['headImage'];
     (<any>window).huanxin.chat(item);
   }
 
@@ -168,9 +169,9 @@ export class ChatListPage {
    * 图片加载出错或无图片显示文字
    */
   resetImg(item) {
-    for (let group of this.chatList) {
-      if (item['id'] === group['id']) {
-        group['avatar'] = '';
+    for (let user of this.chatList) {
+      if (item['id'] === user['id']) {
+        user['avatar'] = '';
         break;
       }
     }
