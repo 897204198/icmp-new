@@ -283,7 +283,7 @@ export class TabsPage {
   // 打开推送通知
   openExamlist(customsDic: any) {
     const data = {
-      title: customsDic.title,
+      name: customsDic.title,
       isPush: true,
       data: {
         url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#')
@@ -292,7 +292,7 @@ export class TabsPage {
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
       this.navCtrl.push(ExamCustomFramePage, data);
     } else {
-      let url = data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + data.title;
+      let url = data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + data.name;
       const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
       browser.on('loadstop').subscribe(event => {
         browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
