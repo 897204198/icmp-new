@@ -1,6 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 import { Store } from '@ngrx/store';
+import { Http, Response } from '@angular/http';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
 import { FormControl } from '@angular/forms';
 import { DeviceService } from '../../app/services/device.service';
@@ -30,11 +31,13 @@ export class ChatListPage {
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
   private token: string = '?access_token=' + localStorage['token'];
+  private fromChatAatar: string = '';
 
   /**
    * 构造函数
    */
   constructor(private zone: NgZone,
+    private http: Http,
     private configsService: ConfigsService,
     private userService: UserService,
     private deviceService: DeviceService,
@@ -60,6 +63,7 @@ export class ChatListPage {
   ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
+    this.getCurrentUserInfoFromNet();
     (<any>window).huanxin.addMessageListener('', (addRetData) => {
       (<any>window).huanxin.getChatList('', (retData) => {
         this.zone.run(() => {
@@ -67,6 +71,7 @@ export class ChatListPage {
           for (let user of this.chatList) {
             if (user['avatar']) {
               user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}`;
+              user['toChatAatar'] = user['avatar'];
             }
           }
           this.checkRedMessage();
@@ -78,6 +83,22 @@ export class ChatListPage {
       this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
     }
+  }
+
+  /**
+   * 取得当前用户信息
+   */
+  getCurrentUserInfoFromNet(): void {
+    let params = {
+      userId: this.userInfo.userId
+    };
+    this.http.get('/user/info', { params: params }).subscribe((res) => {
+      let data = res.json();
+      if (data.avatar) {
+        this.fromChatAatar = data['avatar'];
+      }
+    }, (res: Response) => {
+    });
   }
 
   /**
@@ -123,10 +144,11 @@ export class ChatListPage {
   chatToUserOrGroup(item: Object) {
     item['from_user_id'] = this.userInfo.loginName;
     item['from_username'] = this.userInfo.userName;
-    item['from_headportrait'] = this.userInfo.headImage;
+    item['from_headportrait'] = this.fromChatAatar;
+    // item['from_headportrait'] = this.userInfo.headImage;
     item['to_user_id'] = item['toChatUsername'];
     item['to_username'] = item['toChatNickName'];
-    item['to_headportrait'] =  `${this.fileUrl}${item['avatar']}${this.token}`;
+    item['to_headportrait'] = item['avatar'];
     // item['to_headportrait'] = item['headImage'];
     (<any>window).huanxin.chat(item);
   }

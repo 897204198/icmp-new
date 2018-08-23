@@ -33,6 +33,8 @@ export class UserProfilePage {
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
   private token: string = '?access_token=' + localStorage['token'];
+  private toChatAatar: string = '';
+  private fromChatAatar: string = '';
 
   /**
    * 构造函数
@@ -62,6 +64,7 @@ export class UserProfilePage {
     let searchUserId: string = this.navParams.get('fromUserId');
     let searchToUserId: string = this.navParams.get('toUserId');
     this.getUserInfoFromNet(searchUserId, searchToUserId);
+    this.getCurrentUserInfoFromNet();
   }
 
   /**
@@ -72,6 +75,22 @@ export class UserProfilePage {
       this.confirmAlert.dismiss();
     }
   };
+
+  /**
+   * 取得当前用户信息
+   */
+  getCurrentUserInfoFromNet(): void {
+    let params = {
+      userId: this.fromUserInfo.userId
+    };
+    this.http.get('/user/info', { params: params }).subscribe((res) => {
+      let data = res.json();
+      if (data.avatar) {
+        this.fromChatAatar = data['avatar'];
+      }
+    }, (res: Response) => {
+    });
+  }
 
   /**
    * 取得用户信息
@@ -91,6 +110,7 @@ export class UserProfilePage {
       this.toUserInfo = data;
       if (data['avatar']) {
         this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}`;
+        this.toChatAatar = data['avatar'];
       }
     }, (err: Response) => {
       this.toastService.show(err.text());
@@ -104,10 +124,12 @@ export class UserProfilePage {
     let params: Object = {};
     params['from_user_id'] = this.fromUserInfo.loginName;
     params['from_username'] = this.fromUserInfo.userName;
-    params['from_headportrait'] = this.fromUserInfo.headImage;
+    params['from_headportrait'] = this.fromChatAatar;
+    // params['from_headportrait'] = this.fromUserInfo.headImage;
     params['to_user_id'] = this.toUserInfo['account'];
     params['to_username'] = this.toUserInfo['name'];
-    params['to_headportrait'] = this.toUserInfo['headImageContent'];
+    params['to_headportrait'] = this.fromChatAatar;
+    // params['to_headportrait'] = this.toUserInfo['headImageContent'];
     params['chatType'] = 'singleChat';
     params['chatId'] = this.toUserInfo['id'];
     (<any>window).huanxin.chat(params);
