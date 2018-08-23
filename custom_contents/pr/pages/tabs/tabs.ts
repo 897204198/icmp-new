@@ -204,6 +204,8 @@ export class TabsPage {
           this.doOpenNotificationQuery(event.properCustoms);
         } else if ('feedback' === event.properCustoms.gdpr_mpage) {
           this.doOpenNotificationFeedback(event.properCustoms);
+        } else if ('examList' === event.properCustoms.gdpr_mpage) {
+          this.doOpenNotificationExamlist(event.properCustoms);
         }
       }
     }
@@ -270,17 +272,16 @@ export class TabsPage {
   // 打开推送通知
   openExamlist(customsDic: any) {
     const data = {
-      title: customsDic.title,
+      name: customsDic.title,
       isPush: true,
       data: {
-        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#')
+        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title
       }
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
       this.navCtrl.push(ExamCustomFramePage, data);
     } else {
-      let url = data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + data.title;
-      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+      const browser = this.iab.create(data.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
       browser.on('loadstop').subscribe(event => {
         browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
         let loop = setInterval(() => {
