@@ -128,7 +128,7 @@ export class UserProfilePage {
     // params['from_headportrait'] = this.fromUserInfo.headImage;
     params['to_user_id'] = this.toUserInfo['account'];
     params['to_username'] = this.toUserInfo['name'];
-    params['to_headportrait'] = this.fromChatAatar;
+    params['to_headportrait'] = this.toChatAatar;
     // params['to_headportrait'] = this.toUserInfo['headImageContent'];
     params['chatType'] = 'singleChat';
     params['chatId'] = this.toUserInfo['id'];

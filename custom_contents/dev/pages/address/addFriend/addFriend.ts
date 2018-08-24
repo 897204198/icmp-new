@@ -161,7 +161,7 @@ export class AddFriendPage {
    */
   resetImg(user) {
     for (let item of this.userList) {
-      if (item['fromUserId'] === user['fromUserId']) {
+      if (item['id'] === user['id']) {
         item['avatar'] = '';
         break;
       }

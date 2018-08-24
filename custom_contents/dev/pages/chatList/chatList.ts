@@ -69,9 +69,8 @@ export class ChatListPage {
         this.zone.run(() => {
           this.chatList = retData;
           for (let user of this.chatList) {
-            if (user['avatar']) {
-              user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}`;
-              user['toChatAatar'] = user['avatar'];
+            if (user['headImage']) {
+              user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
             }
           }
           this.checkRedMessage();
@@ -148,8 +147,7 @@ export class ChatListPage {
     // item['from_headportrait'] = this.userInfo.headImage;
     item['to_user_id'] = item['toChatUsername'];
     item['to_username'] = item['toChatNickName'];
-    item['to_headportrait'] = item['avatar'];
-    // item['to_headportrait'] = item['headImage'];
+    item['to_headportrait'] = item['headImage'];
     (<any>window).huanxin.chat(item);
   }
 
@@ -193,7 +191,7 @@ export class ChatListPage {
   resetImg(item) {
     for (let user of this.chatList) {
       if (item['id'] === user['id']) {
-        user['avatar'] = '';
+        user['headImage'] = '';
         break;
       }
     }
