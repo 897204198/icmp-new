@@ -41,7 +41,7 @@ export class TabsPage {
   mb: any;
   // 用户信息
   userInfo: UserInfoState = this.userService.getUserInfo();
-  // 是否是首次加载
+  // 是否是首次加载，用于解决杀进程状态点击推送跳转时还未登录问题
   private isFirst: boolean = true;
 
   /**
@@ -303,6 +303,7 @@ export class TabsPage {
   autoLogin() {
     // 如果是从登录页进来，则直接获取会话列表未读数
     if (this.navParams.get('isAutoLogin') === false) {
+      this.isFirst = false;
       if (this.deviceService.getDeviceInfo().deviceType) {
         // 获取未读消息数量
         this.getUnreadMessageNumber();
@@ -312,6 +313,7 @@ export class TabsPage {
       this.http.post('/user/bind', { userId: this.userInfo.userId }).subscribe((data: Response) => {
         localStorage.token = data['_body'];
         this.events.publish('logined');
+        this.isFirst = false;
         // 防止在 web 上报错
         if (this.deviceService.getDeviceInfo().deviceType) {
           // im 自动登录
