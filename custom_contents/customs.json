@@ -91,5 +91,36 @@
       },
       "hcp": "https://icmp.propersoft.cn/propersoft/"
     }
+  },
+  "devtest": {
+    "id": {
+      "android": "com.proper.icmp.devtest",
+      "ios": "com.proper.icmp.devtest"
+    },
+    "version": {
+      "android": "20000-SNAPSHOT",
+      "ios": "20000-SNAPSHOT"
+    },
+    "appVersion": {
+      "android": "10000",
+      "ios": "10000"
+    },
+    "name": "掌上办公测试",
+    "updateUrl": {
+      "android": "https://www.pgyer.com/TniF",
+      "ios": "https://www.pgyer.com/RNv8"
+    },
+    "server": {
+      "chatKey": "1166171023115752#devtest",
+      "adminConsolePass": "123456",
+      "baseUrl": "https://test.propersoft.cn/propersoft/api/",
+      "pushAppId": "MobileOADevTest",
+      "pushServer": "http://push.propersoft.cn/pep-push",
+      "pushXiaomi": {
+        "theAppid": "2882303761517860775",
+        "theAppkey": "5221786078775"
+      },
+      "hcp": "https://test.propersoft.cn/propersoft/"
+    }
   }
 }
