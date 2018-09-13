@@ -192,7 +192,7 @@
       "ios": "https://www.baidu.com/"
     },
     "server": {
-      "baseUrl": "http://172.16.100.31:7777/mobile-platform",
+      "baseUrl": "http://110.80.32.68:7777/mobile-platform",
       "pushAppId": "XMOA",
       "pushServer": "http://39.106.53.71:29091/pep-push",
       "pushXiaomi": {
