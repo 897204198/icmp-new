@@ -32,7 +32,7 @@ export class PushService {
     this.initTargetObject();
     if (this.targetObj) {
       let properPushConstant: ProperPushConstant = this.appConstant.properPushConstant;
-      properPushConstant.pushUrl = this.configsService.getPushUrl();
+      properPushConstant.pushUrl = this.configsService.getBaseUrl();
       this.targetObj.init(properPushConstant, () => { }, () => { });
     }
   }
@@ -69,9 +69,9 @@ export class PushService {
   /**
    * 取消与用户绑定
    */
-  unBindUserid(): void {
+  unBindUserid(userid: string): void {
     if (this.targetObj) {
-      let kvs = { 'userid': '', 'otherInfo': '' };
+      let kvs = { userid: userid, otherInfo: '' };
       this.targetObj.bindUserid(kvs, () => { }, () => { });
     }
   }
