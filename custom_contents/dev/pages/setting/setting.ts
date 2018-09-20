@@ -15,6 +15,8 @@ import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.ser
 import { ResetPasswordPage } from './resetPassword/resetPassword';
 import { FeedbackPage } from './feedback/feedback';
 import { ConfigsService } from '../../app/services/configs.service';
+import { StatusBar } from '@ionic-native/status-bar';
+import { Platform } from 'ionic-angular';
 
 /**
  * 设置首页
@@ -61,6 +63,8 @@ export class SettingPage {
     private userService: UserService,
     private deviceService: DeviceService,
     private translate: TranslateService,
+    private statusBar: StatusBar,
+    private platform: Platform,
     private appVersionUpdateService: AppVersionUpdateService) {
 
     this.userInfoPage = UserInfoPage;
@@ -72,6 +76,7 @@ export class SettingPage {
     this.translate.get(['ALREADY_LATEST_VERSION']).subscribe((res: Object) => {
       this.transateContent = res;
     });
+
   }
   /**
    * 首次进入页面
@@ -94,7 +99,20 @@ export class SettingPage {
    */
   ionViewWillEnter() {
     this.getUserInfoFromNet();
+    if (this.platform.is('android')) {
+      this.statusBar.backgroundColorByHexString('#0079fa');
+    }
   }
+
+  /**
+   * 每次离开页面
+   */
+  ionViewWillLeave() {
+    if (this.platform.is('android')) {
+      this.statusBar.backgroundColorByHexString('#ffffff');
+    }
+  }
+
 
   /**
    * 取得用户信息

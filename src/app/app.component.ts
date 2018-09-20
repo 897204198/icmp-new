@@ -43,11 +43,7 @@ export class MyApp {
     // noinspection TypeScriptUnresolvedFunction
     this.platform.ready().then(() => {
       keyboard.disableScroll(true);
-      if (this.platform.is('android')) {
-        statusBar.styleLightContent();
-      } else {
-        statusBar.styleDefault();
-      }
+      statusBar.styleDefault();
       splashScreen.hide();
 
       // 设置设备信息

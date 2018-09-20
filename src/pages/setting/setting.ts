@@ -14,6 +14,8 @@ import { UserService, initUserInfo, UserInfoState } from '../../app/services/use
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
 import { ResetPasswordPage } from './resetPassword/resetPassword';
 import { FeedbackPage } from './feedback/feedback';
+import { StatusBar } from '@ionic-native/status-bar';
+import { Platform } from 'ionic-angular';
 
 /**
  * 设置首页
@@ -54,6 +56,8 @@ export class SettingPage {
     private userService: UserService,
     private deviceService: DeviceService,
     private translate: TranslateService,
+    private statusBar: StatusBar,
+    private platform: Platform,
     private appVersionUpdateService: AppVersionUpdateService) {
 
     this.userInfoPage = UserInfoPage;
@@ -79,6 +83,24 @@ export class SettingPage {
       this.appVersionName = '';
     } else {
       this.appVersionName = deviceInfo.versionNumber;
+    }
+  }
+
+  /**
+   * 每次进入页面
+   */
+  ionViewWillEnter() {
+    if (this.platform.is('android')) {
+      this.statusBar.backgroundColorByHexString('#0079fa');
+    }
+  }
+
+  /**
+   * 每次离开页面
+   */
+  ionViewWillLeave() {
+    if (this.platform.is('android')) {
+      this.statusBar.backgroundColorByHexString('#ffffff');
     }
   }
 
