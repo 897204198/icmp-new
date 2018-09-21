@@ -44,6 +44,9 @@ export class MyApp {
     this.platform.ready().then(() => {
       keyboard.disableScroll(true);
       statusBar.styleDefault();
+      if (this.platform.is('android')) {
+        statusBar.backgroundColorByHexString('#ffffff');
+      }
       splashScreen.hide();
 
       // 设置设备信息
