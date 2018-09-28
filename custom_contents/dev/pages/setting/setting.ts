@@ -142,7 +142,7 @@ export class SettingPage {
    */
   logOut() {
     // 推送服务取消与当前用户的绑定关系
-    this.pushService.unBindUserid(this.userInfo.userId);
+    this.pushService.unBindUserid();
     // 取消自动登录
     this.userService.logout();
     this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });

@@ -188,7 +188,7 @@ export class LoginPage {
               });
             });
           });
-          this.pushService.bindUserid(newUserInfo.userId);
+          this.pushService.bindUserid(newUserInfo.loginName);
         } else {
           // Web 版不进行推送绑定，直接进首页
           this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
