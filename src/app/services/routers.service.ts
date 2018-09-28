@@ -68,7 +68,13 @@ export class RoutersService {
       if (deviceInfo.deviceType === 'android') {
         navCtrl.push(ExamCustomFramePage, menu);
       } else {
-        let url = menu.data.url + '&token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        let menuStr: string = menu.data.url;
+        let url;
+        if (menuStr.includes('?')) {
+          url = menu.data.url + '&token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        } else {
+          url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        }
         url = url.replace('#', '?v=' + new Date().getTime() + '#');
         const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
         browser.on('loadstop').subscribe(event => {
