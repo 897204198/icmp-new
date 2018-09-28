@@ -20,7 +20,14 @@ export class ExamCustomFramePage {
     if (this.navParams.data.isPush === true) {
       dangerousVideoUrl = this.navParams.data.data.url;
     } else {
-      dangerousVideoUrl = this.navParams.data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + this.title;
+      let menuStr: string = this.navParams.data.data.url;
+      if (menuStr.includes('?')) {
+        dangerousVideoUrl = this.navParams.data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + this.title;
+      } else {
+        dangerousVideoUrl = this.navParams.data.data.url + '?token=' + localStorage.getItem('token') + '&title=' + this.title;
+      }
+
+
       dangerousVideoUrl = dangerousVideoUrl.replace('#', '?v=' + new Date().getTime() + '#');
     }
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
