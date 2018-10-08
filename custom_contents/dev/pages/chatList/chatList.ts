@@ -70,7 +70,14 @@ export class ChatListPage {
           this.chatList = retData;
           for (let user of this.chatList) {
             if (user['headImage']) {
-              user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+              let image: string = user['headImage'];
+              if (image.match('http')) {
+                user['headImage'] = user['headImage'];
+              }else{
+                if (user['headImage']) {
+                  user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+                }
+              }
             }
           }
           this.checkRedMessage();
