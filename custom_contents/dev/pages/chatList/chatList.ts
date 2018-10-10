@@ -90,7 +90,29 @@ export class ChatListPage {
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
     }
   }
-
+ionViewDidEnter(){
+  this.userInfo = this.userService.getUserInfo();
+  this.getCurrentUserInfoFromNet();
+  (<any>window).huanxin.getChatList('', (retData) => {
+    this.zone.run(() => {
+      this.chatList = retData;
+      for (let user of this.chatList) {
+        if (user['headImage']) {
+          let image: string = user['headImage'];
+          if (image.match('http')) {
+            user['headImage'] = user['headImage'];
+          }else{
+            if (user['headImage']) {
+              user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+            }
+          }
+        }
+      }
+      this.checkRedMessage();
+      this.changeUnreadMessageNumber();
+    });
+  });
+}
   /**
    * 取得当前用户信息
    */
