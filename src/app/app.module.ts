@@ -23,6 +23,7 @@ import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { BackButtonService } from './services/backButton.service';
 import { AdminPage } from '../pages/login/admin/admin';
+import { SetPasswordPage } from '../pages/login/setPassword/setPassword';
 import { LoginPage } from '../pages/login/login';
 import { SpellService } from './services/spell.service';
 import { ToastService } from './services/toast.service';
@@ -121,6 +122,7 @@ export function createTranslateLoader(http: Http) {
     FileTypeImageComponent,
     TabsPage,
     AdminPage,
+    SetPasswordPage,
     LoginPage,
     HomePage,
     HomePluginsManagerPage,
@@ -188,6 +190,7 @@ export function createTranslateLoader(http: Http) {
     SearchboxComponent,
     TabsPage,
     AdminPage,
+    SetPasswordPage,
     LoginPage,
     HomePage,
     HomePluginsManagerPage,

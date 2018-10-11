@@ -206,6 +206,6 @@
   "SETPASSWORD_INFO": "我们会把新密码设置说明通过邮件发送给你",
   "SETPASSWORD_SUCSESS": "提交成功！",
   "SETPASSWORD_NOTE": "您可以登录邮箱打开邮箱中的链接地址去设置新的密码",
-  "FINDFASS_PROMPT": "手机号和邮箱不能为空",
+  "FINDFASS_PROMPT": "手机号和邮箱不能为空,密码为6-20位",
   "ERROR_PROMPT": "账户或邮箱错误"
 }

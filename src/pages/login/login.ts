@@ -6,6 +6,7 @@ import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
 import { AlertController } from 'ionic-angular';
 import { AdminPage } from './admin/admin';
+import { SetPasswordPage } from './setPassword/setPassword';
 import { APP_CONSTANT, AppConstant } from '../../app/constants/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
@@ -98,6 +99,11 @@ export class LoginPage {
     } else {
       this.loginNetService(username.value, password.value);
     }
+  }
+
+  forget(): void {
+    this.navCtrl.push(SetPasswordPage, { isAutoLogin: false }).then(() => {
+    });
   }
 
   /**

@@ -10,11 +10,15 @@
       <ion-label fixed class="login-icon"><ion-icon name="md-unlock" color="primary"></ion-icon></ion-label> -->
       <ion-input id="e2e-password" type="password" [ngModel]="userInfo.password0" placeholder="{{'PLEASE_ENTER_PASSWORD' | translate}}" #password></ion-input>
     </ion-item>
-
     <ion-item no-lines>
+      <u style="color: red" item-left (tap)="forget()">{{'FORGET_PASSWORD_LOGINPAGE' | translate}}</u>
       <label item-right>{{'REMEMBER_PASSWORD' | translate}}</label>
       <ion-toggle id="e2e-savePassword" color="primary" [(ngModel)]="userInfo.savePassword"></ion-toggle>
     </ion-item>
+    <!-- <ion-item no-lines>
+      <label item-right>{{'REMEMBER_PASSWORD' | translate}}</label>
+      <ion-toggle id="e2e-savePassword" color="primary" [(ngModel)]="userInfo.savePassword"></ion-toggle>
+    </ion-item> -->
   <!-- </ion-list> -->
 
   <div padding>
