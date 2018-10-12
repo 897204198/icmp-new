@@ -1,0 +1,48 @@
+page-mac-address {
+  .segment-background {
+    background-color: white;
+  }
+  .submit-botton {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+  }
+  .content-gray-succ {
+    .scroll-content {
+      margin-top: 46px;
+    }
+  }
+  .content-succ{
+    margin: 20px auto;
+    width: 200px;
+  }
+  .font-succ {
+    font-size: 20px;
+    color: #0079fa;
+    text-align: center;
+  }
+  .button-raduis {
+    border-radius: 20px;
+  }
+  .app-type-content {
+    position: absolute;
+    top: 11px;
+    right: 16px;
+  }
+  .type-button {
+    float: right;
+    margin: 0;
+    position: fixed;
+    right: 8px;
+    bottom: 0px;
+    .item-button {
+      padding: 0 10px;
+      height: 24px;
+      font-size: 1.3rem;
+      border-radius: 20px;
+      width: 65px;
+    }
+  }
+}
+
