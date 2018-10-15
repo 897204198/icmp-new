@@ -57,7 +57,7 @@ export class ChatListPage {
     });
   }
 
-  /**
+  /** 
    * 首次进入页面
    */
   ionViewDidLoad() {
@@ -69,13 +69,24 @@ export class ChatListPage {
         this.zone.run(() => {
           this.chatList = retData;
           for (let user of this.chatList) {
-            if (user['headImage']) {
-              let image: string = user['headImage'];
-              if (image.match('http')) {
-                user['headImage'] = user['headImage'];
-              }else{
-                if (user['headImage']) {
-                  user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            if (user['headDownloadImage']) {
+              if (isiOS) {
+                user['headDownloadImage'] = user['headDownloadImage'];
+              } else {
+                user['headDownloadImage'] = user['headImage'];
+              }
+            }else{
+              if (user['headImage']) {
+                let image: string = user['headImage'];
+                if (image.match('http')) {
+                  user['headDownloadImage'] = user['headImage'];
+                }else{
+                  if (user['headImage']) {
+                    user['headDownloadImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+                  }
                 }
               }
             }
@@ -93,25 +104,25 @@ export class ChatListPage {
 ionViewDidEnter(){
   this.userInfo = this.userService.getUserInfo();
   this.getCurrentUserInfoFromNet();
-  (<any>window).huanxin.getChatList('', (retData) => {
-    this.zone.run(() => {
-      this.chatList = retData;
-      for (let user of this.chatList) {
-        if (user['headImage']) {
-          let image: string = user['headImage'];
-          if (image.match('http')) {
-            user['headImage'] = user['headImage'];
-          }else{
-            if (user['headImage']) {
-              user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
-            }
-          }
-        }
-      }
-      this.checkRedMessage();
-      this.changeUnreadMessageNumber();
-    });
-  });
+  // (<any>window).huanxin.getChatList('', (retData) => {
+  //   this.zone.run(() => {
+  //     this.chatList = retData;
+  //     for (let user of this.chatList) {
+  //       if (user['headImage']) {
+  //         let image: string = user['headImage'];
+  //         if (image.match('http')) {
+  //           user['headImage'] = user['headImage'];
+  //         }else{
+  //           if (user['headImage']) {
+  //             user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+  //           }
+  //         }
+  //       }
+  //     }
+  //     this.checkRedMessage();
+  //     this.changeUnreadMessageNumber();
+  //   });
+  // });
 }
   /**
    * 取得当前用户信息
