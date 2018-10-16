@@ -32,11 +32,11 @@ page-mac-address {
   }
   .type-button {
     float: right;
-    margin: 0;
-    position: fixed;
-    right: 8px;
-    bottom: 0px;
     .item-button {
+      position: relative;
+      right: 0;
+      bottom: -13px;
+      margin: 0;
       padding: 0 10px;
       height: 24px;
       font-size: 1.3rem;

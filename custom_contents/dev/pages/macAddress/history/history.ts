@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController  } from 'ionic-angular';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../app/services/toast.service';
+import { DeviceService } from '../../../app/services/device.service';
+import { MacFramePage } from '../macFrame/macFrame';
 import { Http, Response } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -30,6 +32,7 @@ export class MacAddressHistoy {
     private iab: InAppBrowser,
     public params: NavParams,
     public loadingCtrl: LoadingController,
+    private deviceService: DeviceService,
     private http: Http) {
         this.translate.get(['MAC_ADDRESS_HISTORY_LIST', 'START_BIND', 'APPLY_UNBIND']).subscribe((res: Object) => {
             this.transateContent = res;
@@ -94,8 +97,18 @@ export class MacAddressHistoy {
   openProcessCheck  = (params) => {
     const data = btoa(encodeURIComponent(JSON.stringify(params)));
     let url = `${this.macMenuUrl}/workflowMainPop?param=${data}`;
-    url = url.replace('#', '?v=' + new Date().getTime() + '#');
-    const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+    url = url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + '发起申请详细' ;
+    const dataALL = {
+      name: '发起申请详细',
+      isPush: true,
+      data: {
+        url
+      }
+    };
+    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
+      this.navCtrl.push(MacFramePage, dataALL);
+    }else {
+    const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
      // 未看到实际效果 如何返回 TODO
     browser.on('loadstop').subscribe(event => {
       browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
@@ -111,5 +124,6 @@ export class MacAddressHistoy {
         });
       }, 500);
     });
+  }
 }
 }

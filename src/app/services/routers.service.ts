@@ -93,7 +93,7 @@ export class RoutersService {
         });
       }
     } else if (menu.page === this.icmpConstant.page.macAddress) {
-      navCtrl.push(MacAddressPage, menu);
+      navCtrl.push(MacAddressPage, {menu});
     } else if (menu.page === this.icmpConstant.page.email) {
       navCtrl.push(EmailPage, menu);
     } else {

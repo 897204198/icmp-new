@@ -7,6 +7,7 @@ import { ToastService } from '../../app/services/toast.service';
 import { Http, Response } from '@angular/http';
 import { UtilsService } from '../../app/services/utils.service';
 import { DeviceService, DeviceInfoState } from '../../app/services/device.service';
+import { MacFramePage } from '../macAddress/macFrame/macFrame';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
@@ -192,25 +193,36 @@ export class MacAddressPage {
    * 跳转页面查看流程进度
    */
   openProcessCheck  = (params) => {
-      const data = btoa(encodeURIComponent(JSON.stringify(params)));
-      let url = `${this.macMenu}/workflowMainPop?param=${data}`;
-      url = url.replace('#', '?v=' + new Date().getTime() + '#');
-      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-      // 未看到实际效果 如何返回 TODO
-      browser.on('loadstop').subscribe(event => {
-        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-        let loop = setInterval(() => {
-          browser.executeScript({
-            code: 'localStorage.getItem("If_Can_Back");'
-          }).then(values => {
-            let If_Can_Back = values[0];
-            if (If_Can_Back === 'back') {
-              clearInterval(loop);
-              browser.close();
-            }
-          });
-        }, 500);
-      });
+    const data = btoa(encodeURIComponent(JSON.stringify(params)));
+    let url = `${this.macMenu}/workflowMainPop?param=${data}`;
+    url = url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + '发起申请详细' ;
+    const dataALL = {
+      name: '发起申请详细',
+      isPush: true,
+      data: {
+        url
+      }
+    };
+    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
+      this.navCtrl.push(MacFramePage, dataALL);
+    } else {
+    const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+     // 未看到实际效果 如何返回 TODO
+    browser.on('loadstop').subscribe(event => {
+      browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+      let loop = setInterval(() => {
+        browser.executeScript({
+          code: 'localStorage.getItem("If_Can_Back");'
+        }).then(values => {
+          let If_Can_Back = values[0];
+          if (If_Can_Back === 'back') {
+            clearInterval(loop);
+            browser.close();
+          }
+        });
+      }, 500);
+    });
+  }
   }
 
   /**
