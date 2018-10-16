@@ -19,7 +19,7 @@ export class SetPasswordPage {
   private newPassword: string = '';
   // 推送服务器地址
   private email: string = '';
-  private time: number = 60;
+  private time: any = 60;
   // 国际化文字
   private transateContent: Object;
   private goPage: Boolean = true;
@@ -27,8 +27,10 @@ export class SetPasswordPage {
   private reSend: Boolean = false;
   private isTime: Boolean = false;
   private getCode: Boolean = true;
+  private disable: Boolean = true;
   private showPassword: Boolean = true;
   private changIconColor: Boolean = false;
+  private canClick: Boolean = true;
   timer = null;
   /**
    * 构造函数
@@ -40,7 +42,7 @@ export class SetPasswordPage {
               private toastService: ToastService,
               private configsService: ConfigsService,
               private translate: TranslateService) {
-    this.translate.get(['SETTING_SUCCESS', 'FINDFASS_PROMPT', 'ERROR_PROMPT']).subscribe((res: Object) => {
+    this.translate.get(['SETTING_SUCCESS', 'FINDFASS_PROMPT', 'ERROR_PROMPT', 'TIPS_EMPTY_EMAIL_USERNAME']).subscribe((res: Object) => {
       this.transateContent = res;
     });
   }
@@ -48,14 +50,18 @@ export class SetPasswordPage {
   submit(): void {
     // this.toastService.show('您输入的验证码有误，请核对后重试');
     // this.toastService.show('验证码已超时，请重新获取');
-    const req = /^\S{6,20}$/;
+    const req = /^(?!([a-zA-Z]+|\d+)$)[a-zA-Z\d]{6,20}$/;
     let params: Object = {
       'username': this.username.trim(),
       'validCode': this.email.trim(),
       'password': this.newPassword
     };
-    if (this.username === '' || this.email === '' || !req.test(this.newPassword)) {
+    if (!req.test(this.newPassword)) {
       this.toastService.show(this.transateContent['FINDFASS_PROMPT']);
+      return;
+    };
+    if (this.username === '' || this.email === '') {
+      this.toastService.show(this.transateContent['TIPS_EMPTY_EMAIL_USERNAME']);
       return;
     };
     this.http.put('/auth/users/password/reset', params).subscribe((res: Response) => {
@@ -70,6 +76,9 @@ export class SetPasswordPage {
   }
   getVerificationCode(): void {
     const isPhone = /^([0-9]{3,4})?[0-9]{7,8}$/;
+    if (!this.canClick) {
+      return;
+    }
     if (this.username.length < 11) {
       return;
     }
@@ -77,38 +86,32 @@ export class SetPasswordPage {
       this.toastService.show('电话格式错误');
       return;
     };
+    this.canClick = false;
     this.http.get(`/auth/users/${this.username}/validCode`).subscribe((res: Response) => {
       this.toastService.show(res['_body']);
-      // this.toastService.show(`已将验证码发至您的邮箱 ${arr.join('@')}`);
-      // this.toastService.show('请联系HR将邮箱填写到你的个人信息中');
-      // this.toastService.show('账户不存在，请核对后重试');
       this.getCode = false;
       this.reSend = false;
       this.isTime = true;
-      clearInterval(this.newMethod());
+      clearInterval(this.timer);
+      const timeInit: number = new Date().getTime();
       this.timer = setInterval(() => {
-        this.time--;
+        const num = ((new Date().getTime() - timeInit) / 1000).toString();
+        // tslint:disable-next-line:radix
+        this.time = 60 - parseInt(num);
         if (this.time <= 0) {
-          clearInterval(this.newMethod_1());
+          clearInterval(this.timer);
           this.isTime = false;
           this.reSend = true;
+          this.canClick = true;
         };
       }, 1000);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
   }
-  private newMethod_1(): NodeJS.Timer {
-    return this.timer;
-  }
-
-  private newMethod(): NodeJS.Timer {
-    return this.timer;
-  }
 
   ionViewDidLeave(): void {
-    const newLocal = this.timer;
-    clearInterval(newLocal);
+    clearInterval(this.timer);
   }
   sendVerificationCode(): void {
     this.isTime = true;
@@ -134,11 +137,20 @@ export class SetPasswordPage {
     };
   }
   changePassword(password): void {
+    this.newPassword = document.querySelector('.pas').children[0]['value'];
     if (password.length > 0) {
       this.changIconColor = true;
     } else {
       this.changIconColor = false;
     };
+    if (password.length > 5) {
+      this.disable = false;
+    } else {
+      this.disable = true;
+    }
+    // if (password.length > 15) {
+    //   this.newPassword = password.substring(0, 16)
+    // }
   }
   goLogIn(): void {
     this.navCtrl.push(LoginPage);
