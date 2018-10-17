@@ -42,7 +42,7 @@ export class SetPasswordPage {
               private toastService: ToastService,
               private configsService: ConfigsService,
               private translate: TranslateService) {
-    this.translate.get(['SETTING_SUCCESS', 'FINDFASS_PROMPT', 'ERROR_PROMPT', 'TIPS_EMPTY_EMAIL_USERNAME']).subscribe((res: Object) => {
+    this.translate.get(['CODE_LENGTH_SIX', 'SETTING_SUCCESS', 'FINDFASS_PROMPT', 'ERROR_PROMPT', 'TIPS_EMPTY_EMAIL_USERNAME']).subscribe((res: Object) => {
       this.transateContent = res;
     });
   }
@@ -56,6 +56,10 @@ export class SetPasswordPage {
       'validCode': this.email.trim(),
       'password': this.newPassword
     };
+    if (this.email.length !== 6) {
+      this.toastService.show(this.transateContent['CODE_LENGTH_SIX']);
+      return;
+    }
     if (!req.test(this.newPassword)) {
       this.toastService.show(this.transateContent['FINDFASS_PROMPT']);
       return;

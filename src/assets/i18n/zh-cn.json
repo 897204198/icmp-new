@@ -223,5 +223,6 @@
   "COMPLTET_VERIFICATION": "请完成以下验证",
   "GET_VERIFICATION": "获取验证码",
   "RESEND": "重新发送",
-  "TIPS_EMPTY_EMAIL_USERNAME": "电话和验证码不能为空"
+  "TIPS_EMPTY_EMAIL_USERNAME": "电话和验证码不能为空",
+  "CODE_LENGTH_SIX": "验证码为6位"
 }
