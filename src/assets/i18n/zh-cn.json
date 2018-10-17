@@ -183,8 +183,10 @@
   "APPLY_BIND": "申请绑定",
   "APPLY_UNBIND": "申请解绑",
   "START_BIND": "发起绑定",
-  "BIND": "已绑定",
-  "UNBIND": "未绑定",
+  "BIND": "绑定",
+  "UNBIND": "解绑",
+  "BIND_SHOW": "已绑定",
+  "UNBIND_SHOW": "未绑定",
   "APPLY_BIND_NOW": "正在申请绑定",
   "FINISHED": "已完成",
   "IN_REVIEW": "审核中",
@@ -224,5 +226,9 @@
   "GET_VERIFICATION": "获取验证码",
   "RESEND": "重新发送",
   "TIPS_EMPTY_EMAIL_USERNAME": "电话和验证码不能为空",
+  "PLEASE_NOT_ENTER_EMOJI_IN_USERNAME": "请不要在设备使用人中输入表情",
+  "NAME_OVER_MAX_LENGTH": "设备名称不能超过11个字符",
+  "USERNEMA_OVER_MAX_LENGTH": "设备使用人不能超过11个字符",
+  "PLEASE_NOT_ENTER_EMOJI_IN_NAME": "请不要在设备名称中输入表情",
   "CODE_LENGTH_SIX": "验证码为6位"
 }

@@ -49,7 +49,11 @@ export class MacAddressPage {
     public params: NavParams,
     public loadingCtrl: LoadingController,
     private http: Http) {
-    this.translate.get(['CHECK_APPLY_PROGRESS', 'PLEASE_ENTER_MAC_ADDRESS', 'PLEASE_ENTER_NAME', 'PLEASE_ENTER_USERNAME', 'SUBMIT_SUCCESS', 'PLEASE_ENTER_RIGHT_MAC_ADDRESS']).subscribe((res: Object) => {
+    this.translate.get([
+      'CHECK_APPLY_PROGRESS', 'PLEASE_ENTER_MAC_ADDRESS', 'PLEASE_ENTER_NAME',
+      'PLEASE_ENTER_USERNAME', 'SUBMIT_SUCCESS', 'PLEASE_ENTER_RIGHT_MAC_ADDRESS',
+      'PLEASE_NOT_ENTER_EMOJI_IN_USERNAME', 'USERNEMA_OVER_MAX_LENGTH', 'PLEASE_NOT_ENTER_EMOJI_IN_NAME', 'NAME_OVER_MAX_LENGTH'
+    ]).subscribe((res: Object) => {
       this.transateContent = res;
     });
     this.segmentPage = 'apply';
@@ -100,11 +104,26 @@ export class MacAddressPage {
    * 提交表单
    */
   submit() {
-    if (this.submitInfo['username'].length === 0){
+    const emojiSymbol = /\ud83d[\udc00-\ude4f\ude80-\udfff]/g; // emoji表情
+    const username = this.submitInfo['username'].trim(); // .replace(/\ud83d[\udc00-\ude4f\ude80-\udfff]/g, '')
+    const name = this.submitInfo['name'].trim();
+    if (username === ''){
       this.toastService.show(this.transateContent['PLEASE_ENTER_USERNAME']);
     }
-    else if (this.submitInfo['name'].length === 0) {
+    else if (emojiSymbol.test(username)) {
+      this.toastService.show(this.transateContent['PLEASE_NOT_ENTER_EMOJI_IN_USERNAME']);
+    }
+    else if (username.length > 12){
+      this.toastService.show(this.transateContent['USERNEMA_OVER_MAX_LENGTH']);
+    }
+    else if (name === ''){
       this.toastService.show(this.transateContent['PLEASE_ENTER_NAME']);
+    }
+    else if (emojiSymbol.test(name)) {
+      this.toastService.show(this.transateContent['PLEASE_NOT_ENTER_EMOJI_IN_NAME']);
+    }
+    else if (name.length > 12){
+      this.toastService.show(this.transateContent['NAME_OVER_MAX_LENGTH']);
     }
     else if (this.submitInfo['macAddress'].length === 0){
       this.toastService.show(this.transateContent['PLEASE_ENTER_MAC_ADDRESS']);
@@ -142,8 +161,8 @@ export class MacAddressPage {
   */
   changeBind(info: Object) {
     const postData = {
-      actualTypeCode: info['actualTypeCode'],
-      actualTypeName: info['actualTypeName'],
+      actualTypeCode: info['actualTypeCode'] === '1' ? '0' : '1',
+      actualTypeName: info['actualTypeCode'] === '1' ? '绑定' : '解绑',
       appliTypeCode:  info['actualTypeCode'] === '1' ? '0' : '1',
       appliTypeName:  info['actualTypeCode'] === '1' ? '绑定' : '解绑',
       applicant: this.submitInfo['applicant'],
@@ -151,7 +170,6 @@ export class MacAddressPage {
       username: info['userName'],
       macAddress: info['macAddress']
     };
-    console.log(postData)
     this.submitApply(postData)
   }
   /**
