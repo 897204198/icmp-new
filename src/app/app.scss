@@ -132,8 +132,12 @@ ion-content {
 .item-md.item-input .item-inner { 
   border-bottom: 1px solid #dedede !important; 
   box-shadow: none !important; 
-} :last-child
+}
 .list-md .item-input.item-input-has-focus:last-child, .list-md .item-input.input-has-fucus:last-child { 
   border-bottom-color: transparent !important; 
+  box-shadow: none !important; 
+}
+.list-md .item-input:last-child {
+  border-bottom: 0px !important; 
   box-shadow: none !important; 
 }

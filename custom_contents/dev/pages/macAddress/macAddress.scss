@@ -1,6 +1,9 @@
 page-mac-address {
   .segment-background {
     background-color: white;
+    position: fixed;
+    z-index: 2;
+    top: 56px;
   }
   .submit-botton {
     position: absolute;
@@ -43,6 +46,12 @@ page-mac-address {
       border-radius: 20px;
       width: 65px;
     }
+  }
+  .hiddenSometing {
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

@@ -113,7 +113,7 @@ export class MacAddressPage {
     else if (emojiSymbol.test(username)) {
       this.toastService.show(this.transateContent['PLEASE_NOT_ENTER_EMOJI_IN_USERNAME']);
     }
-    else if (username.length > 12){
+    else if (username.length > 11){
       this.toastService.show(this.transateContent['USERNEMA_OVER_MAX_LENGTH']);
     }
     else if (name === ''){
@@ -122,7 +122,7 @@ export class MacAddressPage {
     else if (emojiSymbol.test(name)) {
       this.toastService.show(this.transateContent['PLEASE_NOT_ENTER_EMOJI_IN_NAME']);
     }
-    else if (name.length > 12){
+    else if (name.length > 11){
       this.toastService.show(this.transateContent['NAME_OVER_MAX_LENGTH']);
     }
     else if (this.submitInfo['macAddress'].length === 0){

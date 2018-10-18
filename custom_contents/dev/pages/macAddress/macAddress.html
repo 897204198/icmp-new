@@ -20,7 +20,7 @@
   </ion-segment>
 
   <div [ngSwitch]="segmentPage">
-    <ion-list *ngSwitchCase="'apply'">
+    <ion-list *ngSwitchCase="'apply'" style="margin-top: 50px">
       <ion-item>
         <ion-label color="dark">{{'APPLY_CATEGORY' | translate}}</ion-label>
         <ion-select placeholder="{{'BIND' | translate}}" [(ngModel)]="submitInfo.appliTypeCode" class="gray-label" cancelText="{{'CANCEL' | translate}}"
@@ -57,9 +57,9 @@
       </button>
     </div>
 
-    <ion-list *ngSwitchCase="'state'">
+    <ion-list *ngSwitchCase="'state'" style="margin-top: 50px">
       <ion-item *ngFor="let info of bindArray">
-        <div>
+        <div class='hiddenSometing'>
           <p>{{'FACILITY_USER' | translate}}: {{info?.userName}}</p>
           <p>{{'FACILITY_NAME' | translate}}: {{info?.deviceName}}</p>
           <p>{{'MAC_ADDRESS' | translate}}: {{info?.macAddress}}</p>
@@ -88,7 +88,7 @@
 <!-- 成功提示 -->
 <ion-content *ngIf="succPage" class="content-gray-new content-gray-succ" style="background: #fff" >
  <div class="content-succ">
-    <img src="../../assets/images/200-200successful.png"/>
+    <img src="../../assets/images/ad1.png"/>
   <div class="font-succ">申请提交成功</div>
  </div>
   <div padding>
