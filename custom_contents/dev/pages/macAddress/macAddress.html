@@ -9,7 +9,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content *ngIf="!succPage"  class="content-gray-new">
+<ion-content class="content-gray-new">
   <ion-segment class="segment-background" mode="md" [(ngModel)]="segmentPage" (ionChange)="segmentChanged()">
     <ion-segment-button value="apply">
       {{'SELF_APPLY' | translate}}
@@ -82,18 +82,5 @@
        </div>
       </ion-item>
     </ion-list>
-  </div>
-</ion-content>
-
-<!-- 成功提示 -->
-<ion-content *ngIf="succPage" class="content-gray-new content-gray-succ" style="background: #fff" >
- <div class="content-succ">
-    <img src="../../assets/images/ad1.png"/>
-  <div class="font-succ">申请提交成功</div>
- </div>
-  <div padding>
-    <button class="button-raduis" ion-button block (click)="checkProgress()">
-      {{'CHECK_APPLY_PROGRESS' | translate}}
-    </button>
   </div>
 </ion-content>

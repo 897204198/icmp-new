@@ -8,6 +8,7 @@ import { Http, Response } from '@angular/http';
 import { UtilsService } from '../../app/services/utils.service';
 import { DeviceService, DeviceInfoState } from '../../app/services/device.service';
 import { MacFramePage } from '../macAddress/macFrame/macFrame';
+import { MacSuccPage } from '../macAddress/success/success';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
@@ -26,8 +27,6 @@ export class MacAddressPage {
   private submitInfo: Object = {};
   // 绑定状态列表
   private bindArray: Array<Object> = [];
-  // 提交状态
-  private succPage: Boolean = false;
   // 菜单信息
   private macMenu:  Object = {};
   // 流程数据
@@ -105,7 +104,7 @@ export class MacAddressPage {
    */
   submit() {
     const emojiSymbol = /\ud83d[\udc00-\ude4f\ude80-\udfff]/g; // emoji表情
-    const username = this.submitInfo['username'].trim(); // .replace(/\ud83d[\udc00-\ude4f\ude80-\udfff]/g, '')
+    const username = this.submitInfo['username'].trim();
     const name = this.submitInfo['name'].trim();
     if (username === ''){
       this.toastService.show(this.transateContent['PLEASE_ENTER_USERNAME']);
@@ -146,9 +145,10 @@ export class MacAddressPage {
       this.getBindInfo() // 刷新列表数据
       this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
       setTimeout(() => {
-        this.succPage = true;
         if (res['_body'] != null && res['_body'] !== '') {
           this.macProcessData = res.json();
+          console.log(this.macProcessData)
+          this.navCtrl.push(MacSuccPage, {menu: this.params.get('menu'), proData: this.macProcessData} );
         }
       }, 1000)
     }, (res: Response) => {
@@ -176,7 +176,6 @@ export class MacAddressPage {
    * 查看当前状态
    */
   checkType(info: Object){
-    this.succPage = false;
     this.checkProgress(info)
   }
   /**

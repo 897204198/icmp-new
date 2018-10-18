@@ -90,6 +90,7 @@ import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../pages/macAddress/macAddress';
 import { MacAddressHistoy } from '../pages/macAddress/history/history';
 import { MacFramePage } from '../pages/macAddress/macFrame/macFrame';
+import { MacSuccPage } from '../pages/macAddress/success/success';
 import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
 import { EmailPage } from '../pages/email/email';
 import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.component';
@@ -159,6 +160,7 @@ export function createTranslateLoader(http: Http) {
     MacAddressPage,
     MacAddressHistoy,
     MacFramePage,
+    MacSuccPage,
     OrganizationAddressPage,
     EmailPage,
     OopStormPage,
@@ -229,6 +231,7 @@ export function createTranslateLoader(http: Http) {
     MacAddressPage,
     MacAddressHistoy,
     MacFramePage,
+    MacSuccPage,
     OrganizationAddressPage,
     EmailPage,
     OopStormPage,
