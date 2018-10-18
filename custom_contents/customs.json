@@ -40,8 +40,8 @@
       "ios": "20000-SNAPSHOT"
     },
     "appVersion": {
-      "android": "2000006",
-      "ios": "2000006"
+      "android": "2000174",
+      "ios": "20000174"
     },
     "name": "掌上办公开发",
     "updateUrl": {
@@ -71,8 +71,8 @@
       "ios": "10000"
     },
     "appVersion": {
-      "android": "101030",
-      "ios": "101030"
+      "android": "101031",
+      "ios": "101031"
     },
     "name": "普日协同办公",
     "updateUrl": {
