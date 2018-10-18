@@ -124,9 +124,6 @@ export class SetPasswordPage {
     this.getVerificationCode();
   }
   seePassword(): void {
-    if (this.newPassword.length === 0) {
-      return;
-    };
     if (this.showPassword) {
       this.showPassword = false;
     } else {
