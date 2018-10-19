@@ -147,7 +147,6 @@ export class MacAddressPage {
       setTimeout(() => {
         if (res['_body'] != null && res['_body'] !== '') {
           this.macProcessData = res.json();
-          console.log(this.macProcessData)
           this.navCtrl.push(MacSuccPage, {menu: this.params.get('menu'), proData: this.macProcessData} );
         }
       }, 1000)
@@ -234,7 +233,7 @@ export class MacAddressPage {
           let If_Can_Back = values[0];
           if (If_Can_Back === 'back') {
             clearInterval(loop);
-            browser.close();
+            // browser.close();
             this.navCtrl.popToRoot();
           }
         });
