@@ -82,6 +82,7 @@ export class MacSuccPage {
           if (If_Can_Back === 'back') {
             clearInterval(loop);
             browser.close();
+            this.navCtrl.popToRoot();
           }
         });
       }, 500);

@@ -33,7 +33,8 @@ export class MacFramePage {
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
     window.addEventListener('message', event => {
       if (event.data === 'back') {
-        this.navCtrl.pop();
+         // 返回首页
+         this.navCtrl.popToRoot();
       }
     });
   }

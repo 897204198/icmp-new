@@ -20,7 +20,7 @@
   </ion-segment>
 
   <div [ngSwitch]="segmentPage">
-    <ion-list *ngSwitchCase="'apply'" style="margin-top: 50px">
+    <ion-list *ngSwitchCase="'apply'">
       <ion-item>
         <ion-label color="dark">{{'APPLY_CATEGORY' | translate}}</ion-label>
         <ion-select placeholder="{{'BIND' | translate}}" [(ngModel)]="submitInfo.appliTypeCode" class="gray-label" cancelText="{{'CANCEL' | translate}}"
@@ -57,7 +57,7 @@
       </button>
     </div>
 
-    <ion-list *ngSwitchCase="'state'" style="margin-top: 50px">
+    <ion-list *ngSwitchCase="'state'">
       <ion-item *ngFor="let info of bindArray">
         <div class='hiddenSometing'>
           <p>{{'FACILITY_USER' | translate}}: {{info?.userName}}</p>

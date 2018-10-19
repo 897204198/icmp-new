@@ -224,7 +224,7 @@ export class MacAddressPage {
       this.navCtrl.push(MacFramePage, dataALL);
     } else {
     const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-     // 未看到实际效果 如何返回 TODO
+     // 返回首页
     browser.on('loadstop').subscribe(event => {
       browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
       let loop = setInterval(() => {
@@ -235,6 +235,7 @@ export class MacAddressPage {
           if (If_Can_Back === 'back') {
             clearInterval(loop);
             browser.close();
+            this.navCtrl.popToRoot();
           }
         });
       }, 500);
