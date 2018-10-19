@@ -21,7 +21,7 @@ export class MacAddressHistoy {
   // 历史记录列表
   private historyList: Array<Object> = [];
   // // 菜单信息
-  private macMenuUrl:  Object = {}
+  private macMenu:  Object = {}
   /**
    * 构造函数
    */
@@ -38,7 +38,7 @@ export class MacAddressHistoy {
             this.transateContent = res;
        });
        this.getHistoryList()
-       this.macMenuUrl = this.params.get('data')['url'];
+       this.macMenu = this.params.get('data')['url'];
   }
     /**
      * 返回首页
@@ -95,8 +95,8 @@ export class MacAddressHistoy {
    */
   openProcessCheck  = (params) => {
     const data = btoa(encodeURIComponent(JSON.stringify(params)));
-    let url = `${this.macMenuUrl}/workflowMainPop?param=${data}`;
-    url = url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + '发起申请详细' ;
+    let url = `${this.macMenu}/workflowMainPop?param=${data}`;
+    url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}&title=发起申请详细&close=true`;
     const dataALL = {
       name: '发起申请详细',
       isPush: true,
@@ -108,22 +108,28 @@ export class MacAddressHistoy {
       this.navCtrl.push(MacFramePage, dataALL);
     }else {
     const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-    // 返回首页
     browser.on('loadstop').subscribe(event => {
-      browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+      browser.executeScript({code: 'localStorage.setItem("If_Can_Back", "" );localStorage.setItem("If_Can_Close", "" );' });
       let loop = setInterval(() => {
         browser.executeScript({
-          code: 'localStorage.getItem("If_Can_Back");'
+          code: 'localStorage.getItem("If_Can_Back");localStorage.getItem("If_Can_Close");'
         }).then(values => {
+          console.log(values)
           let If_Can_Back = values[0];
+          let If_Can_Close = values[1];
           if (If_Can_Back === 'back') {
             clearInterval(loop);
-            this.navCtrl.popToRoot();
-            browser.close();
+            this.navCtrl.popToRoot().then(() => {
+                browser.close();
+              })
+          }
+          if (If_Can_Close === 'close') {
+            clearInterval(loop);
+                browser.close();
           }
         });
       }, 500);
     });
+    }
   }
-}
 }

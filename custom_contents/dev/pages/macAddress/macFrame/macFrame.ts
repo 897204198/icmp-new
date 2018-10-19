@@ -35,6 +35,8 @@ export class MacFramePage {
       if (event.data === 'back') {
          // 返回首页
          this.navCtrl.popToRoot();
+      }else  if (event.data === 'close'){
+        this.navCtrl.pop();
       }
     });
   }

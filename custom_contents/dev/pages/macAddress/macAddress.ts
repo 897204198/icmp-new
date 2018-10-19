@@ -211,7 +211,7 @@ export class MacAddressPage {
   openProcessCheck  = (params) => {
     const data = btoa(encodeURIComponent(JSON.stringify(params)));
     let url = `${this.macMenu}/workflowMainPop?param=${data}`;
-    url = url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + '发起申请详细' ;
+    url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}&title=发起申请详细&close=true`;
     const dataALL = {
       name: '发起申请详细',
       isPush: true,
@@ -221,25 +221,31 @@ export class MacAddressPage {
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
       this.navCtrl.push(MacFramePage, dataALL);
-    } else {
+    }else {
     const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-     // 返回首页
     browser.on('loadstop').subscribe(event => {
-      browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+      browser.executeScript({code: 'localStorage.setItem("If_Can_Back", "" );localStorage.setItem("If_Can_Close", "" );' });
       let loop = setInterval(() => {
         browser.executeScript({
-          code: 'localStorage.getItem("If_Can_Back");'
+          code: 'localStorage.getItem("If_Can_Back");localStorage.getItem("If_Can_Close");'
         }).then(values => {
+          console.log(values)
           let If_Can_Back = values[0];
+          let If_Can_Close = values[1];
           if (If_Can_Back === 'back') {
             clearInterval(loop);
-            // browser.close();
-            this.navCtrl.popToRoot();
+            this.navCtrl.popToRoot().then(() => {
+                browser.close();
+              })
+          }
+          if (If_Can_Close === 'close') {
+            clearInterval(loop);
+                browser.close();
           }
         });
       }, 500);
     });
-  }
+    }
   }
 
   /**
