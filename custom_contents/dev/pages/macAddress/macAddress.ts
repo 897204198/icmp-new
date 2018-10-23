@@ -229,13 +229,15 @@ export class MacAddressPage {
         browser.executeScript({
           code: 'localStorage.getItem("If_Can_Back");'
         }).then(values => {
-          let If_Can_Back = values[0];
+          alert(JSON.stringify(values))
+        let If_Can_Back = values[0];
           console.log(If_Can_Back)
           if (If_Can_Back === 'back') {
             clearInterval(loop);
             browser.close();
             browser.on('exit').subscribe(() => {
               console.log('exit')
+              alert('exit')
               this.navCtrl.popToRoot()
             })
           }
