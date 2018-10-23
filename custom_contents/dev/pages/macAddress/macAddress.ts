@@ -227,17 +227,21 @@ export class MacAddressPage {
       browser.executeScript({code: 'localStorage.setItem("If_Can_Back", "" );localStorage.setItem("If_Can_Close", "" );' });
       let loop = setInterval(() => {
         browser.executeScript({
-          code: 'localStorage.getItem("If_Can_Back");localStorage.getItem("If_Can_Close");'
+          code: 'localStorage.getItem("If_Can_Back");'
         }).then(values => {
-          console.log(values)
           let If_Can_Back = values[0];
-          let If_Can_Close = values[1];
           if (If_Can_Back === 'back') {
             clearInterval(loop);
-            this.navCtrl.popToRoot().then(() => {
-                browser.close();
-              })
+            this.navCtrl.popToRoot()
+            setTimeout(() => {
+              browser.close();
+            }, 500)
           }
+        });
+        browser.executeScript({
+          code: 'localStorage.getItem("If_Can_Close");'
+        }).then(values => {
+          let If_Can_Close = values[0];
           if (If_Can_Close === 'close') {
             clearInterval(loop);
                 browser.close();

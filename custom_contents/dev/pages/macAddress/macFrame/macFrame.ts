@@ -22,9 +22,9 @@ export class MacFramePage {
     } else {
       let menuStr: string = this.navParams.data.data.url;
       if (menuStr.includes('?')) {
-        dangerousVideoUrl = this.navParams.data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + this.title;
+        dangerousVideoUrl = this.navParams.data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + this.title + '&close=true';
       } else {
-        dangerousVideoUrl = this.navParams.data.data.url + '?token=' + localStorage.getItem('token') + '&title=' + this.title;
+        dangerousVideoUrl = this.navParams.data.data.url + '?token=' + localStorage.getItem('token') + '&title=' + this.title + '&close=true';
       }
 
 

@@ -7,9 +7,6 @@
         </button>
       </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-<ion-content class="content-gray-new">
   <ion-segment class="segment-background" mode="md" [(ngModel)]="segmentPage" (ionChange)="segmentChanged()">
     <ion-segment-button value="apply">
       {{'SELF_APPLY' | translate}}
@@ -18,7 +15,9 @@
       {{'BIND_STATE' | translate}}
     </ion-segment-button>
   </ion-segment>
+</ion-header>
 
+<ion-content class="content-gray-new">
   <div [ngSwitch]="segmentPage">
     <ion-list *ngSwitchCase="'apply'">
       <ion-item>
