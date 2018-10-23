@@ -17,6 +17,8 @@ import { ChatListPage } from '../chatList/chatList';
 import { Store } from '@ngrx/store';
 import { IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
+import { Home_BADGE_STATE } from "../../app/redux/app.reducer";//替换首页tab角标
+import { HomeReplaceBadageAction } from "../../app/redux/actions/home.action";
 import { ConfigsService } from '../../app/services/configs.service';
 import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
 import { DeviceService } from '../../app/services/device.service';
@@ -88,6 +90,15 @@ export class TabsPage {
           }
         }
       });
+      //首页消息绑定
+      this.store.select(Home_BADGE_STATE).subscribe((data: string)=>{
+        for (let i = 0; i < this.tabRoots.length; i++) {
+          if (this.tabRoots[i]['tabTitle'] === '首页') {
+            console.log('首页待办角标个数'+data);
+            this.tabRoots[i]['tabBadge'] = data;
+          }
+        }
+      });
     });
 
   }
@@ -116,7 +127,9 @@ export class TabsPage {
       localStorage.setItem('tabs', '0');
     }
   }
-
+  ionViewDidEnter(): void {
+    this.getWaitToDoNumber();
+  }
   /**
    * 取DOM元素
    */
@@ -128,19 +141,19 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    if (this.userService.imIsOpen()) {
+    // if (this.userService.imIsOpen()) {
       return [
         { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
         { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
         { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
         { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
       ];
-    } else {
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-      ];
-    }
+    // } else {
+    //   return [
+    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+    //   ];
+    // }
   }
 
   /**
@@ -390,7 +403,24 @@ export class TabsPage {
       });
     }, (retData) => { });
   }
-
+//获取待办事件个数
+getWaitToDoNumber(){
+  this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+    if (res._body != null && res._body !== '') {
+      let data = res.json() ;//待办个数 
+      // let data = 5;
+      this.zone.run(() => {
+          if (data === 0) {
+            this.store.dispatch(new HomeReplaceBadageAction(''));
+          } else {
+            this.store.dispatch(new HomeReplaceBadageAction(data.toString()));
+          }
+        });
+    }
+  }, (res: Response) => {
+    this.toastService.show(res.text());
+  });
+}
   /**
    * 退出登录
    */
