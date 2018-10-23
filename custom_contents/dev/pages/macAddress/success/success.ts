@@ -71,27 +71,24 @@ export class MacSuccPage {
     }else {
     const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
     browser.on('loadstop').subscribe(event => {
-      browser.executeScript({code: 'localStorage.setItem("If_Can_Back", "" );localStorage.setItem("If_Can_Close", "" );' });
+      browser.executeScript({code: 'localStorage.setItem("If_Can_Back", "" );' });
       let loop = setInterval(() => {
         browser.executeScript({
           code: 'localStorage.getItem("If_Can_Back");'
         }).then(values => {
           let If_Can_Back = values[0];
+          // 返回首页
+          if (If_Can_Back === 'close') {
+            clearInterval(loop);
+               setTimeout(() => {
+                browser.close();
+               }, 500)
+               this.navCtrl.popToRoot()
+          }
+          // 返回上一页
           if (If_Can_Back === 'back') {
             clearInterval(loop);
-            this.navCtrl.popToRoot()
-            setTimeout(() => {
-              browser.close();
-            }, 500)
-          }
-        });
-        browser.executeScript({
-          code: 'localStorage.getItem("If_Can_Close");'
-        }).then(values => {
-          let If_Can_Close = values[0];
-          if (If_Can_Close === 'close') {
-            clearInterval(loop);
-                browser.close();
+            browser.close();
           }
         });
       }, 500);
