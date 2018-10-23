@@ -230,12 +230,14 @@ export class MacAddressPage {
           code: 'localStorage.getItem("If_Can_Back");'
         }).then(values => {
           let If_Can_Back = values[0];
+          console.log(If_Can_Back)
           if (If_Can_Back === 'back') {
             clearInterval(loop);
-            this.navCtrl.popToRoot()
-            setTimeout(() => {
-              browser.close();
-            }, 500)
+            browser.close();
+            browser.on('exit').subscribe(() => {
+              console.log('exit')
+              this.navCtrl.popToRoot()
+            })
           }
         });
         browser.executeScript({

@@ -116,11 +116,13 @@ export class MacAddressHistoy {
         }).then(values => {
           let If_Can_Back = values[0];
           if (If_Can_Back === 'back') {
+            console.log(If_Can_Back)
             clearInterval(loop);
             this.navCtrl.popToRoot()
             setTimeout(() => {
               browser.close();
-            }, 500)
+              console.log('close inappbrower')
+             }, 500);
           }
         });
         browser.executeScript({
