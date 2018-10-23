@@ -112,6 +112,7 @@ export class TabsPage {
           }
         });
       });
+    }
 
   /**
    * 进入页面时监听键盘事件
