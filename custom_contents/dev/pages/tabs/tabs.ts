@@ -69,39 +69,49 @@ export class TabsPage {
     private events: Events,
     private iab: InAppBrowser,
     private renderer: Renderer) {
-    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
-    this.translate.get(translateKeys).subscribe((res: Object) => {
-      this.transateContent = res;
-    });
-    this.tabRoots = this.getTabInfo();
-    platform.ready().then(() => {
-      this.backButtonService.registerBackButtonAction(this.tabRef);
-      // 通过推送通知打开应用事件
-      document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-
-      // 自动登录
-      this.autoLogin();
-
-      // 消息角标绑定
-      this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
-        for (let i = 0; i < this.tabRoots.length; i++) {
-          if (this.tabRoots[i]['tabTitle'] === '消息') {
-            this.tabRoots[i]['tabBadge'] = data;
-          }
-        }
+      let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
+      this.translate.get(translateKeys).subscribe((res: Object) => {
+        this.transateContent = res;
       });
-      //首页消息绑定
-      this.store.select(Home_BADGE_STATE).subscribe((data: string)=>{
-        for (let i = 0; i < this.tabRoots.length; i++) {
-          if (this.tabRoots[i]['tabTitle'] === '首页') {
-            console.log('首页待办角标个数'+data);
-            this.tabRoots[i]['tabBadge'] = data;
+      this.tabRoots = this.getTabInfo();
+      platform.ready().then(() => {
+        this.backButtonService.registerBackButtonAction(this.tabRef);
+        // 通过推送通知打开应用事件
+        document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+  
+        // 自动登录
+        this.autoLogin();
+  
+        //app icon角标个数
+        var iconNum: number = 0;
+        var messageIconNum: number = 0;
+        var homewaitIconNum: number = 0;
+  
+        // 消息角标绑定
+        this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
+          for (let i = 0; i < this.tabRoots.length; i++) {
+            if (this.tabRoots[i]['tabTitle'] === '消息') {
+              this.tabRoots[i]['tabBadge'] = data;
+              messageIconNum = Number(data);
+              iconNum = homewaitIconNum + messageIconNum;
+              this.pushService.sendBadgeNotification(iconNum);
+            }
           }
-        }
+        });
+        //首页待办消息绑定
+        this.store.select(Home_BADGE_STATE).subscribe((data: string)=>{
+          for (let i = 0; i < this.tabRoots.length; i++) {
+            if (this.tabRoots[i]['tabTitle'] === '首页') {
+              console.log('首页待办角标个数'+data);
+              this.tabRoots[i]['tabBadge'] = data;
+              homewaitIconNum = Number(data);
+              iconNum = messageIconNum + homewaitIconNum;
+              console.log('消息数'+ iconNum);
+              this.pushService.sendBadgeNotification(iconNum);
+            }
+          }
+        });
       });
-    });
-
-  }
 
   /**
    * 进入页面时监听键盘事件
