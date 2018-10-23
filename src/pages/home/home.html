@@ -39,7 +39,78 @@
     </span>
     <button ion-button small round class="notice-content-btn" (click)="openAllNotice()">{{'MORE' | translate}}</button>
   </div>
-
+  <div style="margin-top: 8px; font-size: 16px">
+    <div *ngIf="hasLoaded && hasListLoaded">
+        <!-- <div *ngIf=false> -->
+      <div *ngIf="componentList.length > 0">
+          <!-- <div > -->
+          <div *ngFor="let item of componentList; let i = index">
+            <!-- <div > -->
+              <ion-item no-lines style="border-bottom: 1px solid #c8c7cc">
+                  <div item-left (tap)="forget()">我的{{item.name}}</div>
+                  <!-- <div item-left (tap)="forget()">我的</div> -->
+                  <div item-right style="color: #0079fa; font-size: 14px">
+                    <span (click)="getMoreInfo(item)">
+                      更多<ion-icon style="padding-left: 8px" ios="ios-arrow-forward" md="md-arrow-forward"></ion-icon>
+                    </span>
+                  </div>
+                </ion-item>
+                <div *ngFor="let item of workflow">
+                  <ion-item style="padding: 0 26px;" no-lines (tap)="getDetail(item)">
+                    <div class="tings-info-box">
+                      <b class="tings-info" item-left>{{item.pepProcInst.processTitle}}</b>
+                      <div class="timeage" item-right>{{item.createTime}}</div>
+                    </div>
+                  </ion-item>
+                  <div *ngIf="!item.formTodoDisplayFields" (tap)="getDetail(item)">
+                    <div class="detail">办理时间 : {{item.pepProcInst.createTime}}</div>
+                    <div class="detail">{{formate(item)}}发起人：{{item.pepProcInst.startUserName}}</div>
+                  </div>
+                  <div *ngIf="item.formTodoDisplayFields" (tap)="getDetail(item)">
+                    <div *ngFor="let it of formTodoDisplayFields">
+                      <span>{{it.label}}:</span>
+                      <span>{{formate(item.formData, it.name)}}</span>
+                      <!-- item.formData[`${it.name}_text`] -->
+                    </div>
+                  </div>
+                  <ion-item no-lines style="height: 50px;">
+                    <div item-right>
+                      <button (tap)="agreeDeal(item)" small round class="component-agree-btn" ion-button>同 意</button>
+                    </div>
+                  </ion-item>
+                </div>
+          </div>
+      </div>
+      <div *ngIf="componentList.length === 0">
+        <ion-item>
+          <div style="padding-left: 15px">
+            <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png"><span style="padding-left: 30px">您暂时无待办工作</span>
+          </div>
+        </ion-item>
+      </div>
+      <div *ngIf="workflow.length === 0">
+        <ion-item no-lines>
+          <div style="padding: 10px 15px 0;overflow: hidden;">
+            <div style="float: left;">
+              <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png">
+            </div>
+            <div style="float: right;height: 100%;">
+              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">您暂时无待办工作</span></div>
+              <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">点击下方添加进行添加组件</span></div>
+            </div>
+          </div>
+        </ion-item>
+      </div>
+    </div>
+    <div *ngIf="!(hasLoaded && hasListLoaded)">
+      <div style="padding: 20px; background: #fff;">
+          <ion-spinner name="bubbles"></ion-spinner>加载中.....
+      </div>
+    </div>
+    <div class="add-button-box">
+      <button (tap)="handleAdd()" style="color: #0079fa" class="add-button" round ion-button color="light"><ion-icon ios="ios-add" md="md-add" style="padding-right: 10px;padding-bottom: 4px;font-weight: bold"></ion-icon>添加</button>
+    </div>
+  </div>
   <!--插件-->
   <!-- <icmp-add-custom-plugins [plugins]="plugins"></icmp-add-custom-plugins> -->
   <icmp-plugin-show></icmp-plugin-show>
