@@ -44,6 +44,7 @@ import { PluginRegRemindComponent } from '../pages/home/component/pluginRegRemin
 import { HomePage } from '../pages/home/home';
 import { HomePluginsManagerPage } from '../pages/home/homePluginsManager/homePluginsManager';
 import { HomeMenusManagerPage } from '../pages/home/homeMenusManager/homeMenusManager';
+import { HomeComponentPage } from '../pages/home/homeComponent/homeMenusManager';
 import { DragulaModule } from 'ng2-dragula';
 import { RoutersService } from './services/routers.service';
 import { SettingPage } from '../pages/setting/setting';
@@ -130,6 +131,7 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     HomePluginsManagerPage,
     HomeMenusManagerPage,
+    HomeComponentPage,
     SettingPage,
     UserInfoPage,
     AboutPage,
@@ -201,6 +203,7 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     HomePluginsManagerPage,
     HomeMenusManagerPage,
+    HomeComponentPage,
     SettingPage,
     UserInfoPage,
     AboutPage,
