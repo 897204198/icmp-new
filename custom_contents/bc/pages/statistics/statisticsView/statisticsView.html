@@ -1,0 +1,62 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray statisticsView-content">
+  <ion-card *ngIf="statisticsDate.title != null || statisticsDate.template != null" class="statisticsView-illustrate">
+    <ion-item *ngIf="statisticsDate.title != null" class="statisticsView-title">
+      {{statisticsDate.title}}
+    </ion-item>
+    <div *ngFor="let item of statisticsDate.template">
+      <ion-item *ngIf="item.layout == 'layout_1' && item.type == 'label'">
+        <ion-label fixed>{{item.label}}</ion-label>
+        <p item-right class="text-value">{{item.default}}</p>
+      </ion-item>
+      <ion-item *ngIf="item.layout == 'layout_2' && item.type == 'label'">
+        <h2>{{item.label}}</h2>
+        <p class="textarea-value">
+          <span [innerHtml]="item.default"></span>
+        </p>
+      </ion-item>
+      <!-- 下拉选择 -->
+      <ion-item *ngIf="item.type == 'select'">
+        <ion-label [innerHtml]="getSafeHtml(item.label)"></ion-label>
+        <ion-select [(ngModel)]="searchData[item.model]" (ionChange)="getInitData()" placeholder="{{'PLEASE_SELECT' | translate}}"
+          multiple="{{item.category == 'multi'}}" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+          <ion-option *ngFor="let option of item.data" [value]="option.id">{{option.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </ion-card>
+  <ion-card *ngFor="let tab of statisticsDate.table">
+    <ion-item class="form-table-list">
+      <h2>{{tab.label}}</h2>
+      <div class="form-table-content">
+        <table>
+          <tr *ngFor="let head of tab.headers; let i = index">
+            <td class="form-table-head">{{head.text}}</td>
+            <td *ngFor="let value of tab.values">
+              <span *ngIf="value[i].type == null">{{value[i]}}</span>
+              <span *ngIf="value[i].type == 'filelist'">
+                <div *ngFor="let file of value[i].values" (click)="downloadFile(file)" class="tablelist-file">
+                  <icmp-file-type-image [fileType]="getFileType(file.name)"></icmp-file-type-image>
+                  <span>{{file.name}}</span>
+                </div>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </ion-item>
+  </ion-card>
+  <ion-card *ngFor="let chart of statisticsDate.charts; let i = index">
+    <ion-card-header>
+      {{chart.title}}
+    </ion-card-header>
+    <ion-card-content>
+      <div id="chart_{{i}}" style="width: 100%" [style.height]="chart.height"></div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
