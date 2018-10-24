@@ -116,7 +116,7 @@ export class MacAddressHistoy {
         }).then(values => {
           let If_Can_Back = values[0];
           // 返回首页
-          if (If_Can_Back === 'close') {
+          if (If_Can_Back === 'back') {
             clearInterval(loop);
                setTimeout(() => {
                 browser.close();
@@ -124,7 +124,7 @@ export class MacAddressHistoy {
                this.navCtrl.popToRoot()
           }
           // 返回上一页
-          if (If_Can_Back === 'back') {
+          if (If_Can_Back === 'close') {
             clearInterval(loop);
             browser.close();
           }

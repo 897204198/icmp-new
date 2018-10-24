@@ -89,7 +89,6 @@ export class MacAddressPage {
   getBindInfo() {
     let loading = this.loadingCtrl.create({
       content: '正在加载数据...',
-
     });
     loading.present();
     this.http.get('/mac/app/state', { params: { 'pageNo': '1', 'pageSize': '9999' } }).subscribe((res: Response) => {
@@ -142,14 +141,14 @@ export class MacAddressPage {
   */
   submitApply = (data) => {
     this.http.post('/workflow/process/mac', data).subscribe((res: Response) => {
-      this.getBindInfo() // 刷新列表数据
+      this.getBindInfo(); // 刷新列表数据
       this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
       setTimeout(() => {
         if (res['_body'] != null && res['_body'] !== '') {
           this.macProcessData = res.json();
           this.navCtrl.push(MacSuccPage, {menu: this.params.get('menu'), proData: this.macProcessData} );
         }
-      }, 1000)
+      }, 1000);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -169,13 +168,13 @@ export class MacAddressPage {
       username: info['userName'],
       macAddress: info['macAddress']
     };
-    this.submitApply(postData)
+    this.submitApply(postData);
   }
   /**
    * 查看当前状态
    */
   checkType(info: Object){
-    this.checkProgress(info)
+    this.checkProgress(info);
   }
   /**
    * 检查申请进度
@@ -229,18 +228,17 @@ export class MacAddressPage {
         browser.executeScript({
           code: 'localStorage.getItem("If_Can_Back");'
         }).then(values => {
-          localStorage.getItem("If_Can_Back")
           let If_Can_Back = values[0];
           // 返回首页
-          if (If_Can_Back === 'close') {
+          if (If_Can_Back === 'back') {
             clearInterval(loop);
                setTimeout(() => {
                 browser.close();
                }, 500)
-               this.navCtrl.popToRoot()
+               this.navCtrl.popToRoot();
           }
           // 返回上一页
-          if (If_Can_Back === 'back') {
+          if (If_Can_Back === 'close') {
             clearInterval(loop);
             browser.close();
           }
@@ -254,6 +252,6 @@ export class MacAddressPage {
    * 跳转历史列表
    */
   openHistory = () => {
-    this.navCtrl.push(MacAddressHistoy, this.params.get('menu') );
+    this.navCtrl.push(MacAddressHistoy, this.params.get('menu'));
   }
 }

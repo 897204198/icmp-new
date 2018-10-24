@@ -78,15 +78,15 @@ export class MacSuccPage {
         }).then(values => {
           let If_Can_Back = values[0];
           // 返回首页
-          if (If_Can_Back === 'close') {
+          if (If_Can_Back === 'back') {
             clearInterval(loop);
                setTimeout(() => {
                 browser.close();
                }, 500)
-               this.navCtrl.popToRoot()
+               this.navCtrl.popToRoot();
           }
           // 返回上一页
-          if (If_Can_Back === 'back') {
+          if (If_Can_Back === 'close') {
             clearInterval(loop);
             browser.close();
           }
@@ -100,10 +100,10 @@ export class MacSuccPage {
    */
   checkProgress = () => {
     let  businessObj;
-    const procInstId = this.proData['procInstId']
+    const procInstId = this.proData['procInstId'];
     this.http.get(`/workflow/process/${procInstId}/page`).subscribe((res: Response) => {
       if (res['_body'] != null && res['_body'] !== '') {
-        const response = res.json()
+        const response = res.json();
         const forms = response['forms'];
         businessObj = forms.length ? forms[0] : null;
       }
