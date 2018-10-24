@@ -230,5 +230,9 @@
   "NAME_OVER_MAX_LENGTH": "设备名称不能超过11个字符",
   "USERNEMA_OVER_MAX_LENGTH": "设备使用人不能超过11个字符",
   "PLEASE_NOT_ENTER_EMOJI_IN_NAME": "请不要在设备名称中输入表情",
-  "CODE_LENGTH_SIX": "验证码为6位"
+  "CODE_LENGTH_SIX": "验证码为6位",
+  "MINE": "我的",
+  "DEALTIME": "办理时间",
+  "NOTHING_WORK": "您暂时无待办工作",
+  "ADD_COMPONENT": "点击下方添加进行添加组件"
 }

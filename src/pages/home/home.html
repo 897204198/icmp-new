@@ -47,11 +47,11 @@
           <div *ngFor="let item of componentList; let i = index">
             <!-- <div > -->
               <ion-item no-lines style="border-bottom: 1px solid #c8c7cc">
-                  <div item-left (tap)="forget()">我的{{item.name}}</div>
+                  <div item-left (tap)="forget()">{{'MINE' | translate}}{{item.name}}</div>
                   <!-- <div item-left (tap)="forget()">我的</div> -->
                   <div item-right style="color: #0079fa; font-size: 14px">
                     <span (click)="getMoreInfo(item)">
-                      更多<ion-icon style="padding-left: 8px" ios="ios-arrow-forward" md="md-arrow-forward"></ion-icon>
+                      {{'MORE' | translate}}<ion-icon style="padding-left: 8px" ios="ios-arrow-forward" md="md-arrow-forward"></ion-icon>
                     </span>
                   </div>
                 </ion-item>
@@ -62,14 +62,13 @@
                       <div class="timeage" item-right>{{item.createTime}}</div>
                     </div>
                   </ion-item>
-                  <div *ngIf="!item.formTodoDisplayFields" (tap)="getDetail(item)">
-                    <div class="detail">办理时间 : {{item.pepProcInst.createTime}}</div>
-                    <div class="detail">{{formate(item)}}发起人：{{item.pepProcInst.startUserName}}</div>
+                  <div *ngIf="!item.hasFields" (tap)="getDetail(item)">
+                    <div class="detail">{{'DEALTIME' | translate}} : {{item.pepProcInst.createTime}}</div>
+                    <div class="detail">发起人 ：{{item.pepProcInst.startUserName}}</div>
                   </div>
-                  <div *ngIf="item.formTodoDisplayFields" (tap)="getDetail(item)">
-                    <div *ngFor="let it of formTodoDisplayFields">
-                      <span>{{it.label}}:</span>
-                      <span>{{formate(item.formData, it.name)}}</span>
+                  <div *ngIf="item.hasFields" (tap)="getDetail(item)">
+                    <div class="detail" *ngFor="let it of item.globalData.formTodoDisplayFields">
+                      {{it.label}} : {{it.value}}
                       <!-- item.formData[`${it.name}_text`] -->
                     </div>
                   </div>
@@ -84,7 +83,7 @@
       <div *ngIf="componentList.length === 0">
         <ion-item>
           <div style="padding-left: 15px">
-            <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png"><span style="padding-left: 30px">您暂时无待办工作</span>
+            <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png"><span style="padding-left: 30px">您暂时无待办工作</span>
           </div>
         </ion-item>
       </div>
@@ -92,11 +91,11 @@
         <ion-item no-lines>
           <div style="padding: 10px 15px 0;overflow: hidden;">
             <div style="float: left;">
-              <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png">
+              <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png">
             </div>
             <div style="float: right;height: 100%;">
-              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">您暂时无待办工作</span></div>
-              <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">点击下方添加进行添加组件</span></div>
+              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NOTHING_WORK' | translate}</span></div>
+              <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">{{'ADD_COMPONENT' | translate}</span></div>
             </div>
           </div>
         </ion-item>

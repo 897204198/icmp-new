@@ -147,6 +147,9 @@ export class HomePage {
     });
   }
   componentInit(): void {
+    Date.prototype.toLocaleString = function() {
+      return this.getFullYear() + '-' + (this.getMonth() + 1) + '-' + this.getDate() + ' ' + this.getHours() + ':' + this.getMinutes() + ':' + this.getSeconds();
+    };
     this.http.get('/search/query?moduleName=workflow_task&pageNo=1&pageSize=5').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.workflow = res.json().data;
@@ -154,6 +157,21 @@ export class HomePage {
           timeago.register('test_local', this.test_local_dict);
           const timeagoa = timeago();
           element['createTime'] = timeagoa.format(element['createTime'], 'test_local');
+          if (element['globalData']['formTodoDisplayFields'] && element['globalData']['formTodoDisplayFields'].length > 0) {
+            element['hasFields'] = true;
+            element['globalData']['formTodoDisplayFields'].forEach(item => {
+              if (element['form']['formData'][`${item['name']}_text`]) {
+                item['value'] = element['form']['formData'][`${item['name']}_text`];
+              } else {
+                item['value'] = element['form']['formData'][item['name']];
+              };
+              if (typeof(item['value']) === 'number') {
+                item['value'] = new Date(item['value']).toLocaleString();
+              };
+            });
+          } else {
+            element['hasFields'] = false;
+          };
         });
         this.hasListLoaded = true;
       };
@@ -431,7 +449,9 @@ export class HomePage {
       }, 500);
     });
   }
-  formate(item, value): any {
-    return item[`${value}_text`];
-  }
+  // formate(item, value): any {
+  //   // return item[`${value}_text`];
+  //   console.log(item)
+  //   return value;
+  // }
 }
