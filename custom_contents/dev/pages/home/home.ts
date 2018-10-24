@@ -277,9 +277,9 @@ export class HomePage {
             data[i].total =  this.waitNum;
             haveWait++;
           }
-          if (data[i].total > 99) {
-            data[i].total = '99+';
-          }
+          // if (data[i].total > 99) {
+          //   data[i].total = '99+';
+          // }
           this.menus.push(data[i]);
         }
         //首页没有待办数量加在全部图标上
