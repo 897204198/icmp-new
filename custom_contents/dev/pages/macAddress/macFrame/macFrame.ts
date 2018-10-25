@@ -31,12 +31,15 @@ export class MacFramePage {
       dangerousVideoUrl = dangerousVideoUrl.replace('#', '?v=' + new Date().getTime() + '#');
     }
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
+    let isCanClose = true; // 保持返回次数唯一
     window.addEventListener('message', event => {
       if (event.data === 'back') {
-         // 返回首页
-         this.navCtrl.popToRoot();
+         this.navCtrl.popToRoot();  // 返回首页
       }else  if (event.data === 'close'){
-        this.navCtrl.pop();
+        if (isCanClose){
+          isCanClose = false;
+          this.navCtrl.pop();
+        }
       }
     });
   }
