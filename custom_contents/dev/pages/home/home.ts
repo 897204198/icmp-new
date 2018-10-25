@@ -175,7 +175,7 @@ export class HomePage {
               } else {
                 item['value'] = element['form']['formData'][item['name']];
               }
-              if (typeof(item['value']) === 'number') {
+              if (typeof(item['value']) === 'number' && item['value'].toString().length === 13) {
                 item['value'] = new Date(item['value']).toLocaleString()
               }
             });
