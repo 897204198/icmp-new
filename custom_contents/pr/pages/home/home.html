@@ -24,7 +24,8 @@
   </div>
 
   <!--应用列表-->
-  <icmp-home-custom [menus]="menus"></icmp-home-custom>
+  <!-- <icmp-home-custom [menus]="menus"></icmp-home-custom> -->
+  <icmp-home-custom [menus]="menus" [allNum]="allNum"></icmp-home-custom>
 
   <!--消息-->
   <!-- <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
@@ -39,7 +40,77 @@
     </span>
     <button ion-button small round class="notice-content-btn" (click)="openAllNotice()">{{'MORE' | translate}}</button>
   </div> -->
-
+  <div style="margin-top: 8px; font-size: 16px">
+    <div *ngIf="hasLoaded && hasListLoaded">
+        <!-- <div *ngIf=false> -->
+      <div *ngIf="componentList.length > 0">
+          <!-- <div > -->
+          <div *ngFor="let item of componentList; let i = index">
+            <!-- <div > -->
+              <div class="worktop" style="border-bottom: 1px solid #c8c7cc;">
+                  <div class="topleft" (tap)="forget()">{{'MINE' | translate}}{{item.name}}</div>
+                  <!-- <div item-left (tap)="forget()">我的</div> -->
+                  <div class="topright" style="color: #0079fa; font-size: 14px">
+                    <span (click)="getMoreInfo(item)">
+                      {{'MORE' | translate}}<ion-icon style="padding-left: 8px" ios="ios-arrow-forward" md="md-arrow-forward"></ion-icon>
+                    </span>
+                  </div>
+                </div>
+                <div *ngFor="let ele of workflow" style="border-bottom: 4px solid #f0f4f7;background: #fff">
+                  <div (tap)="getDetail(ele, item.name, item.data.url)" class="worktitle" style="border-bottom:1px solid #c6c6c6">
+                    <div class="tings-info-box">
+                      <b class="tings-info" item-left style="font-size: 14px;color: #262626">{{ele.pepProcInst.processTitle}}</b>
+                      <div class="timeage" item-right style="font-size: 14px;color: #6c6c6c">{{ele.createTime}}</div>
+                    </div>
+                  </div>
+                  <div *ngIf="!ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                    <div class="detail">{{'DEALTIME' | translate}} : {{ele.pepProcInst.createTime}}</div>
+                    <div class="detail">发起人 ：{{ele.pepProcInst.startUserName}}</div>
+                  </div>
+                  <div *ngIf="ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                    <div class="detail" *ngFor="let it of ele.globalData.formTodoDisplayFields">
+                      {{it.label}} : {{it.value}}
+                      <!-- item.formData[`${it.name}_text`] -->
+                    </div>
+                  </div>
+                  <div class="btnbox">
+                    <div>
+                      <button (tap)="agreeDeal(ele)" small round class="component-agree-btn" ion-button>同 意</button>
+                    </div>
+                  </div>
+                </div>
+          </div>
+      </div>
+      <div *ngIf="componentList.length > 0 && workflow.length === 0">
+        <ion-item>
+          <div style="padding-left: 15px">
+            <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png"><span style="padding-left: 30px">{{'NOTHING_WORK' | translate}}</span>
+          </div>
+        </ion-item>
+      </div>
+      <div *ngIf="componentList.length === 0">
+        <ion-item no-lines>
+          <div style="padding: 10px 15px 0;overflow: hidden;">
+            <div style="float: left;">
+              <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png">
+            </div>
+            <div style="float: right;height: 100%;">
+              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NO_COMPONENT' | translate}}</span></div>
+              <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">{{'ADD_COMPONENT' | translate}}</span></div>
+            </div>
+          </div>
+        </ion-item>
+      </div>
+    </div>
+    <div *ngIf="!(hasLoaded && hasListLoaded)">
+      <div style="padding: 20px; background: #fff;">
+          <ion-spinner name="bubbles"></ion-spinner>加载中.....
+      </div>
+    </div>
+    <div class="add-button-box">
+      <button (tap)="handleAdd()" style="color: #0079fa" class="add-button" round ion-button color="light"><ion-icon ios="ios-add" md="md-add" style="padding-right: 10px;font-weight: bold"></ion-icon>添加</button>
+    </div>
+  </div>
   <!--插件-->
   <!-- <icmp-add-custom-plugins [plugins]="plugins"></icmp-add-custom-plugins> -->
   <!-- <icmp-plugin-show></icmp-plugin-show> -->
