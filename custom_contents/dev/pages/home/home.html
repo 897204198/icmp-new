@@ -47,7 +47,7 @@
           <!-- <div > -->
           <div *ngFor="let item of componentList; let i = index">
             <!-- <div > -->
-                <div class="worktop" style="border-bottom: 1px solid #c8c7cc;">
+              <div class="worktop" style="border-bottom: 1px solid #c8c7cc;">
                   <div class="topleft" (tap)="forget()">{{'MINE' | translate}}{{item.name}}</div>
                   <!-- <div item-left (tap)="forget()">我的</div> -->
                   <div class="topright" style="color: #0079fa; font-size: 14px">
@@ -56,43 +56,43 @@
                     </span>
                   </div>
                 </div>
-                <div *ngFor="let item of workflow" style="border-bottom: 4px solid #f0f4f7;background: #fff">
-                  <div (tap)="getDetail(item)" class="worktitle" style="border-bottom:1px solid #c6c6c6">
+                <div *ngFor="let ele of workflow" style="border-bottom: 4px solid #f0f4f7;background: #fff">
+                  <div (tap)="getDetail(ele, item.name, item.data.url)" class="worktitle" style="border-bottom:1px solid #c6c6c6">
                     <div class="tings-info-box">
-                      <b class="tings-info" item-left style="font-size: 14px;color: #262626">{{item.pepProcInst.processTitle}}</b>
-                      <div class="timeage" item-right style="font-size: 14px;color: #6c6c6c">{{item.createTime}}</div>
+                      <b class="tings-info" item-left style="font-size: 14px;color: #262626">{{ele.pepProcInst.processTitle}}</b>
+                      <div class="timeage" item-right style="font-size: 14px;color: #6c6c6c">{{ele.createTime}}</div>
                     </div>
                   </div>
-                  <div *ngIf="!item.hasFields" (tap)="getDetail(item)">
-                    <div class="detail">{{'DEALTIME' | translate}} : {{item.pepProcInst.createTime}}</div>
-                    <div class="detail">发起人 ：{{item.pepProcInst.startUserName}}</div>
+                  <div *ngIf="!item.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                    <div class="detail">{{'DEALTIME' | translate}} : {{ele.pepProcInst.createTime}}</div>
+                    <div class="detail">发起人 ：{{ele.pepProcInst.startUserName}}</div>
                   </div>
-                  <div *ngIf="item.hasFields" (tap)="getDetail(item)">
-                    <div class="detail" *ngFor="let it of item.globalData.formTodoDisplayFields">
+                  <div *ngIf="item.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                    <div class="detail" *ngFor="let it of ele.globalData.formTodoDisplayFields">
                       {{it.label}} : {{it.value}}
                       <!-- item.formData[`${it.name}_text`] -->
                     </div>
                   </div>
                   <div class="btnbox">
                     <div>
-                      <button (tap)="agreeDeal(item)" small round class="component-agree-btn" ion-button>同 意</button>
+                      <button (tap)="agreeDeal(ele)" small round class="component-agree-btn" ion-button>同 意</button>
                     </div>
                   </div>
                 </div>
           </div>
       </div>
-      <div *ngIf="componentList.length === 0">
+      <div *ngIf="componentList.length > 0 && workflow.length === 0">
         <ion-item>
           <div style="padding-left: 15px">
-            <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png"><span style="padding-left: 30px">您暂时无待办工作</span>
+            <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png"><span style="padding-left: 30px">{{'NOTHING_WORK' | translate}}</span>
           </div>
         </ion-item>
       </div>
-      <div *ngIf="workflow.length === 0">
+      <div *ngIf="componentList.length === 0">
         <ion-item no-lines>
           <div style="padding: 10px 15px 0;overflow: hidden;">
             <div style="float: left;">
-              <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png">
+              <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png">
             </div>
             <div style="float: right;height: 100%;">
               <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NOTHING_WORK' | translate}</span></div>

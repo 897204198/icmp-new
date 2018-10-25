@@ -35,6 +35,9 @@ export class ExamCustomFramePage {
       if (event.data === 'back') {
         this.navCtrl.pop();
       }
+      if (event.data === 'close') {
+        this.navCtrl.pop();
+      }
     });
   }
 

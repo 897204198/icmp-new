@@ -9,6 +9,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
+import { DeviceService } from '../../app/services/device.service';
+import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 import { Store } from '@ngrx/store';
 import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
@@ -63,6 +65,7 @@ export class HomePage {
     private modalCtrl: ModalController,
     private iab: InAppBrowser,
     private el: ElementRef,
+    private deviceService: DeviceService,
     public alertCtrl: AlertController,
     private zone: NgZone,
     private http: Http,
@@ -156,7 +159,9 @@ export class HomePage {
     this.http.get('/plugin').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.componentList = res.json();
-        this.hasLoaded = true;
+        this.zone.run(() => {
+          this.hasLoaded = true;
+        });
       };
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -189,7 +194,9 @@ export class HomePage {
             element['hasFields'] = false;
           };
         });
-        this.hasListLoaded = true;
+        this.zone.run(() => {
+          this.hasListLoaded = true;
+        });
       };
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -431,8 +438,8 @@ export class HomePage {
   }
   agreeDeal(record): void {
     const confirm = this.alertCtrl.create({
-      title: `确认同意审批此流程吗?`,
-      message: '',
+      title: '提示',
+      message: '确认同意审批此流程吗',
       buttons: [
         {
           text: '取消',
@@ -467,7 +474,7 @@ export class HomePage {
     });
     confirm.present();
   }
-  getDetail(record): void {
+  getDetail(record, title, targetUrl): void {
     const {pepProcInst: {procInstId, processTitle}, taskId, name} = record;
     const param = btoa(encodeURIComponent(JSON.stringify({
       isLaunch: false,
@@ -477,27 +484,37 @@ export class HomePage {
       businessObj: {formTitle: processTitle},
       stateCode: undefined
     })));
-    const url = `https://icmp2.propersoft.cn/icmp/web/#/webapp/workflow/workflowMainPop?param=${param}`;
-    const browser = this.iab.create(`${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}`, '_blank', { 'location': 'no', 'toolbar': 'no' });
-    browser.on('loadstop').subscribe(event => {
-      browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-      let loop = setInterval(() => {
-        browser.executeScript({
-          code: 'localStorage.getItem("If_Can_Back");'
-        }).then(values => {
-          let If_Can_Back = values[0];
-          if (If_Can_Back === 'back') {
-            clearInterval(loop);
-            browser.close();
-            this.getWaitNum();
-          };
-        });
-      }, 500);
-    });
+    let url = `${targetUrl.substring(0, targetUrl.indexOf('#'))}#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`;
+    url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}`;
+    const dataALL = {
+      name: title,
+      isPush: false,
+      data: { url }
+    };
+    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
+      this.navCtrl.push(ExamCustomFramePage, dataALL);
+    }else {
+      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+      browser.on('loadstop').subscribe(event => {
+        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+        let loop = setInterval(() => {
+          browser.executeScript({
+            code: 'localStorage.getItem("If_Can_Back");'
+          }).then(values => {
+            let If_Can_Back = values[0];
+            if (If_Can_Back === 'back') {
+              clearInterval(loop);
+              browser.close();
+              this.getWaitNum();
+            };
+            if (If_Can_Back === 'close') {
+              clearInterval(loop);
+              browser.close();
+              this.getWaitNum();
+            };
+          });
+        }, 500);
+      });
+    };
   }
-  // formate(item, value): any {
-  //   // return item[`${value}_text`];
-  //   console.log(item)
-  //   return value;
-  // }
 }
