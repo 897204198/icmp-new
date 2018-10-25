@@ -97,6 +97,8 @@ export class HomePage {
     events.subscribe('refresh',() =>{
       console.log('event刷新消息啊啦啦啦');
       this.getWaitNum();
+      this.getComponentList();
+      this.componentInit();
     });
   }
 
@@ -295,6 +297,8 @@ export class HomePage {
         // 首页没有待办数量加在全部图标上
         if (haveWait === 0){
           this.allNum = this.waitNum;
+      }else{
+        this.allNum = 0;
       }
         this.secureStorageService.putObject('home_applist', this.menus);
       }

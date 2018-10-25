@@ -63,11 +63,11 @@
                       <div class="timeage" item-right style="font-size: 14px;color: #6c6c6c">{{ele.createTime}}</div>
                     </div>
                   </div>
-                  <div *ngIf="!item.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                  <div *ngIf="!ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
                     <div class="detail">{{'DEALTIME' | translate}} : {{ele.pepProcInst.createTime}}</div>
                     <div class="detail">发起人 ：{{ele.pepProcInst.startUserName}}</div>
                   </div>
-                  <div *ngIf="item.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                  <div *ngIf="ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
                     <div class="detail" *ngFor="let it of ele.globalData.formTodoDisplayFields">
                       {{it.label}} : {{it.value}}
                       <!-- item.formData[`${it.name}_text`] -->
@@ -95,8 +95,8 @@
               <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png">
             </div>
             <div style="float: right;height: 100%;">
-              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NOTHING_WORK' | translate}</span></div>
-              <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">{{'ADD_COMPONENT' | translate}</span></div>
+              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NO_COMPONENT' | translate}}</span></div>
+              <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">{{'ADD_COMPONENT' | translate}}</span></div>
             </div>
           </div>
         </ion-item>

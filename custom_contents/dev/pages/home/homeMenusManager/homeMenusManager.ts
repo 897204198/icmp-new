@@ -90,7 +90,12 @@ export class HomeMenusManagerPage {
       this.getWaitNum();
     });
   }
-
+  /**
+   * 每次进入页面
+   */
+  ionViewDidEnter(): void {
+    this.getWaitNum();
+  }
   /**
    * 进入页面
    */
