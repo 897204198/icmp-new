@@ -37,7 +37,7 @@ export class HomeMenusManagerPage {
   private count: number = 0;
   // 是否显示placeholder
   private isShow: boolean = false;
-  //待办个数
+  // 待办个数
   public waitNum: number = 0;
 
   /**
@@ -100,7 +100,7 @@ export class HomeMenusManagerPage {
   getWaitNum(): void {
     this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json() ;// 待办个数
+        let data = res.json(); // 待办个数
         this.waitNum = data;
       }
      this.getMyMenus();
@@ -126,12 +126,12 @@ export class HomeMenusManagerPage {
         let menu = allMenus[i];
         menu.menus = [];
         for (let apps of menu['apps']) {
-          if (apps['name'] == '待办') {
+          if (apps['name'] === '待办') {
             apps['total'] = this.waitNum;
           }
           menu.menus.push(apps);
         }
-        console.log('待办个数'+this.waitNum);
+        console.log('待办个数' + this.waitNum);
         this.categoryMenus.push(menu);
       }
     }, (res: Response) => {
@@ -148,7 +148,7 @@ export class HomeMenusManagerPage {
       if (res._body != null && res._body !== '') {
         this.myMenus = res.json();
         for (let apps of this.myMenus) {
-          if (apps['name'] == '待办') {
+          if (apps['name'] === '待办') {
             apps['total'] = this.waitNum;
           }
         }

@@ -10,8 +10,8 @@ import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { Store } from '@ngrx/store';
-import { Home_BADGE_STATE } from "../../app/redux/app.reducer";//替换首页tab角标
-import { HomeReplaceBadageAction } from "../../app/redux/actions/home.action";
+import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
+import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
 import timeago from 'timeago.js';
@@ -47,9 +47,9 @@ export class HomePage {
   private transateContent: Object;
   // 是否是首次加载
   private isFirst: boolean = true;
-  //全部图标的角标个数
+  // 全部图标的角标个数
   private allNum: number = 0;
-  //待办事件个数
+  // 待办事件个数
   private waitNum: number = 0;
   // private hasInfo: boolean = false;
   private hasLoaded: boolean = false;
@@ -273,7 +273,7 @@ export class HomePage {
         let data = res.json();
         let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
-          if (data[i].name == '待办') {
+          if (data[i].name === '待办') {
             data[i].total =  this.waitNum;
             haveWait++;
           }
@@ -282,8 +282,8 @@ export class HomePage {
           // }
           this.menus.push(data[i]);
         }
-        //首页没有待办数量加在全部图标上
-        if (haveWait == 0){
+        // 首页没有待办数量加在全部图标上
+        if (haveWait === 0){
           this.allNum = this.waitNum;
       }
         this.secureStorageService.putObject('home_applist', this.menus);
@@ -298,7 +298,7 @@ export class HomePage {
   getWaitNum(): void {
     this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json() ;// 待办个数
+        let data = res.json() ; // 待办个数
         this.waitNum = data;
         if (data === 0) {
           this.store.dispatch(new HomeReplaceBadageAction(''));
@@ -306,10 +306,10 @@ export class HomePage {
           this.store.dispatch(new HomeReplaceBadageAction(data.toString()));
         }
       }
-      this.setAppList();// 获取应用
+      this.setAppList(); // 获取应用
     }, (res: Response) => {
       this.toastService.show(res.text());
-      this.setAppList();// 获取应用
+      this.setAppList(); // 获取应用
     });
   }
 
@@ -472,7 +472,8 @@ export class HomePage {
       businessObj: {formTitle: processTitle},
       stateCode: undefined
     })));
-    const browser = this.iab.create( `https://icmp2.propersoft.cn/icmp/web/#/webapp/workflow/workflowMainPop?param=${param}`, '_blank', { 'location': 'no', 'toolbar': 'no' });
+    const url = `https://icmp2.propersoft.cn/icmp/web/#/webapp/workflow/workflowMainPop?param=${param}`;
+    const browser = this.iab.create(`${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}`, '_blank', { 'location': 'no', 'toolbar': 'no' });
     browser.on('loadstop').subscribe(event => {
       browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
       let loop = setInterval(() => {

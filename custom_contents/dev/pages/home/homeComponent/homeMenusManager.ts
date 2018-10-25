@@ -70,7 +70,7 @@ export class HomeComponentPage {
         this.count = 0;
         this.keyword = value;
         if (this.titleFilter.value) {
-          let len = this.SearchFilter.transform(this.categoryMenus, 'page', value).length;
+          let len = this.SearchFilter.transform(this.categoryMenus, 'name', value).length;
           this.count += len;
         } else {
           this.isShow = false;
