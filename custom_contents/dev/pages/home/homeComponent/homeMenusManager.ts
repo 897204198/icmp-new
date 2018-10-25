@@ -159,10 +159,10 @@ export class HomeComponentPage {
   }
 
   /**
-   * 点击管理按钮
+   * 点击完成按钮
    */
   manageMenus(): void {
-    this.isManage = !this.isManage;
+    this.navCtrl.pop();
   }
 
   /**

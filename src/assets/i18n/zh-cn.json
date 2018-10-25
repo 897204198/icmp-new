@@ -234,6 +234,8 @@
   "CODE_LENGTH_SIX": "验证码为6位",
   "MINE": "我的",
   "DEALTIME": "办理时间",
+  "NO_COMPONENT": "您还未添加任何组件哟~",
+  "PROCESS_SUCC" : "流程提交成功",
   "NOTHING_WORK": "您暂时无待办工作",
   "ADD_COMPONENT": "点击下方添加进行添加组件"
 }

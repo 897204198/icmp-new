@@ -72,7 +72,7 @@ export class HomePage {
     private store: Store<string>,
     @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     public events: Events) {
-    let translateKeys: string[] = ['NOTICE_DETAILED'];
+    let translateKeys: string[] = ['NOTICE_DETAILED', 'PROCESS_SUCC'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -428,7 +428,7 @@ export class HomePage {
   }
   agreeDeal(record): void {
     const confirm = this.alertCtrl.create({
-      title: `确认同意${record.pepProcInst.processTitle}?`,
+      title: `确认同意审批此流程吗?`,
       message: '',
       buttons: [
         {
@@ -450,7 +450,7 @@ export class HomePage {
               //   formData: data
               // };
               this.http.post(`/workflow/task/${taskId}`, data).subscribe((res: any) => {
-                this.toastService.show(res.text());
+                this.toastService.show(this.transateContent['PROCESS_SUCC']);
                 this.componentInit();
               }, (res: Response) => {
                 this.toastService.show(res.text());

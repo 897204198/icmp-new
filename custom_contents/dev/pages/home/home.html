@@ -81,21 +81,21 @@
                 </div>
           </div>
       </div>
-      <div *ngIf="componentList.length === 0">
+      <div *ngIf="componentList.length > 0 && workflow.length === 0">
         <ion-item>
           <div style="padding-left: 15px">
-            <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png"><span style="padding-left: 30px">您暂时无待办工作</span>
+            <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png"><span style="padding-left: 30px">{{'NOTHING_WORK' | translate}}</span>
           </div>
         </ion-item>
       </div>
-      <div *ngIf="workflow.length === 0">
+      <div *ngIf="componentList.length === 0">
         <ion-item no-lines>
           <div style="padding: 10px 15px 0;overflow: hidden;">
             <div style="float: left;">
-              <img style="width: 100px;vertical-align: middle" src="./assets/images/2.png">
+              <img style="width: 100px;vertical-align: middle" src="./assets/images/1.png">
             </div>
             <div style="float: right;height: 100%;">
-              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NOTHING_WORK' | translate}}</span></div>
+              <div style="padding-top: 5px;color: #6c6c6c"><span style="float: right">{{'NO_COMPONENT' | translate}}</span></div>
               <div style="padding-top: 34px;color: #6c6c6c;font-size: 14px"><span style="float: right">{{'ADD_COMPONENT' | translate}}</span></div>
             </div>
           </div>
