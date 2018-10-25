@@ -60,7 +60,9 @@ page-home {
       background: #fff;
     }
 
-    .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
+    .swiper-pagination-fraction,
+    .swiper-pagination-custom,
+    .swiper-container-horizontal > .swiper-pagination-bullets {
       bottom: 5px;
       height: 16px;
     }
@@ -130,21 +132,64 @@ page-home {
   .add-button {
     width: 100%;
   }
-  .detail {
-    padding: 0 26px;
-    height: 30px;
-    line-height: 30px;
+  .worktop {
+    padding: 0 15px;
     background: #fff;
+    height: 44px;
+    line-height: 44px;
+    overflow: hidden;
+    .topleft {
+      float: left;
+      font-size: 16px;
+    }
+    .topright {
+      float: right;
+    }
+  }
+  .worktitle {
+    margin: 0 15px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 12px;
+    // background: #fff;
+  }
+  .detail {
+    margin: 0 15px;
+    padding-right: 10px;
+    height: 44px;
+    line-height: 44px;
+    background: #fff;
+    font-size: 14px;
+    color: #6c6c6c;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    &:last-child {
+      border-bottom: 1px solid #c6c6c6;
+    }
   }
   .tings-info-box {
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    // border-bottom: 1px solid #c6c6c6;
     overflow: hidden;
+    &::after {
+      display: block;
+      content: " ";
+      clear: both;
+    }
     .timeage {
       font-size: 14px;
       float: right;
     }
     .tings-info {
       float: left;
+    }
+  }
+  .btnbox {
+    margin: 0 15px;
+    height: 44px;
+    overflow: hidden;
+    > div {
+      float: right;
     }
   }
   .add-button-box {
@@ -161,8 +206,9 @@ page-home {
     }
   }
   .component-agree-btn {
-    width: 100px;
-    height: 35px;
+    width: 90px;
+    height: 32px;
+    font-size: 12px;
+    line-height: 32px;
   }
-
 }
