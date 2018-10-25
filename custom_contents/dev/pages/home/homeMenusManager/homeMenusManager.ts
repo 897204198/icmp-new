@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import 'rxjs/Rx';
 import { DragulaService } from 'ng2-dragula';
 import { ToastService } from '../../../app/services/toast.service';
-import { ModalController, NavController, NavParams } from 'ionic-angular';
+import { ModalController, NavController, NavParams, Events } from 'ionic-angular';
 import { MenuFolderComponent } from '../../../app/component/menuFolder/menuFolder.component';
 import { RoutersService } from '../../../app/services/routers.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchFilterPipe } from '../../../app/pipes/searchFilter/searchFilter';
+
 
 /**
  * 首页应用组件
@@ -50,7 +51,9 @@ export class HomeMenusManagerPage {
     private toastService: ToastService,
     private SearchFilter: SearchFilterPipe,
     private translate: TranslateService,
-    private routersService: RoutersService) {
+    private routersService: RoutersService,
+    private zone: NgZone,
+    public events: Events) {
 
     // 设置功能区列数
     if (screen.width <= 375) {
@@ -81,6 +84,11 @@ export class HomeMenusManagerPage {
         }
       }
     );
+    // 从网页回来刷新首页角标
+    events.subscribe('refresh',() =>{
+      console.log('event刷新全部应用消息啊啦啦啦');
+      this.getWaitNum();
+    });
   }
 
   /**
@@ -99,6 +107,7 @@ export class HomeMenusManagerPage {
    */
   getWaitNum(): void {
     this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+      this.waitNum = 0; 
       if (res._body != null && res._body !== '') {
         let data = res.json(); // 待办个数
         this.waitNum = data;
@@ -121,19 +130,23 @@ export class HomeMenusManagerPage {
       let noGroupMenus = {};
       noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
       noGroupMenus['menus'] = [];
-
-      for (let i = 0; i < allMenus.length; i++) {
-        let menu = allMenus[i];
-        menu.menus = [];
-        for (let apps of menu['apps']) {
-          if (apps['name'] === '待办') {
-            apps['total'] = this.waitNum;
+      console.log('获取全部应用');
+      this.zone.run(() => {
+        for (let i = 0; i < allMenus.length; i++) {
+          let menu = allMenus[i];
+          menu.menus = [];
+          for (let apps of menu['apps']) {
+            if (apps['name'] == '待办') {
+              apps['total'] = this.waitNum;
+              console.log('待办全部角标数'+apps['total']);
+            }
+            menu.menus.push(apps);
           }
-          menu.menus.push(apps);
+          console.log('待办个数'+this.waitNum);
+          this.categoryMenus.push(menu);
         }
-        console.log('待办个数' + this.waitNum);
-        this.categoryMenus.push(menu);
-      }
+      });
+      
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -144,14 +157,20 @@ export class HomeMenusManagerPage {
    */
   getMyMenus(): void {
     this.myMenus = [];
+    const arr = [];
     this.http.get('/app/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.myMenus = res.json();
-        for (let apps of this.myMenus) {
-          if (apps['name'] === '待办') {
-            apps['total'] = this.waitNum;
+        let data = res.json();
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].name == '待办') {
+            data[i].total =  this.waitNum;
           }
+          arr.push(data[i]);
+          console.log('新待办我的应用角标数'+data[i].total);
         }
+        this.zone.run(() => {
+          this.myMenus = arr;           
+        });
       }
     }, (res: Response) => {
       this.toastService.show(res.text());

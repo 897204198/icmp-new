@@ -15,6 +15,7 @@ import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
 import timeago from 'timeago.js';
+
 /**
  * 首页
  */
@@ -89,6 +90,11 @@ export class HomePage {
       this.getComponentList();
       this.componentInit();
     });
+    // 从网页回来刷新首页角标
+    events.subscribe('refresh',() =>{
+      console.log('event刷新消息啊啦啦啦');
+      this.getWaitNum();
+    });
   }
 
   /**
@@ -103,7 +109,7 @@ export class HomePage {
    */
   ionViewDidEnter(): void {
     // 首次不加载
-    if (!this.isFirst) {
+    // if (!this.isFirst) {
       this.getCache();
       this.setNotice();
       this.getWaitNum();
@@ -111,7 +117,7 @@ export class HomePage {
       this.setPlugins();
       this.getComponentList();
       this.componentInit();
-    }
+    // }
     this.isFirst = false;
 
     // 轮播图处理
@@ -277,9 +283,6 @@ export class HomePage {
             data[i].total =  this.waitNum;
             haveWait++;
           }
-          // if (data[i].total > 99) {
-          //   data[i].total = '99+';
-          // }
           this.menus.push(data[i]);
         }
         // 首页没有待办数量加在全部图标上
@@ -452,6 +455,8 @@ export class HomePage {
               this.http.post(`/workflow/task/${taskId}`, data).subscribe((res: any) => {
                 this.toastService.show(this.transateContent['PROCESS_SUCC']);
                 this.componentInit();
+                //刷新待办角标
+                this.getWaitNum();
               }, (res: Response) => {
                 this.toastService.show(res.text());
               });
@@ -484,6 +489,7 @@ export class HomePage {
           if (If_Can_Back === 'back') {
             clearInterval(loop);
             browser.close();
+            this.getWaitNum();
           };
         });
       }, 500);
