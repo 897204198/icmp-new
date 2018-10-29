@@ -1,17 +1,12 @@
 import { Component, ElementRef, ViewChild, NgZone, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, ModalController, Slides, Events } from 'ionic-angular';
+import { NavController, Slides, Events } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { AlertController } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
-import { HomeComponentPage } from './homeComponent/homeMenusManager';
-import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
-import timeago from 'timeago.js';
 /**
  * 首页
  */
@@ -33,8 +28,6 @@ export class HomePage {
   private plugins: Object[] = [];
   // 通知消息列表
   private notices: Object[] = [];
-  private componentList: Object[] = [];
-  private workflow: Object[] = [];
   // 定时对象
   private intervalId: any = null;
   private intervalSlideId: any = null;
@@ -44,18 +37,12 @@ export class HomePage {
   private transateContent: Object;
   // 是否是首次加载
   private isFirst: boolean = true;
-  // private hasInfo: boolean = false;
-  private hasLoaded: boolean = false;
-  private hasListLoaded: boolean = false;
 
   /**
    * 构造函数
    */
   constructor(private navCtrl: NavController,
-    private modalCtrl: ModalController,
-    private iab: InAppBrowser,
     private el: ElementRef,
-    public alertCtrl: AlertController,
     private zone: NgZone,
     private http: Http,
     private toastService: ToastService,
@@ -77,8 +64,6 @@ export class HomePage {
       this.setNotice();
       this.setAppList();
       this.setPlugins();
-      this.getComponentList();
-      this.componentInit();
     });
   }
 
@@ -99,8 +84,6 @@ export class HomePage {
       this.setNotice();
       this.setAppList();
       this.setPlugins();
-      this.getComponentList();
-      this.componentInit();
     }
     this.isFirst = false;
 
@@ -113,70 +96,6 @@ export class HomePage {
           }
         });
       }, 3000);
-    });
-  }
-  test_local_dict (number, index, total_sec): any {
-    // number：xxx 时间前 / 后的数字；
-    // index：下面数组的索引号；
-    // total_sec：时间间隔的总秒数；
-    return [
-      ['刚刚', 'a while'],
-      ['%s 秒前', 'in %s seconds'],
-      ['1分钟前', 'in 1 minute'],
-      ['%s分钟前', 'in %s minutes'],
-      ['1小时前', 'in 1 hour'],
-      ['%s小时前', 'in %s hours'],
-      ['1天前', 'in 1 day'],
-      ['%s天前', 'in %s days'],
-      ['1星期前', 'in 1 week'],
-      ['%s星期前', 'in %s weeks'],
-      ['1月前', 'in 1 month'],
-      ['%s月前', 'in %s months'],
-      ['1年前', 'in 1 year'],
-      ['%s年前', 'in %s years']
-    ][index];
-};
-  getComponentList() : void {
-    this.http.get('/plugin').subscribe((res: any) => {
-      if (res._body != null && res._body !== '') {
-        this.componentList = res.json();
-        this.hasLoaded = true;
-      };
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
-  }
-  componentInit(): void {
-    Date.prototype.toLocaleString = function() {
-      return this.getFullYear() + '-' + (this.getMonth() + 1) + '-' + this.getDate() + ' ' + this.getHours() + ':' + this.getMinutes() + ':' + this.getSeconds();
-    };
-    this.http.get('/search/query?moduleName=workflow_task&pageNo=1&pageSize=5').subscribe((res: any) => {
-      if (res._body != null && res._body !== '') {
-        this.workflow = res.json().data;
-        this.workflow.forEach(element => {
-          timeago.register('test_local', this.test_local_dict);
-          const timeagoa = timeago();
-          element['createTime'] = timeagoa.format(element['createTime'], 'test_local');
-          if (element['globalData']['formTodoDisplayFields'] && element['globalData']['formTodoDisplayFields'].length > 0) {
-            element['hasFields'] = true;
-            element['globalData']['formTodoDisplayFields'].forEach(item => {
-              if (element['form']['formData'][`${item['name']}_text`]) {
-                item['value'] = element['form']['formData'][`${item['name']}_text`];
-              } else {
-                item['value'] = element['form']['formData'][item['name']];
-              };
-              if (typeof(item['value']) === 'number') {
-                item['value'] = new Date(item['value']).toLocaleString();
-              };
-            });
-          } else {
-            element['hasFields'] = false;
-          };
-        });
-        this.hasListLoaded = true;
-      };
-    }, (res: Response) => {
-      this.toastService.show(res.text());
     });
   }
   /**
@@ -370,88 +289,4 @@ export class HomePage {
     };
     this.routersService.pageForward(this.navCtrl, menuItem);
   }
-
-  handleAdd(): void {
-    this.navCtrl.push(HomeComponentPage);
-  }
-  getMoreInfo(menu): void {
-    if (menu['appType'] === 'folder') {
-      let modal = this.modalCtrl.create(MenuFolderComponent, {name: menu});
-      modal.onDidDismiss(data => {
-        if (data) {
-          this.routersService.pageForward(this.navCtrl, data);
-        }
-      });
-      modal.present();
-    } else {
-      this.routersService.pageForward(this.navCtrl, menu);
-    };
-  }
-  agreeDeal(record): void {
-    const confirm = this.alertCtrl.create({
-      title: `确认同意${record.pepProcInst.processTitle}?`,
-      message: '',
-      buttons: [
-        {
-          text: '取消',
-          handler: () => {
-          }
-        },
-        {
-          text: '确认',
-          handler: () => {
-            const {taskId, form} = record;
-            if (record.form.formData) {
-              const data = {
-                ...form.formData,
-                passOrNot: 1,
-                approvalRemarks: ''
-              };
-              // const params = {
-              //   formData: data
-              // };
-              this.http.post(`/workflow/task/${taskId}`, data).subscribe((res: any) => {
-                this.toastService.show(res.text());
-                this.componentInit();
-              }, (res: Response) => {
-                this.toastService.show(res.text());
-              });
-            };
-          }
-        }
-      ]
-    });
-    confirm.present();
-  }
-  getDetail(record): void {
-    const {pepProcInst: {procInstId, processTitle}, taskId, name} = record;
-    const param = btoa(encodeURIComponent(JSON.stringify({
-      isLaunch: false,
-      taskOrProcDefKey: taskId,
-      procInstId,
-      name,
-      businessObj: {formTitle: processTitle},
-      stateCode: undefined
-    })));
-    const browser = this.iab.create( `https://icmp2.propersoft.cn/icmp/web/#/webapp/workflow/workflowMainPop?param=${param}`, '_blank', { 'location': 'no', 'toolbar': 'no' });
-    browser.on('loadstop').subscribe(event => {
-      browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-      let loop = setInterval(() => {
-        browser.executeScript({
-          code: 'localStorage.getItem("If_Can_Back");'
-        }).then(values => {
-          let If_Can_Back = values[0];
-          if (If_Can_Back === 'back') {
-            clearInterval(loop);
-            browser.close();
-          };
-        });
-      }, 500);
-    });
-  }
-  // formate(item, value): any {
-  //   // return item[`${value}_text`];
-  //   console.log(item)
-  //   return value;
-  // }
 }

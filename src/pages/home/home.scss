@@ -127,42 +127,4 @@ page-home {
   .bottom-blank {
     height: 30px;
   }
-  .add-button {
-    width: 100%;
-  }
-  .detail {
-    padding: 0 26px;
-    height: 30px;
-    line-height: 30px;
-    background: #fff;
-  }
-  .tings-info-box {
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    overflow: hidden;
-    .timeage {
-      font-size: 14px;
-      float: right;
-    }
-    .tings-info {
-      float: left;
-    }
-  }
-  .add-button-box {
-    text-align: center;
-    .add-button {
-      width: 90%;
-      background: #fff;
-      height: 30px;
-      margin-top: 10px;
-      // color: bule !important;
-    }
-    .button-inner {
-      color: #0079fa;
-    }
-  }
-  .component-agree-btn {
-    width: 100px;
-    height: 35px;
-  }
-
 }
