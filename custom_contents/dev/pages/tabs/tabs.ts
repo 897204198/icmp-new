@@ -316,6 +316,9 @@ export class TabsPage {
             if (If_Can_Back === 'back') {
               clearInterval(loop);
               browser.close();
+              console.log(' 推送浏览器走back刷新');
+              // 刷新首页角标
+              this.events.publish('refresh');
             }
           });
         }, 500);
