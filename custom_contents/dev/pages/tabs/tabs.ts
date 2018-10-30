@@ -302,25 +302,25 @@ export class TabsPage {
         url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title
       }
     };
-    // if (this.deviceService.getDeviceInfo().deviceType === 'android') {
+    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
       this.navCtrl.push(ExamCustomFramePage, data);
-    // } else {
-    //   const browser = this.iab.create(data.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-    //   browser.on('loadstop').subscribe(event => {
-    //     browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-    //     let loop = setInterval(() => {
-    //       browser.executeScript({
-    //         code: 'localStorage.getItem("If_Can_Back");'
-    //       }).then(values => {
-    //         let If_Can_Back = values[0];
-    //         if (If_Can_Back === 'back') {
-    //           clearInterval(loop);
-    //           browser.close();
-    //         }
-    //       });
-    //     }, 500);
-    //   });
-    // }
+    } else {
+      const browser = this.iab.create(data.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+      browser.on('loadstop').subscribe(event => {
+        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+        let loop = setInterval(() => {
+          browser.executeScript({
+            code: 'localStorage.getItem("If_Can_Back");'
+          }).then(values => {
+            let If_Can_Back = values[0];
+            if (If_Can_Back === 'back') {
+              clearInterval(loop);
+              browser.close();
+            }
+          });
+        }, 500);
+      });
+    }
   }
 
   // 自动登录

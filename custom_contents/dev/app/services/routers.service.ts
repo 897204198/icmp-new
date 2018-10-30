@@ -68,36 +68,36 @@ export class RoutersService {
       navCtrl.push(StatisticsViewPage, menu);
     } else if (menu.page === this.icmpConstant.page.examList) {
       const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-      // if (deviceInfo.deviceType === 'android') {
+      if (deviceInfo.deviceType === 'android') {
         navCtrl.push(ExamCustomFramePage, menu);
-      // } else {
-      //   let menuStr: string = menu.data.url;
-      //   let url;
-      //   if (menuStr.includes('?')) {
-      //     url = menu.data.url + '&token=' + localStorage.getItem('token') + '&title=' + menu.name;
-      //   } else {
-      //     url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
-      //   }
-      //   url = url.replace('#', '?v=' + new Date().getTime() + '#');
-      //   const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-      //   browser.on('loadstop').subscribe(event => {
-      //     browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-      //     let loop = setInterval(() => {
-      //       browser.executeScript({
-      //         code: 'localStorage.getItem("If_Can_Back");'
-      //       }).then(values => {
-      //         let If_Can_Back = values[0];
-      //         if (If_Can_Back === 'back') {
-      //           clearInterval(loop);
-      //           browser.close();
-      //           console.log('看看浏览器走back哈哈');
-      //           //刷新首页角标
-      //           this.events.publish('refresh');
-      //         }
-      //       });
-      //     }, 500);
-      //   });
-      // }
+      } else {
+        let menuStr: string = menu.data.url;
+        let url;
+        if (menuStr.includes('?')) {
+          url = menu.data.url + '&token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        } else {
+          url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
+        }
+        url = url.replace('#', '?v=' + new Date().getTime() + '#');
+        const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+        browser.on('loadstop').subscribe(event => {
+          browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
+          let loop = setInterval(() => {
+            browser.executeScript({
+              code: 'localStorage.getItem("If_Can_Back");'
+            }).then(values => {
+              let If_Can_Back = values[0];
+              if (If_Can_Back === 'back') {
+                clearInterval(loop);
+                browser.close();
+                console.log('看看浏览器走back哈哈');
+                // 刷新首页角标
+                this.events.publish('refresh');
+              }
+            });
+          }, 500);
+        });
+      }
     } else if (menu.page === this.icmpConstant.page.macAddress) {
       navCtrl.push(MacAddressPage, {menu});
     } else if (menu.page === this.icmpConstant.page.email) {
