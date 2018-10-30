@@ -139,7 +139,10 @@ export class TabsPage {
     }
   }
   ionViewDidEnter(): void {
+    //获取修改tab角标数
     this.getWaitToDoNumber();
+    // 刷新首页待办角标和组件
+    this.events.publish('refresh');
   }
   /**
    * 取DOM元素
