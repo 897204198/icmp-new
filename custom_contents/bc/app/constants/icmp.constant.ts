@@ -24,7 +24,7 @@ export interface SystemIdConstant {
   statisticsView: string;
 
   // 门急诊
-  emergency: string;
+  emergencyTreatment: string;
 }
 
 /**
@@ -58,7 +58,7 @@ export const systemIdConstant: SystemIdConstant = {
   instaShot: 'instaShot',
   statisticsSearch: 'statisticsSearch',
   statisticsView: 'statisticsView',
-  emergency: 'emergency'
+  emergencyTreatment: 'emergencyTreatment'
 };
 
 export const icmpConstant: IcmpConstant = {

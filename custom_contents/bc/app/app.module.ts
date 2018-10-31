@@ -158,6 +158,7 @@ export function createTranslateLoader(http: Http) {
     MyApp,
     MenuFolderComponent,
     SearchboxComponent,
+    HomeCustomComponent,
     TabsPage,
     AdminPage,
     LoginPage,
