@@ -139,7 +139,10 @@ export class TabsPage {
     }
   }
   ionViewDidEnter(): void {
+    //获取修改tab角标数
     this.getWaitToDoNumber();
+    // 刷新首页待办角标和组件
+    this.events.publish('refresh');
   }
   /**
    * 取DOM元素
@@ -316,6 +319,9 @@ export class TabsPage {
             if (If_Can_Back === 'back') {
               clearInterval(loop);
               browser.close();
+              console.log(' 推送浏览器走back刷新');
+               // 刷新首页角标
+               this.events.publish('refresh');
             }
           });
         }, 500);
