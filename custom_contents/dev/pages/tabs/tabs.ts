@@ -263,7 +263,7 @@ export class TabsPage {
     }
   }
 
-  // 推送通知打开查询 
+  // 推送通知打开查询
   doOpenNotificationQuery(customsDic: any) {
     this.navCtrl.push(QueryDetailPage, customsDic);
   }
@@ -390,7 +390,7 @@ export class TabsPage {
     (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
       (<any>window).huanxin.loginState('', () => {
         // 推送服务取消与当前用户的绑定关系
-        this.pushService.unBindUserid();
+        this.pushService.unBindUserid(this.userInfo.userId);
         // 取消自动登录
         this.userService.logout();
         this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
@@ -448,7 +448,7 @@ getWaitToDoNumber(){
       this.zone.run(() => {
         localStorage.setItem('imIsOpen', imIsOpen);
         // 推送服务取消与当前用户的绑定关系
-        this.pushService.unBindUserid();
+        this.pushService.unBindUserid(this.userInfo.userId);
         // 取消自动登录
         this.userService.logout();
         this.http.post('/user/logoff', {}).subscribe(() => { }, () => { });
