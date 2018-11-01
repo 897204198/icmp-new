@@ -101,7 +101,21 @@ page-home {
       margin-left: 16px;
       color: #444;
     }
+    .home-notice-content {
+      padding-left: 12px;
+      color: #777777;
+      overflow: hidden;
+      font-size: 14px;
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
 
+      > div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
     .notice-content {
       color: #777777;
       overflow: hidden;
