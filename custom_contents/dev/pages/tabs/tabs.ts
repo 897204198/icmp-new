@@ -390,7 +390,6 @@ export class TabsPage {
     (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
       (<any>window).huanxin.loginState('', () => {
         // 推送服务取消与当前用户的绑定关系
-        this.toastService.show('dev-tabs-getUnreadMessageNumber');
         this.pushService.unBindUserid(this.userInfo.userId);
         // 取消自动登录
         this.userService.logout();
@@ -449,7 +448,6 @@ getWaitToDoNumber(){
       this.zone.run(() => {
         localStorage.setItem('imIsOpen', imIsOpen);
         // 推送服务取消与当前用户的绑定关系
-        this.toastService.show('dev-tabs-logOut');
         this.pushService.unBindUserid(this.userInfo.userId);
         // 取消自动登录
         this.userService.logout();
