@@ -17,7 +17,8 @@ import { FeedbackPage } from './feedback/feedback';
 import { ConfigsService } from '../../app/services/configs.service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
-import { ToastService } from '../../../app/services/toast.service';
+import { ToastService } from '../../app/services/toast.service';
+
 /**
  * 设置首页
  */
