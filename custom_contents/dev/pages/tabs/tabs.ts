@@ -78,15 +78,15 @@ export class TabsPage {
         this.backButtonService.registerBackButtonAction(this.tabRef);
         // 通过推送通知打开应用事件
         document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-  
+
         // 自动登录
         this.autoLogin();
-  
+
         //app icon角标个数
         var iconNum: number = 0;
         var messageIconNum: number = 0;
         var homewaitIconNum: number = 0;
-  
+
         // 消息角标绑定
         this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
@@ -390,6 +390,7 @@ export class TabsPage {
     (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
       (<any>window).huanxin.loginState('', () => {
         // 推送服务取消与当前用户的绑定关系
+        this.toastService.show("dev-tabs-getUnreadMessageNumber");
         this.pushService.unBindUserid(this.userInfo.userId);
         // 取消自动登录
         this.userService.logout();
@@ -424,7 +425,7 @@ export class TabsPage {
 getWaitToDoNumber(){
   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
     if (res._body != null && res._body !== '') {
-      let data = res.json() ;//待办个数 
+      let data = res.json() ;//待办个数
       // let data = 5;
       this.zone.run(() => {
           if (data === 0) {
@@ -448,6 +449,7 @@ getWaitToDoNumber(){
       this.zone.run(() => {
         localStorage.setItem('imIsOpen', imIsOpen);
         // 推送服务取消与当前用户的绑定关系
+        this.toastService.show("dev-tabs-logOut");
         this.pushService.unBindUserid(this.userInfo.userId);
         // 取消自动登录
         this.userService.logout();

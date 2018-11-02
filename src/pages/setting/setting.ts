@@ -16,6 +16,7 @@ import { ResetPasswordPage } from './resetPassword/resetPassword';
 import { FeedbackPage } from './feedback/feedback';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
+import {ToastService} from "../../app/services/toast.service";
 
 /**
  * 设置首页
@@ -58,6 +59,7 @@ export class SettingPage {
     private translate: TranslateService,
     private statusBar: StatusBar,
     private platform: Platform,
+    private toastService: ToastService,
     private appVersionUpdateService: AppVersionUpdateService) {
 
     this.userInfoPage = UserInfoPage;
@@ -116,6 +118,7 @@ export class SettingPage {
    */
   logOut() {
     // 推送服务取消与当前用户的绑定关系
+    this.toastService.show("src-Setting-logOut");
     this.pushService.unBindUserid(this.userInfo.userId);
     // 取消自动登录
     this.userService.logout();
