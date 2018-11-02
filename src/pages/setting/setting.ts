@@ -16,7 +16,7 @@ import { ResetPasswordPage } from './resetPassword/resetPassword';
 import { FeedbackPage } from './feedback/feedback';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
-import {ToastService} from "../../app/services/toast.service";
+import {ToastService} from '../../app/services/toast.service';
 
 /**
  * 设置首页
