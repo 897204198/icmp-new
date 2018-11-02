@@ -144,7 +144,7 @@ export class SettingPage {
    */
   logOut() {
     // 推送服务取消与当前用户的绑定关系
-    this.toastService.show("dev-settings-logOut");
+    this.toastService.show('dev-settings-logOut');
     this.pushService.unBindUserid(this.userInfo.userId);
     // 取消自动登录
     this.userService.logout();
