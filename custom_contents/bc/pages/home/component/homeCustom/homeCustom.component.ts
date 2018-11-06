@@ -76,20 +76,20 @@ export class HomeCustomComponent {
           if (someTime === '0') {
             let alert = this.alertCtrl.create({
               title: this.transateContent['PROMPT_INFO'],
-              message: this.transateContent['PLEASE_CHECK_PASSWORD_PC_END'],
+              message: this.transateContent['您没有权限'],
               buttons: ['OK']
             });
             alert.present();
           } else if (someTime === '1'){
             let alert = this.alertCtrl.create({
-              title: this.transateContent['PROMPT_INFOo'],
-              message: this.transateContent['PLEASE_POWER'],
+              title: this.transateContent['PROMPT_INFO'],
+              message: this.transateContent['请在PC管理端设置密码'],
               buttons: ['OK']
             });
             alert.present();
           } else {
             let prompt = this.alertCtrl.create({
-              message: this.transateContent['PLEASE_ENTER_PASSWORD'],
+              title: this.transateContent['PROMPT_INFO'],
               inputs: [
                 {
                   name: 'password',

@@ -57,7 +57,7 @@ export class RoutersService {
       navCtrl.push(StatisticsQueryPage, menu);
     } else if (menu.systemId === this.icmpConstant.systemId.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
-    } else if (menu.systemId === this.icmpConstant.systemId.emergencyTreatment) {
+    } else if (menu.systemId === this.icmpConstant.systemId.emergency) {
       navCtrl.push(EmergencyTreatmentPage, menu);
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
