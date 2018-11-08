@@ -36,7 +36,12 @@ export class NoticePage {
       this.pages = this.notices.length;
     }
     this.index = this.navParams.get('index');
-    this.page = this.index + 1;
+    if (this.index >= this.pages) {
+      this.index = 0;
+      this.page = this.index + 1;
+    }else{
+      this.page = this.index + 1;
+    }
     this.notice = {
       title: this.navParams.get('title'),
       info: this.navParams.get('info'),

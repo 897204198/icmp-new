@@ -88,7 +88,6 @@ export class HomePage {
     this.getCache();
     // 保证登录成功后再请求接口
     events.subscribe('logined', () => {
-      this.setNotice();
       this.getWaitNum();
       this.setAppList();
       this.setPlugins();
@@ -210,14 +209,6 @@ export class HomePage {
    * 获取缓存
    */
   getCache() {
-    this.notices = this.secureStorageService.getObject('home_notice');
-    if (this.notices && this.notices.length > 0) {
-      this.notices.push(this.secureStorageService.getObject('home_notice')[0]);
-      this.noticeMarginIndex = 0;
-      setTimeout(() => {
-        this.noticeScroll();
-      }, 200);
-    }
     this.menus = this.secureStorageService.getObject('home_applist');
     this.plugins = this.secureStorageService.getObject('home_plugins');
   }
@@ -348,7 +339,7 @@ export class HomePage {
    * 获取通知消息列表
    */
   setNotice(): void {
-    let params: Object = {infoType: 'ACTIVITY_INFORMATION'};
+    let params: Object = {infoType: 'NOTICE_INFORMATION'};
     this.http.get('/sys/announcement', { params: params }).subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json();

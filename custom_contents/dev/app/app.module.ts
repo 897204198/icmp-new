@@ -99,6 +99,7 @@ import { OopStormPage } from '../pages/setting/about/oopStorm/oopStorm';
 import { ImagePreviewPage } from '../pages/setting/feedback/imagePreview';
 import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directive';
 import { NoticePage } from "../pages/notice/notice";
+import { InitService } from '../app/services/init.service';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -264,6 +265,7 @@ export function createTranslateLoader(http: Http) {
     BackButtonService,
     ConfigsService,
     ToastService,
+    InitService,
     RoutersService,
     FileService,
     UtilsService,
