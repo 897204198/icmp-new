@@ -296,8 +296,8 @@ export class TabsPage {
     });
   }
 
-  // 打开推送通知
-  openExamlist(customsDic: any) {
+   // 打开推送通知
+   openExamlist(customsDic: any) {
     const data = {
       name: customsDic.title,
       isPush: true,
@@ -305,9 +305,17 @@ export class TabsPage {
         url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title
       }
     };
+    console.log('name:'+customsDic.title);
+    console.log('链接:'+data.data.url);
+    console.log('手机类型:'+this.deviceService.getDeviceInfo().deviceType);
+    alert('手机类型:'+this.deviceService.getDeviceInfo().deviceType);
+    alert('链接:'+data.data.url);
+
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
+      alert('安卓推送手机类型:'+this.deviceService.getDeviceInfo().deviceType);
       this.navCtrl.push(ExamCustomFramePage, data);
     } else {
+      alert('ios进入推送');
       const browser = this.iab.create(data.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
       browser.on('loadstop').subscribe(event => {
         browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
