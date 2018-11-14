@@ -174,9 +174,13 @@ export class TabsPage {
    * 推送打开事件处理
    */
   doOpenNotification(event: any) {
+    alert(JSON.stringify(event));
+    alert('收到推送1'+event);
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
+      alert('收到推送2'+event);
       this.appVersionUpdateService.checkAppVersion(true);
     } else if (event.properCustoms.bean) {
+      alert('收到推送3'+event);
       if (event.properAlert) {
         // 应用内
       } else if (event.properCustoms.push_type === 'chat') {
@@ -203,7 +207,9 @@ export class TabsPage {
         (<any>window).huanxin.chat(params);
       }
     } else {
+      alert('收到推送4'+event);
       if (event.properAlert) {
+        alert('收到推送5'+event.properAlert);
         let messagesPrompt = this.alertCtrl.create({
           title: this.transateContent['PROMPT_INFO'],
           message: this.transateContent['PUSH_OPEN_PROMPT_ONE'] + event.properCustoms._proper_title + this.transateContent['PUSH_OPEN_PROMPT_TWO'],
@@ -223,15 +229,21 @@ export class TabsPage {
         });
         messagesPrompt.present();
       } else {
+        alert('收到推送6'+event.properCustoms.gdpr_mpage);
         if ('todotasks' === event.properCustoms.gdpr_mpage) {
+          alert('收到推送7'+event.properCustoms.gdpr_mpage);
           this.doOpenNotificationTodo(event.properCustoms);
         } else if ('noticetasks' === event.properCustoms.gdpr_mpage) {
+          alert('收到推送8'+event.properCustoms.gdpr_mpage);
           this.doOpenNotificationNoticeQuery(event.properCustoms);
         } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
+          alert('收到推送9'+event.properCustoms.gdpr_mpage);
           this.doOpenNotificationQuery(event.properCustoms);
         } else if ('feedback' === event.properCustoms.gdpr_mpage) {
+          alert('收到推送10'+event.properCustoms.gdpr_mpage);
           this.doOpenNotificationFeedback(event.properCustoms);
         } else if ('examList' === event.properCustoms.gdpr_mpage) {
+          alert('收到推送11'+event.properCustoms.gdpr_mpage);
           this.doOpenNotificationExamlist(event.properCustoms);
         }
       }
@@ -286,6 +298,7 @@ export class TabsPage {
   }
   // 推送通知打开流程
   doOpenNotificationExamlist(customsDic: any) {
+    alert('推送打开'+customsDic);
     // 首次不加载
     if (!this.isFirst) {
       this.openExamlist(customsDic);
@@ -293,6 +306,7 @@ export class TabsPage {
     this.isFirst = false;
     this.events.subscribe('logined', () => {
       this.openExamlist(customsDic);
+      alert('推送打开'+customsDic);
     });
   }
 
