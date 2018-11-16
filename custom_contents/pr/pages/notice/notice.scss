@@ -1,0 +1,38 @@
+page-notice {
+  .notice-con {
+    display: flex;
+    flex-direction: column;
+
+    .notice-content {
+
+      .notice-content-header {
+        text-align: center; 
+        font-size: 18px; 
+        padding-bottom: 6px;
+      }
+
+      .notice-content-time {
+        text-align: center; 
+        font-size: 13px; 
+        color: #777777; 
+        padding-bottom: 3px; 
+        border-bottom: 1px solid #d0d0d0;
+      }
+
+      .notice-content-con {
+        padding-top: 12px;
+      }
+    }
+  }
+  .notice-footer {
+    display: flex;
+    width: 100%;
+
+    .notice-footer-item {
+      flex: 1;
+      color: #000;
+      text-align: center;
+      align-items: center;
+    }
+  }
+}

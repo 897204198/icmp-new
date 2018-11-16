@@ -17,6 +17,7 @@ import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
 import timeago from 'timeago.js';
+import { NoticePage } from '../notice/notice';
 
 /**
  * 首页
@@ -39,6 +40,7 @@ export class HomePage {
   private plugins: Object[] = [];
   // 通知消息列表
   private notices: Object[] = [];
+  noticeLists: Object[] = [];
   private componentList: Object[] = [];
   private workflow: Object[] = [];
   // 定时对象
@@ -86,7 +88,6 @@ export class HomePage {
     this.getCache();
     // 保证登录成功后再请求接口
     events.subscribe('logined', () => {
-      this.setNotice();
       this.getWaitNum();
       this.setAppList();
       this.setPlugins();
@@ -208,14 +209,6 @@ export class HomePage {
    * 获取缓存
    */
   getCache() {
-    this.notices = this.secureStorageService.getObject('home_notice');
-    if (this.notices && this.notices.length > 0) {
-      this.notices.push(this.secureStorageService.getObject('home_notice')[0]);
-      this.noticeMarginIndex = 0;
-      setTimeout(() => {
-        this.noticeScroll();
-      }, 200);
-    }
     this.menus = this.secureStorageService.getObject('home_applist');
     this.plugins = this.secureStorageService.getObject('home_plugins');
   }
@@ -346,29 +339,19 @@ export class HomePage {
    * 获取通知消息列表
    */
   setNotice(): void {
-    let params = {
-      'pageNo': '1',
-      'pageSize': '3',
-      'serviceName': 'notifyPublishQueryService'
-    };
-    this.http.get('/business/querys', { params: params }).subscribe((res: any) => {
+    let params: Object = {infoType: 'NOTICE_INFORMATION'};
+    this.http.get('/sys/announcement', { params: params }).subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.notices = [];
-        let data = res.json().rows;
-        for (let i = 0; i < data.length; i++) {
-          // 去除html
-          let tempStr: string = data[i].title;
-          data[i].title = tempStr.replace(/<[^>]+>/g, '');
-        }
+        let data = res.json();
         this.notices = data;
-        this.secureStorageService.putObject('home_notice', this.notices);
+        this.noticeLists = [...data];
         if (this.notices.length > 0) {
-          this.notices.push(data[0]);
+          this.notices.push({title: this.notices[0]['title'], info: this.notices[0]['info'], beginTime: this.notices[0]['beginTime']});
           this.noticeMarginIndex = 0;
-          setTimeout(() => {
-            this.noticeScroll();
-          }, 200);
+          this.noticeScroll();
         }
+      } else {
+        this.notices = [];
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -402,6 +385,11 @@ export class HomePage {
   /**
    * 打开通知消息
    */
+   // 点击通知跳转
+   noticeClk(index: number): void {
+    let noticeInfo = this.notices[index];
+    this.navCtrl.push(NoticePage, {notices: this.noticeLists, index: index, title: noticeInfo['title'], info: noticeInfo['info'], beginTime: noticeInfo['beginTime'].substring(0, 10)});
+  }
   openNotice(item: any): void {
     let title = item.detailTitleBarText ? item.detailTitleBarText : this.transateContent['NOTICE_DETAILED'];
     let menuItem: any = {

@@ -27,6 +27,13 @@
   <!-- <icmp-home-custom [menus]="menus"></icmp-home-custom> -->
   <icmp-home-custom [menus]="menus" [allNum]="allNum"></icmp-home-custom>
 
+    <!--消息-->
+    <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
+      <ion-icon name="volume-up"></ion-icon>
+      <span class="home-notice-content">
+        <div *ngFor="let item of notices; let i = index" [ngClass]="{'notice-first': i==0}" tappable (click)="noticeClk(i)">{{item.title}}</div>
+       </span>
+    </div>
   <!--消息-->
   <!-- <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
     <ion-icon name="volume-up"></ion-icon>
