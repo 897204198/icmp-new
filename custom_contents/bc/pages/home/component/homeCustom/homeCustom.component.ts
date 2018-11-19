@@ -36,7 +36,7 @@ export class HomeCustomComponent {
               @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
               private appVersionUpdateService: AppVersionUpdateService,
               private routersService: RoutersService) {
-    let translateKeys: string[] = ['PROMPT_INFO', 'PLEASE_POWER', 'PLEASE_CHECK_PASSWORD_PC_END', 'PLEASE_SET_PASSWORD', 'look_SUCCESS', 'PLEASE_ENTER_PASSWORD', 'SETTING_SUCCESS', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
+    let translateKeys: string[] = ['NO_PASSWORD_INFO', 'NO_POWER_INFO', 'PROMPT_INFO', 'PLEASE_POWER', 'PLEASE_CHECK_PASSWORD_PC_END', 'PLEASE_SET_PASSWORD', 'look_SUCCESS', 'PLEASE_ENTER_PASSWORD', 'SETTING_SUCCESS', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
       this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -64,69 +64,7 @@ export class HomeCustomComponent {
       });
       modal.present();
     } else {
-      // this.routersService.pageForward(this.navCtrl, menu);
-      if (menu.hadpass === 'true') {
-        let params: URLSearchParams = new URLSearchParams();
-        params.append('serviceName', 'pushMsgQueryService');
-        params.append('someTime', 'someTime');
-        this.http.post('/webController/checkSalaryInquiryLogin', params).subscribe((res: Response) => {
-          let dataCom = res.json();
-          let passw = dataCom.password;
-          let someTime = dataCom.someTime;
-          if (someTime === '0') {
-            let alert = this.alertCtrl.create({
-              title: this.transateContent['PROMPT_INFO'],
-              message: this.transateContent['您没有权限'],
-              buttons: ['OK']
-            });
-            alert.present();
-          } else if (someTime === '1'){
-            let alert = this.alertCtrl.create({
-              title: this.transateContent['PROMPT_INFO'],
-              message: this.transateContent['请在PC管理端设置密码'],
-              buttons: ['OK']
-            });
-            alert.present();
-          } else {
-            let prompt = this.alertCtrl.create({
-              title: this.transateContent['PROMPT_INFO'],
-              inputs: [
-                {
-                  name: 'password',
-                  placeholder: this.transateContent['PLEASE_ENTER_PASSWORD'],
-                  type: 'password'
-                },
-              ],
-              buttons: [
-                {
-                  text: this.transateContent['CANCEL']
-                },
-                {
-                  text: this.transateContent['CONFIRM'],
-                  handler: data => {
-                    console.log(data.password)
-                    if ( data.password === passw) {
-                      this.routersService.pageForward(this.navCtrl, menu);
-                    } else {
-                      if (data.password == null || data.password === '') {
-                        this.toastService.show(this.transateContent['PLEASE_ENTER_PASSWORD']);
-                      } else {
-                        this.toastService.show(this.transateContent['PASSWORD_WRONG']);
-                      }
-                      return false;
-                    }
-                  }
-                }
-              ]
-            })
-            prompt.present();
-          }
-        }, (res: Response) => {
-          // todo
-        });
-      } else {
-        this.routersService.pageForward(this.navCtrl, menu);
-      }
+      this.routersService.isHasPass(this.navCtrl, menu);
     }
   }
 

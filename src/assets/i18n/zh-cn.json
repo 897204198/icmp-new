@@ -60,6 +60,8 @@
   "APP_DOWNLOAD_QRCODE_PROMPT": "扫描二维码或点击二维码打开程序下载页",
   "APP_DOWNLOAD_SKIP_PROMPT": "即将跳转到APP下载页面",
   "PROMPT_INFO": "提示",
+  "NO_POWER_INFO": "您没有权限查看，如有需要请联系管理员",
+  "NO_PASSWORD_INFO": "您配有设置密码，请到网页端设置密码",
   "COMPANY_NAME": "沈阳普日软件技术有限公司",
   "COMPANY_PROPAGANDA_ONE": "做最",
   "COMPANY_PROPAGANDA_TWO": "适合",
