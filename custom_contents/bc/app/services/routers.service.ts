@@ -31,7 +31,7 @@ export class RoutersService {
     private http: Http,
     public alertCtrl: AlertController,
     private translate: TranslateService) {
-    this.translate.get(['PASSWORD_WRONG', 'PLEASE_ENTER_PASSWORD', 'NO_PASSWORD_INFO', 'NO_POWER_INFO', 'PROMPT_INFO', 'NO_DETAILED_INFO']).subscribe((res: Object) => {
+    this.translate.get(['NO_DETAILED_INFO', 'PROMPT_INFO', 'NO_POWER_INFO', 'NO_PASSWORD_INFO', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG']).subscribe((res: Object) => {
       this.transateContent = res;
     });
   }
