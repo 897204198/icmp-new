@@ -48,7 +48,7 @@ export class HomeCustomComponent {
       });
       modal.present();
     } else {
-      this.routersService.isHasPass(this.navCtrl, menu);
+      this.routersService.pageForward(this.navCtrl, menu);
     }
   }
 
