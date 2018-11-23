@@ -51,14 +51,47 @@
     "server": {
       "chatKey": "1166171023115752#icmp",
       "adminConsolePass": "123456",
-      "baseUrl": "https://icmp2.propersoft.cn/icmp/server-dev/",
+      "baseUrl": "https://icmp2.propersoft.cn/icmp/server-dev/route",
       "pushAppId": "MobileOADev",
       "pushServer": "http://push.propersoft.cn/pep-push",
+      "getServiceKeyUrl":"http://220918zh27.iok.la:54885/pep/streamline/streamline/",
       "pushXiaomi": {
         "theAppid": "2882303761517720026",
         "theAppkey": "5401772090026"
       },
       "hcp": "https://icmp2.propersoft.cn/icmp-dev/"
+    }
+  },
+  "online": {
+    "id": {
+      "android": "com.proper.icmp.online",
+      "ios": "com.proper.icmp.online"
+    },
+    "version": {
+      "android": "20000-SNAPSHOT",
+      "ios": "20000-SNAPSHOT"
+    },
+    "appVersion": {
+      "android": "100000",
+      "ios": "100000"
+    },
+    "name": "普日协同",
+    "updateUrl": {
+      "android": "https://www.pgyer.com/TniF",
+      "ios": "https://www.pgyer.com/RNv8"
+    },
+    "server": {
+      "chatKey": "1166171023115752#pr",
+      "adminConsolePass": "",
+      "baseUrl": "https://standard.propersoft.cn/propersoft/api/",
+      "pushAppId": "MobileOAOnline",
+      "pushServer": "",
+      "getServiceKeyUrl":"https://icmp.propersoft.cn/propersoft/api_streamline/",
+      "pushXiaomi": {
+        "theAppid": "2882303761517896401",
+        "theAppkey": "5531789611401"
+      },
+      "hcp": ""
     }
   },
   "pr": {
@@ -85,6 +118,7 @@
       "baseUrl": "https://icmp.propersoft.cn/propersoft/api/",
       "pushAppId": "MobileOAPr",
       "pushServer": "http://push.propersoft.cn/pep-push",
+      "getServiceKeyUrl":"https://icmp.propersoft.cn/propersoft/api_streamline/",
       "pushXiaomi": {
         "theAppid": "2882303761517759408",
         "theAppkey": "5931775920408"

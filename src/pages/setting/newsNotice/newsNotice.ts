@@ -30,13 +30,15 @@ export class NewsNoticePage {
     });
     const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo.deviceType === 'android') {
-      (<any>window).huanxin.phoneBrand('', (data) => {
+      if (localStorage.getItem('haveIM') === '1') {
+        (<any>window).huanxin.phoneBrand('', (data) => {
         this.zone.run(() => {
           if (data !== 'phone') {
             this.isAndroid = true;
           }
         });
       });
+      }
     }
   }
 
@@ -58,14 +60,17 @@ export class NewsNoticePage {
    * 开启自动启动
    */
   openAutoRun() {
-    (<any>window).huanxin.autorun('');
+    if (localStorage.getItem('haveIM') === '1') {
+      (<any>window).huanxin.autorun('');
+    }
   }
 
   /**
    * 允许后台运行
    */
   allowBackstageRun() {
-    (<any>window).huanxin.backstagerun('');
+    if (localStorage.getItem('haveIM') === '1') {
+      (<any>window).huanxin.backstagerun('');
+    }
   }
-
 }

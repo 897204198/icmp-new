@@ -19,6 +19,8 @@ export class AdminPage {
   private pushUrl: string;
   // 推送服务器地址
   private chatKey: string;
+   // 获取servicekey地址
+   private getservicekeyUrl: string;
   // 国际化文字
   private transateContent: Object;
 
@@ -41,6 +43,7 @@ export class AdminPage {
     this.baseUrl = this.configsService.getBaseUrl();
     this.pushUrl = this.configsService.getPushUrl();
     this.chatKey = this.configsService.getChatKey();
+    this.getservicekeyUrl = this.configsService.getServiceKeyUrl();
   }
 
   /**
@@ -50,6 +53,7 @@ export class AdminPage {
     this.configsService.setBaseUrl(this.baseUrl);
     this.configsService.setPushUrl(this.pushUrl);
     this.configsService.setChatKey(this.chatKey);
+    this.configsService.setServiceKeyUrl(this.getservicekeyUrl);
     this.showToastAndPop();
   }
 
@@ -60,6 +64,7 @@ export class AdminPage {
     this.configsService.setBaseUrl('');
     this.configsService.setPushUrl('');
     this.configsService.setChatKey('');
+    this.configsService.setServiceKeyUrl('');
     this.showToastAndPop();
   }
 

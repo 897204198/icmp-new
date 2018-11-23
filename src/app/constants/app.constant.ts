@@ -18,6 +18,8 @@ export interface OaConstant {
 
   // 聊天 key
   chatKey: string;
+  // 获取 servicekey 的链接
+  getServiceKeyUrl: string;
 }
 
 /**
@@ -65,7 +67,8 @@ const oaConstant: OaConstant = {
   baseUrl: './api',
   chatKey: '1166171023115752#demo-icmp',
   md5Encryption: true,
-  adminConsolePass: '123456'
+  adminConsolePass: '123456',
+  getServiceKeyUrl: 'http://220918zh27.iok.la:54885/pep/streamline/streamline/'
 };
 
 const properPushConstant: ProperPushConstant = {

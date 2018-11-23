@@ -44,7 +44,16 @@ export class ConfigsService {
       return this.appConstant.oaConstant.chatKey;
     }
   }
-
+  /**
+   * 取得 获取servicekey的地址
+   */
+  getServiceKeyUrl(): string {
+    if (localStorage.getItem('getServiceKeyUrl') != null && localStorage.getItem('getServiceKeyUrl') !== '') {
+      return localStorage.getItem('getServiceKeyUrl');
+    } else {
+      return this.appConstant.oaConstant.getServiceKeyUrl;
+    }
+  }
   /**
    * 设置http请求地址
    */
@@ -75,6 +84,16 @@ export class ConfigsService {
       localStorage.setItem('chatKey', chatKey);
     } else {
       localStorage.removeItem('chatKey');
+    }
+  }
+  /**
+   * 设置 servicekey请求地址
+   */
+  setServiceKeyUrl(getServiceKeyUrl: string): void {
+    if (getServiceKeyUrl != null && getServiceKeyUrl !== '') {
+      localStorage.setItem('getServiceKeyUrl', getServiceKeyUrl);
+    } else {
+      localStorage.removeItem('getServiceKeyUrl');
     }
   }
 }

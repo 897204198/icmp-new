@@ -26,9 +26,8 @@ export class ExamCustomFramePage {
       } else {
         dangerousVideoUrl = this.navParams.data.data.url + '?token=' + localStorage.getItem('token') + '&title=' + this.title;
       }
-
-
       dangerousVideoUrl = dangerousVideoUrl.replace('#', '?v=' + new Date().getTime() + '#');
+      dangerousVideoUrl = dangerousVideoUrl + '&serviceKey=' + localStorage.getItem('serviceheader');
     }
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
     window.addEventListener('message', event => {

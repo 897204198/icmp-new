@@ -100,8 +100,12 @@ export class HttpInterceptor extends Http {
     if (options.headers == null) {
       options.headers = new Headers();
     }
-    if (localStorage['token']) {
-      options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
+    // 上线配置
+    if (localStorage['serviceheader']) {
+       options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
+       if (localStorage['token']) {
+        options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
+      }
     }
     return options;
   }
