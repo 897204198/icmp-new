@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavParams, NavController, Navbar } from 'ionic-angular';
+import { ConfigsService } from '../../../app/services/configs.service';
 
 @Component({
   selector: 'page-exam-custom-frame',
@@ -14,13 +15,20 @@ export class ExamCustomFramePage {
   // 标题
   title: string = '';
 
-  constructor(private sanitizer: DomSanitizer, public navParams: NavParams, private navCtrl: NavController) {
+  constructor(private sanitizer: DomSanitizer, public navParams: NavParams, private navCtrl: NavController, private configsService: ConfigsService,
+    ) {
     this.title = this.navParams.data.name;
     let dangerousVideoUrl = '';
     if (this.navParams.data.isPush === true) {
       dangerousVideoUrl = this.navParams.data.data.url;
     } else {
       let menuStr: string = this.navParams.data.data.url;
+      // 添加serviceKey请求头
+      if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+        menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+      }else{
+        menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+      }
       if (menuStr.includes('?')) {
         dangerousVideoUrl = this.navParams.data.data.url + '&token=' + localStorage.getItem('token') + '&title=' + this.title;
       } else {

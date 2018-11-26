@@ -20,6 +20,8 @@ export interface OaConstant {
   chatKey: string;
   // 获取 servicekey 的链接
   getServiceKeyUrl: string;
+  // web端根地址
+  baseWebUrl: string;
 }
 
 /**
@@ -68,7 +70,8 @@ const oaConstant: OaConstant = {
   chatKey: '1166171023115752#demo-icmp',
   md5Encryption: true,
   adminConsolePass: '123456',
-  getServiceKeyUrl: 'http://220918zh27.iok.la:54885/pep/streamline/streamline/'
+  getServiceKeyUrl: 'http://220918zh27.iok.la:54885/pep/streamline/streamline/',
+  baseWebUrl: 'https://icmp2.propersoft.cn/icmp/'
 };
 
 const properPushConstant: ProperPushConstant = {

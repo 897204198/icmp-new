@@ -17,6 +17,7 @@ import { EmailPage } from '../../pages/email/email';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceInfoState, DeviceService } from './device.service';
 import { Store } from '@ngrx/store';
+import { ConfigsService } from '../services/configs.service';
 
 /**
  * 路由服务
@@ -31,6 +32,7 @@ export class RoutersService {
    * 构造函数
    */
   constructor(@Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private configsService: ConfigsService,
     private toastService: ToastService,
     private translate: TranslateService,
     private deviceService: DeviceService,
@@ -72,11 +74,17 @@ export class RoutersService {
         navCtrl.push(ExamCustomFramePage, menu);
       } else {
         let menuStr: string = menu.data.url;
+        if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === "") {
+          menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+        }else{
+          menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        }
         let url;
+
         if (menuStr.includes('?')) {
-          url = menu.data.url + '&token=' + localStorage.getItem('token') + '&title=' + menu.name;
+          url = menuStr + '&token=' + localStorage.getItem('token') + '&title=' + menu.name;
         } else {
-          url = menu.data.url + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
+          url = menuStr + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
         }
         url = url.replace('#', '?v=' + new Date().getTime() + '#');
         url = url + '&serviceKey=' + localStorage.getItem('serviceheader');

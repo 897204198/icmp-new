@@ -22,7 +22,12 @@ export class ConfigsService {
       return this.appConstant.oaConstant.baseUrl;
     }
   }
-
+  /**
+   * 取得http请求地址
+   */
+  getBaseWebUrl(): string {
+    return this.appConstant.oaConstant.baseWebUrl;
+  }
   /**
    * 取得推送服务器地址
    */
