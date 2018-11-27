@@ -116,7 +116,7 @@ export class UserProfilePage {
       }
       this.toUserInfo = data;
       if (data['avatar']) {
-        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}`;
+        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
         this.toChatAatar = data['avatar'];
       }
     }, (err: Response) => {

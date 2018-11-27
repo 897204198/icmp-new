@@ -23,10 +23,14 @@ export class ConfigsService {
     }
   }
   /**
-   * 取得http请求地址
+   * 取得web前半段地址
    */
   getBaseWebUrl(): string {
-    return this.appConstant.oaConstant.baseWebUrl;
+    if (localStorage.getItem('baseWebUrl') != null && localStorage.getItem('baseWebUrl') !== '') {
+      return localStorage.getItem('baseWebUrl');
+    } else {
+      return this.appConstant.oaConstant.baseWebUrl;
+    }
   }
   /**
    * 取得推送服务器地址
@@ -99,6 +103,16 @@ export class ConfigsService {
       localStorage.setItem('getServiceKeyUrl', getServiceKeyUrl);
     } else {
       localStorage.removeItem('getServiceKeyUrl');
+    }
+  }
+   /**
+   * 设置 web页面前地址
+   */
+  setBaseWebUrl(baseWebUrl: string): void {
+    if (baseWebUrl != null && baseWebUrl !== '') {
+      localStorage.setItem('baseWebUrl', baseWebUrl);
+    } else {
+      localStorage.removeItem('baseWebUrl');
     }
   }
 }

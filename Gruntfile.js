@@ -166,6 +166,14 @@ module.exports = function(grunt) {
         options: {
           patterns: [
             {
+              match: /getServiceKeyUrl: '.*',/,
+              replacement: 'getServiceKeyUrl: \'' + customs[conf.currentProject].server.getServiceKeyUrl + '\','
+            },
+            {
+              match: /baseWebUrl: '.*',/,
+              replacement: 'baseWebUrl: \'' + customs[conf.currentProject].server.baseWebUrl + '\','
+            },
+            {
               match: /baseUrl: '.*',/,
               replacement: 'baseUrl: \'' + customs[conf.currentProject].server.baseUrl + '\','
             },

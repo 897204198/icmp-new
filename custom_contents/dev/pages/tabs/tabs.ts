@@ -329,7 +329,7 @@ export class TabsPage {
       name: customsDic.title,
       isPush: true,
       data: {
-        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title
+        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + 'close=true'
       }
     };
     console.log('name:'+customsDic.title);
