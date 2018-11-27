@@ -84,7 +84,7 @@
     "server": {
       "chatKey": "1166171023115752#pr",
       "adminConsolePass": "",
-      "baseUrl": "https://standard.propersoft.cn/propersoft/api/",
+      "baseUrl": "https://icmp.propersoft.cn/icmp/api/route/",
       "baseWebUrl": "https://icmp.propersoft.cn/icmp/standard/",
       "pushAppId": "MobileOAOnline",
       "pushServer": "",
