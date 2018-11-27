@@ -186,6 +186,11 @@ export class HomePage {
       if (res._body != null && res._body !== '') {
         this.workflow = res.json().data;
         this.workflow.forEach(element => {
+          if (element['globalData']['workflow_icon']) {
+            element['globalData']['workflow_icon'] = `../../assets/images/db/${element['globalData']['workflow_icon']}`
+          } else {
+            element['globalData']['workflow_icon'] = '../../assets/images/db/default.png'
+          }
           timeago.register('test_local', this.test_local_dict);
           const timeagoa = timeago();
           element['createTime'] = timeagoa.format(element['createTime'], 'test_local');
