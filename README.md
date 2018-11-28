@@ -80,6 +80,8 @@ $ ionic cordova run android [--prod]
 # 在IOS虚拟机上运行APP
 $ ionic cordova run ios [--prod]
 
+# 打 apk
+$ npm run releaseAndroid
 ```
 
 ### android及ios程序调试方法
