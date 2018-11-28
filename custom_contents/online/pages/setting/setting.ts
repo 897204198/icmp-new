@@ -126,7 +126,7 @@ export class SettingPage {
     this.http.get('/user/info', { params: params }).subscribe((res) => {
       let data = res.json();
       if (data.avatar) {
-        this.src = `${this.fileUrl}${data.avatar}${this.token}`;
+        this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
       }
     }, (res: Response) => {
     });
@@ -156,7 +156,7 @@ export class SettingPage {
       const startIndex = this.navCtrl.getActive().index - 1;
       this.navCtrl.remove(startIndex, 1);
     });
-    if (localStorage.getItem('haveIM') == '1') {
+    if (localStorage.getItem('haveIM') === '1') {
       (<any>window).huanxin.imlogout();
     }
   }

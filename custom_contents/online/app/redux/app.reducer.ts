@@ -3,7 +3,7 @@ import { State } from './app.state';
 import { requestReducer } from './reducers/request.reducer';
 import { todoReducer } from './reducers/todo.reducer';
 import { imReducer } from './reducers/im.reducer';
-import { homeReducer } from "./reducers/home.reducer";
+import { homeReducer } from './reducers/home.reducer';
 
 export const REQUEST_INDEX_STATE = 'requestIndex';
 export const TODO_BADGE_STATE = 'todoBadge';

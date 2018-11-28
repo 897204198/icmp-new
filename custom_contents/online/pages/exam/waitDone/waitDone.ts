@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
 import { ConfigsService } from '../../../app/services/configs.service';
 
@@ -13,28 +13,26 @@ export class WaitDonePage {
 myURL: SafeUrl = '';
 // 标题
 title: string = '';
- // 我的应用列表
- private menus: Object[] = [];
 /**
 * 构造函数
 */
 constructor(
   private configsService: ConfigsService,
-  private sanitizer: DomSanitizer,    
+  private sanitizer: DomSanitizer,
   private http: Http,
   private toastService: ToastService,
   private zone: NgZone) {
     this.title = '待办';
     let dangerousVideoUrl = '';
-    if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === "") {
+    if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
       dangerousVideoUrl = this.configsService.getBaseWebUrl() + 'standard' + '/#/webapp/workflow/todo';
     }else{
       dangerousVideoUrl = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + '/#/webapp/workflow/todo';
     }
     if (dangerousVideoUrl.includes('?')) {
-      dangerousVideoUrl = dangerousVideoUrl + '&token=' + localStorage.getItem('token') + '&title=' + this.title + '&hideHeader='+true;
+      dangerousVideoUrl = dangerousVideoUrl + '&token=' + localStorage.getItem('token') + '&title=' + this.title + '&hideHeader=' + true;
     } else {
-      dangerousVideoUrl = dangerousVideoUrl + '?token=' + localStorage.getItem('token') + '&title=' + this.title + '&hideHeader='+true;
+      dangerousVideoUrl = dangerousVideoUrl + '?token=' + localStorage.getItem('token') + '&title=' + this.title + '&hideHeader=' + true;
     }
     dangerousVideoUrl = dangerousVideoUrl.replace('#', '?v=' + new Date().getTime() + '#');
     dangerousVideoUrl = dangerousVideoUrl + '&serviceKey=' + localStorage.getItem('serviceheader');

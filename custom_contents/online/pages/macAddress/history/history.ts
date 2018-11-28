@@ -21,7 +21,7 @@ export class MacAddressHistoy {
   // 历史记录列表
   private historyList: Array<Object> = [];
   // // 菜单信息
-  private macMenu:  Object = {}
+  private macMenu:  Object = {};
   /**
    * 构造函数
    */
@@ -37,7 +37,7 @@ export class MacAddressHistoy {
         this.translate.get(['MAC_ADDRESS_HISTORY_LIST', 'START_BIND', 'APPLY_UNBIND']).subscribe((res: Object) => {
             this.transateContent = res;
        });
-       this.getHistoryList()
+       this.getHistoryList();
        this.macMenu = this.params.get('data')['url'];
   }
     /**
@@ -71,7 +71,7 @@ export class MacAddressHistoy {
       const { procInstId, processTitle,  processDefinitionId, stateCode } = info;
       this.http.get(`/workflow/process/${procInstId}/page`).subscribe((res: Response) => {
         if (res['_body'] != null && res['_body'] !== '') {
-          const response = res.json()
+          const response = res.json();
           const forms = response['forms'];
           businessObj = forms.length ? forms[0] : null;
         }
@@ -84,7 +84,7 @@ export class MacAddressHistoy {
           name: processTitle,
           processDefinitionId,
           stateCode,
-        }
+        };
         this.openProcessCheck(params);
       }, (res: Response) => {
         this.toastService.show(res.text());
@@ -120,8 +120,8 @@ export class MacAddressHistoy {
             clearInterval(loop);
                setTimeout(() => {
                 browser.close();
-               }, 500)
-               this.navCtrl.popToRoot()
+               }, 500);
+               this.navCtrl.popToRoot();
           }
           // 返回上一页
           if (If_Can_Back === 'close') {

@@ -115,25 +115,25 @@ export class LoginPage {
     localStorage.removeItem('serviceheader');
     let getServicekeyUrl;
     if (localStorage.getItem('getServiceKeyUrl')) {
-      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl')+account+'/'+password+'?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
     } else {
-      getServicekeyUrl = this.configsService.getServiceKeyUrl()+account+'/'+password+'?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+      getServicekeyUrl = this.configsService.getServiceKeyUrl() + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
     }
     this.http.get(getServicekeyUrl).subscribe((res: Response) => {
       // 存储servicekey
-      localStorage.setItem('serviceheader',res.headers.get("x-service-key"));
-      //传给原生
+      localStorage.setItem('serviceheader', res.headers.get('x-service-key'));
+      // 传给原生
       this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
       // 初始化推送插件
       this.pushService.init();
-      if (res.headers.get("x-service-key") === 'propersoft') {
-        //普日项目有环信
+      if (res.headers.get('x-service-key') === 'propersoft') {
+        // 普日项目有环信
         localStorage.setItem('haveIM' , '1');
       } else {
         localStorage.setItem('haveIM' , '0');
       }
       // 登录接口请求
-      //加密密码
+      // 加密密码
     let md5password: string = password;
     if (this.appConstant.oaConstant.md5Encryption) {
       md5password = this.cryptoService.hashMD5(md5password, true);
@@ -144,8 +144,8 @@ export class LoginPage {
       'account': account,
       'password': md5password
     };
-    this.http.post('/user/login', params).subscribe((res: Response) => {
-      let userData = res.json();
+    this.http.post('/user/login', params).subscribe((res3: Response) => {
+      let userData = res3.json();
       this.http.post('/user/bind', { userId: userData['id'] }).subscribe((data) => {
         localStorage.token = data['_body'];
         let status: string = '';
@@ -199,7 +199,7 @@ export class LoginPage {
               from_headportrait: newUserInfo.headImage
             }
           };
-          if (localStorage.getItem('haveIM') == '1') {
+          if (localStorage.getItem('haveIM') === '1') {
             (<any>window).huanxin.imlogin(imparams, (loginData) => {
               this.zone.run(() => {
                 if (loginData === 'user_not_found') {
@@ -239,8 +239,8 @@ export class LoginPage {
       }, (err: Response) => {
         this.toastService.show(err.text());
       });
-    }, (res: Response) => {
-      this.toastService.show(res.text());
+    }, (res2: Response) => {
+      this.toastService.show(res2.text());
     });
 
 

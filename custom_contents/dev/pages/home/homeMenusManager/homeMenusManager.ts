@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import 'rxjs/Rx';
 import { DragulaService } from 'ng2-dragula';
 import { ToastService } from '../../../app/services/toast.service';
-import { ModalController, NavController, NavParams, Events } from 'ionic-angular';
+import { ModalController, NavController, Events } from 'ionic-angular';
 import { MenuFolderComponent } from '../../../app/component/menuFolder/menuFolder.component';
 import { RoutersService } from '../../../app/services/routers.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -85,8 +85,7 @@ export class HomeMenusManagerPage {
       }
     );
     // 从网页回来刷新首页角标
-    events.subscribe('refresh',() =>{
-      console.log('event刷新全部应用消息啊啦啦啦');
+    events.subscribe('refresh', () => {
       this.getWaitNum();
     });
   }
@@ -112,7 +111,7 @@ export class HomeMenusManagerPage {
    */
   getWaitNum(): void {
     this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
-      this.waitNum = 0; 
+      this.waitNum = 0;
       if (res._body != null && res._body !== '') {
         let data = res.json(); // 待办个数
         this.waitNum = data;
@@ -141,17 +140,16 @@ export class HomeMenusManagerPage {
           let menu = allMenus[i];
           menu.menus = [];
           for (let apps of menu['apps']) {
-            if (apps['name'] == '待办') {
+            if (apps['name'] === '待办') {
               apps['total'] = this.waitNum;
-              console.log('待办全部角标数'+apps['total']);
+              console.log('待办全部角标数' + apps['total']);
             }
             menu.menus.push(apps);
           }
-          console.log('待办个数'+this.waitNum);
+          console.log('待办个数' + this.waitNum);
           this.categoryMenus.push(menu);
         }
       });
-      
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -167,14 +165,14 @@ export class HomeMenusManagerPage {
       if (res._body != null && res._body !== '') {
         let data = res.json();
         for (let i = 0; i < data.length; i++) {
-          if (data[i].name == '待办') {
+          if (data[i].name === '待办') {
             data[i].total =  this.waitNum;
           }
           arr.push(data[i]);
-          console.log('新待办我的应用角标数'+data[i].total);
+          console.log('新待办我的应用角标数' + data[i].total);
         }
         this.zone.run(() => {
-          this.myMenus = arr;           
+          this.myMenus = arr;
         });
       }
     }, (res: Response) => {

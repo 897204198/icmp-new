@@ -12,7 +12,6 @@ import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { DeviceService } from '../../app/services/device.service';
 import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 import { Store } from '@ngrx/store';
-import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
@@ -95,7 +94,7 @@ export class HomePage {
       this.componentInit();
     });
     // 从网页回来刷新首页角标
-    events.subscribe('refresh',() =>{
+    events.subscribe('refresh', () => {
       console.log('event刷新消息啊啦啦啦');
       this.getWaitNum();
       this.getComponentList();
@@ -190,7 +189,7 @@ export class HomePage {
                 item['value'] = element['form']['formData'][item['name']];
               }
               if (typeof(item['value']) === 'number' && item['value'].toString().length === 13) {
-                item['value'] = new Date(item['value']).toLocaleString()
+                item['value'] = new Date(item['value']).toLocaleString();
               }
             });
           } else {
@@ -454,7 +453,7 @@ export class HomePage {
               this.http.post(`/workflow/task/${taskId}`, data).subscribe((res: any) => {
                 this.toastService.show(this.transateContent['PROCESS_SUCC']);
                 this.componentInit();
-                //刷新待办角标
+                // 刷新待办角标
                 this.getWaitNum();
               }, (res: Response) => {
                 this.toastService.show(res.text());

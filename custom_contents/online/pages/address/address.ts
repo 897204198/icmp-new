@@ -166,7 +166,7 @@ export class AddressPage {
       for (let contact of this.contactInfos) {
         for (let item of contact['items']) {
           if (item['avatar']) {
-            item['avatar'] = `${this.fileUrl}${item['avatar']}${this.token}`;
+            item['avatar'] = `${this.fileUrl}${item['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
           }
         }
       }

@@ -109,7 +109,7 @@ export class UserInfoPage {
     // });
     fileReader.onload = () => {
       this.userInfo['avatar'] = fileReader.result;
-    }
+    };
   }
 
   /**

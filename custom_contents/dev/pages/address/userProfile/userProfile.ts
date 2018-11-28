@@ -35,7 +35,7 @@ export class UserProfilePage {
   private token: string = '?access_token=' + localStorage['token'];
   private toChatAatar: string = '';
   private fromChatAatar: string = '';
-    //是否有IM功能
+    // 是否有IM功能
     haveIM: boolean = false;
 
   /**
@@ -61,7 +61,7 @@ export class UserProfilePage {
    */
   ionViewDidLoad(): void {
     this.isFriend = this.navParams.get('isFriend') === true ? true : false;
-    if (localStorage.getItem('haveIM') == '1') {
+    if (localStorage.getItem('haveIM') === '1') {
       this.haveIM = true;
     }else{
       this.haveIM = false;

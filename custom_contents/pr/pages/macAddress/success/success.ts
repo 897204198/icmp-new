@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../app/services/toast.service';
 import { Http, Response } from '@angular/http';
 import { UtilsService } from '../../../app/services/utils.service';
-import { DeviceService, DeviceInfoState } from '../../../app/services/device.service';
+import { DeviceService } from '../../../app/services/device.service';
 import { MacFramePage } from '../macFrame/macFrame';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -109,7 +109,7 @@ export class MacSuccPage {
         name: this.proData['processTitle'],
         processDefinitionId:   this.proData['processDefinitionId'],
         stateCode:  this.proData['stateCode'],
-      }
+      };
       this.openProcessCheck(params);
     }, (res: Response) => {
       this.toastService.show(res.text());

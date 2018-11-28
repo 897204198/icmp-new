@@ -98,7 +98,7 @@ import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.co
 import { OopStormPage } from '../pages/setting/about/oopStorm/oopStorm';
 import { ImagePreviewPage } from '../pages/setting/feedback/imagePreview';
 import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directive';
-import { NoticePage } from "../pages/notice/notice";
+import { NoticePage } from '../pages/notice/notice';
 import { InitService } from '../app/services/init.service';
 import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
 

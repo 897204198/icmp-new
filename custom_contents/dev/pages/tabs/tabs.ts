@@ -17,8 +17,8 @@ import { ChatListPage } from '../chatList/chatList';
 import { Store } from '@ngrx/store';
 import { IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
-import { Home_BADGE_STATE } from "../../app/redux/app.reducer";//替换首页tab角标
-import { HomeReplaceBadageAction } from "../../app/redux/actions/home.action";
+import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
+import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { ConfigsService } from '../../app/services/configs.service';
 import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
 import { DeviceService } from '../../app/services/device.service';
@@ -83,12 +83,12 @@ export class TabsPage {
         // 自动登录
         this.autoLogin();
 
-        //app icon角标个数
-        var iconNum: number = 0;
-        var messageIconNum: number = 0;
-        var homewaitIconNum: number = 0;
+        // app icon角标个数
+        let iconNum: number = 0;
+        let messageIconNum: number = 0;
+        let homewaitIconNum: number = 0;
 
-        if (localStorage.getItem('haveIM') == '1') {
+        if (localStorage.getItem('haveIM') === '1') {
           // 消息角标绑定
           this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
             for (let i = 0; i < this.tabRoots.length; i++) {
@@ -100,25 +100,25 @@ export class TabsPage {
               }
             }
           });
-          //首页待办消息绑定
-          this.store.select(Home_BADGE_STATE).subscribe((data: string)=>{
+          // 首页待办消息绑定
+          this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
             for (let i = 0; i < this.tabRoots.length; i++) {
               if (this.tabRoots[i]['tabTitle'] === '首页') {
-                console.log('首页待办角标个数'+data);
+                console.log('首页待办角标个数' + data);
                 this.tabRoots[i]['tabBadge'] = data;
                 homewaitIconNum = Number(data);
                 iconNum = messageIconNum + homewaitIconNum;
-                console.log('消息数'+ iconNum);
+                console.log('消息数' + iconNum);
                 this.pushService.sendBadgeNotification(iconNum);
               }
             }
           });
         }else{
-           //待办tab消息绑定
-           this.store.select(Home_BADGE_STATE).subscribe((data: string)=>{
+           // 待办tab消息绑定
+           this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
             for (let i = 0; i < this.tabRoots.length; i++) {
               if (this.tabRoots[i]['tabTitle'] === '待办') {
-                console.log('首页待办角标个数'+data);
+                console.log('首页待办角标个数' + data);
                 this.tabRoots[i]['tabBadge'] = data;
               }
             }
@@ -152,7 +152,7 @@ export class TabsPage {
     }
   }
   ionViewDidEnter(): void {
-    //获取修改tab角标数
+    // 获取修改tab角标数
     this.getWaitToDoNumber();
     // 刷新首页待办角标和组件
     this.events.publish('refresh');
@@ -169,7 +169,7 @@ export class TabsPage {
    */
   getTabInfo(): Object[] {
     // if (this.userService.imIsOpen()) {
-      if (localStorage.getItem('haveIM') == '1') {
+      if (localStorage.getItem('haveIM') === '1') {
         return [
           { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
           { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
@@ -223,7 +223,7 @@ export class TabsPage {
         params['chatType'] = event.properCustoms.chatType;
         params['chatId'] = chatInfo.chatId;
         params['isPush'] = '1';
-        if (localStorage.getItem('haveIM') == '1') {
+        if (localStorage.getItem('haveIM') === '1') {
           (<any>window).huanxin.chat(params);
         }
       }
@@ -311,7 +311,7 @@ export class TabsPage {
   }
   // 推送通知打开流程
   doOpenNotificationExamlist(customsDic: any) {
-    alert('推送打开'+customsDic);
+    alert('推送打开' + customsDic);
     // 首次不加载
     if (!this.isFirst) {
       this.openExamlist(customsDic);
@@ -319,7 +319,7 @@ export class TabsPage {
     this.isFirst = false;
     this.events.subscribe('logined', () => {
       this.openExamlist(customsDic);
-      alert('推送打开'+customsDic);
+      alert('推送打开' + customsDic);
     });
   }
 
@@ -332,17 +332,9 @@ export class TabsPage {
         url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + 'close=true'
       }
     };
-    console.log('name:'+customsDic.title);
-    console.log('链接:'+data.data.url);
-    console.log('手机类型:'+this.deviceService.getDeviceInfo().deviceType);
-    alert('手机类型:'+this.deviceService.getDeviceInfo().deviceType);
-    alert('链接:'+data.data.url);
-
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
-      alert('安卓推送手机类型:'+this.deviceService.getDeviceInfo().deviceType);
       this.navCtrl.push(ExamCustomFramePage, data);
     } else {
-      alert('ios进入推送');
       const browser = this.iab.create(data.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
       browser.on('loadstop').subscribe(event => {
         browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
@@ -381,7 +373,7 @@ export class TabsPage {
         this.isFirst = false;
         // 防止在 web 上报错
         if (this.deviceService.getDeviceInfo().deviceType) {
-          if (localStorage.getItem('haveIM') == '1') {
+          if (localStorage.getItem('haveIM') === '1') {
             // im 自动登录
             this.imlogin();
           }
@@ -394,7 +386,7 @@ export class TabsPage {
 
   // im 自动登录
   imlogin() {
-    if (localStorage.getItem('haveIM') == '1') {
+    if (localStorage.getItem('haveIM') === '1') {
       // 获取未读消息前先登录并将 chatKey 传入
       let params = {
         username: this.userInfo.loginName,
@@ -426,7 +418,7 @@ export class TabsPage {
 
   // 获取未读消息数量
   getUnreadMessageNumber() {
-    if (localStorage.getItem('haveIM') == '1') {
+    if (localStorage.getItem('haveIM') === '1') {
       (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
       (<any>window).huanxin.loginState('', () => {
         // 推送服务取消与当前用户的绑定关系
@@ -461,11 +453,11 @@ export class TabsPage {
     }, (retData) => { });
     }
   }
-//获取待办事件个数
+// 获取待办事件个数
 getWaitToDoNumber(){
   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
     if (res._body != null && res._body !== '') {
-      let data = res.json() ;//待办个数
+      let data = res.json(); // 待办个数
       // let data = 5;
       this.zone.run(() => {
           if (data === 0) {

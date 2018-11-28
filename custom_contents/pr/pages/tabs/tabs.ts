@@ -17,8 +17,8 @@ import { ChatListPage } from '../chatList/chatList';
 import { Store } from '@ngrx/store';
 import { IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
-import { Home_BADGE_STATE } from "../../app/redux/app.reducer";//替换首页tab角标
-import { HomeReplaceBadageAction } from "../../app/redux/actions/home.action";
+import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
+import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { ConfigsService } from '../../app/services/configs.service';
 import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
 import { DeviceService } from '../../app/services/device.service';
@@ -78,15 +78,12 @@ export class TabsPage {
         this.backButtonService.registerBackButtonAction(this.tabRef);
         // 通过推送通知打开应用事件
         document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-  
         // 自动登录
         this.autoLogin();
-  
-        //app icon角标个数
-        var iconNum: number = 0;
-        var messageIconNum: number = 0;
-        var homewaitIconNum: number = 0;
-  
+        // app icon角标个数
+        let iconNum: number = 0;
+        let messageIconNum: number = 0;
+        let homewaitIconNum: number = 0;
         // 消息角标绑定
         this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
@@ -98,15 +95,13 @@ export class TabsPage {
             }
           }
         });
-        //首页待办消息绑定
-        this.store.select(Home_BADGE_STATE).subscribe((data: string)=>{
+        // 首页待办消息绑定
+        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
             if (this.tabRoots[i]['tabTitle'] === '首页') {
-              console.log('首页待办角标个数'+data);
               this.tabRoots[i]['tabBadge'] = data;
               homewaitIconNum = Number(data);
               iconNum = messageIconNum + homewaitIconNum;
-              console.log('消息数'+ iconNum);
               this.pushService.sendBadgeNotification(iconNum);
             }
           }
@@ -139,7 +134,7 @@ export class TabsPage {
     }
   }
   ionViewDidEnter(): void {
-    //获取修改tab角标数
+    // 获取修改tab角标数
     this.getWaitToDoNumber();
     // 刷新首页待办角标和组件
     this.events.publish('refresh');
@@ -420,11 +415,11 @@ export class TabsPage {
       });
     }, (retData) => { });
   }
-//获取待办事件个数
+// 获取待办事件个数
 getWaitToDoNumber(){
   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
     if (res._body != null && res._body !== '') {
-      let data = res.json() ;//待办个数 
+      let data = res.json(); // 待办个数 
       // let data = 5;
       this.zone.run(() => {
           if (data === 0) {

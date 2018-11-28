@@ -133,7 +133,7 @@ export class MacAddressPage {
       this.submitInfo['appliTypeName'] = this.submitInfo['appliTypeCode'] === '0' ? '绑定' : '解绑';
       this.submitInfo['actualTypeCode'] = this.submitInfo['appliTypeCode'];
       this.submitInfo['actualTypeName'] = this.submitInfo['appliTypeCode'] === '0' ? '绑定' : '解绑';
-      this.submitApply(this.submitInfo)
+      this.submitApply(this.submitInfo);
     }
   }
   /**
@@ -185,7 +185,7 @@ export class MacAddressPage {
     let  businessObj;
     this.http.get(`/workflow/process/${procInstId}/page`).subscribe((res: Response) => {
       if (res['_body'] != null && res['_body'] !== '') {
-        const response = res.json()
+        const response = res.json();
         const forms = response['forms'];
         businessObj = forms.length ? forms[0] : null;
       }
@@ -198,7 +198,7 @@ export class MacAddressPage {
         name: data['processTitle'],
         processDefinitionId:  data['processDefinitionId'],
         stateCode:  data['stateCode'],
-      }
+      };
       this.openProcessCheck(params);
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -234,7 +234,7 @@ export class MacAddressPage {
             clearInterval(loop);
                setTimeout(() => {
                 browser.close();
-               }, 500)
+               }, 500);
                this.navCtrl.popToRoot();
           }
           // 返回上一页

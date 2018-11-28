@@ -74,7 +74,7 @@ export class UserInfoPage {
         }
       }
       if (data.avatar) {
-        this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}`;
+        this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -109,7 +109,7 @@ export class UserInfoPage {
     // });
     fileReader.onload = () => {
       this.userInfo['avatar'] = fileReader.result;
-    }
+    };
   }
 
   /**

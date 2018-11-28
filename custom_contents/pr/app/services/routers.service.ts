@@ -91,7 +91,7 @@ export class RoutersService {
                 clearInterval(loop);
                 browser.close();
                 console.log('看看浏览器走back哈哈');
-                //刷新首页角标
+                // 刷新首页角标
                 this.events.publish('refresh');
               }
             });

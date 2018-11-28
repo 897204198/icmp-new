@@ -12,7 +12,6 @@ import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { DeviceService } from '../../app/services/device.service';
 import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 import { Store } from '@ngrx/store';
-import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
@@ -59,7 +58,7 @@ export class HomePage {
   // private hasInfo: boolean = false;
   private hasLoaded: boolean = false;
   private hasListLoaded: boolean = false;
-  //是否有IM功能
+  // 是否有IM功能
   haveIM: boolean = false;
 
   /**
@@ -97,7 +96,7 @@ export class HomePage {
       this.componentInit();
     });
     // 从网页回来刷新首页角标
-    events.subscribe('refresh',() =>{
+    events.subscribe('refresh', () => {
       console.log('event刷新消息啊啦啦啦');
       this.getWaitNum();
       this.getComponentList();
@@ -139,7 +138,7 @@ export class HomePage {
       }, 3000);
     });
 
-    if (localStorage.getItem('haveIM') == '1') {
+    if (localStorage.getItem('haveIM') === '1') {
       this.haveIM = true;
     }else{
       this.haveIM = false;
@@ -186,6 +185,11 @@ export class HomePage {
       if (res._body != null && res._body !== '') {
         this.workflow = res.json().data;
         this.workflow.forEach(element => {
+          if (element['globalData']['workflow_icon']) {
+            element['globalData']['workflow_icon'] = `../../assets/images/db/${element['globalData']['workflow_icon']}`;
+          } else {
+            element['globalData']['workflow_icon'] = '../../assets/images/db/default.png';
+          }
           timeago.register('test_local', this.test_local_dict);
           const timeagoa = timeago();
           element['createTime'] = timeagoa.format(element['createTime'], 'test_local');
@@ -198,7 +202,7 @@ export class HomePage {
                 item['value'] = element['form']['formData'][item['name']];
               }
               if (typeof(item['value']) === 'number' && item['value'].toString().length === 13) {
-                item['value'] = new Date(item['value']).toLocaleString()
+                item['value'] = new Date(item['value']).toLocaleString();
               }
             });
           } else {
@@ -292,15 +296,15 @@ export class HomePage {
           if (data[i].name === '待办') {
             data[i].total =  this.waitNum;
             haveWait++;
-            if (localStorage.getItem('haveIM') == '0') {
-              //存储待办模块
-              localStorage.setItem('waitData',data[i].data.url);
+            if (localStorage.getItem('haveIM') === '0') {
+              // 存储待办模块
+              localStorage.setItem('waitData', data[i].data.url);
             }
           }
           this.menus.push(data[i]);
         }
         // 首页没有待办数量加在全部图标上
-        if (localStorage.getItem('haveIM') == '1') {
+        if (localStorage.getItem('haveIM') === '1') {
           if (haveWait === 0){
             this.allNum = this.waitNum;
           }else{
@@ -468,7 +472,7 @@ export class HomePage {
               this.http.post(`/workflow/task/${taskId}`, data).subscribe((res: any) => {
                 this.toastService.show(this.transateContent['PROCESS_SUCC']);
                 this.componentInit();
-                //刷新待办角标
+                // 刷新待办角标
                 this.getWaitNum();
               }, (res: Response) => {
                 this.toastService.show(res.text());
