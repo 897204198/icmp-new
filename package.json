@@ -1,3 +1,4 @@
+
 {
     "name": "icmp",
     "version": "1.0.1-SNAPSHOT",
@@ -21,7 +22,8 @@
         "serve": "grunt serveProxy --force && ionic-app-scripts serve",
         "serve:real": "grunt serveProxy:real --force && ionic-app-scripts serve",
         "serve:win": "ionic-app-scripts serve",
-        "serve:pWin": "grunt build:before && npm run build && ionic-app-scripts serve",
+        "serve:pw": "grunt build:before && npm run build && ionic-app-scripts serve",
+        "checkapp": "grunt build:before && npm run lint",
         "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./protractor.config.js"
     },
     "dependencies": {

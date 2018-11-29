@@ -235,6 +235,7 @@ export class ApplicationPage {
       params.append('user', this.navParams.get('assignee'));
       params.append('taskId', this.navParams.get('taskId'));
       params.append('step', this.navParams.get('step'));
+      params.append('businessId', this.navParams.get('businessId'));
       for (let key in this.input) {
         if (this.input.hasOwnProperty(key)) {
           if (this.input[key] instanceof Array && this.input[key][0] instanceof Object) {

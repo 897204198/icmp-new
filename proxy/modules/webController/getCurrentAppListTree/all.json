@@ -53,6 +53,13 @@
       "data": {
         "example": "a"
       }
+    },
+    {
+      "appid": "66",
+      "title": "收车查询",
+      "icon": "http://chuantu.biz/t5/162/1502023481x3066592326.png",
+      "systemId": "query",
+      "serviceName": "VehicleBackService"
     }
   ]
 }

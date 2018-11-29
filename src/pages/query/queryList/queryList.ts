@@ -7,6 +7,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { QueryListConditionPage } from '../queryListCondition/queryListCondition';
 import { QueryDetailPage } from '../queryDetail/queryDetail';
 import { QueryNoticeDetailPage } from '../queryNoticeDetail/queryNoticeDetail';
+import { ApplicationPage } from '../../application/application';
 
 /**
  * 查询列表页面
@@ -154,6 +155,10 @@ export class QueryListPage {
     };
     if (item['style'] === 'notice_style') {
       this.navCtrl.push(QueryNoticeDetailPage, params);
+    } else if (item['style'] === 'vehicleBack_style') {
+      // 跳转申请页 修改serviceName
+      params['serviceName'] = item['vehicleBackServiceName'];
+      this.navCtrl.push(ApplicationPage, params);
     } else {
       this.navCtrl.push(QueryDetailPage, params);
     }
