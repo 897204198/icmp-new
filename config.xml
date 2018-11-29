@@ -5,6 +5,8 @@
     <author email="gdpr@propersoft.cn" href="http://www.propersoft.cn/">Propersoft</author>
     <content src="index.html" />
     <access origin="*" />
+    <access origin="tel:*" launch-external="yes"/>
+    <access origin="mailto:*" launch-external="yes"/>
     <allow-navigation href="*" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="webviewbounce" value="false" />

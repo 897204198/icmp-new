@@ -325,11 +325,17 @@ export class TabsPage {
 
    // 打开推送通知
    openExamlist(customsDic: any) {
+    let menuStr: string = customsDic.url;
+    if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+      menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+    }else{
+      menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+    }
     const data = {
       name: customsDic.title,
       isPush: true,
       data: {
-        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + '&close=true'
+        url: menuStr.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + '&close=true'
       }
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
