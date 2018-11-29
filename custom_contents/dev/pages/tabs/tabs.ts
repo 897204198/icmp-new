@@ -329,7 +329,7 @@ export class TabsPage {
       name: customsDic.title,
       isPush: true,
       data: {
-        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + 'close=true'
+        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + '&close=true'
       }
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {

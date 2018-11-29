@@ -49,6 +49,8 @@ export class OrganizationAddressPage {
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
   private token: string = '?access_token=' + localStorage['token'];
+  // 是否有IM功能
+  haveIM: boolean = false;
 
   /**
    * 构造函数
@@ -84,6 +86,11 @@ export class OrganizationAddressPage {
    */
   ionViewDidEnter(): void {
     this.getOrganization();
+    if (localStorage.getItem('haveIM') === '1') {
+      this.haveIM = true;
+    }else{
+      this.haveIM = false;
+    }
   }
 
   /**

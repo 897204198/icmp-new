@@ -12,6 +12,7 @@
 
 
   <!-- 搜索列表 -->
+  <ion-content>
   <icmp-placeholder *ngIf="isSearch && !searchUserList.length" placeholder="{{keyword}}"></icmp-placeholder>
   <ion-list *ngIf="isSearch">
     <div *ngFor="let user of searchUserList; let i = index">
@@ -23,9 +24,9 @@
           </div>
         </ion-avatar>
         <h2>{{user.name}}</h2>
-        <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
+        <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'&&haveIM" ion-button
           item-end (click)="addFriend($event, user)">添加</button>
-        <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
+        <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'&&haveIM"
           ion-button item-end color="dark">已添加</button>
       </button>
     </div>
@@ -63,12 +64,13 @@
             </div>
           </ion-avatar>
           <h2>{{user.name}}</h2>
-          <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'" ion-button
+          <button class="clear-btn" clear *ngIf="user.status != null && user.status.code != null && user.status.code != '0'&&haveIM" ion-button
             item-end (click)="addFriend($event, user)">{{'ADD' | translate}}</button>
-          <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'"
+          <button class="clear-btn" clear disabled *ngIf="user.status != null && user.status.code != null && user.status.code == '0'&&haveIM"
             ion-button item-end color="dark">{{'ADDED' | translate}}</button>
         </button>
         <div style="height: 52px;"></div>
       </ion-scroll>
     </div>
   </ion-content>
+</ion-content>
