@@ -17,6 +17,7 @@ import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
 import timeago from 'timeago.js';
 import { NoticePage } from '../notice/notice';
+import { ConfigsService } from '../../app/services/configs.service';
 
 /**
  * 首页
@@ -65,6 +66,7 @@ export class HomePage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private configsService: ConfigsService,
     private modalCtrl: ModalController,
     private iab: InAppBrowser,
     private el: ElementRef,
@@ -494,7 +496,13 @@ export class HomePage {
       businessObj: {formTitle: processTitle},
       stateCode: undefined
     })));
-    let url = `${targetUrl.substring(0, targetUrl.indexOf('#'))}#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`;
+    let url;
+    if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+      url = this.configsService.getBaseWebUrl() + 'standard';
+    }else{
+      url = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader');
+    }
+    url = `${url}#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`;
     url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}`;
     const dataALL = {
       name: title,
