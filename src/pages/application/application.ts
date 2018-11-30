@@ -80,6 +80,7 @@ export class ApplicationPage {
     params.append('user', this.navParams.get('assignee'));
     params.append('taskId', this.navParams.get('taskId'));
     params.append('step', this.navParams.get('step'));
+    params.append('businessId', this.navParams.get('businessId'));
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
