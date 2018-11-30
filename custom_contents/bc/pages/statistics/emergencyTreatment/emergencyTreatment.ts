@@ -83,6 +83,11 @@ export class EmergencyTreatmentPage {
           }
           this.createChart(i, this.statisticsDate['components'][i]['content']['json']);
         }
+        // 补充占位配合table-tr-first
+        const myHeaders = this.statisticsDate['components'][0]['content']['headers'];
+        if (myHeaders[0]['text'] != null &&  myHeaders[0]['text'] === ''){
+          myHeaders[0]['text'] = '占位';
+        }
       }
     }, (res: Response) => {
       this.toastService.show(res.text());

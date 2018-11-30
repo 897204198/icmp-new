@@ -64,8 +64,7 @@
         style="display: flex;flex-direction: row;">
         <ion-item *ngFor="let option of item.data" mode="md" style="width:33%;flex-direction:row-reverse; text-align: right;">
           <ion-radio [value]="option.id" mode="md" (ionSelect)="changeRadio(option)"></ion-radio>
-          <ion-label mode="md">{{option.name}}</ion-label>
-          
+          <ion-label mode="md" style="text-align: left">{{option.name}}</ion-label>
         </ion-item>
       </ion-list>
     </div>
@@ -77,7 +76,7 @@
       <h2>{{item.content.label}}</h2>
       <div class="form-table-content">
         <table>
-          <div class="form-table-head table_tr" id="form_table" style="position:fixed;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
+          <div class="form-table-head table-tr-first" id="form_table" style="position:fixed;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
               <tr *ngFor="let head of item.content.headers; let j = index">
                 <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;"></td>
               </tr>
@@ -103,7 +102,7 @@
       <h2>{{item.content.label}}</h2>
       <div class="form-table-content">
         <table>
-          <div class="form-table-head" id="form_table" style="position:fixed;display:block;z-index: 99;background:#fff;box-sizing: border-box;margin-left: -1px;">
+          <div class="form-table-head table-tr-first" id="form_table" style="position:fixed;display:block;z-index: 99;background:#fff;box-sizing: border-box;margin-left: -1px;">
               <tr *ngFor="let head of item.content.headers; let j = index">
                 <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;"></td>
               </tr>

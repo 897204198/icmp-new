@@ -35,6 +35,10 @@
       font-size: 16px;
     }
   }
+  
+  .table-tr-first tr:first-child td {
+    visibility: hidden;
+  }
 
   .statistics-chart {
     padding: 8px;
@@ -52,8 +56,5 @@
   }
   .text_right td{
     text-align: right;
-  }
-  .table_tr tr:first-child{
-    height:35px;
   }
 }
