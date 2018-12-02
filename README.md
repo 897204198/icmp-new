@@ -84,15 +84,55 @@ $ ionic cordova run ios [--prod]
 $ npm run releaseAndroid
 ```
 
-### android及ios程序调试方法
-
-- [Chrome调试Android应用](https://www.jianshu.com/p/2a3e3f0b562b)
-- [Safari调试iOS应用](http://ask.dcloud.net.cn/docs/#http://ask.dcloud.net.cn/article/143)
-
 ### 使用代理数据转接口
 - 如果在后台接口不改变的情况下，需要使用新的前台，则需要用到转接口使之接口对应。
 - 使用命令node proxy/adapter-proxy-server.js启动转接口代理
 - 如果需要修改后台地址，在/proxy/adapters/common.js中，修改common.hostname, common.port, common.path = '/mobile-platform'
+
+
+调试
+---
+
+### 浏览器调试混合应用前端内容方法
+
+- [Chrome调试Android应用](https://www.jianshu.com/p/2a3e3f0b562b)
+- [Safari调试iOS应用](http://ask.dcloud.net.cn/docs/#http://ask.dcloud.net.cn/article/143)
+
+### Android Studio 调试混合应用
+
+* 生成安卓项目代码
+
+```
+$ npm run debugAndroid
+```
+
+* 使用 Android Studio 打开 `platforms/android` 路径
+
+> 如存在 gradle 版本与 Android Gradle Plugin 版本不兼容问题，可以按照提示
+```
+The versions of the Android Gradle plugin and Gradle are not compatible.
+Please do one of the following:<ul><li>Update your plugin to version 2.4. This will require changes to build.gradle due to API changes.
+Open migration guide</li><li>Downgrade Gradle to version 3.5.
+Fix Gradle wrapper and re-import project</li></ul>
+```
+将 gradle wrapper 使用的 gradle 版本降级。或者手动调整 `gradle-wrapper.properties`
+```
+distributionUrl=https\://services.gradle.org/distributions/gradle-3.5-all.zip
+```
+在 cordova-android 平台版本（6.3.0）未升级之前，不要通过升级 Android Gradle Plugin 方式解决兼容性问题，升级 plugin 需要调整很多东西
+
+> 若提示 `android studio java.lang.OutOfMemoryError: GC overhead limit exceeded`，可以在 `build.gradle` 文件的 `android` 块中添加如下内容
+```
+android {
+   ...
+   dexOptions {
+       javaMaxHeapSize '4g'
+   }
+   ...
+}
+```
+
+> 为避免打包在 apk 中的前端未压缩源码被热部署路径的内容替换，可以在打包之前，将 `customs.json` 中相应项目的 `hcp` 部分内容设置为 `''`
 
 
 桌面运行

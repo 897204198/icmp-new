@@ -28,7 +28,7 @@ module.exports = function(grunt) {
         return parseInt(versionCode.substr(0, 1)) + '.' +
         parseInt(versionCode.substr(1, 2)) + '.' +
         parseInt(versionCode.substr(3, 2));
-      } 
+      }
     } else {
       return versionCode;
     }
@@ -173,7 +173,7 @@ module.exports = function(grunt) {
               match: /getServiceKeyUrl: '.*',/,
               replacement: 'getServiceKeyUrl: \'' + customs[conf.currentProject].server.getServiceKeyUrl + '\','
               },
-              
+
             {
               match: /baseUrl: '.*',/,
               replacement: 'baseUrl: \'' + customs[conf.currentProject].server.baseUrl + '\','
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
       bumpVer: {
         options: {
           patterns: [
-            
+
           ]
         },
         files: [
@@ -249,7 +249,11 @@ module.exports = function(grunt) {
 
     var tasks = [];
 
-    if (target && target.startsWith('release')) {
+    if (target && target === 'debugAndroid') {
+      tasks.push('shell:addAndroidPlugins');
+      tasks.push('replace:configAndroid');
+      tasks.push('replace:configs');
+    } else if (target && target.startsWith('release')) {
       if (target === 'releaseAndroid') {
         tasks.push('shell:addAndroidPlugins');
         tasks.push('replace:configAndroid');
@@ -258,9 +262,7 @@ module.exports = function(grunt) {
         tasks.push('replace:configIOS');
       }
       tasks.push('replace:configs', 'shell:hcpBuild');
-    }
-
-    if (target && target === 'hcp') {
+    } else if (target && target === 'hcp') {
       tasks.push('replace:configs', 'shell:hcpBuild');
     }
 
