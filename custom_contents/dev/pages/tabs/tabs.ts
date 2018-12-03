@@ -196,7 +196,6 @@ export class TabsPage {
    * 推送打开事件处理
    */
   doOpenNotification(event: any) {
-    alert(JSON.stringify(event));
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
     } else if (event.properCustoms.bean) {
@@ -311,7 +310,6 @@ export class TabsPage {
   }
   // 推送通知打开流程
   doOpenNotificationExamlist(customsDic: any) {
-    alert('推送打开' + customsDic);
     // 首次不加载
     if (!this.isFirst) {
       this.openExamlist(customsDic);
@@ -319,18 +317,12 @@ export class TabsPage {
     this.isFirst = false;
     this.events.subscribe('logined', () => {
       this.openExamlist(customsDic);
-      alert('推送打开' + customsDic);
     });
   }
 
    // 打开推送通知
    openExamlist(customsDic: any) {
     let menuStr: string = customsDic.url;
-    if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-      menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
-    }else{
-      menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
-    }
     const data = {
       name: customsDic.title,
       isPush: true,
@@ -354,6 +346,11 @@ export class TabsPage {
               browser.close();
               console.log(' 推送浏览器走back刷新');
               // 刷新首页角标
+              this.events.publish('refresh');
+            }
+            if (If_Can_Back === 'close') {
+              clearInterval(loop);
+              browser.close();
               this.events.publish('refresh');
             }
           });

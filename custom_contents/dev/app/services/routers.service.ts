@@ -87,7 +87,6 @@ export class RoutersService {
           url = menuStr + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
         }
         url = url.replace('#', '?v=' + new Date().getTime() + '#');
-        url = url + '&serviceKey=' + localStorage.getItem('serviceheader');
         const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
         browser.on('loadstop').subscribe(event => {
           browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
@@ -101,6 +100,11 @@ export class RoutersService {
                 browser.close();
                 console.log('看看浏览器走back哈哈');
                 // 刷新首页角标
+                this.events.publish('refresh');
+              }
+              if (If_Can_Back === 'close') {
+                clearInterval(loop);
+                browser.close();
                 this.events.publish('refresh');
               }
             });

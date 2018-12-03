@@ -10,7 +10,6 @@ import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { DeviceService } from '../../app/services/device.service';
-import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 import { Store } from '@ngrx/store';
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
@@ -496,44 +495,14 @@ export class HomePage {
       businessObj: {formTitle: processTitle},
       stateCode: undefined
     })));
-    let url;
-    if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-      url = this.configsService.getBaseWebUrl() + 'standard';
-    }else{
-      url = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader');
-    }
-    url = `${url}#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`;
-    url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}`;
     const dataALL = {
       name: title,
       isPush: false,
-      data: { url }
+      data: {
+        url: `#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`
+      },
+      page: 'examList'
     };
-    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
-      this.navCtrl.push(ExamCustomFramePage, dataALL);
-    }else {
-      url = url + '&servicekey=' + localStorage.getItem('serviceheader');
-      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-      browser.on('loadstop').subscribe(event => {
-        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-        let loop = setInterval(() => {
-          browser.executeScript({
-            code: 'localStorage.getItem("If_Can_Back");'
-          }).then(values => {
-            let If_Can_Back = values[0];
-            if (If_Can_Back === 'back') {
-              clearInterval(loop);
-              browser.close();
-              this.getWaitNum();
-            };
-            if (If_Can_Back === 'close') {
-              clearInterval(loop);
-              browser.close();
-              this.getWaitNum();
-            };
-          });
-        }, 500);
-      });
-    };
+    this.routersService.pageForward(this.navCtrl, dataALL);
   }
 }

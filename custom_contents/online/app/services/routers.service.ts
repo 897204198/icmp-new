@@ -87,7 +87,6 @@ export class RoutersService {
           url = menuStr + '?token=' + localStorage.getItem('token') + '&title=' + menu.name;
         }
         url = url.replace('#', '?v=' + new Date().getTime() + '#');
-        url = url + '&serviceKey=' + localStorage.getItem('serviceheader');
         const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
         browser.on('loadstop').subscribe(event => {
           browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
