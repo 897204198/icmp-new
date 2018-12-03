@@ -161,7 +161,7 @@ export function createTranslateLoader(http: Http) {
     EmailPage,
     OopStormPage,
     ImagePreviewPage,
-    IcmpKeyboardAttachDirective
+    IcmpKeyboardAttachDirective,
   ],
   imports: [
     IonicModule.forRoot(MyApp, {

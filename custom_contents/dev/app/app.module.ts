@@ -51,6 +51,11 @@ import { SettingPage } from '../pages/setting/setting';
 import { UserInfoPage } from '../pages/setting/userInfo/userInfo';
 import { AboutPage } from '../pages/setting/about/about';
 import { FeedbackPage } from '../pages/setting/feedback/feedback';
+import { FeedlistPage } from '../pages/setting/feedlist/feedlist';
+import { subtitleComponent } from '../pages/setting/feedlist/component/subtitle/subtitle';
+import { feedbtnComponent } from '../pages/setting/feedlist/component/feedbtn/feedbtn';
+import { FeedDetailListPage } from '../pages/setting/feedDetailList/feedDetailList';
+import { FeedDetailPage } from '../pages/setting/feedDetail/feedDetail';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
@@ -101,6 +106,7 @@ import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directi
 import { NoticePage } from '../pages/notice/notice';
 import { InitService } from '../app/services/init.service';
 import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
+import { HttpService } from '../app/services/http.service'
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -140,6 +146,11 @@ export function createTranslateLoader(http: Http) {
     UserInfoPage,
     AboutPage,
     FeedbackPage,
+    FeedlistPage,
+    subtitleComponent,
+    feedbtnComponent,
+    FeedDetailListPage,
+    FeedDetailPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -214,6 +225,9 @@ export function createTranslateLoader(http: Http) {
     UserInfoPage,
     AboutPage,
     FeedbackPage,
+    FeedlistPage,
+    FeedDetailListPage,
+    FeedDetailPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -281,6 +295,7 @@ export function createTranslateLoader(http: Http) {
     AppMinimize,
     NativeStorage,
     SearchFilterPipe,
+    HttpService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

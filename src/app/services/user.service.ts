@@ -100,4 +100,23 @@ export class UserService {
       return false;
     }
   }
+  // 设置token
+  setToken(token: string): void {
+    localStorage['token'] = token;
+  }
+
+  // 取得token
+  getToken(): string {
+    return localStorage['token'];
+  }
+
+  // 判断token是否存在
+  hasToken(): boolean {
+    return (localStorage['token'] != null && localStorage['token'] !== '');
+  };
+
+  // 清除token
+  clearToken(): void {
+    localStorage['token'] = '';
+  };
 }
