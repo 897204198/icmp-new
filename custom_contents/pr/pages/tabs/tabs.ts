@@ -27,7 +27,8 @@ import { PushService } from '../../app/services/push.service';
 import { FeedbackPage } from '../setting/feedback/feedback';
 import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-
+import { WaitDonePage } from '../exam/waitDone/waitDone';
+import { OrganizationAddressPage } from '../../pages/address/organizationAddress/organizationAddress';
 @Component({
   templateUrl: 'tabs.html'
 })
@@ -78,34 +79,51 @@ export class TabsPage {
         this.backButtonService.registerBackButtonAction(this.tabRef);
         // 通过推送通知打开应用事件
         document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+
         // 自动登录
         this.autoLogin();
+
         // app icon角标个数
         let iconNum: number = 0;
         let messageIconNum: number = 0;
         let homewaitIconNum: number = 0;
-        // 消息角标绑定
-        this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
-          for (let i = 0; i < this.tabRoots.length; i++) {
-            if (this.tabRoots[i]['tabTitle'] === '消息') {
-              this.tabRoots[i]['tabBadge'] = data;
-              messageIconNum = Number(data);
-              iconNum = homewaitIconNum + messageIconNum;
-              this.pushService.sendBadgeNotification(iconNum);
+
+        if (localStorage.getItem('haveIM') === '1') {
+          // 消息角标绑定
+          this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
+            for (let i = 0; i < this.tabRoots.length; i++) {
+              if (this.tabRoots[i]['tabTitle'] === '消息') {
+                this.tabRoots[i]['tabBadge'] = data;
+                messageIconNum = Number(data);
+                iconNum = homewaitIconNum + messageIconNum;
+                this.pushService.sendBadgeNotification(iconNum);
+              }
             }
-          }
-        });
-        // 首页待办消息绑定
-        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
-          for (let i = 0; i < this.tabRoots.length; i++) {
-            if (this.tabRoots[i]['tabTitle'] === '首页') {
-              this.tabRoots[i]['tabBadge'] = data;
-              homewaitIconNum = Number(data);
-              iconNum = messageIconNum + homewaitIconNum;
-              this.pushService.sendBadgeNotification(iconNum);
+          });
+          // 首页待办消息绑定
+          this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
+            for (let i = 0; i < this.tabRoots.length; i++) {
+              if (this.tabRoots[i]['tabTitle'] === '首页') {
+                console.log('首页待办角标个数' + data);
+                this.tabRoots[i]['tabBadge'] = data;
+                homewaitIconNum = Number(data);
+                iconNum = messageIconNum + homewaitIconNum;
+                console.log('消息数' + iconNum);
+                this.pushService.sendBadgeNotification(iconNum);
+              }
             }
-          }
-        });
+          });
+        }else{
+           // 待办tab消息绑定
+           this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
+            for (let i = 0; i < this.tabRoots.length; i++) {
+              if (this.tabRoots[i]['tabTitle'] === '待办') {
+                console.log('首页待办角标个数' + data);
+                this.tabRoots[i]['tabBadge'] = data;
+              }
+            }
+          });
+        }
       });
     }
 
@@ -151,12 +169,21 @@ export class TabsPage {
    */
   getTabInfo(): Object[] {
     // if (this.userService.imIsOpen()) {
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
-        { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-      ];
+      if (localStorage.getItem('haveIM') === '1') {
+        return [
+          { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+          { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
+          { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+          { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+        ];
+      } else {
+        return [
+          { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+          { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
+          { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+          { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+        ];
+      }
     // } else {
     //   return [
     //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
@@ -195,7 +222,9 @@ export class TabsPage {
         params['chatType'] = event.properCustoms.chatType;
         params['chatId'] = chatInfo.chatId;
         params['isPush'] = '1';
-        (<any>window).huanxin.chat(params);
+        if (localStorage.getItem('haveIM') === '1') {
+          (<any>window).huanxin.chat(params);
+        }
       }
     } else {
       if (event.properAlert) {
@@ -291,13 +320,14 @@ export class TabsPage {
     });
   }
 
-  // 打开推送通知
-  openExamlist(customsDic: any) {
+   // 打开推送通知
+   openExamlist(customsDic: any) {
+    let menuStr: string = customsDic.url;
     const data = {
       name: customsDic.title,
       isPush: true,
       data: {
-        url: customsDic.url.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title
+        url: menuStr.replace('#', '?v=' + new Date().getTime() + '#') + '&token=' + localStorage.getItem('token') + '&title=' + customsDic.title + '&close=true'
       }
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
@@ -315,8 +345,13 @@ export class TabsPage {
               clearInterval(loop);
               browser.close();
               console.log(' 推送浏览器走back刷新');
-               // 刷新首页角标
-               this.events.publish('refresh');
+              // 刷新首页角标
+              this.events.publish('refresh');
+            }
+            if (If_Can_Back === 'close') {
+              clearInterval(loop);
+              browser.close();
+              this.events.publish('refresh');
             }
           });
         }, 500);
@@ -341,8 +376,10 @@ export class TabsPage {
         this.isFirst = false;
         // 防止在 web 上报错
         if (this.deviceService.getDeviceInfo().deviceType) {
-          // im 自动登录
-          this.imlogin();
+          if (localStorage.getItem('haveIM') === '1') {
+            // im 自动登录
+            this.imlogin();
+          }
         }
       }, (res: Response) => {
         this.toastService.show(res.text());
@@ -352,37 +389,40 @@ export class TabsPage {
 
   // im 自动登录
   imlogin() {
-    // 获取未读消息前先登录并将 chatKey 传入
-    let params = {
-      username: this.userInfo.loginName,
-      password: this.userInfo.password0,
-      baseUrl: this.configsService.getBaseUrl(),
-      pushUrl: this.configsService.getPushUrl(),
-      chatKey: this.configsService.getChatKey(),
-      token: 'Bearer ' + localStorage['token'],
-      chatId: this.userInfo.userId,
-      pushAppId: this.appConstant.properPushConstant.appId,
-      ext: {
-        from_user_id: this.userInfo.loginName,
-        from_username: this.userInfo.userName,
-        from_headportrait: this.userInfo.headImage
-      }
-    };
-    (<any>window).huanxin.imlogin(params, (loginData) => {
-      this.zone.run(() => {
-        if (loginData === 'user_not_found' && this.userService.imIsOpen()) {
-          this.logOut('0');
-        } else if (loginData !== 'user_not_found' && !this.userService.imIsOpen()) {
-          this.logOut('1');
+    if (localStorage.getItem('haveIM') === '1') {
+      // 获取未读消息前先登录并将 chatKey 传入
+      let params = {
+        username: this.userInfo.loginName,
+        password: this.userInfo.password0,
+        baseUrl: this.configsService.getBaseUrl(),
+        pushUrl: this.configsService.getPushUrl(),
+        chatKey: this.configsService.getChatKey(),
+        token: 'Bearer ' + localStorage['token'],
+        chatId: this.userInfo.userId,
+        pushAppId: this.appConstant.properPushConstant.appId,
+        ext: {
+          from_user_id: this.userInfo.loginName,
+          from_username: this.userInfo.userName,
+          from_headportrait: this.userInfo.headImage
         }
-        this.getUnreadMessageNumber();
+      };
+      (<any>window).huanxin.imlogin(params, (loginData) => {
+        this.zone.run(() => {
+          if (loginData === 'user_not_found' && this.userService.imIsOpen()) {
+            this.logOut('0');
+          } else if (loginData !== 'user_not_found' && !this.userService.imIsOpen()) {
+            this.logOut('1');
+          }
+          this.getUnreadMessageNumber();
+        });
       });
-    });
+    }
   }
 
   // 获取未读消息数量
   getUnreadMessageNumber() {
-    (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
+    if (localStorage.getItem('haveIM') === '1') {
+      (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
       (<any>window).huanxin.loginState('', () => {
         // 推送服务取消与当前用户的绑定关系
         this.pushService.unBindUserid(this.userInfo.userId);
@@ -414,12 +454,13 @@ export class TabsPage {
         }
       });
     }, (retData) => { });
+    }
   }
 // 获取待办事件个数
 getWaitToDoNumber(){
   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
     if (res._body != null && res._body !== '') {
-      let data = res.json(); // 待办个数 
+      let data = res.json(); // 待办个数
       // let data = 5;
       this.zone.run(() => {
           if (data === 0) {

@@ -17,6 +17,7 @@ import { FeedbackPage } from './feedback/feedback';
 import { ConfigsService } from '../../app/services/configs.service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
+import { ToastService } from '../../app/services/toast.service';
 
 /**
  * 设置首页
@@ -65,6 +66,7 @@ export class SettingPage {
     private translate: TranslateService,
     private statusBar: StatusBar,
     private platform: Platform,
+    private toastService: ToastService,
     private appVersionUpdateService: AppVersionUpdateService) {
 
     this.userInfoPage = UserInfoPage;
@@ -124,7 +126,7 @@ export class SettingPage {
     this.http.get('/user/info', { params: params }).subscribe((res) => {
       let data = res.json();
       if (data.avatar) {
-        this.src = `${this.fileUrl}${data.avatar}${this.token}`;
+        this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
       }
     }, (res: Response) => {
     });
@@ -154,7 +156,9 @@ export class SettingPage {
       const startIndex = this.navCtrl.getActive().index - 1;
       this.navCtrl.remove(startIndex, 1);
     });
-    (<any>window).huanxin.imlogout();
+    if (localStorage.getItem('haveIM') === '1') {
+      (<any>window).huanxin.imlogout();
+    }
   }
 
   /**

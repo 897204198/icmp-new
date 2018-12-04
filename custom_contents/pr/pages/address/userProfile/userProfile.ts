@@ -35,6 +35,8 @@ export class UserProfilePage {
   private token: string = '?access_token=' + localStorage['token'];
   private toChatAatar: string = '';
   private fromChatAatar: string = '';
+    // 是否有IM功能
+    haveIM: boolean = false;
 
   /**
    * 构造函数
@@ -59,6 +61,11 @@ export class UserProfilePage {
    */
   ionViewDidLoad(): void {
     this.isFriend = this.navParams.get('isFriend') === true ? true : false;
+    if (localStorage.getItem('haveIM') === '1') {
+      this.haveIM = true;
+    }else{
+      this.haveIM = false;
+    }
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
     let searchUserId: string = this.navParams.get('fromUserId');
@@ -109,7 +116,7 @@ export class UserProfilePage {
       }
       this.toUserInfo = data;
       if (data['avatar']) {
-        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}`;
+        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
         this.toChatAatar = data['avatar'];
       }
     }, (err: Response) => {

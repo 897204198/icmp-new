@@ -106,8 +106,8 @@
       "ios": "10000"
     },
     "appVersion": {
-      "android": "101060",
-      "ios": "101060"
+      "android": "101070",
+      "ios": "101070"
     },
     "name": "普日协同办公",
     "updateUrl": {
@@ -117,11 +117,11 @@
     "server": {
       "chatKey": "1166171023115752#pr",
       "adminConsolePass": "",
-      "baseUrl": "https://icmp.propersoft.cn/propersoft/api/",
-      "baseWebUrl": "https://icmp.propersoft.cn/",
+      "baseUrl": "https://icmp.propersoft.cn/icmp/api/route/",
+      "baseWebUrl": "https://icmp.propersoft.cn/icmp/",
       "pushAppId": "MobileOAPr",
       "pushServer": "http://push.propersoft.cn/pep-push",
-      "getServiceKeyUrl":"https://icmp.propersoft.cn/propersoft/api_streamline/",
+      "getServiceKeyUrl":"https://icmp.propersoft.cn/propersoft/api_streamline/streamline/",
       "pushXiaomi": {
         "theAppid": "2882303761517759408",
         "theAppkey": "5931775920408"

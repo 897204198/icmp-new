@@ -53,8 +53,7 @@ export class MyApp {
 
       // 设置设备信息
       this.deviceService.setDeviceInfo();
-      // 初始化推送插件
-      this.pushService.init();
+
     });
 
     // 初始国际化

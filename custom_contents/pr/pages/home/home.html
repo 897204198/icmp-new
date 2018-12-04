@@ -27,14 +27,13 @@
   <!-- <icmp-home-custom [menus]="menus"></icmp-home-custom> -->
   <icmp-home-custom [menus]="menus" [allNum]="allNum"></icmp-home-custom>
 
-    <!--消息-->
-    <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
-      <ion-icon name="volume-up"></ion-icon>
-      <span class="home-notice-content">
-        <div *ngFor="let item of notices; let i = index" [ngClass]="{'notice-first': i==0}" tappable (click)="noticeClk(i)">{{item.title}}</div>
-       </span>
-    </div>
   <!--消息-->
+  <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
+    <ion-icon name="volume-up"></ion-icon>
+    <span class="home-notice-content">
+      <div *ngFor="let item of notices; let i = index" [ngClass]="{'notice-first': i==0}" tappable (click)="noticeClk(i)">{{item.title}}</div>
+     </span>
+  </div>
   <!-- <div *ngIf="notices != null && notices.length > 0" class="main-row row-division main-notice">
     <ion-icon name="volume-up"></ion-icon>
     <span class="notice-title">{{'LAST_NOTIFY' | translate}}</span>
@@ -47,7 +46,7 @@
     </span>
     <button ion-button small round class="notice-content-btn" (click)="openAllNotice()">{{'MORE' | translate}}</button>
   </div> -->
-  <div style="margin-top: 8px; font-size: 16px">
+  <div *ngIf="haveIM" style="margin-top: 8px; font-size: 16px">
     <div *ngIf="hasLoaded && hasListLoaded">
         <!-- <div *ngIf=false> -->
       <div *ngIf="componentList.length > 0">
@@ -64,27 +63,32 @@
                   </div>
                 </div>
                 <div *ngFor="let ele of workflow" style="border-bottom: 4px solid #f0f4f7;background: #fff">
-                  <div (tap)="getDetail(ele, item.name, item.data.url)" class="worktitle" style="border-bottom:1px solid #c6c6c6">
+                  <div (tap)="getDetail(ele, item.name, item.data.url)" class="worktitle">
                     <div class="tings-info-box">
+                      <!-- <img *ngIf="!ele.globalData.workflow_icon" class="typeImg" src="../../assets/images/db/default.png" alt=""> -->
+                      <img class="typeImg" [src]="ele.globalData.workflow_icon" alt="">
                       <b class="tings-info" item-left style="font-size: 14px;color: #262626">{{ele.pepProcInst.processTitle}}</b>
-                      <div class="timeage" item-right style="font-size: 14px;color: #6c6c6c">{{ele.createTime}}</div>
+                      <div class="timeage" item-right style="font-size: 12px;color: #6c6c6c">{{ele.createTime}}</div>
                     </div>
                   </div>
-                  <div *ngIf="!ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
-                    <div class="detail">{{'DEALTIME' | translate}} : {{ele.pepProcInst.createTime}}</div>
-                    <div class="detail">发起人 ：{{ele.pepProcInst.startUserName}}</div>
-                  </div>
-                  <div *ngIf="ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
-                    <div class="detail" *ngFor="let it of ele.globalData.formTodoDisplayFields">
-                      {{it.label}} : {{it.value}}
-                      <!-- item.formData[`${it.name}_text`] -->
+                  <div class="detailbox">
+                    <div *ngIf="!ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                      <div class="detail">{{'DEALTIME' | translate}} : {{ele.pepProcInst.createTime}}</div>
+                      <div class="detail">发起人 ：{{ele.pepProcInst.startUserName}}</div>
+                    </div>
+                    <div *ngIf="ele.hasFields" (tap)="getDetail(ele, item.name, item.data.url)">
+                      <div class="detail" *ngFor="let it of ele.globalData.formTodoDisplayFields">
+                        {{it.label}} : {{it.value}}
+                        <!-- item.formData[`${it.name}_text`] -->
+                      </div>
+                    </div>
+                    <div class="btnbox">
+                        <span (tap)="agreeDeal(ele)">同意</span>
+                        <img class="btnImg" src="../../assets/images/agree.png" alt="">
+                        <!-- <button (tap)="agreeDeal(ele)" small round class="component-agree-btn" ion-button>同 意</button> -->
                     </div>
                   </div>
-                  <div class="btnbox">
-                    <div>
-                      <button (tap)="agreeDeal(ele)" small round class="component-agree-btn" ion-button>同 意</button>
-                    </div>
-                  </div>
+
                 </div>
           </div>
       </div>

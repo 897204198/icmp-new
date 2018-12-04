@@ -86,7 +86,6 @@ export class HomeMenusManagerPage {
     );
     // 从网页回来刷新首页角标
     events.subscribe('refresh', () => {
-      console.log('event刷新全部应用消息啊啦啦啦');
       this.getWaitNum();
     });
   }
@@ -143,9 +142,11 @@ export class HomeMenusManagerPage {
           for (let apps of menu['apps']) {
             if (apps['name'] === '待办') {
               apps['total'] = this.waitNum;
+              console.log('待办全部角标数' + apps['total']);
             }
             menu.menus.push(apps);
           }
+          console.log('待办个数' + this.waitNum);
           this.categoryMenus.push(menu);
         }
       });
@@ -168,6 +169,7 @@ export class HomeMenusManagerPage {
             data[i].total =  this.waitNum;
           }
           arr.push(data[i]);
+          console.log('新待办我的应用角标数' + data[i].total);
         }
         this.zone.run(() => {
           this.myMenus = arr;

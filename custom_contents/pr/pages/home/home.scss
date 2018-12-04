@@ -162,25 +162,27 @@ page-home {
   }
   .worktitle {
     margin: 0 15px;
-    height: 44px;
-    line-height: 44px;
+    height: 32px;
+    line-height: 32px;
     font-size: 12px;
     // background: #fff;
+  }
+  .detailbox {
+    position: relative;
+    padding: 8px 0;
   }
   .detail {
     margin: 0 15px;
     padding-right: 10px;
-    height: 44px;
-    line-height: 44px;
+    width: 80%;
+    height: 20px;
+    line-height: 20px;
     background: #fff;
     font-size: 14px;
     color: #6c6c6c;
     white-space:nowrap;
     text-overflow:ellipsis;
     overflow:hidden;
-    &:last-child {
-      border-bottom: 1px solid #c6c6c6;
-    }
   }
   .tings-info-box {
     // border-bottom: 1px solid #c6c6c6;
@@ -190,20 +192,45 @@ page-home {
       content: " ";
       clear: both;
     }
+    .typeImg {
+      float: left;
+      margin-top: 5px;
+      width: 22px;
+      height: 22px;
+    }
     .timeage {
       font-size: 14px;
       float: right;
+      color: #6c6c6c;
     }
     .tings-info {
+      margin-left: 8px;
       float: left;
     }
   }
   .btnbox {
-    margin: 0 15px;
-    height: 44px;
+    width: 20%;
+    position: absolute;
+    right: 15px;
+    bottom: 8px;
+    text-align: right;
+    // margin: 0 15px;
+    height: 20px;
+    line-height: 20px;
     overflow: hidden;
-    > div {
+    .btnImg {
+      // display: inline-block;
       float: right;
+      margin-top: 3px;
+      width: 14px;
+      height: 14px;
+    }
+    span {
+      margin-left: 4px;
+      float: right;
+      line-height: 20px;
+      font-size: 14px;
+      color: #0079fa;
     }
   }
   .add-button-box {

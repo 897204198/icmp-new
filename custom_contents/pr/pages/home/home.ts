@@ -10,14 +10,13 @@ import { IcmpConstant, ICMP_CONSTANT } from '../../app/constants/icmp.constant';
 import { RoutersService } from '../../app/services/routers.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { DeviceService } from '../../app/services/device.service';
-import { ExamCustomFramePage } from '../exam/customFrame/customFrame';
 import { Store } from '@ngrx/store';
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
 import { HomeComponentPage } from './homeComponent/homeMenusManager';
 import { MenuFolderComponent } from '../../app/component/menuFolder/menuFolder.component';
 import timeago from 'timeago.js';
 import { NoticePage } from '../notice/notice';
-
+import { ConfigsService } from '../../app/services/configs.service';
 /**
  * 首页
  */
@@ -58,11 +57,14 @@ export class HomePage {
   // private hasInfo: boolean = false;
   private hasLoaded: boolean = false;
   private hasListLoaded: boolean = false;
+  // 是否有IM功能
+  haveIM: boolean = false;
 
   /**
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private configsService: ConfigsService,
     private modalCtrl: ModalController,
     private iab: InAppBrowser,
     private el: ElementRef,
@@ -135,6 +137,12 @@ export class HomePage {
         });
       }, 3000);
     });
+
+    if (localStorage.getItem('haveIM') === '1') {
+      this.haveIM = true;
+    }else{
+      this.haveIM = false;
+    }
   }
   test_local_dict (number, index, total_sec): any {
     // number：xxx 时间前 / 后的数字；
@@ -177,6 +185,11 @@ export class HomePage {
       if (res._body != null && res._body !== '') {
         this.workflow = res.json().data;
         this.workflow.forEach(element => {
+          if (element['globalData']['workflow_icon']) {
+            element['globalData']['workflow_icon'] = `../../assets/images/db/${element['globalData']['workflow_icon']}`;
+          } else {
+            element['globalData']['workflow_icon'] = '../../assets/images/db/default.png';
+          }
           timeago.register('test_local', this.test_local_dict);
           const timeagoa = timeago();
           element['createTime'] = timeagoa.format(element['createTime'], 'test_local');
@@ -283,15 +296,21 @@ export class HomePage {
           if (data[i].name === '待办') {
             data[i].total =  this.waitNum;
             haveWait++;
+            if (localStorage.getItem('haveIM') === '0') {
+              // 存储待办模块
+              localStorage.setItem('waitData', data[i].data.url);
+            }
           }
           this.menus.push(data[i]);
         }
         // 首页没有待办数量加在全部图标上
-        if (haveWait === 0){
-          this.allNum = this.waitNum;
-      }else{
-        this.allNum = 0;
-      }
+        if (localStorage.getItem('haveIM') === '1') {
+          if (haveWait === 0){
+            this.allNum = this.waitNum;
+          }else{
+            this.allNum = 0;
+          }
+        }
         this.secureStorageService.putObject('home_applist', this.menus);
       }
     }, (res: Response) => {
@@ -475,37 +494,14 @@ export class HomePage {
       businessObj: {formTitle: processTitle},
       stateCode: undefined
     })));
-    let url = `${targetUrl.substring(0, targetUrl.indexOf('#'))}#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`;
-    url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}`;
     const dataALL = {
       name: title,
       isPush: false,
-      data: { url }
+      data: {
+        url: `#/webapp/workflow/workflowMainPop?param=${param}&title=${title}&close=true`
+      },
+      page: 'examList'
     };
-    if (this.deviceService.getDeviceInfo().deviceType === 'android') {
-      this.navCtrl.push(ExamCustomFramePage, dataALL);
-    }else {
-      const browser = this.iab.create(url, '_blank', { 'location': 'no', 'toolbar': 'no' });
-      browser.on('loadstop').subscribe(event => {
-        browser.executeScript({ code: 'localStorage.setItem("If_Can_Back", "" );' });
-        let loop = setInterval(() => {
-          browser.executeScript({
-            code: 'localStorage.getItem("If_Can_Back");'
-          }).then(values => {
-            let If_Can_Back = values[0];
-            if (If_Can_Back === 'back') {
-              clearInterval(loop);
-              browser.close();
-              this.getWaitNum();
-            };
-            if (If_Can_Back === 'close') {
-              clearInterval(loop);
-              browser.close();
-              this.getWaitNum();
-            };
-          });
-        }, 500);
-      });
-    };
+    this.routersService.pageForward(this.navCtrl, dataALL);
   }
 }

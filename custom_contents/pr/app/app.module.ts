@@ -100,7 +100,7 @@ import { ImagePreviewPage } from '../pages/setting/feedback/imagePreview';
 import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directive';
 import { NoticePage } from '../pages/notice/notice';
 import { InitService } from '../app/services/init.service';
-
+import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
 
 export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -114,6 +114,7 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
+    WaitDonePage,
     MyApp,
     IcmpDblclickDirective,
     SearchFilterPipe,
@@ -197,6 +198,7 @@ export function createTranslateLoader(http: Http) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    WaitDonePage,
     MyApp,
     MenuFolderComponent,
     SearchboxComponent,
