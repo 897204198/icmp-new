@@ -13,11 +13,11 @@ import { PushService } from '../../app/services/push.service';
 import { UserService, initUserInfo, UserInfoState } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
 import { ResetPasswordPage } from './resetPassword/resetPassword';
-import { FeedbackPage } from './feedback/feedback';
+import { FeedlistPage } from './feedlist/feedlist';
 import { ConfigsService } from '../../app/services/configs.service';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
-import { ToastService } from '../../app/services/toast.service';
+// import { ToastService } from '../../app/services/toast.service';
 
 /**
  * 设置首页
@@ -43,7 +43,7 @@ export class SettingPage {
   // 通用页
   generalPage: any;
   // 意见反馈页
-  feedbackPage: any = FeedbackPage;
+  feedListPage: any = FeedlistPage;
   // 关于我们页
   aboutPage: any;
   resetPasswordPage: any;
@@ -66,7 +66,7 @@ export class SettingPage {
     private translate: TranslateService,
     private statusBar: StatusBar,
     private platform: Platform,
-    private toastService: ToastService,
+    // private toastService: ToastService,
     private appVersionUpdateService: AppVersionUpdateService) {
 
     this.userInfoPage = UserInfoPage;

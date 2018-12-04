@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'FEEDDETAIL' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content no-bounce class="contentbox">
+  <div class="menutitlebox">
+    <feed-subTitle [title]="item.name" color="pink"></feed-subTitle>
+  </div>
+  <div class="visit">浏览 {{item.views}}次</div>
+  <div class="detail">
+    <div class="sign"></div>
+    <div class="content">{{item.answer}}</div>
+  </div>
+  <div class="bottombox">
+    <div class="choosebox">
+      <div class="choose" (click)="itemRouter(1)" [ngClass]="{active: item.assess == 1}">
+        <div class="img"  *ngIf="item.assess != 1">
+          <img src="./assets/images/goodgray.png">
+        </div>
+        <div class="img" *ngIf="item.assess == 1">
+          <img src="./assets/images/goodblue.png">
+        </div>
+        <div class="title">顶 {{item.awesome}}</div>
+      </div>
+      <div class="choose" (click)="itemRouter(2)" [ngClass]="{active: item.assess == 2}">
+        <div class="img" *ngIf="item.assess != 2">
+          <img src="./assets/images/badgray.png">
+        </div>
+        <div class="img" *ngIf="item.assess == 2">
+          <img src="./assets/images/badblue.png">
+        </div>
+        <div class="title">踩 {{item.tread}}</div>
+      </div>
+    </div>
+    <div class="feedbox">
+      <feed-btn></feed-btn>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,20 @@
+page-feedDetailList {
+  .detaillist-content {
+    .listbox {
+      padding: 0 15px;
+      padding-bottom: 60px;
+      .new {
+        padding: 12px 0;
+        border-bottom: 1px solid #f4f4f7; 
+      }
+    }
+  }
+  .feedbtn {
+    position: fixed;
+    background: #fff;
+    width: 100%;
+    z-index: 100;
+    padding: 11px 15px 11px 15px;
+    bottom: 0px;
+  }
+}
