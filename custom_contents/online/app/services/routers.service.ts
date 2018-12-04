@@ -102,6 +102,11 @@ export class RoutersService {
                 // 刷新首页角标
                 this.events.publish('refresh');
               }
+              if (If_Can_Back === 'close') {
+                clearInterval(loop);
+                browser.close();
+                this.events.publish('refresh');
+              }
             });
           }, 500);
         });
