@@ -24,6 +24,7 @@
         "serve:win": "ionic-app-scripts serve",
         "serve:pw": "grunt build:before && npm run build && ionic-app-scripts serve",
         "checkapp": "grunt build:before && npm run lint",
+        "mock": "node proxy/proxy-server.js",
         "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./protractor.config.js"
     },
     "dependencies": {

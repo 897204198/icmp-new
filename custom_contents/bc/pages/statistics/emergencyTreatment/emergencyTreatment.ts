@@ -156,4 +156,17 @@ export class EmergencyTreatmentPage {
       return false;
     }
   }
+
+  /**
+   * 清空日期控件
+   */
+  clearStartDatetime(item: Object): void {
+    this.startDate = '';
+  }
+    /**
+   * 清空日期控件
+   */
+  clearEndDatetime(item: Object): void {
+    this.endDate = '';
+  }
 }

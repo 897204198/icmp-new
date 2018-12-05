@@ -1,6 +1,20 @@
 {
   "result": "0",
   "rows": [
+      {
+        "total":0,
+        "icon":"http://chuantu.biz/t5/162/1502023631x2890149590.png",
+        "title":"上报科室统计",
+        "queryCondition":{
+            "hosId":"all",
+            "type":"week"
+        },
+        "appid":46,
+        "canRemove":"false",
+        "systemId":"emergency",
+        "hadpass":"false",
+        "serviceName":"emergency"
+    },
     {
       "appid": "1",
       "title": "申请单",
