@@ -1,9 +1,8 @@
 {
-    "name": "icmp",
-    "version": "2.0.0-SNAPSHOT",
+    "name": "@icmp/app",
+    "version": "2.0.0-rc01",
     "author": "ProperSoft",
     "description": "Ionic CMP APP",
-    "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",
         "lint": "ionic-app-scripts lint --bailOnLintError true",

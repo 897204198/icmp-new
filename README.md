@@ -135,6 +135,16 @@ android {
 > 为避免打包在 apk 中的前端未压缩源码被热部署路径的内容替换，可以在打包之前，将 `customs.json` 中相应项目的 `hcp` 部分内容设置为 `''`
 
 
+版本发布
+-------
+
+调整 `package.json` 中的 `version`，开发版需每次调整 `-rc` 后的数字，保证不冲突，发布版去掉 `-rc` 后缀即可
+
+```
+$ npm publish --registry http://nexus.propersoft.cn:8081/repository/npm-internal/
+```
+
+
 桌面运行
 ------
 
