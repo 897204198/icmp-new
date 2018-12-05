@@ -2,6 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { NavParams, NavController, Navbar } from 'ionic-angular';
 import { ConfigsService } from '../../../app/services/configs.service';
+import { PhotoService } from '../../../app/services/photo.service';
+import { ActionSheetController } from 'ionic-angular';
 
 @Component({
   selector: 'page-exam-custom-frame',
@@ -15,7 +17,8 @@ export class ExamCustomFramePage {
   // 标题
   title: string = '';
 
-  constructor(private sanitizer: DomSanitizer, public navParams: NavParams, private navCtrl: NavController, private configsService: ConfigsService,
+  constructor(
+    private actionSheetCtrl: ActionSheetController,private photoService: PhotoService,private sanitizer: DomSanitizer, public navParams: NavParams, private navCtrl: NavController, private configsService: ConfigsService,
     ) {
     this.title = this.navParams.data.name;
     let dangerousVideoUrl = '';
@@ -38,11 +41,40 @@ export class ExamCustomFramePage {
     }
     this.myURL = this.sanitizer.bypassSecurityTrustResourceUrl(dangerousVideoUrl);
     window.addEventListener('message', event => {
+      const eventId = event.data.id;
+      const type = event.data.type;
       if (event.data === 'back') {
         this.navCtrl.pop();
       }
       if (event.data === 'close') {
         this.navCtrl.pop();
+      }
+      if (type === 'chooseImage') {
+        const actionSheet = this.actionSheetCtrl.create({
+          title: '选择图片',
+          buttons: [
+            {
+              text: '拍照',
+              handler: () => {
+                this.photoService.getPictureByCamera().subscribe(img => {
+                   window.frames[0].postMessage({id:eventId, data: [img]});
+                });
+              }
+            }, {
+              text: '从手机相册选择',
+              handler: () => {
+                this.photoService.getMultiplePicture().subscribe(img => {
+                  // this.fileUpload(img);
+                  window.frames[0].postMessage({id:eventId, data: img});
+                });
+              }
+            }, {
+              text: '取消',
+              role: 'cancel'
+            }
+          ]
+        });
+        actionSheet.present();
       }
     });
   }
