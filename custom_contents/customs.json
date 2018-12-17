@@ -144,35 +144,6 @@
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
   },
-  "bc": {
-    "id": {
-      "android": "com.proper.icmp.bc",
-      "ios": "com.proper.icmp.bc"
-    },
-    "version": {
-      "android": "10000",
-      "ios": "10000"
-    },
-    "appVersion": {
-      "android": "10005",
-      "ios": "10005"
-    },
-    "name": "掌上办公",
-    "updateUrl": {
-      "android": "https://fenfa.beichenyiyuan.cn/app/",
-      "ios": "https://fenfa.beichenyiyuan.cn/app/"
-    },
-    "server": {
-      "baseUrl": "http://123.150.83.199:9999/mobile-platform",
-      "pushAppId": "BCOA",
-      "pushServer": "http://39.106.53.71:29091/pep-push",
-      "pushXiaomi": {
-        "theAppid": "2882303761517675844",
-        "theAppkey": "5121767537844"
-      },
-      "hcp": "http://202.199.100.174:29091/mobile-platform"
-    }
-  },
   "xm": {
     "id": {
       "android": "com.proper.icmp.xm",
@@ -198,35 +169,6 @@
       "pushXiaomi": {
         "theAppid": "2882303761517675844",
         "theAppkey": "5121767537844"
-      },
-      "hcp": "http://202.199.100.174:29091/mobile-platform"
-    }
-  },
-  "lzy": {
-    "id": {
-      "android": "com.proper.icmp.lzy",
-      "ios": "com.proper.icmp.lzy"
-    },
-    "version": {
-      "android": "10000",
-      "ios": "10000"
-    },
-    "appVersion": {
-      "android": "10000",
-      "ios": "10000"
-    },
-    "name": "掌上办公",
-    "updateUrl": {
-      "android": "https://www.baidu.com/",
-      "ios": "https://www.baidu.com/"
-    },
-    "server": {
-      "baseUrl": "http://192.168.1.241:8888/mobile-platform",
-      "pushAppId": "MobileOALzy",
-      "pushServer": "http://39.106.53.71:29091/pep-push",
-      "pushXiaomi": {
-        "theAppid": "2882303761517864237",
-        "theAppkey": "5851786467237"
       },
       "hcp": "http://202.199.100.174:29091/mobile-platform"
     }
