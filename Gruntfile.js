@@ -49,7 +49,7 @@ module.exports = function(grunt) {
   };
 
   var conf = require('./ionic.config.json');
-  var customs = require('./custom_contents/customs.json');
+  // var customs = require('./custom_contents/customs.json');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -85,148 +85,6 @@ module.exports = function(grunt) {
         command: 'cordova-hcp build'
       }
     },
-
-    copy: {
-      project: {
-        files: [
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/resources', src: ['**'], dest: './resources/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/images', src: ['**'], dest: '<%= app.src %>/assets/images/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/jsons', src: ['**'], dest: '<%= app.src %>/assets/jsons/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/pages', src: ['**'], dest: '<%= app.src %>/pages/'},
-          {expand: true, cwd: './custom_contents/' + conf.currentProject + '/app', src: ['**'], dest: '<%= app.src %>/app/'}
-        ]
-      }
-    },
-
-    replace: {
-      configAndroid: {
-        options: {
-          patterns: [
-            {
-              match: /id="com.proper.icmp"/,
-              replacement: 'id="' + customs[conf.currentProject].id.android + '"'
-            },
-            {
-              match: /version="[^"]*"/,
-              replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.android) + '"'
-            },
-            {
-              match: /android-versionCode="[^"]*"/,
-              replacement: 'android-versionCode="' + customs[conf.currentProject].appVersion.android + '"'
-            }
-          ]
-        },
-        files: [
-          {expand: true, flatten: true, src: ['config.xml']}
-        ]
-      },
-      configIOS: {
-        options: {
-          patterns: [
-            {
-              match: /id="com.proper.icmp"/,
-              replacement: 'id="' + customs[conf.currentProject].id.ios + '"'
-            },
-            {
-              match: /version="[^"]*"/,
-              replacement: 'version="' + formalVer(customs[conf.currentProject].appVersion.ios) + '"'
-            },
-            {
-              match: /ios-CFBundleVersion="[^"]*"/,
-              replacement: 'ios-CFBundleVersion="' + customs[conf.currentProject].appVersion.ios + '"'
-            }
-          ]
-        },
-        files: [
-          {expand: true, flatten: true, src: ['config.xml']}
-        ]
-      },
-      configs: {
-        options: {
-          patterns: [
-            {
-              match: /<name.*/,
-              replacement: '<name>' + customs[conf.currentProject].name + '</name>'
-            },
-            {
-              match: /<config-file.*/,
-              replacement: '<config-file url="' + customs[conf.currentProject].server.hcp + '/chcp.json" />'
-            },
-            {
-              match: /"content_url":.*/,
-              replacement: '"content_url": "' + customs[conf.currentProject].server.hcp + '",'
-            }
-          ]
-        },
-        files: [
-          {expand: true, flatten: true, src: ['config.xml', 'cordova-hcp.json']}
-        ]
-      },
-      constants: {
-        options: {
-          patterns: [
-            {
-              match: /baseWebUrl: '.*'/,
-              replacement: 'baseWebUrl: \'' + customs[conf.currentProject].server.baseWebUrl + '\''
-              },
-              {
-              match: /getServiceKeyUrl: '.*',/,
-              replacement: 'getServiceKeyUrl: \'' + customs[conf.currentProject].server.getServiceKeyUrl + '\','
-              },
-
-            {
-              match: /baseUrl: '.*',/,
-              replacement: 'baseUrl: \'' + customs[conf.currentProject].server.baseUrl + '\','
-            },
-            {
-              match: /chatKey: '.*',/,
-              replacement: 'chatKey: \'' + customs[conf.currentProject].server.chatKey + '\','
-            },
-            {
-              match: /adminConsolePass: '.*'/,
-              replacement: 'adminConsolePass: \'' + customs[conf.currentProject].server.adminConsolePass + '\''
-            },
-            {
-              match: /'appId': '.*',/,
-              replacement: '\'appId\': \'' + customs[conf.currentProject].server.pushAppId + '\','
-            },
-            {
-              match: /'pushUrl': '.*',/,
-              replacement: '\'pushUrl\': \'' + customs[conf.currentProject].server.pushServer + '\','
-            },
-            {
-              match: /'theAppid': '.*',/,
-              replacement: '\'theAppid\': \'' + customs[conf.currentProject].server.pushXiaomi.theAppid + '\','
-            },
-            {
-              match: /'theAppkey': '.*'/,
-              replacement: '\'theAppkey\': \'' + customs[conf.currentProject].server.pushXiaomi.theAppkey + '\''
-            },
-            {
-              match: /androidUpdateUrl: '.*',/,
-              replacement: 'androidUpdateUrl: \'' + customs[conf.currentProject].updateUrl.android + '\','
-            },
-            {
-              match: /iosUpdateUrl: '.*'/,
-              replacement: 'iosUpdateUrl: \'' + customs[conf.currentProject].updateUrl.ios + '\''
-            }
-          ]
-        },
-        files: [
-          {expand: true, flatten: true, src: ['<%= app.src %>/app/constants/app.constant.ts', '<%= app.src %>/app/constants/icmp.constant.ts'], dest: '<%= app.src %>/app/constants'}
-        ]
-      },
-      bumpVer: {
-        options: {
-          patterns: [
-
-          ]
-        },
-        files: [
-          {expand: true, src: ['config.xml', 'package.json', './custom_contents/customs.json']}
-        ]
-      }
-    }
   });
 
   grunt.registerTask('serveProxy', '', function (target) {
@@ -243,32 +101,22 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', '', function(target) {
-    if (target && target === 'before') {
-      grunt.task.run('replace:constants', 'copy:project');
-    }
-
     var tasks = [];
 
     if (target && target === 'debugAndroid') {
       tasks.push('shell:addAndroidPlugins');
-      tasks.push('replace:configAndroid');
-      tasks.push('replace:configs');
     } else if (target && target.startsWith('release')) {
       if (target === 'releaseAndroid') {
         tasks.push('shell:addAndroidPlugins');
-        tasks.push('replace:configAndroid');
       } else if (target === 'releaseIOS') {
         tasks.push('shell:addIosPlugins');
-        tasks.push('replace:configIOS');
       }
-      tasks.push('replace:configs', 'shell:hcpBuild');
     } else if (target && target === 'hcp') {
-      tasks.push('replace:configs', 'shell:hcpBuild');
     }
 
     grunt.task.run(tasks);
   });
 
-  grunt.registerTask('bumpVer', ['replace:bumpVer']);
+  grunt.registerTask('bumpVer');
   grunt.registerTask('default', []);
 };

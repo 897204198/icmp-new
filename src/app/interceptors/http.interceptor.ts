@@ -101,12 +101,12 @@ export class HttpInterceptor extends Http {
       options.headers = new Headers();
     }
     // 上线配置
-    if (localStorage['serviceheader']) {
-       options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
-       if (localStorage['token']) {
-        options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
-      }
-    }
+    // if (localStorage['serviceheader']) {
+    //    options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
+    //    if (localStorage['token']) {
+    //     options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
+    //   }
+    // }
     return options;
   }
 

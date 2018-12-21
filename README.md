@@ -55,6 +55,8 @@ $ npm run serve:real
 $ npm run serve:win
 # 当需要启动后端代理服务器时，需手动启动，修改后也需手动重启
 $ node proxy/proxy-server.js
+# 当启动后端代理服务器失败，可以尝试先关闭
+$ pm2 stop all
 
 # 通过 pm2 查看后端代理服务器的日志
 $ pm2 logs

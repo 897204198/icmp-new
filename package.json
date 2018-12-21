@@ -11,17 +11,17 @@
         "build:hcp": "npm run build:prepare && grunt build:hcp",
         "build:releaseAndroid": "npm run build:prepare && grunt build:releaseAndroid",
         "build:releaseIOS": "npm run build:prepare && grunt build:releaseIOS",
-        "grunt:debugAndroid":   "npm run build:prepare && grunt build:debugAndroid",
+        "grunt:debugAndroid": "npm run build:prepare && grunt build:debugAndroid",
         "grunt:releaseAndroid": "npm run build:prepare && grunt build:releaseAndroid",
         "grunt:releaseIOS": "npm run build:prepare && grunt build:releaseIOS",
-        "debugAndroid":   "npm run grunt:debugAndroid && ionic cordova build android --no-interactive",
+        "debugAndroid": "npm run grunt:debugAndroid && ionic cordova build android --no-interactive",
         "releaseAndroid": "npm run grunt:releaseAndroid && ionic cordova build android --prod --no-interactive --release --buildConfig=build.json",
         "releaseIOS": "npm run grunt:releaseIOS && ionic cordova build ios --prod --release --device --no-interactive --buildConfig build.json",
         "serve": "grunt serveProxy --force && ionic-app-scripts serve",
         "serve:real": "grunt serveProxy:real --force && ionic-app-scripts serve",
         "serve:win": "ionic-app-scripts serve",
         "e2e": "webdriver-manager update --standalone false --gecko false; protractor ./protractor.config.js",
-        "checkapp":"grunt build:before && npm run lint"
+        "checkapp": "grunt build:before && npm run lint"
     },
     "dependencies": {
         "@angular/common": "4.1.3",
