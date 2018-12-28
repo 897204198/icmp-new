@@ -10,7 +10,8 @@
     <ion-item-sliding *ngFor="let user of applyList">
       <button ion-item (click)="lookUserProfile(user)">
         <ion-avatar item-left>
-          <div class="word-head-image">
+          <img *ngIf="user.avatar" src="{{user.avatar}}" (error)="resetImg(user)">
+          <div *ngIf="!user.avatar" class="word-head-image">
             <div class="word-head-image-content">{{user.nickId.substring(0, 1)}}</div>
           </div>
         </ion-avatar>

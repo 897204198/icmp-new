@@ -6,6 +6,7 @@ import { DeviceService } from '../../../app/services/device.service';
 import { UserProfilePage } from '../userProfile/userProfile';
 import { NavController } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
+import { ConfigsService } from '../../../app/services/configs.service';
 
 @Component({
   selector: 'page-addFriend',
@@ -26,12 +27,17 @@ export class AddFriendPage {
   private showNumber: number = 15;
   // 查询keyword
   private keyword: string;
+  // 文件上传/下载地址
+  private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
+  // token
+  private token: string = '?access_token=' + localStorage['token'];
 
   /**
    * 构造函数
    */
   constructor(private toastService: ToastService,
     private navCtrl: NavController,
+    private configsService: ConfigsService,
     private translate: TranslateService,
     private deviceService: DeviceService,
     private zone: NgZone,
@@ -53,6 +59,16 @@ export class AddFriendPage {
     this.http.get('/im/contacts/users').subscribe((res: Response) => {
       this.userList = res.json();
       this.allUserList = res.json();
+      for (let user of this.userList) {
+        if (user['avatar']) {
+          user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
+      }
+      for (let item of this.allUserList) {
+        if (item['avatar']) {
+          item['avatar'] = `${this.fileUrl}${item['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
+      }
     }, (res: Response) => {});
   }
 
@@ -62,6 +78,11 @@ export class AddFriendPage {
   searchUser() {
     this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
       this.userList = res.json();
+      for (let user of this.userList) {
+        if (user['avatar']) {
+          user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
+      }
       this.isShow = true;
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -132,6 +153,18 @@ export class AddFriendPage {
       });
     } else {
       item['headImageContent'] = './assets/images/user.jpg';
+    }
+  }
+
+  /**
+   * 图片加载出错或无图片显示文字
+   */
+  resetImg(user) {
+    for (let item of this.userList) {
+      if (item['id'] === user['id']) {
+        item['avatar'] = '';
+        break;
+      }
     }
   }
 }

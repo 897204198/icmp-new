@@ -2,6 +2,36 @@ page-mac-address {
   .segment-background {
     background-color: white;
   }
-
+  .submit-botton {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+  }
+  .app-type-content {
+    position: absolute;
+    top: 11px;
+    right: 16px;
+  }
+  .type-button {
+    float: right;
+    .item-button {
+      position: relative;
+      right: 0;
+      bottom: -13px;
+      margin: 0;
+      padding: 0 10px;
+      height: 24px;
+      font-size: 1.3rem;
+      border-radius: 20px;
+      width: 65px;
+    }
+  }
+  .hiddenSometing {
+    width: calc(100% - 100px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 

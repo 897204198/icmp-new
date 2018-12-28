@@ -42,6 +42,10 @@ export class AddressPage {
   private count: number = 0;
   // 设置字母滑动栏样式
   private isDynamic: boolean = false;
+  // 文件上传/下载地址
+  private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
+  // token
+  private token: string = '?access_token=' + localStorage['token'];
 
   /**
    * 构造函数
@@ -159,6 +163,13 @@ export class AddressPage {
         }
         current[0].items.push(item);
       }
+      for (let contact of this.contactInfos) {
+        for (let item of contact['items']) {
+          if (item['avatar']) {
+            item['avatar'] = `${this.fileUrl}${item['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+          }
+        }
+      }
       for (let i = 0; i < this.contactInfos.length; i++) {
         this.slider.push(this.contactInfos[i]['first']);
       }
@@ -273,6 +284,20 @@ export class AddressPage {
    */
   toggle() {
     this.isDynamic = false;
+  }
+
+  /**
+   * 图片加载出错或无图片显示文字
+   */
+  resetImg(user) {
+    for (let contact of this.contactInfos) {
+      for (let item of contact['items']) {
+        if (item['fromUserId'] === user['fromUserId']) {
+          item['avatar'] = '';
+          break;
+        }
+      }
+    }
   }
 }
 

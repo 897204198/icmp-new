@@ -16,6 +16,7 @@ import { UserInfoState, initUserInfo, UserService } from '../../app/services/use
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
 import { DeviceService } from '../../app/services/device.service';
 import { ConfigsService } from '../../app/services/configs.service';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /**
  * 登录页面
@@ -35,6 +36,7 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private nativeStorage: NativeStorage,
     private pushService: PushService,
     private cryptoService: CryptoService,
     private backButtonService: BackButtonService,
@@ -62,6 +64,7 @@ export class LoginPage {
     });
 
     // 通过推送通知打开应用事
+    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
   }
 
@@ -110,8 +113,30 @@ export class LoginPage {
    * 登录请求
    */
   loginNetService(account: string, password: string): void {
-
-    // 加密密码
+    localStorage.removeItem('serviceheader');
+    let getServicekeyUrl;
+    if (localStorage.getItem('getServiceKeyUrl')) {
+      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+    } else {
+      getServicekeyUrl = this.configsService.getServiceKeyUrl() + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+    }
+    this.http.get(getServicekeyUrl).subscribe((res: Response) => {
+      // 存储servicekey
+      localStorage.setItem('serviceheader', res.headers.get('x-service-key'));
+      // 传给原生
+      this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
+      if (localStorage.getItem('pushinit') !== '1') {
+        this.pushService.init();
+        console.log('登录里创建插件');
+       }
+      if (res.headers.get('x-service-key') === 'propersoft') {
+        // 普日项目有环信
+        localStorage.setItem('haveIM' , '1');
+      } else {
+        localStorage.setItem('haveIM' , '0');
+      }
+      // 登录接口请求
+      // 加密密码
     let md5password: string = password;
     if (this.appConstant.oaConstant.md5Encryption) {
       md5password = this.cryptoService.hashMD5(md5password, true);
@@ -119,13 +144,13 @@ export class LoginPage {
 
     // 请求参数
     let params: Object = {
-      'account': account,
-      'password': md5password
+      'username': account,
+      'pwd': md5password
     };
-    this.http.post('/user/login', params).subscribe((res: Response) => {
-      let userData = res.json();
-      this.http.post('/user/bind', { userId: userData['id'] }).subscribe((data) => {
-        localStorage.token = data['_body'];
+    this.http.post('/auth/login', params).subscribe((data) => {
+      localStorage.token = data['_body'];
+      this.http.get('/auth/current/user').subscribe((res3: Response) => {
+        let userData = res3.json()['data'];
         let status: string = '';
         if (userData['status'] != null && userData['status'] !== '') {
           status = userData['status']['code'];
@@ -142,7 +167,7 @@ export class LoginPage {
         }
         let newUserInfo: UserInfoState = {
           account: account,
-          loginName: userData['account'],
+          loginName: userData['username'],
           password: md5password,
           password0: password,
           savePassword: this.userInfo.savePassword,
@@ -177,23 +202,34 @@ export class LoginPage {
               from_headportrait: newUserInfo.headImage
             }
           };
-          (<any>window).huanxin.imlogin(imparams, (loginData) => {
-            this.zone.run(() => {
-              if (loginData === 'user_not_found') {
-                localStorage.setItem('imIsOpen', '0');
-              } else {
-                localStorage.setItem('imIsOpen', '1');
-              }
-              // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-              this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
-                const startIndex = this.navCtrl.getActive().index - 1;
-                this.navCtrl.remove(startIndex, 1);
-                if (this.navParams.data.loginStatus !== 'logout') {
-                  this.events.publish('logined');
+          if (localStorage.getItem('haveIM') === '1') {
+            (<any>window).huanxin.imlogin(imparams, (loginData) => {
+              this.zone.run(() => {
+                if (loginData === 'user_not_found') {
+                  localStorage.setItem('imIsOpen', '0');
+                } else {
+                  localStorage.setItem('imIsOpen', '1');
                 }
+                // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+                this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+                  const startIndex = this.navCtrl.getActive().index - 1;
+                  this.navCtrl.remove(startIndex, 1);
+                  if (this.navParams.data.loginStatus !== 'logout') {
+                    this.events.publish('logined');
+                  }
+                });
               });
             });
-          });
+          }else{
+            // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+            this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+              const startIndex = this.navCtrl.getActive().index - 1;
+              this.navCtrl.remove(startIndex, 1);
+              if (this.navParams.data.loginStatus !== 'logout') {
+                this.events.publish('logined');
+              }
+            });
+          }
           this.pushService.bindUserid(newUserInfo.userId);
         } else {
           // Web 版不进行推送绑定，直接进首页
@@ -206,8 +242,12 @@ export class LoginPage {
       }, (err: Response) => {
         this.toastService.show(err.text());
       });
-    }, (res: Response) => {
-      this.toastService.show(res.text());
+    }, (res2: Response) => {
+      this.toastService.show(res2.text());
+    });
+
+
+
     });
   }
 

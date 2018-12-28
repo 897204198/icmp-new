@@ -7,7 +7,8 @@
       <p>{{'ACCOUNT' | translate}}：{{userInfo?.loginName}}</p>
     </div>
     <div class="setting-content-circle">
-      <div class="setting-content-circle-inner">{{surname}}</div>
+      <img *ngIf="src" src="{{src}}" (error)="resetImg()">
+      <div *ngIf="!src" class="setting-content-circle-inner">{{surname}}</div>
     </div>
   </div>
 
@@ -28,7 +29,7 @@
       {{'CHECK_VERSION' | translate}}
       <span item-end>{{appVersionName}}</span>
     </button>
-    <button ion-item [navPush]="feedbackPage">
+    <button ion-item [navPush]="feedListPage">
       {{'FEEDBACK' | translate}}
     </button>
     <button id="e2e-aboutme" ion-item [navPush]="aboutPage">

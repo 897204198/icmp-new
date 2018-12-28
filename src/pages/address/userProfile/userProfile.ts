@@ -6,6 +6,7 @@ import { DeviceService } from '../../../app/services/device.service';
 import { NavParams } from 'ionic-angular/navigation/nav-params';
 import { TranslateService } from '@ngx-translate/core';
 import { Alert, AlertController, NavController } from 'ionic-angular';
+import { ConfigsService } from '../../../app/services/configs.service';
 
 /**
  * 个人资料
@@ -28,12 +29,21 @@ export class UserProfilePage {
   // 弹出框相关
   private confirmAlert: Alert;
   private alertOpen: boolean = false;
+  // 文件上传/下载地址
+  private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
+  // token
+  private token: string = '?access_token=' + localStorage['token'];
+  private toChatAatar: string = '';
+  private fromChatAatar: string = '';
+    // 是否有IM功能
+    haveIM: boolean = false;
 
   /**
    * 构造函数
    */
   constructor(private http: Http,
     private zone: NgZone,
+    private configsService: ConfigsService,
     private navParams: NavParams,
     private toastService: ToastService,
     private translate: TranslateService,
@@ -51,11 +61,17 @@ export class UserProfilePage {
    */
   ionViewDidLoad(): void {
     this.isFriend = this.navParams.get('isFriend') === true ? true : false;
+    if (localStorage.getItem('haveIM') === '1') {
+      this.haveIM = true;
+    }else{
+      this.haveIM = false;
+    }
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
     let searchUserId: string = this.navParams.get('fromUserId');
     let searchToUserId: string = this.navParams.get('toUserId');
     this.getUserInfoFromNet(searchUserId, searchToUserId);
+    this.getCurrentUserInfoFromNet();
   }
 
   /**
@@ -68,7 +84,24 @@ export class UserProfilePage {
   };
 
   /**
-   * 取得用户信息
+   * 取得当前用户信息
+   */
+  getCurrentUserInfoFromNet(): void {
+    let params = {
+      userId: this.fromUserInfo.userId
+    };
+    this.http.get('/auth/current/user', { params: params }).subscribe((res) => {
+      let data = res.json()['data'];
+      if (data.avatar) {
+        this.fromChatAatar = data['avatar'];
+      }
+    }, (res: Response) => {
+    });
+  }
+
+  /**
+   * 取得用户信息  
+   * TODO 平台接口资源与菜单绑定, 没有菜单权限无法访问平台接口 目前使用老接口 
    */
   getUserInfoFromNet(userId: string, toUserId: string): void {
     this.http.get('/user/info?userId=' + toUserId).subscribe((res: Response) => {
@@ -83,6 +116,10 @@ export class UserProfilePage {
         data['sexName'] = '';
       }
       this.toUserInfo = data;
+      if (data['avatar']) {
+        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        this.toChatAatar = data['avatar'];
+      }
     }, (err: Response) => {
       this.toastService.show(err.text());
     });
@@ -95,10 +132,13 @@ export class UserProfilePage {
     let params: Object = {};
     params['from_user_id'] = this.fromUserInfo.loginName;
     params['from_username'] = this.fromUserInfo.userName;
-    params['from_headportrait'] = this.fromUserInfo.headImage;
+    params['from_headportrait'] = this.fromChatAatar;
+    // params['from_headportrait'] = this.fromUserInfo.headImage;
     params['to_user_id'] = this.toUserInfo['account'];
     params['to_username'] = this.toUserInfo['name'];
-    params['to_headportrait'] = this.toUserInfo['headImageContent'];
+    params['to_headportrait'] = this.toChatAatar;
+    params['headImge'] = this.toChatAatar;
+    // params['to_headportrait'] = this.toUserInfo['headImageContent'];
     params['chatType'] = 'singleChat';
     params['chatId'] = this.toUserInfo['id'];
     (<any>window).huanxin.chat(params);
@@ -176,5 +216,12 @@ export class UserProfilePage {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+  }
+
+  /**
+   * 图片加载出错或无图片显示文字
+   */
+  resetImg() {
+    this.toUserInfo['avatar'] = '';
   }
 }

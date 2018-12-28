@@ -17,6 +17,18 @@ page-user-profile {
         overflow: hidden;
         margin: 20px;
       }
+      
+      div {
+        text-align: center;
+        margin: 17px;
+        height: 66px;
+        width: 66px;
+        font-size: 30px;
+        line-height: 66px;
+        color: #fff;
+        border-radius: 50%;
+        background-color: color($colors, primary);
+      }
     }
 
     .user-head-image-div-content {

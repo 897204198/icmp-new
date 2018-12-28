@@ -8,6 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { NavController } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import { UserProfilePage } from '../userProfile/userProfile';
+import { ConfigsService } from '../../../app/services/configs.service';
+import { LoginPage } from '../../login/login';
+import { AlertController } from 'ionic-angular';
 
 /**
  * 个人资料
@@ -43,12 +46,20 @@ export class OrganizationAddressPage {
   private showNumber: number = 15;
   // 查询keyword
   private keyword: string;
+  // 文件上传/下载地址
+  private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
+  // token
+  private token: string = '?access_token=' + localStorage['token'];
+  // 是否有IM功能
+  haveIM: boolean = false;
 
   /**
    * 构造函数
    */
   constructor(private http: Http,
+    public alertCtrl: AlertController,
     private zone: NgZone,
+    private configsService: ConfigsService,
     private navParams: NavParams,
     private toastService: ToastService,
     private translate: TranslateService,
@@ -77,6 +88,11 @@ export class OrganizationAddressPage {
    */
   ionViewDidEnter(): void {
     this.getOrganization();
+    if (localStorage.getItem('haveIM') === '1') {
+      this.haveIM = true;
+    }else{
+      this.haveIM = false;
+    }
   }
 
   /**
@@ -86,6 +102,11 @@ export class OrganizationAddressPage {
     this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } })
       .subscribe((res: Response) => {
         this.searchUserList = res.json();
+        for (let user of this.searchUserList) {
+          if (user['avatar']) {
+            user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+          }
+        }
         this.isSearch = true;
       }, (res: Response) => {
         this.toastService.show(res.text());
@@ -156,8 +177,34 @@ export class OrganizationAddressPage {
           };
           this.organizationList = [item];
         }
+        for (let user of this.userList) {
+          if (user['avatar']) {
+            user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+          }
+        }
       }, (res: Response) => {
-        this.toastService.show(res.text());
+        if (res.status === 401) {
+          console.log('抢登弹窗3');
+          const confirm = this.alertCtrl.create({
+            title: '提示',
+            message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
+            buttons: [
+              {
+                text: '确认',
+                handler: () => {
+                }
+              }
+            ]
+          });
+          confirm.present();
+          // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+          this.navCtrl.push(LoginPage).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
+        } else {
+          this.toastService.show(res.text());
+        }
       });
   }
 
@@ -211,6 +258,27 @@ export class OrganizationAddressPage {
       });
     } else {
       item['headImageContent'] = './assets/images/user.jpg';
+    }
+  }
+
+  /**
+   * 图片加载出错或无图片显示文字
+   */
+  resetImg(item: object, flag: boolean) {
+    if (flag) {
+      for (let user of this.userList) {
+        if (item['id'] === user['id']) {
+          user['avatar'] = '';
+          break;
+        }
+      }
+    } else {
+      for (let user of this.searchUserList) {
+        if (item['id'] === user['id']) {
+          user['avatar'] = '';
+          break;
+        }
+      }
     }
   }
 }

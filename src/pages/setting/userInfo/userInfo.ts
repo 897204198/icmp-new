@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ToastService } from '../../../app/services/toast.service';
 import { Http, Response } from '@angular/http';
 import { UserInfoState, UserService } from '../../../app/services/user.service';
+import { ConfigsService } from '../../../app/services/configs.service';
 
 /**
  * 个人资料
@@ -16,12 +17,18 @@ export class UserInfoPage {
   private userInfo: Object = {};
   public surname: string;
   private localUserInfo: UserInfoState;
+  private avatar: string = '';
+  // 文件上传/下载地址
+  private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
+  // token
+  private token: string = '?access_token=' + localStorage['token'];
 
   /**
    * 构造函数
    */
   constructor(private http: Http,
     private toastService: ToastService,
+    private configsService: ConfigsService,
     private userService: UserService) { }
   /**
    * 首次进入页面
@@ -43,6 +50,7 @@ export class UserInfoPage {
     this.userInfo['ascription'] = this.localUserInfo.outter;
     this.userInfo['jobNum'] = this.localUserInfo.jobNumber;
     this.userInfo['sexName'] = this.localUserInfo.sex;
+    this.userInfo['account'] = this.localUserInfo.account;
   }
 
   /**
@@ -52,11 +60,11 @@ export class UserInfoPage {
     let params = {
       userId: this.localUserInfo.userId
     };
-    this.http.get('/user/info', { params: params }).subscribe((res: Response) => {
-      let data = res.json();
+    this.http.get('/auth/current/user', { params: params }).subscribe((res: Response) => {
+      let data = res.json()['data'];
       this.userInfo['deptName'] = data.deptName;
       this.userInfo['jobName'] = data.jobName;
-      this.userInfo['account'] = data.account;
+      this.userInfo['account'] = data.username;
       this.userInfo['headImageContent'] = data.headImageContent;
       this.userInfo['orgName'] = data.orgName;
       if (data['sex'] != null && data['sex'] !== '') {
@@ -66,8 +74,63 @@ export class UserInfoPage {
           this.userInfo['sexName'] = '女';
         }
       }
+      if (data.avatar) {
+        this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+  }
+
+  /**
+   * 修改头像
+   */
+  changeAvatar(e: any): void{
+    const file = e.target.files[0];
+    const params: FormData = new FormData();
+    params.append('file', file);
+    this.http.post('/file', params).subscribe((res: Response) => {
+      this.avatar = res.text();
+      this.readFile(file);
+      this.submit(this.avatar);
+    }, () => {
+      this.toastService.show('图片上传失败');
+    });
+    e.target.value = '';
+  }
+
+  /**
+   * 读取文件
+   */
+  readFile(file: any): void {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    // fileReader.addEventListener('load', () => {
+    //   this.userInfo['avatar'] = fileReader.result;
+    // });
+    fileReader.onload = () => {
+      this.userInfo['avatar'] = fileReader.result;
+    };
+  }
+
+  /**
+   * 修改用户信息
+   */
+  submit(avatar: string) {
+    let params: Object = {
+      avatar
+    };
+    this.http.put(`/auth/users/current`, params).subscribe((res) => {
+      this.toastService.show('头像修改成功');
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+  }
+
+  /**
+   * 图片加载出错或无图片显示文字
+   */
+  resetImg() {
+    this.userInfo['avatar'] = '';
   }
 }

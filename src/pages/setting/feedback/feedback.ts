@@ -30,6 +30,8 @@ export class FeedbackPage implements DoCheck {
   fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
   token: string = '?access_token=' + localStorage['token'];
+  // service_key
+  service_key: string = '&service_key=' + localStorage['serviceheader'];
 
   constructor(
     private http: Http,
@@ -170,22 +172,37 @@ export class FeedbackPage implements DoCheck {
   fileUpload(img: string) {
     this.spinnerShow = true;
     const fileTransfer: FileTransferObject = this.transfer.create();
-    let options: FileUploadOptions = {
-      fileKey: 'file',
-      mimeType: 'multipart/form-data',
-      headers: { 'X-PEP-TOKEN': 'Bearer ' + localStorage['token'] }
-    };
+    // 上线配置
 
-    fileTransfer.upload(img, this.fileUrl, options).then((data) => {
-      this.spinnerShow = false;
-      this.submitOpinion(data.response);
-    }, (res) => {
-      this.spinnerShow = false;
-    });
+    if (localStorage['serviceheader']) {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        mimeType: 'multipart/form-data',
+        headers: { 'X-PEP-TOKEN': 'Bearer ' + localStorage['token'], 'X-SERVICE-KEY': localStorage['serviceheader']}
+      };
+      fileTransfer.upload(img, this.fileUrl, options).then((data) => {
+        this.spinnerShow = false;
+        this.submitOpinion(data.response);
+      }, (res) => {
+        this.spinnerShow = false;
+      });
+    }else{
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        mimeType: 'multipart/form-data',
+        headers: { 'X-PEP-TOKEN': 'Bearer ' + localStorage['token']}
+      };
+      fileTransfer.upload(img, this.fileUrl, options).then((data) => {
+        this.spinnerShow = false;
+        this.submitOpinion(data.response);
+      }, (res) => {
+        this.spinnerShow = false;
+      });
+    }
   }
 
   tapImage(pictureId: string) {
-    let pictureUrl = this.fileUrl + pictureId + this.token;
+    let pictureUrl = this.fileUrl + pictureId + this.token + this.service_key;
     let profileModal = this.modalCtrl.create(ImagePreviewPage, { pictureUrl: pictureUrl });
     profileModal.present();
   }

@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserService } from './services/user.service';
 import { DeviceService } from './services/device.service';
 import { PushService } from './services/push.service';
+import { InitService } from './services/init.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +30,8 @@ export class MyApp {
     private userService: UserService,
     private deviceService: DeviceService,
     private pushService: PushService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private initService: InitService) {
 
     // 判断是否已登录
     if (this.userService.isLogin()) {
@@ -51,11 +53,17 @@ export class MyApp {
 
       // 设置设备信息
       this.deviceService.setDeviceInfo();
-      // 初始化推送插件
-      this.pushService.init();
+      if (localStorage['serviceheader']) {
+       // 初始化推送插件
+       this.pushService.init();
+       console.log('Component里创建插件');
+       localStorage.setItem('pushinit', '1');
+      }
     });
-
     // 初始国际化
     this.translate.setDefaultLang('zh-cn');
+  }
+  ngOnInit() : void {
+    this.initService.getActivityInfo();
   }
 }

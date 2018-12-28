@@ -111,7 +111,9 @@ module.exports = function(grunt) {
       } else if (target === 'releaseIOS') {
         tasks.push('shell:addIosPlugins');
       }
+      tasks.push('shell:hcpBuild');
     } else if (target && target === 'hcp') {
+      tasks.push('shell:hcpBuild');
     }
 
     grunt.task.run(tasks);

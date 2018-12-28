@@ -26,6 +26,7 @@ export class GroupPage {
   private count: number = 0;
   // 是否显示placeholder
   private isShow: boolean = false;
+  private fromChatAatar: string = '';
 
   /**
    * 构造函数
@@ -55,7 +56,25 @@ export class GroupPage {
   ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
+    this.getCurrentUserInfoFromNet();
   }
+
+  /**
+   * 取得当前用户信息
+   */
+  getCurrentUserInfoFromNet(): void {
+    let params = {
+      userId: this.userInfo.userId
+    };
+    this.http.get('/auth/current/user', { params: params }).subscribe((res) => {
+      let data = res.json()['data'];
+      if (data.avatar) {
+        this.fromChatAatar = data['avatar'];
+      }
+    }, (res: Response) => {
+    });
+  }
+
 
   /**
    * 每次进入页面
@@ -89,7 +108,8 @@ export class GroupPage {
     let params: Object = {};
     params['from_user_id'] = this.userInfo.loginName;
     params['from_username'] = this.userInfo.userName;
-    params['from_headportrait'] = this.userInfo.headImage;
+    params['from_headportrait'] = this.fromChatAatar;
+    // params['from_headportrait'] = this.userInfo.headImage;
     params['to_user_id'] = item['groupId'];
     params['to_username'] = item['groupName'];
     params['to_headportrait'] = item['headImage'];

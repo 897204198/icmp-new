@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import 'rxjs/Rx';
 import { DragulaService } from 'ng2-dragula';
-import { ToastService } from '../../../app/services/toast.service';
-import { ModalController, NavController } from 'ionic-angular';
+import { ModalController, NavController, Events } from 'ionic-angular';
 import { MenuFolderComponent } from '../../../app/component/menuFolder/menuFolder.component';
 import { RoutersService } from '../../../app/services/routers.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchFilterPipe } from '../../../app/pipes/searchFilter/searchFilter';
-
+import { AlertController } from 'ionic-angular';
+import { ToastService } from '../../../app/services/toast.service';
+import { LoginPage } from '../../login/login';
 /**
  * 首页应用组件
  */
@@ -37,18 +38,23 @@ export class HomeMenusManagerPage {
   private count: number = 0;
   // 是否显示placeholder
   private isShow: boolean = false;
+  // 待办个数
+  public waitNum: number = 0;
 
   /**
    * 构造函数
    */
   constructor(public navCtrl: NavController,
+    public alertCtrl: AlertController,
+    private toastService: ToastService,
     private dragulaService: DragulaService,
     public http: Http,
     private modalCtrl: ModalController,
-    private toastService: ToastService,
     private SearchFilter: SearchFilterPipe,
     private translate: TranslateService,
-    private routersService: RoutersService) {
+    private routersService: RoutersService,
+    private zone: NgZone,
+    public events: Events) {
 
     // 设置功能区列数
     if (screen.width <= 375) {
@@ -79,20 +85,48 @@ export class HomeMenusManagerPage {
         }
       }
     );
+    // 从网页回来刷新首页角标
+    if (localStorage.getItem('haveIM') === '1') {
+      events.subscribe('refresh', () => {
+        this.getWaitNum();
+      });
+    }
   }
-
+  /**
+   * 每次进入页面
+   */
+  ionViewDidEnter(): void {
+    this.getWaitNum();
+  }
   /**
    * 进入页面
    */
   ionViewDidLoad() {
-    this.getMyMenus();
-    this.getAllMenus();
-
+    // this.getMyMenus();
+    // this.getAllMenus();
+    // this.getWaitNum();
     this.dragulaService.drop.subscribe((value) => {
       this.saveMenus();
     });
   }
-
+  /**
+   * 获取待办数量
+   */
+  getWaitNum(): void {
+    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+      this.waitNum = 0;
+      if (res._body != null && res._body !== '') {
+        let data = res.json(); // 待办个数
+        this.waitNum = data;
+      }
+      this.getMyMenus();
+      this.getAllMenus();
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+      this.getMyMenus();
+      this.getAllMenus();
+    });
+  }
   /**
    * 取得全部应用
    */
@@ -103,17 +137,45 @@ export class HomeMenusManagerPage {
       let noGroupMenus = {};
       noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
       noGroupMenus['menus'] = [];
-
-      for (let i = 0; i < allMenus.length; i++) {
-        let menu = allMenus[i];
-        menu.menus = [];
-        for (let apps of menu['apps']) {
-          menu.menus.push(apps);
+      console.log('获取全部应用');
+      this.zone.run(() => {
+        for (let i = 0; i < allMenus.length; i++) {
+          let menu = allMenus[i];
+          menu.menus = [];
+          for (let apps of menu['apps']) {
+            if (apps['name'] === '待办') {
+              apps['total'] = this.waitNum;
+              console.log('待办全部角标数' + apps['total']);
+            }
+            menu.menus.push(apps);
+          }
+          console.log('待办个数' + this.waitNum);
+          this.categoryMenus.push(menu);
         }
-        this.categoryMenus.push(menu);
-      }
+      });
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.status === 401) {
+        console.log('抢登弹窗2');
+        const confirm = this.alertCtrl.create({
+          title: '提示',
+          message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
+          buttons: [
+            {
+              text: '确认',
+              handler: () => {
+              }
+            }
+          ]
+        });
+        confirm.present();
+        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+      } else {
+        // this.toastService.show(res.text());
+      }
     });
   }
 
@@ -122,15 +184,25 @@ export class HomeMenusManagerPage {
    */
   getMyMenus(): void {
     this.myMenus = [];
+    const arr = [];
     this.http.get('/app/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.myMenus = res.json();
+        let data = res.json();
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].name === '待办') {
+            data[i].total = this.waitNum;
+          }
+          arr.push(data[i]);
+          console.log('新待办我的应用角标数' + data[i].total);
+        }
+        this.zone.run(() => {
+          this.myMenus = arr;
+        });
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
   }
-
   // 取得发送长按事件的图标
   getPressIcon(target: any): any {
     if (target.className.indexOf('setting-menu') >= 0) {

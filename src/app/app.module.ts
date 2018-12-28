@@ -44,13 +44,18 @@ import { PluginRegRemindComponent } from '../pages/home/component/pluginRegRemin
 import { HomePage } from '../pages/home/home';
 import { HomePluginsManagerPage } from '../pages/home/homePluginsManager/homePluginsManager';
 import { HomeMenusManagerPage } from '../pages/home/homeMenusManager/homeMenusManager';
-// import { HomeComponentPage } from '../pages/home/homeComponent/homeMenusManager';
+import { HomeComponentPage } from '../pages/home/homeComponent/homeMenusManager';
 import { DragulaModule } from 'ng2-dragula';
 import { RoutersService } from './services/routers.service';
 import { SettingPage } from '../pages/setting/setting';
 import { UserInfoPage } from '../pages/setting/userInfo/userInfo';
 import { AboutPage } from '../pages/setting/about/about';
 import { FeedbackPage } from '../pages/setting/feedback/feedback';
+import { FeedlistPage } from '../pages/setting/feedlist/feedlist';
+import { subtitleComponent } from '../pages/setting/feedlist/component/subtitle/subtitle';
+import { feedbtnComponent } from '../pages/setting/feedlist/component/feedbtn/feedbtn';
+import { FeedDetailListPage } from '../pages/setting/feedDetailList/feedDetailList';
+import { FeedDetailPage } from '../pages/setting/feedDetail/feedDetail';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
@@ -89,14 +94,21 @@ import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginSh
 import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
 import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../pages/macAddress/macAddress';
+import { MacAddressHistoy } from '../pages/macAddress/history/history';
+import { MacFramePage } from '../pages/macAddress/macFrame/macFrame';
+import { MacSuccPage } from '../pages/macAddress/success/success';
 import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
 import { EmailPage } from '../pages/email/email';
 import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.component';
 import { OopStormPage } from '../pages/setting/about/oopStorm/oopStorm';
 import { ImagePreviewPage } from '../pages/setting/feedback/imagePreview';
 import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directive';
+import { NoticePage } from '../pages/notice/notice';
+import { InitService } from '../app/services/init.service';
+import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
+import { HttpService } from '../app/services/http.service';
 
-export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
+export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
   let service = new HttpInterceptor(xhrBackend, requestOptions, configsService, userService, deviceService, store);
   return service;
@@ -108,6 +120,7 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
+    WaitDonePage,
     MyApp,
     IcmpDblclickDirective,
     SearchFilterPipe,
@@ -128,11 +141,16 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     HomePluginsManagerPage,
     HomeMenusManagerPage,
-    // HomeComponentPage,
+    HomeComponentPage,
     SettingPage,
     UserInfoPage,
     AboutPage,
     FeedbackPage,
+    FeedlistPage,
+    subtitleComponent,
+    feedbtnComponent,
+    FeedDetailListPage,
+    FeedDetailPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -157,11 +175,15 @@ export function createTranslateLoader(http: Http) {
     ResetPasswordPage,
     ExamCustomFramePage,
     MacAddressPage,
+    MacAddressHistoy,
+    MacFramePage,
+    MacSuccPage,
     OrganizationAddressPage,
     EmailPage,
     OopStormPage,
     ImagePreviewPage,
     IcmpKeyboardAttachDirective,
+    NoticePage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -187,6 +209,7 @@ export function createTranslateLoader(http: Http) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    WaitDonePage,
     MyApp,
     MenuFolderComponent,
     SearchboxComponent,
@@ -197,11 +220,14 @@ export function createTranslateLoader(http: Http) {
     HomePage,
     HomePluginsManagerPage,
     HomeMenusManagerPage,
-    // HomeComponentPage,
+    HomeComponentPage,
     SettingPage,
     UserInfoPage,
     AboutPage,
     FeedbackPage,
+    FeedlistPage,
+    FeedDetailListPage,
+    FeedDetailPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -226,10 +252,14 @@ export function createTranslateLoader(http: Http) {
     ResetPasswordPage,
     ExamCustomFramePage,
     MacAddressPage,
+    MacAddressHistoy,
+    MacFramePage,
+    MacSuccPage,
     OrganizationAddressPage,
     EmailPage,
     OopStormPage,
-    ImagePreviewPage
+    ImagePreviewPage,
+    NoticePage
   ],
   providers: [
     StatusBar,
@@ -252,6 +282,7 @@ export function createTranslateLoader(http: Http) {
     BackButtonService,
     ConfigsService,
     ToastService,
+    InitService,
     RoutersService,
     FileService,
     UtilsService,
@@ -264,6 +295,7 @@ export function createTranslateLoader(http: Http) {
     AppMinimize,
     NativeStorage,
     SearchFilterPipe,
+    HttpService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

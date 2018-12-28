@@ -73,6 +73,6 @@ export const icmpConstant: IcmpConstant = {
   pageSize: '20',
   reqResultSuccess: '0',
   page: pageIdConstant,
-  androidUpdateUrl: 'https://www.baidu.com',
-  iosUpdateUrl: 'https://www.baidu.com'
+  androidUpdateUrl: 'https://www.pgyer.com/TniF',
+  iosUpdateUrl: 'https://www.pgyer.com/RNv8'
 };

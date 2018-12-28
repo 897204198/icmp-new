@@ -8,6 +8,7 @@ import { UserService } from '../services/user.service';
 import { Store } from '@ngrx/store';
 import { RequestIncrementAction, RequestDecrementAction } from '../redux/actions/request.action';
 
+
 /**
  * HTTP请求拦截器
  */
@@ -101,12 +102,12 @@ export class HttpInterceptor extends Http {
       options.headers = new Headers();
     }
     // 上线配置
-    // if (localStorage['serviceheader']) {
-    //    options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
-    //    if (localStorage['token']) {
-    //     options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
-    //   }
-    // }
+    if (localStorage['serviceheader']) {
+       options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
+       if (localStorage['token']) {
+        options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
+      }
+    }
     return options;
   }
 
@@ -122,7 +123,7 @@ export class HttpInterceptor extends Http {
         if (res.status === -1 || res.status === 0) {
           res._body = '网络异常，请稍后再试';
         } else if (res.status === 401) {
-          res._body = null;
+          console.log('抢登了');
         } else if (res.status === 404) {
           res._body = '资源未找到';
         } else if (res.status === 502) {

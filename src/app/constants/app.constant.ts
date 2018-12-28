@@ -66,20 +66,20 @@ export interface AppConstant {
 export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 
 const oaConstant: OaConstant = {
-  baseUrl: './api',
-  chatKey: '1166171023115752#demo-icmp',
-  md5Encryption: true,
+  baseUrl: 'https://icmp2.propersoft.cn/icmp/server-dev/route',
+  chatKey: '1166171023115752#icmp',
+  md5Encryption: false,
   adminConsolePass: '123456',
-  getServiceKeyUrl: 'http://220918zh27.iok.la:54885/pep/streamline/streamline/',
+  getServiceKeyUrl: 'http://220918zh27.iok.la:52506/pep/streamline/streamline/',
   baseWebUrl: 'https://icmp2.propersoft.cn/icmp/'
 };
 
 const properPushConstant: ProperPushConstant = {
-  'appId': 'MobileOA',
-  'pushUrl': 'http://202.199.100.174:29091/pep-push',
+  'appId': 'MobileOADev',
+  'pushUrl': 'http://push.propersoft.cn/pep-push',
   'xiaomi': {
-    'theAppid': '2882303761517583764',
-    'theAppkey': '5691758319764'
+    'theAppid': '2882303761517720026',
+    'theAppkey': '5401772090026'
   }
 };
 

@@ -2,7 +2,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{'PERSONAL_INFO' | translate}}</ion-title>
-    <ion-buttons end>
+    <ion-buttons *ngIf="haveIM" end>
       <button *ngIf="isFriend" ion-button clear color="primary" (click)="deleteFriend()">
         <span style="font-size: 1.4rem;">{{'DELETE_FRIEND' | translate}}</span>
       </button>
@@ -15,8 +15,8 @@
 <ion-content class="content-gray-new">
   <div class="user-head-image-div">
     <div class="user-head-image-div-img">
-      <img *ngIf="!toUserInfo.headImageContent" [src]="setWordHeadImage()">
-      <img *ngIf="toUserInfo.headImageContent" [src]=toUserInfo.headImageContent (error)="setWordHeadImage()">
+      <img *ngIf="toUserInfo['avatar']" src="{{toUserInfo['avatar']}}" (error)="resetImg()">
+      <div *ngIf="!toUserInfo['avatar']">{{toUserInfo['name'] ? toUserInfo['name'].substring(0, 1): ''}}</div>
     </div>
     <div class="user-head-image-div-content">
       <p>{{toUserInfo?.name}}</p>
@@ -30,11 +30,13 @@
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.phone != null">
       {{'PHONE' | translate}}
-      <p item-right>{{toUserInfo?.phone}}</p>
+      <a item-right href="tel:{{toUserInfo?.phone}}">{{toUserInfo?.phone}}</a>
+      <!-- <p item-right>{{toUserInfo?.phone}}</p> -->
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
       {{'EMAIL' | translate}}
-      <p item-right>{{toUserInfo?.email}}</p>
+      <a item-right href="mailto:{{toUserInfo?.email}}">{{toUserInfo?.email}}</a>
+      <!-- <p item-right>{{toUserInfo?.email}}</p> -->
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
       {{'DEPARTMENT' | translate}}
@@ -42,7 +44,7 @@
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="haveIM">
   <ion-toolbar>
     <button ion-button block round color="primary" (click)="chatToUser()">
       {{'SEND_MESSAGE' | translate}}

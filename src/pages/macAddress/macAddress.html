@@ -1,10 +1,12 @@
 <ion-header>
   <ion-navbar>
     <ion-title>{{'MAC_ADDRESS_MANAGE' | translate}}</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only  (click)="openHistory()">
+           {{'MAC_ADDRESS_HISTORY' | translate}}
+        </button>
+      </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-<ion-content class="content-gray-new">
   <ion-segment class="segment-background" mode="md" [(ngModel)]="segmentPage" (ionChange)="segmentChanged()">
     <ion-segment-button value="apply">
       {{'SELF_APPLY' | translate}}
@@ -13,7 +15,9 @@
       {{'BIND_STATE' | translate}}
     </ion-segment-button>
   </ion-segment>
+</ion-header>
 
+<ion-content class="content-gray-new">
   <div [ngSwitch]="segmentPage">
     <ion-list *ngSwitchCase="'apply'">
       <ion-item>
@@ -47,21 +51,35 @@
     </ion-list>
 
     <div padding *ngSwitchCase="'apply'">
-      <button id="e2e-logout-button" ion-button block (click)="submit()">
+      <button id="e2e-logout-button" ion-button round block (click)="submit()">
         {{'SUBMIT_APPLY' | translate}}
       </button>
     </div>
 
     <ion-list *ngSwitchCase="'state'">
       <ion-item *ngFor="let info of bindArray">
-        <p>{{'FACILITY_USER' | translate}}: {{info?.username}}</p>
-        <p>{{'FACILITY_NAME' | translate}}: {{info?.name}}</p>
-        <p>{{'MAC_ADDRESS' | translate}}: {{info?.macAddress}}</p>
-        <button ion-button item-end *ngIf="info.actualTypeCode == 1" (click)="changeBind(info)">{{'BIND' | translate}}</button>
-        <button ion-button item-end *ngIf="info.actualTypeCode == 0" (click)="changeBind(info)">{{'UNBIND' | translate}}</button>
-        <div class="gray-label" item-content *ngIf="info.actualTypeCode == 2">{{'WAIT_CHECK' | translate}}</div>
+        <div class='hiddenSometing'>
+          <p>{{'FACILITY_USER' | translate}}: {{info?.userName}}</p>
+          <p>{{'FACILITY_NAME' | translate}}: {{info?.deviceName}}</p>
+          <p>{{'MAC_ADDRESS' | translate}}: {{info?.macAddress}}</p>
+        </div>
+       <div class="app-type-content">
+        <p text-right *ngIf="info.procInstId ==null && info.actualTypeCode == 0" 
+          style="color:#0079fa">
+          {{'BIND_SHOW' | translate}}
+        </p>
+        <p text-right *ngIf="info.procInstId ==null && info.actualTypeCode == 1" 
+          style="color:#f39c12">
+          {{'UNBIND_SHOW' | translate}}
+        </p>
+          <p *ngIf="info.procInstId !=null && stateCode == DOING">正在申请<span *ngIf="info.appliTypeCode == 0">{{'BIND' | translate}}</span><span *ngIf="info.appliTypeCode == 1">{{'UNBIND' | translate}}</span></p>
+         <div class="type-button">
+           <button ion-button item-end *ngIf="info.procInstId ==null && info.actualTypeCode == 0" (click)="changeBind(info)">{{'APPLY_UNBIND' | translate}}</button>
+           <button ion-button item-end *ngIf="info.procInstId ==null && info.actualTypeCode == 1" (click)="changeBind(info)">{{'APPLY_BIND' | translate}}</button>
+           <button ion-button item-end *ngIf="info.procInstId !=null && stateCode == DOING" (click)="checkType(info)">{{'APPLY_LOOKING' | translate}}</button>
+         </div>
+       </div>
       </ion-item>
     </ion-list>
   </div>
-
 </ion-content>

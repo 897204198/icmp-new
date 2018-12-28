@@ -6,7 +6,8 @@ import { CryptoService } from '../../../app/services/crypto.service';
 import { APP_CONSTANT, AppConstant } from '../../../app/constants/app.constant';
 import { Http, Response } from '@angular/http';
 import { ToastService } from '../../../app/services/toast.service';
-
+import { AlertController } from 'ionic-angular';
+import { LoginPage } from '../../login/login';
 /**
  * 重置密码页面
  */
@@ -25,6 +26,7 @@ export class ResetPasswordPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    public alertCtrl: AlertController,
     private navParams: NavParams,
     private userService: UserService,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
@@ -67,10 +69,10 @@ export class ResetPasswordPage {
     }
     // 请求参数
     let params: Object = {
-      'originPassword': md5password0,
-      'newPassword': md5password1
+      'oldPassword': md5password0,
+      'password': md5password1
     };
-    this.http.put('/user/password', params).subscribe((res: Response) => {
+    this.http.put('/auth/users/password', params).subscribe((res: Response) => {
       this.userInfo = {
         ...this.userInfo,
         password: md5password1,
@@ -81,7 +83,28 @@ export class ResetPasswordPage {
       this.toastService.show(this.transateContent['SUCCESS_MODIFY']);
       this.navCtrl.pop();
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.status === 401) {
+        console.log('抢登弹窗5');
+        const confirm = this.alertCtrl.create({
+          title: '提示',
+          message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
+          buttons: [
+            {
+              text: '确认',
+              handler: () => {
+              }
+            }
+          ]
+        });
+        confirm.present();
+        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+      } else {
+        this.toastService.show(res.text());
+      }
     });
   }
 }

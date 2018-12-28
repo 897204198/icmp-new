@@ -41,6 +41,14 @@ page-setting {
         text-align: center;
         background-color: color($colors, primary);
       }
+      img {
+        border-radius: 50%;
+        position: absolute;
+        left: 2px;
+        top: 2px;
+        width: 66px;
+        height: 66px;
+      }
     }
   }
   .button-ios {

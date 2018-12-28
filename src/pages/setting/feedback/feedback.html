@@ -12,7 +12,7 @@
       <div class="content-opinion-time">{{feedback.opinionTime}}</div>
     </div>
     <div class="feedbackList-content-space" *ngIf="feedback.pictureId != null && feedback.pictureId !== ''">
-      <img *ngIf="feedback.pictureId" tappable (tap)="tapImage(feedback.pictureId)" class="send positive-bg positive-border" [src]="fileUrl+feedback.pictureId+token">
+      <img *ngIf="feedback.pictureId" tappable (tap)="tapImage(feedback.pictureId)" class="send positive-bg positive-border" [src]="fileUrl+feedback.pictureId+token+service_key">
       <div class="content-opinion-time">{{feedback.opinionTime}}</div>
     </div>
     <div class="feedbackList-content-space" *ngIf="feedback.feedback != null && feedback.feedback !== ''">

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DeviceService } from '../../../app/services/device.service';
 import { UserProfilePage } from '../userProfile/userProfile';
 import { NavController } from 'ionic-angular';
+import { ConfigsService } from '../../../app/services/configs.service';
 
 @Component({
   selector: 'page-apply',
@@ -16,11 +17,16 @@ export class ApplyPage {
   private applyList: Array<Object> = [];
   // 国际化文字
   private transateContent: Object;
+  // 文件上传/下载地址
+  private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
+  // token
+  private token: string = '?access_token=' + localStorage['token'];
 
   /**
    * 构造函数
    */
   constructor(private toastService: ToastService,
+    private configsService: ConfigsService,
     private navCtrl: NavController,
     private deviceService: DeviceService,
     private zone: NgZone,
@@ -44,6 +50,11 @@ export class ApplyPage {
   fetchApplications(): void {
     this.http.get('/notices').subscribe((res: Response) => {
       this.applyList = res.json();
+      for (let user of this.applyList) {
+        if (user['avatar']) {
+          user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
+      }
       for (let i = 0; i < this.applyList.length; i++) {
         this.applyList[i]['isSubmit'] = false;
       }
@@ -142,4 +153,15 @@ export class ApplyPage {
     }
   }
 
+  /**
+   * 图片加载出错或无图片显示文字
+   */
+  resetImg(item) {
+    for (let user of this.applyList) {
+      if (item['id'] === user['id']) {
+        user['avatar'] = '';
+        break;
+      }
+    }
+  }
 }
