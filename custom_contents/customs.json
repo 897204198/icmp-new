@@ -28,35 +28,6 @@
       "hcp": "https://cloud.propersoft.cn/icmp/app"
     }
   },
-  "ah": {
-    "id": {
-      "android": "com.proper.icmp.ah",
-      "ios": "com.proper.icmp.ah"
-    },
-    "version": {
-      "android": "10000",
-      "ios": "10000"
-    },
-    "appVersion": {
-      "android": "10000",
-      "ios": "10000"
-    },
-    "name": "掌上办公",
-    "updateUrl": {
-      "android": "https://www.baidu.com",
-      "ios": "https://www.baidu.com"
-    },
-    "server": {
-      "baseUrl": "http://220.178.50.184:9051/mobile-platform-ayd",
-      "pushAppId": "AydeyOA",
-      "pushServer": "http://220.178.50.184:9052/properpush",
-      "pushXiaomi": {
-        "theAppid": "2882303761517615404",
-        "theAppkey": "5281761560404"
-      },
-      "hcp": "http://202.199.100.174:29091/mobile-platform"
-    }
-  },
   "tc": {
     "id": {
       "android": "com.proper.icmp.tc",
