@@ -1,7 +1,7 @@
 
 {
     "name": "@icmp/app",
-    "version": "1.1.0-rc02",
+    "version": "1.1.0",
     "author": "ProperSoft",
     "description": "Ionic CMP APP",
     "scripts": {
