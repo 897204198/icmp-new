@@ -25,11 +25,7 @@ export class SearchboxComponent {
   // 查询结果列表
   searchResults: Object[] = [];
   // 多选结果
-  searchSelect: {} = {};
-  // 页面默认选中id
-  defaultId: string[] = [];
-  // 页面默认选中name
-  defaultName: string[] = [];
+  searchSelect: boolean[] = [];
   // 页码
   pageNo: number = 0;
   // 下拉刷新事件
@@ -94,19 +90,6 @@ export class SearchboxComponent {
       if ((data == null || data.length < Number(this.icmpConstant.pageSize)) && this.infiniteScroll != null) {
         this.infiniteScroll.enable(false);
       }
-      if (this.navParams.get('id')) {
-        this.defaultId = this.navParams.get('id').split(',');
-        for (const item of this.searchResults) {
-          for (const id of this.defaultId) {
-            if (item['id'] === id) {
-              this.searchSelect[id] = true;
-            }
-          }
-        }
-      }
-      if (this.navParams.get('name')) {
-        this.defaultName = this.navParams.get('name').split(',');
-      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     }, () => {
@@ -168,7 +151,6 @@ export class SearchboxComponent {
    * 选择事件
    */
   searchboxSelect(result?: Object): void {
-    let params: Object = new Object();
     if (result == null) {
       let ids: string[] = [];
       let names: string[] = [];

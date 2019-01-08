@@ -58,7 +58,6 @@ export class TodoOpinionPage {
   deviceType: string = '';
   fileIndex: number = 0;
   fileReIndex: number = 0;
-  subApproval: boolean = false;
 
   /**
    * 构造函数
@@ -89,7 +88,6 @@ export class TodoOpinionPage {
   ionViewDidLoad(): void {
     this.deviceType = this.deviceService.getDeviceInfo().deviceType;
     this.hideComment = this.navParams.get('hideComment');
-    this.subApproval = this.navParams.get('subApproval');
     if (this.navParams.get('commentDefault') != null) {
       this.approvalInput['comments'] = this.navParams.get('commentDefault');
     }
@@ -145,15 +143,6 @@ export class TodoOpinionPage {
           this.controls[this.opinionHelpList[i]['value']] = this.opinionHelpList[i]['control_name'];
         }
         if (this.opinionHelpList[i]['type'] === 'file') {
-          if (this.opinionHelpList[i]['default_file']) {
-            this.approvalInputTemp[this.opinionHelpList[i]['model']] = this.opinionHelpList[i]['default_file'];
-            for (let value of this.opinionHelpList[i]['default_file']) {
-              if (!this.approvalInput[this.opinionHelpList[i]['model']]) {
-                this.approvalInput[this.opinionHelpList[i]['model']] = [];
-              }
-              this.approvalInput[this.opinionHelpList[i]['model']].push(value['id']);
-            }
-          }
           this.opinionFilesList.push(this.opinionHelpList[i]);
         }
         if (this.opinionHelpList[i]['type'] === 'textarea') {
@@ -325,7 +314,7 @@ export class TodoOpinionPage {
     if (item['control_type'] === 'select_person') {
       searchUrl = '/webController/searchPerson';
     }
-    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.approvalInputTemps['joinOpinions'][iList]['id'], 'name': this.approvalInputTemps['joinOpinions'][iList]['name'] };
+    let params: Object = { 'title': item['control_label'], 'multiple': multiple, 'searchUrl': searchUrl };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
@@ -438,10 +427,9 @@ export class TodoOpinionPage {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          if (this.approvalInputTemps['selectGroup'] && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']] != null && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']].indexOf(option['id']) >= 0) {
+          if (this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']] != null && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']].indexOf(option['id']) >= 0) {
             flg = true;
           }
-
           if (flg) {
             let url = control['url'];
             let params: URLSearchParams = new URLSearchParams();
@@ -457,28 +445,6 @@ export class TodoOpinionPage {
                       break;
                     }
                   }
-                }
-              }
-            }, (res: Response) => {
-              this.toastService.show(res.text());
-            });
-          }
-          if (this.approvalInput[item['control_name']] != null && this.approvalInput[item['control_name']].indexOf(option['id']) >= 0) {
-            let url = control['url'];
-            let params: URLSearchParams = new URLSearchParams();
-            params.append('serviceName', this.navParams.get('serviceName'));
-            params.append('id', this.approvalInput[item['control_name']]);
-            this.http.post(url, params).subscribe((res: Response) => {
-              let data = res.json().result_list;
-              for (let k = 0; k < this.opinionOtherList.length; k++) {
-                if (this.opinionOtherList[k]['control_name'] === control.model) {
-                  if (this.opinionOtherList[k]['control_default']) {
-                    this.approvalInput[this.opinionOtherList[k]['control_name']] = this.opinionOtherList[k]['control_default'];
-                  } else {
-                    this.approvalInput[this.opinionOtherList[k]['control_name']] = null;
-                  }
-                  this.opinionOtherList[k]['control_list'] = data;
-                  break;
                 }
               }
             }, (res: Response) => {

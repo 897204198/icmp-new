@@ -6,8 +6,6 @@ import { FileService } from '../../../app/services/file.service';
 import { TodoOpinionPage } from '../todoOpinion/todoOpinion';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationPage } from '../../application/application';
-import { TodoMissionOpinionPage } from '../todoOpinion/mission/missionOpinion';
-import { TodoWorkContactPage } from '../todoOpinion/workContact/workContact';
 
 /**
  * 待办详情页面
@@ -96,28 +94,6 @@ export class TodoDetailPage {
   }
 
   /**
-   * 审批评价
-   */
-  subApproval(): void {
-    let submitUtl: string = this.todoDetail['submit_path'];
-    if (submitUtl == null || submitUtl === '') {
-      submitUtl = '/webController/dealProcess';
-    }
-    let params: Object = {
-      approval: this.todoDetail['approval'],
-      submitUtl: submitUtl,
-      hideComment: false,
-      commentDefault: this.todoDetail['shenpi_comment_default'],
-      processName: this.navParams.get('processName'),
-      taskId: this.navParams.get('taskId'),
-      step: this.navParams.get('step'),
-      pageId: this.todoDetail['pageId'],
-      subApproval: true
-    };
-    this.navCtrl.push(TodoOpinionPage, params);
-  }
-
-  /**
    * 审批办理
    */
   approval(): void {
@@ -156,22 +132,14 @@ export class TodoDetailPage {
         systemId: this.todoDetail['systemId'],
         processName: this.navParams.get('processName'),
         taskId: this.navParams.get('taskId'),
-        step: this.navParams.get('step'),
-        pageId: this.todoDetail['pageId']
+        step: this.navParams.get('step')
       };
-      if (this.todoDetail['pageId'] === 'todo-opinion-mission') {
-        this.navCtrl.push(TodoMissionOpinionPage, params);
-      } else if (this.todoDetail['pageId'] === 'todo-work-contact') {
-        this.navCtrl.push(TodoWorkContactPage, params);
-      }  else {
-        this.navCtrl.push(TodoOpinionPage, params);
-      }
+      this.navCtrl.push(TodoOpinionPage, params);
     } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
       let params: Object = {
         assignee: this.navParams.get('assignee'),
         taskId: this.navParams.get('taskId'),
-        step: this.navParams.get('step'),
-        isChange: true
+        step: this.navParams.get('step')
       };
       this.navCtrl.push(ApplicationPage, params);
     }

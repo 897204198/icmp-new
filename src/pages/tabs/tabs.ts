@@ -72,65 +72,65 @@ export class TabsPage {
     private events: Events,
     private iab: InAppBrowser,
     private renderer: Renderer) {
-      let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
-      this.translate.get(translateKeys).subscribe((res: Object) => {
-        this.transateContent = res;
-      });
-      this.tabRoots = this.getTabInfo();
-      platform.ready().then(() => {
-        this.backButtonService.registerBackButtonAction(this.tabRef);
-        // debugger
-        // alert('添加推送监听测试');
-        // 通过推送通知打开应用事件
-        document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-        document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    let translateKeys: string[] = ['PROMPT_INFO', 'CANCEL', 'VIEW', 'PUSH_OPEN_PROMPT_ONE', 'PUSH_OPEN_PROMPT_TWO', 'IM_CLOSE', 'IM_OPEN'];
+    this.translate.get(translateKeys).subscribe((res: Object) => {
+      this.transateContent = res;
+    });
+    this.tabRoots = this.getTabInfo();
+    // 通过推送通知打开应用事件
+    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    platform.ready().then(() => {
+      this.backButtonService.registerBackButtonAction(this.tabRef);
+      // debugger
+      // alert('添加推送监听测试');
+      // 自动登录
+      this.autoLogin();
+      // document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      // document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      // app icon角标个数
+      let iconNum: number = 0;
+      let messageIconNum: number = 0;
+      let homewaitIconNum: number = 0;
 
-        // 自动登录
-        this.autoLogin();
-
-        // app icon角标个数
-        let iconNum: number = 0;
-        let messageIconNum: number = 0;
-        let homewaitIconNum: number = 0;
-
-        if (localStorage.getItem('haveIM') === '1') {
-          // 消息角标绑定
-          this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
-            for (let i = 0; i < this.tabRoots.length; i++) {
-              if (this.tabRoots[i]['tabTitle'] === '消息') {
-                this.tabRoots[i]['tabBadge'] = data;
-                messageIconNum = Number(data);
-                iconNum = homewaitIconNum + messageIconNum;
-                this.pushService.sendBadgeNotification(iconNum);
-              }
+      if (localStorage.getItem('haveIM') === '1') {
+        // 消息角标绑定
+        this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
+          for (let i = 0; i < this.tabRoots.length; i++) {
+            if (this.tabRoots[i]['tabTitle'] === '消息') {
+              this.tabRoots[i]['tabBadge'] = data;
+              messageIconNum = Number(data);
+              iconNum = homewaitIconNum + messageIconNum;
+              this.pushService.sendBadgeNotification(iconNum);
             }
-          });
-          // 首页待办消息绑定
-          this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
-            for (let i = 0; i < this.tabRoots.length; i++) {
-              if (this.tabRoots[i]['tabTitle'] === '首页') {
-                console.log('首页待办角标个数' + data);
-                this.tabRoots[i]['tabBadge'] = data;
-                homewaitIconNum = Number(data);
-                iconNum = messageIconNum + homewaitIconNum;
-                console.log('消息数' + iconNum);
-                this.pushService.sendBadgeNotification(iconNum);
-              }
+          }
+        });
+        // 首页待办消息绑定
+        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
+          for (let i = 0; i < this.tabRoots.length; i++) {
+            if (this.tabRoots[i]['tabTitle'] === '首页') {
+              console.log('首页待办角标个数' + data);
+              this.tabRoots[i]['tabBadge'] = data;
+              homewaitIconNum = Number(data);
+              iconNum = messageIconNum + homewaitIconNum;
+              console.log('消息数' + iconNum);
+              this.pushService.sendBadgeNotification(iconNum);
             }
-          });
-        }else{
-           // 待办tab消息绑定
-           this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
-            for (let i = 0; i < this.tabRoots.length; i++) {
-              if (this.tabRoots[i]['tabTitle'] === '待办') {
-                console.log('首页待办角标个数' + data);
-                this.tabRoots[i]['tabBadge'] = data;
-              }
+          }
+        });
+      } else {
+        // 待办tab消息绑定
+        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
+          for (let i = 0; i < this.tabRoots.length; i++) {
+            if (this.tabRoots[i]['tabTitle'] === '待办') {
+              console.log('首页待办角标个数' + data);
+              this.tabRoots[i]['tabBadge'] = data;
             }
-          });
-        }
-      });
-    }
+          }
+        });
+      }
+    });
+  }
 
   /**
    * 进入页面时监听键盘事件
@@ -157,6 +157,9 @@ export class TabsPage {
     }
   }
   ionViewDidEnter(): void {
+    // 通过推送通知打开应用事件
+    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     // 获取修改tab角标数
     this.getWaitToDoNumber();
     // 刷新首页待办角标和组件
@@ -174,21 +177,21 @@ export class TabsPage {
    */
   getTabInfo(): Object[] {
     // if (this.userService.imIsOpen()) {
-      if (localStorage.getItem('haveIM') === '1') {
-        return [
-          { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-          { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
-          { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-          { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
-        ];
-      } else {
-        return [
-          { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-          { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
-          { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-          { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
-        ];
-      }
+    if (localStorage.getItem('haveIM') === '1') {
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
+        { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+        { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+      ];
+    } else {
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
+        { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+        { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+      ];
+    }
     // } else {
     //   return [
     //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
@@ -333,8 +336,8 @@ export class TabsPage {
     });
   }
 
-   // 打开推送通知
-   openExamlist(customsDic: any) {
+  // 打开推送通知
+  openExamlist(customsDic: any) {
     let menuStr: string = customsDic.url;
     const data = {
       name: customsDic.title,
@@ -440,57 +443,57 @@ export class TabsPage {
   getUnreadMessageNumber() {
     if (localStorage.getItem('haveIM') === '1') {
       (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
-      (<any>window).huanxin.loginState('', () => {
-        // 推送服务取消与当前用户的绑定关系
-        this.pushService.unBindUserid(this.userInfo.userId);
-        // 取消自动登录
-        this.userService.logout();
-        this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
-        // 退出
-        this.navCtrl.push(LoginPage).then(() => {
-          const startIndex = this.navCtrl.getActive().index - 1;
-          this.navCtrl.remove(startIndex, 1);
+        (<any>window).huanxin.loginState('', () => {
+          // 推送服务取消与当前用户的绑定关系
+          this.pushService.unBindUserid(this.userInfo.userId);
+          // 取消自动登录
+          this.userService.logout();
+          this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
+          // 退出
+          this.navCtrl.push(LoginPage).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
+          (<any>window).huanxin.imlogout();
         });
-        (<any>window).huanxin.imlogout();
-      });
-      this.zone.run(() => {
-        if (retData.length === 0) {
-          this.store.dispatch(new ImReplaceBadageAction(''));
-        } else {
-          let total: number = 0;
-          let i: number = retData.length;
-          while (i) {
-            i--;
-            total += Number(retData[i]['unreadMessagesCount']);
-          }
-          if (total === 0) {
+        this.zone.run(() => {
+          if (retData.length === 0) {
             this.store.dispatch(new ImReplaceBadageAction(''));
           } else {
-            this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+            let total: number = 0;
+            let i: number = retData.length;
+            while (i) {
+              i--;
+              total += Number(retData[i]['unreadMessagesCount']);
+            }
+            if (total === 0) {
+              this.store.dispatch(new ImReplaceBadageAction(''));
+            } else {
+              this.store.dispatch(new ImReplaceBadageAction(total.toString()));
+            }
           }
-        }
-      });
-    }, (retData) => { });
+        });
+      }, (retData) => { });
     }
   }
-// 获取待办事件个数
-getWaitToDoNumber(){
-  this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
-    if (res._body != null && res._body !== '') {
-      let data = res.json(); // 待办个数
-      // let data = 5;
-      this.zone.run(() => {
+  // 获取待办事件个数
+  getWaitToDoNumber() {
+    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+      if (res._body != null && res._body !== '') {
+        let data = res.json(); // 待办个数
+        // let data = 5;
+        this.zone.run(() => {
           if (data === 0) {
             this.store.dispatch(new HomeReplaceBadageAction(''));
           } else {
             this.store.dispatch(new HomeReplaceBadageAction(data.toString()));
           }
         });
-    }
-  }, (res: Response) => {
-    this.toastService.show(res.text());
-  });
-}
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+  }
   /**
    * 退出登录
    */
@@ -517,7 +520,7 @@ getWaitToDoNumber(){
       });
     });
   }
-  changeValue(tab: any){
+  changeValue(tab: any) {
     if (tab.tabTitle === '待办') {
       this.tabRef.select(0);
       const dataALL = {

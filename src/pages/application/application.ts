@@ -30,10 +30,6 @@ export class ApplicationPage {
   deviceType: string = '';
   fileIndex: number = 0;
   fileReIndex: number = 0;
-  extra: string = '';
-
-  private serviceName: string = '';
-
   private transateContent: Object;
 
   constructor(public navCtrl: NavController,
@@ -91,10 +87,9 @@ export class ApplicationPage {
     }
     this.http.get('/bpm/application', { params: params }).subscribe((res: Response) => {
       let data = res.json();
-      this.serviceName = data['serviceName'];
+
       this.title = data['title'];
       this.template = data['template'];
-      this.extra = data['extra'];
 
       for (let i = 0; i < this.template.length; i++) {
         let item = this.template[i];
@@ -134,7 +129,7 @@ export class ApplicationPage {
     if (item.event != null && item.event === 'onchange' && item.func != null) {
       let dateFunc = eval(item.func);
       let result = dateFunc(value);
-      for (let i = 0; i < this.template.length; i++) {
+      for (let i = 0; i < this.template.length ; i++) {
         for (let key in result) {
           if (result.hasOwnProperty(key)) {
             if (this.template[i]['elementId'] === key) {
@@ -142,7 +137,7 @@ export class ApplicationPage {
               this.template[i]['default'] = result[key];
               if (result[key] === '1') {
                 this.setInputStatus(this.template[i]['model'], 'display');
-              } else if (result[key] === '0') {
+              } else if (result[key] === '0'){
                 this.setInputStatus(this.template[i]['model'], 'hidden');
               }
             }
@@ -328,7 +323,6 @@ export class ApplicationPage {
           this.input[item['model']][index][itemList['model']] = data.id;
           this.searchboxChange(item, index, itemList);
         }
-        this.setControl(item, data);
       }
     });
     modal.present();
@@ -358,18 +352,6 @@ export class ApplicationPage {
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
-    if (this.input[item['latModel']]) {
-      if (this.input[item['model']] && this.input[item['latModel']]) {
-        let params: URLSearchParams = new URLSearchParams();
-        params.append('patient', this.input[item['model']]);
-        params.append('num', this.input[item['latModel']]);
-        for (const value of this.template) {
-          if (item['latModel'] === value['model']) {
-            this.inputData(value, params);
-          }
-        }
-      }
-    }
   }
 
   /**
@@ -391,38 +373,6 @@ export class ApplicationPage {
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
-  }
-
-  /**
-   * inputs失去焦点事件
-   */
-  onBlur(value: string, item: Object): void {
-    value = value.replace(/[^0-9]/g, '').substring(0, 7);
-    if (value.length < 7 && value.length !== 0) {
-      let len = 7 - value.length;
-      for (let i = 0; i < len; i++) {
-        value = 0 + value;
-      }
-    }
-    this.input[item['model']] = value;
-    if (this.input[item['model']] && this.input[item['preModel']]) {
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('patient', this.input[item['preModel']]);
-      params.append('num', this.input[item['model']]);
-      this.inputData(item, params);
-    }
-  }
-
-  /**
-   * 获取inputData
-   */
-  inputData(item: Object, params): void {
-    this.http.post(item['inputUrl'], params).subscribe((res: Response) => {
-      let data = res.json();
-      this.setControl(item, data);
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
   }
 
   /**
@@ -502,7 +452,7 @@ export class ApplicationPage {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          if (item['type'] === 'date' || item['type'] === 'searchbox' || (item['inputUrl'] && this.input[item['model']])) {
+          if (item['type'] === 'date' || item['type'] === 'searchbox') {
             flg = true;
           } else {
             if (index == null) {
@@ -530,11 +480,7 @@ export class ApplicationPage {
               if (index == null) {
                 for (let k = 0; k < this.template.length; k++) {
                   if (this.template[k]['model'] === control['model']) {
-                    if (this.template[k]['type'] === 'text') {
-                      this.input[this.template[k]['model']] = data;
-                    } else {
-                      this.template[k]['data'] = data;
-                    }
+                    this.template[k]['data'] = data;
                     break;
                   }
                 }
@@ -608,13 +554,13 @@ export class ApplicationPage {
       item['components'] = item['components'].reduce((ite, next) => {
         if (hash[next.model]) {
           hash[next.model] = '';
-        } else {
+        }else {
           hash[next.model] = true && ite.push(next);
         }
         return ite;
       }, []);
       let listItem = {};
-      for (let j = 0; j < item['components'].length; j++) {
+      for (let j = 0; j < item['components'].length ; j++) {
         let component = item['components'][j];
         if (component['type'] === 'searchbox' || component['type'] === 'select') {
           listItem[component['model']] = null;
@@ -629,7 +575,7 @@ export class ApplicationPage {
       this.input[item['model']].push(listItem);
 
       let itemComponents = [];
-      for (let j = 0; j < item['components'].length; j++) {
+      for (let j = 0; j < item['components'].length ; j++) {
         itemComponents.push({ ...item['components'][j] });
       }
       if (this.inputTemp[item['model'] + 'Components'] == null) {
@@ -640,8 +586,8 @@ export class ApplicationPage {
       let tempArray = [];
       let index = [];
       let listItemArray = [];
-      for (let i = 0; i < item['components'].length; i++) {
-        if (item['components'][0]['model'] === item['components'][i]['model']) {
+      for (let i = 0; i < item['components'].length ; i++) {
+        if (item['components'][0]['model'] === item['components'][i]['model']){
           index.push(i);
         }
       }
@@ -649,13 +595,13 @@ export class ApplicationPage {
       for (let j = 0; j < index.length - 1; j++) {
         if (index[j + 1] === -1) {
           tempArray.push(item['components'].slice(index[j]));
-        } else {
+        }else {
           tempArray.push(item['components'].slice(index[j], index[j + 1]));
         }
       }
-      for (let i = 0; i < tempArray.length; i++) {
+      for (let i = 0; i < tempArray.length ; i++) {
         let listItem = new Object();
-        for (let j = 0; j < tempArray[i].length; j++) {
+        for (let j = 0; j < tempArray[i].length ; j++) {
           let component = tempArray[i][j];
           if (component['type'] === 'searchbox' || component['type'] === 'select') {
             listItem[component['model']] = component['defaultId'];

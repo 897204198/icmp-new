@@ -18,8 +18,7 @@
     <ion-list>
       <button ion-item *ngFor="let file of notice.fileList" (click)="downloadFile(file)">
         <ion-avatar item-start>
-          <icmp-file-type-image *ngIf="!file.thumbImage" [fileType]="file.fileType"></icmp-file-type-image>
-          <img *ngIf="file.thumbImage" [src]="file.thumbImage">
+          <icmp-file-type-image [fileType]="file.fileType"></icmp-file-type-image>
         </ion-avatar>
         {{file.fileName}}
       </button>
