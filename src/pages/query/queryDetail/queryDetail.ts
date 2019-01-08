@@ -25,10 +25,11 @@ export class QueryDetailPage {
   /**
    * 构造函数
    */
-  constructor(public navParams: NavParams,
-              private http: Http,
-              private toastService: ToastService,
-              private fileService: FileService) {}
+  constructor(
+    public navParams: NavParams,
+    private http: Http,
+    private toastService: ToastService,
+    private fileService: FileService) { }
 
   /**
    * 每次进入页面
@@ -45,20 +46,22 @@ export class QueryDetailPage {
     this.queryDetail = [];
     this.fileList = [];
     this.opinionList = [];
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
-    params.append('defaultTab', this.navParams.get('defaultTab'));
-    params.append('businessId', this.navParams.get('businessId'));
-    this.http.post('/webController/getSystemMsgDetail', params).subscribe((res: Response) => {
+    let params: Object = {
+      'serviceName': this.navParams.get('serviceName'),
+      'defaultTab': this.navParams.get('defaultTab'),
+      'id': this.navParams.get('id'),
+      'style': this.navParams.get('style')
+    };
+    this.http.get('/business/querys/' + this.navParams.get('id'), { params: params }).subscribe((res: any) => {
       let data = res.json();
-      for (let i = 0 ; i < data['forms'].length ; i++) {
+      for (let i = 0; i < data['forms'].length; i++) {
         let form = data['forms'][i];
         if (form['type'] === 'filelist') {
           this.fileList.push(form);
         }
         this.queryDetail.push(form);
       }
-      this.opinionList = data['opinion'];
+      this.opinionList = data['opinions'];
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

@@ -21,9 +21,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item *ngFor="let result of searchResults" (click)="searchboxSelect(result)">
+    <ion-item *ngFor="let result of searchResults; let i = index" (click)="searchboxSelect(result)">
       <ion-label><div [innerHtml]="result.content"></div></ion-label>
-      <ion-checkbox *ngIf="multiple" color="secondary" [(ngModel)]="searchSelect[result['id']]"></ion-checkbox>
+      <ion-checkbox *ngIf="multiple" color="secondary" [(ngModel)]="searchSelect[i]"></ion-checkbox>
     </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="doInfinite()">

@@ -1,0 +1,194 @@
+[
+  {
+    "fromUserId": "cuiwc",
+    "nickName": "崔文成", 
+    "headImage": "http://chuantu.biz/t6/140/1510710227x3066599700.png",                            
+    "remark": "崔文成", 
+    "toUserId": "cuiwc",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "hex",
+    "nickName": "何鑫", 
+    "headImage": "http://chuantu.biz/t6/140/1510710227x3066599700.png",                            
+    "remark": "何鑫", 
+    "toUserId": "hex",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "研发部"
+    }
+  },
+  {
+    "fromUserId": "wangw",
+    "nickName": "王维(头像传空)", 
+    "headImage": "",                            
+    "remark": "王维(头像传空)", 
+    "toUserId": "wangw",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称岗位名称"
+    }
+  },
+  {
+    "fromUserId": "suns",
+    "nickName": "孙帅", 
+    "headImage": "http://chuantu.biz/t6/140/1510710379x3066599700.png",                            
+    "remark": "孙帅", 
+    "toUserId":"suns",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1
+  },
+  {
+    "fromUserId": "haoyf",
+    "nickName": "郝逸飞", 
+    "headImage": "http://chuantu.biz/t6/140/1510710394x3066599700.png",                            
+    "remark": "郝逸飞", 
+    "toUserId": "haoyf",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "wangh",
+    "nickName": "王贺", 
+    "headImage": "http://chuantu.biz/t6/140/1510710347x3066599700.png",                            
+    "remark": "王贺", 
+    "toUserId": "wangh",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "licx",
+    "nickName": "李晨熙", 
+    "headImage": "http://chuantu.biz/t6/140/1510710335x3066599700.png",                            
+    "remark": "李晨熙", 
+    "toUserId": "licx",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "chenbj",
+    "nickName": "陈冰洁", 
+    "headImage": "http://chuantu.biz/t6/140/1510710362x3066599700.png",                            
+    "remark": "陈冰洁", 
+    "toUserId": "chenbj",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "liym",
+    "nickName": "李一鸣", 
+    "headImage": "http://chuantu.biz/t6/140/1510710422x3066599700.png",                            
+    "remark": "李一鸣", 
+    "toUserId": "liym",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "wanghp",
+    "nickName": "王浩鹏", 
+    "headImage": "http://chuantu.biz/t6/140/1510710410x3066599700.png",                            
+    "remark": "王浩鹏", 
+    "toUserId": "wanghp",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "jinmn",
+    "nickName": "金孟楠", 
+    "headImage": "http://chuantu.biz/t6/140/1510710290x3066599700.png",                            
+    "remark": "金孟楠", 
+    "toUserId": "jinmn",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "wangy",
+    "nickName": "王怡", 
+    "headImage": "http://chuantu.biz/t6/140/1510710433x3066599700.png",                            
+    "remark": "王怡", 
+    "toUserId": "wangy",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "wangls",
+    "nickName": "王丽莎", 
+    "headImage": "http://chuantu.biz/t6/151/1511167060x-1404781226.png",                            
+    "remark": "王丽莎", 
+    "toUserId": "wangls",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "liucy",
+    "nickName": "刘成尧", 
+    "headImage": "http://chuantu.biz/t6/151/1511167060x-1404781226.png",                            
+    "remark": "刘成尧", 
+    "toUserId": "liucy",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  },
+  {
+    "fromUserId": "shiny",
+    "nickName": "时浩宇", 
+    "headImage": "http://chuantu.biz/t6/140/1510710248x3066599700.png",                            
+    "remark": "时浩宇", 
+    "toUserId": "shiny",
+    "notification": false,
+    "type": {"code":"0"},
+    "state": 1,
+    "extendField": {
+      "orgName": "岗位名称"
+    }
+  }
+]

@@ -4,9 +4,10 @@ import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
 import { ConfigsService } from '../services/configs.service';
 import { DeviceInfoState, DeviceService } from '../services/device.service';
-import { UserService, UserInfoState } from '../services/user.service';
+import { UserService } from '../services/user.service';
 import { Store } from '@ngrx/store';
 import { RequestIncrementAction, RequestDecrementAction } from '../redux/actions/request.action';
+
 
 /**
  * HTTP请求拦截器
@@ -55,25 +56,25 @@ export class HttpInterceptor extends Http {
    */
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
     if (body == null) {
-      body = new URLSearchParams();
+      body = {};
     }
     // 参数内加入设备信息
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo != null) {
-      body.append('_proper_device_type', deviceInfo.deviceType);
-      body.append('_proper_device_id', deviceInfo.deviceId);
-      body.append('_proper_ver_no', deviceInfo.versionCode);
-      body.append('_proper_ver_name', deviceInfo.versionNumber);
+      body['_proper_device_type'] = deviceInfo.deviceType;
+      body['_proper_device_id'] = deviceInfo.deviceId;
+      body['_proper_ver_no'] = deviceInfo.versionCode;
+      body['_proper_ver_name'] = deviceInfo.versionNumber;
     }
     // 参数内加入用户信息
-    if (!body.get('loginName')) {
-      let userInfo: UserInfoState = this.userService.getUserInfo();
-      if (userInfo != null) {
-        body.append('loginName', userInfo.loginName);
-        body.append('password', userInfo.password);
-      }
-    }
-    return this.intercept(super.post(url, body.toString(), this.getRequestOptionArgs('post', options)), true);
+    // if (!body['loginName']) {
+    //   let userInfo: UserInfoState = this.userService.getUserInfo();
+    //   if (userInfo != null) {
+    //     body['loginName'] = userInfo.loginName;
+    //     body['password'] = userInfo.password;
+    //   }
+    // }
+    return this.intercept(super.post(url, body, this.getRequestOptionArgs('post', options)), true);
   }
 
   /**
@@ -100,8 +101,12 @@ export class HttpInterceptor extends Http {
     if (options.headers == null) {
       options.headers = new Headers();
     }
-    if (type === 'post') {
-      options.headers.append('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    // 上线配置
+    if (localStorage['serviceheader']) {
+       options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
+       if (localStorage['token']) {
+        options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
+      }
     }
     return options;
   }
@@ -115,11 +120,10 @@ export class HttpInterceptor extends Http {
         this.store.dispatch(new RequestDecrementAction());
       }, (res) => {
         this.store.dispatch(new RequestDecrementAction());
-
         if (res.status === -1 || res.status === 0) {
           res._body = '网络异常，请稍后再试';
         } else if (res.status === 401) {
-          res._body = null;
+          console.log('抢登了');
         } else if (res.status === 404) {
           res._body = '资源未找到';
         } else if (res.status === 502) {

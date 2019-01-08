@@ -1,19 +1,31 @@
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { UniqueDeviceID } from '@ionic-native/unique-device-id';
-import { Device } from '@ionic-native/device';
-import { AppVersion } from '@ionic-native/app-version';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule, Http, XHRBackend, RequestOptions } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppMinimize } from '@ionic-native/app-minimize';
+import { AppVersion } from '@ionic-native/app-version';
+import { Camera } from '@ionic-native/camera';
+import { Device } from '@ionic-native/device';
+import { File } from '@ionic-native/file';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FileOpener } from '@ionic-native/file-opener';
+import { FilePath } from '@ionic-native/file-path';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Keyboard } from '@ionic-native/keyboard';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { MyApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { BackButtonService } from './services/backButton.service';
 import { AdminPage } from '../pages/login/admin/admin';
+import { SetPasswordPage } from '../pages/login/setPassword/setPassword';
 import { LoginPage } from '../pages/login/login';
+import { SpellService } from './services/spell.service';
 import { ToastService } from './services/toast.service';
 import { APP_CONSTANT, appConstant } from './constants/app.constant';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -32,22 +44,24 @@ import { PluginRegRemindComponent } from '../pages/home/component/pluginRegRemin
 import { HomePage } from '../pages/home/home';
 import { HomePluginsManagerPage } from '../pages/home/homePluginsManager/homePluginsManager';
 import { HomeMenusManagerPage } from '../pages/home/homeMenusManager/homeMenusManager';
+import { HomeComponentPage } from '../pages/home/homeComponent/homeMenusManager';
 import { DragulaModule } from 'ng2-dragula';
 import { RoutersService } from './services/routers.service';
 import { SettingPage } from '../pages/setting/setting';
 import { UserInfoPage } from '../pages/setting/userInfo/userInfo';
 import { AboutPage } from '../pages/setting/about/about';
-import { DownloadAddressPage } from '../pages/setting/about/downloadAddress/downloadAddress';
-import { FeedbackPage } from '../pages/setting/about/feedback/feedback';
-import { ProperPage } from '../pages/setting/about/proper/proper';
+import { FeedbackPage } from '../pages/setting/feedback/feedback';
+import { FeedlistPage } from '../pages/setting/feedlist/feedlist';
+import { subtitleComponent } from '../pages/setting/feedlist/component/subtitle/subtitle';
+import { feedbtnComponent } from '../pages/setting/feedlist/component/feedbtn/feedbtn';
+import { FeedDetailListPage } from '../pages/setting/feedDetailList/feedDetailList';
+import { FeedDetailPage } from '../pages/setting/feedDetail/feedDetail';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
 import { QueryNoticeDetailPage } from '../pages/query/queryNoticeDetail/queryNoticeDetail';
 import { FileTypeImageComponent } from './component/fileTypeImage/fileTypeImage.component';
 import { FileService } from './services/file.service';
-import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
 import { QueryListPage } from '../pages/query/queryList/queryList';
 import { QueryListConditionPage } from '../pages/query/queryListCondition/queryListCondition';
 import { SearchboxComponent } from './component/searchbox/searchbox.component';
@@ -65,19 +79,36 @@ import { Store, StoreModule } from '@ngrx/store';
 import { reducer } from './redux/app.reducer';
 import { IcmpSpinnerComponent } from './component/spinner/spinner.component';
 import { InstaShotPage } from '../pages/instaShot/instaShot';
-import { Camera } from '@ionic-native/camera';
 import { PhotoService } from './services/photo.service';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { FileOpener } from '@ionic-native/file-opener';
 import { ApplicationPage } from '../pages/application/application';
-import { FileChooser } from '@ionic-native/file-chooser';
-import { FilePath } from '@ionic-native/file-path';
 import { StatisticsQueryPage } from '../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../pages/statistics/statisticsView/statisticsView';
-import { TodoMissionOpinionPage } from '../pages/todo/todoOpinion/mission/missionOpinion';
-import { TodoWorkContactPage } from '../pages/todo/todoOpinion/workContact/workContact';
+import { AddressPage } from '../pages/address/address';
+import { ChatListPage } from '../pages/chatList/chatList';
+import { AddFriendPage } from '../pages/address/addFriend/addFriend';
+import { ApplyPage } from '../pages/address/apply/apply';
+import { GroupPage } from '../pages/address/group/group';
+import { CreateGroupPage } from '../pages/address/group/createGroup';
+import { UserProfilePage } from '../pages/address/userProfile/userProfile';
+import { PluginShowComponent } from '../pages/home/component/pluginShow/pluginShow.component';
+import { ResetPasswordPage } from '../pages/setting/resetPassword/resetPassword';
+import { ExamCustomFramePage } from '../pages/exam/customFrame/customFrame';
+import { MacAddressPage } from '../pages/macAddress/macAddress';
+import { MacAddressHistoy } from '../pages/macAddress/history/history';
+import { MacFramePage } from '../pages/macAddress/macFrame/macFrame';
+import { MacSuccPage } from '../pages/macAddress/success/success';
+import { OrganizationAddressPage } from '../pages/address/organizationAddress/organizationAddress';
+import { EmailPage } from '../pages/email/email';
+import { IcmpPlaceholderComponent } from './component/placeholder/placeholder.component';
+import { OopStormPage } from '../pages/setting/about/oopStorm/oopStorm';
+import { ImagePreviewPage } from '../pages/setting/feedback/imagePreview';
+import { IcmpKeyboardAttachDirective } from './directives/keyboardAttach.directive';
+import { NoticePage } from '../pages/notice/notice';
+import { InitService } from '../app/services/init.service';
+import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
+import { HttpService } from '../app/services/http.service';
 
-export function interceptorFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
+export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
   let service = new HttpInterceptor(xhrBackend, requestOptions, configsService, userService, deviceService, store);
   return service;
@@ -89,6 +120,7 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
+    WaitDonePage,
     MyApp,
     IcmpDblclickDirective,
     SearchFilterPipe,
@@ -99,19 +131,26 @@ export function createTranslateLoader(http: Http) {
     HomeCustomComponent,
     PluginColldoctorComponent,
     PluginRegRemindComponent,
+    PluginShowComponent,
+    IcmpPlaceholderComponent,
     FileTypeImageComponent,
     TabsPage,
     AdminPage,
+    SetPasswordPage,
     LoginPage,
     HomePage,
     HomePluginsManagerPage,
     HomeMenusManagerPage,
+    HomeComponentPage,
     SettingPage,
     UserInfoPage,
     AboutPage,
-    ProperPage,
     FeedbackPage,
-    DownloadAddressPage,
+    FeedlistPage,
+    subtitleComponent,
+    feedbtnComponent,
+    FeedDetailListPage,
+    FeedDetailPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -124,10 +163,27 @@ export function createTranslateLoader(http: Http) {
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
-    TodoMissionOpinionPage,
-    TodoWorkContactPage,
     QueryDetailPage,
-    InstaShotPage
+    InstaShotPage,
+    AddressPage,
+    ChatListPage,
+    AddFriendPage,
+    ApplyPage,
+    GroupPage,
+    CreateGroupPage,
+    UserProfilePage,
+    ResetPasswordPage,
+    ExamCustomFramePage,
+    MacAddressPage,
+    MacAddressHistoy,
+    MacFramePage,
+    MacSuccPage,
+    OrganizationAddressPage,
+    EmailPage,
+    OopStormPage,
+    ImagePreviewPage,
+    IcmpKeyboardAttachDirective,
+    NoticePage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -153,21 +209,25 @@ export function createTranslateLoader(http: Http) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    WaitDonePage,
     MyApp,
     MenuFolderComponent,
     SearchboxComponent,
     TabsPage,
     AdminPage,
+    SetPasswordPage,
     LoginPage,
     HomePage,
     HomePluginsManagerPage,
     HomeMenusManagerPage,
+    HomeComponentPage,
     SettingPage,
     UserInfoPage,
     AboutPage,
-    ProperPage,
     FeedbackPage,
-    DownloadAddressPage,
+    FeedlistPage,
+    FeedDetailListPage,
+    FeedDetailPage,
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
@@ -180,19 +240,37 @@ export function createTranslateLoader(http: Http) {
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
-    TodoMissionOpinionPage,
-    TodoWorkContactPage,
     QueryDetailPage,
-    InstaShotPage
+    InstaShotPage,
+    AddressPage,
+    ChatListPage,
+    AddFriendPage,
+    ApplyPage,
+    GroupPage,
+    CreateGroupPage,
+    UserProfilePage,
+    ResetPasswordPage,
+    ExamCustomFramePage,
+    MacAddressPage,
+    MacAddressHistoy,
+    MacFramePage,
+    MacSuccPage,
+    OrganizationAddressPage,
+    EmailPage,
+    OopStormPage,
+    ImagePreviewPage,
+    NoticePage
   ],
   providers: [
     StatusBar,
+    SpellService,
     File,
     FileChooser,
     FilePath,
     FileTransfer,
     FileTransferObject,
     FileOpener,
+    Keyboard,
     SplashScreen,
     UniqueDeviceID,
     Device,
@@ -204,6 +282,7 @@ export function createTranslateLoader(http: Http) {
     BackButtonService,
     ConfigsService,
     ToastService,
+    InitService,
     RoutersService,
     FileService,
     UtilsService,
@@ -213,6 +292,10 @@ export function createTranslateLoader(http: Http) {
     Camera,
     ImagePicker,
     PhotoService,
+    AppMinimize,
+    NativeStorage,
+    SearchFilterPipe,
+    HttpService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

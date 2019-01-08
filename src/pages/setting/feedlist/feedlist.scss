@@ -1,0 +1,80 @@
+page-feedlist {
+  .contentbox {
+    width: 100%;
+    background: #fff;
+    padding-bottom: 60px;
+    .menutitlebox {
+      margin-top: 2px;
+    }
+    .main-row {
+      width: 100%;
+      background-color: #ffffff;
+      border-top: 1px solid #e7e7e7;
+      border-bottom: 1px solid #e7e7e7;
+      padding: 0;
+      margin: 0;
+    }
+    .main-menus {
+      width: 100%;
+      // display: flex;
+      // flex-direction: row;
+      // flex-wrap: wrap;
+      padding: 5px;
+      background: #fff;
+      border-top: 0 !important;
+      .main-menu {
+        // flex: 1;
+        display: inline-block;
+        width: 25%;
+        text-align: center;
+        padding: 10px 5px;
+        position: relative;
+        .home-icon-div {
+          width: 40px;
+          height: 40px;
+          border-radius: 15px;
+          text-align: center;
+          display: inline-block;
+          i {
+            color: #ffffff;
+            font-size: 22px;
+            line-height: 42px;
+          }
+        }
+        .menu-title {
+          text-align: center;
+          font-size: 13px;
+          color: #333333;
+          padding-top: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+    .listtitlebox::before {
+      content: '';
+      display: block;
+      width: calc(100vw - 30px);
+      margin: 0 auto;
+      background: #f4f4f7;
+      height: 4px;
+    }
+    .listbox {
+      padding: 0 15px;
+      padding-bottom: 60px;
+      .new {
+        padding: 12px 0;
+        border-bottom: 1px solid #f4f4f7; 
+      }
+    }
+  }
+  .feedbtn {
+    position: fixed;
+    background: #fff;
+    width: 100%;
+    z-index: 100;
+    padding: 11px 15px 11px 15px;
+    bottom: 0px;
+  }
+}

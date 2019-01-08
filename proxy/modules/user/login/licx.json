@@ -1,0 +1,11 @@
+{
+  "id": "licx",
+  "name": "李晨熙", 
+  "jobNumber": "1000002230",
+  "phone": "13800000000",
+  "email": "test@propersoft.cn",
+  "outter": "院外",
+  "sex": {"code": "0"},
+  "status": {"code": "0"},
+  "headImage": "http://chuantu.biz/t6/140/1510710335x3066599700.png"
+}

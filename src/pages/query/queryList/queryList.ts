@@ -34,6 +34,8 @@ export class QueryListPage {
   queryInput: Object;
   // 下拉刷新事件
   private refresher: Refresher;
+  // 应用所占的宽度
+  private menuWidth: string;
 
   /**
    * 构造函数
@@ -44,7 +46,15 @@ export class QueryListPage {
               private http: Http,
               private toastService: ToastService,
               private sanitizer: DomSanitizer,
-              private modalCtrl: ModalController) {}
+              private modalCtrl: ModalController) {
+    if (screen.width <= 375) {
+      this.menuWidth = 25 + '%';
+    } else if (screen.width > 375 && screen.width <= 590) {
+      this.menuWidth = 20 + '%';
+    } else {
+      this.menuWidth = 16.6 + '%';
+    }
+  }
 
   /**
    * 每次进入页面
@@ -52,7 +62,7 @@ export class QueryListPage {
   ionViewDidEnter(): void {
     this.hasCondition = false;
     this.conditionList = [];
-    this.title = this.navParams.get('title');
+    this.title = this.navParams.get('name');
     this.initQueryList();
   }
 
@@ -68,44 +78,46 @@ export class QueryListPage {
    * 取得查询结果列表
    */
   getQueryList(isInit: boolean): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('pageNo', this.pageNo.toString());
-    params.append('pageSize', this.icmpConstant.pageSize);
-    params.append('serviceName', this.navParams.get('serviceName'));
-    params.append('defaultTab', this.navParams.get('defaultTab'));
+    let params: Object = {
+      'pageNo': this.pageNo.toString(),
+      'pageSize': this.icmpConstant.pageSize,
+      'serviceName': this.navParams.get('serviceName'),
+      'defaultTab': this.navParams.get('defaultTab')
+    };
     if (this.queryInput != null) {
       for (let key in this.queryInput) {
         if (this.queryInput.hasOwnProperty(key)) {
-          params.append(key, this.queryInput[key]);
+          params[key] = this.queryInput[key];
         }
       }
     }
-    this.http.post('/webController/getSystemMsgList', params).subscribe((res: any) => {
+
+    this.http.get('/business/querys', { params: params }).subscribe((res: any) => {
       let data = res.json();
       let defaultTab = this.navParams.get('defaultTab');
-      if (data.tab_list == null || data.tab_list.length <= 1 || (defaultTab != null && defaultTab !== '' && defaultTab !== 'default')) {
+      if (data.tabList == null || data.tabList.length <= 1 || (defaultTab != null && defaultTab !== '' && defaultTab !== 'default')) {
         this.isTabQuery = false;
       } else {
         this.isTabQuery = true;
       }
       if (!this.isTabQuery) {
         if (isInit) {
-          this.queryList = data.result_list;
-          if (data.query_conditon != null && data.query_conditon.length > 0) {
+          this.queryList = data.rows;
+          if (data.conditons != null && data.conditons.length > 0) {
             this.hasCondition = true;
-            this.conditionList = data.query_conditon;
+            this.conditionList = data.conditons;
           }
         } else {
-          for (let i = 0 ; i < data.result_list.length ; i++) {
-            this.queryList.push(data.result_list[i]);
+          for (let i = 0; i < data.rows.length; i++) {
+            this.queryList.push(data.rows[i]);
           }
         }
         this.infiniteScrollComplete();
-        if ((data.result_list == null || data.result_list.length < Number(this.icmpConstant.pageSize)) && this.infiniteScroll != null) {
+        if ((data.rows == null || data.rows.length < Number(this.icmpConstant.pageSize)) && this.infiniteScroll != null) {
           this.infiniteScroll.enable(false);
         }
       } else {
-        this.queryList = data.tab_list;
+        this.queryList = data.tabList;
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -118,7 +130,7 @@ export class QueryListPage {
    * 打开查询条件输入页面
    */
   queryConditonOpen(): void {
-    let modal = this.modalCtrl.create(QueryListConditionPage, {'conditionList': this.conditionList, 'queryInput': this.queryInput});
+    let modal = this.modalCtrl.create(QueryListConditionPage, { 'conditionList': this.conditionList, 'queryInput': this.queryInput });
     modal.onDidDismiss(data => {
       if (data != null) {
         this.queryInput = data;
@@ -132,9 +144,9 @@ export class QueryListPage {
    * 跳转到二级查询列表
    */
   goQuerySubList(item: Object): void {
-    let menu = {...this.navParams.data};
-    menu.title = item['tab_name'];
-    menu.defaultTab = item['tab_value'];
+    let menu = { ...this.navParams.data };
+    menu.title = item['tabName'];
+    menu.defaultTab = item['tabValue'];
     this.navCtrl.push(QueryListPage, menu);
   }
 
@@ -147,10 +159,11 @@ export class QueryListPage {
       detailTitle = this.title + '详细';
     }
     let params: Object = {
-      title: detailTitle,
-      businessId: item['id'],
-      serviceName: this.navParams.get('serviceName'),
-      defaultTab: this.navParams.get('defaultTab')
+      'title': detailTitle,
+      'id': item['id'],
+      'serviceName': this.navParams.get('serviceName'),
+      'defaultTab': this.navParams.get('defaultTab'),
+      'style': item['style']
     };
     if (item['style'] === 'notice_style') {
       this.navCtrl.push(QueryNoticeDetailPage, params);

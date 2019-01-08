@@ -6,8 +6,6 @@ import { FileService } from '../../../app/services/file.service';
 import { TodoOpinionPage } from '../todoOpinion/todoOpinion';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicationPage } from '../../application/application';
-import { TodoMissionOpinionPage } from '../todoOpinion/mission/missionOpinion';
-import { TodoWorkContactPage } from '../todoOpinion/workContact/workContact';
 
 /**
  * 待办详情页面
@@ -35,11 +33,11 @@ export class TodoDetailPage {
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private http: Http,
-              private toastService: ToastService,
-              private fileService: FileService,
-              private translate: TranslateService) {
+    public navParams: NavParams,
+    private http: Http,
+    private toastService: ToastService,
+    private fileService: FileService,
+    private translate: TranslateService) {
     let translateKeys: string[] = ['SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'TODO_CANNOT_USE', 'READ', 'APPROVAL'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -59,22 +57,24 @@ export class TodoDetailPage {
   getTodoDetail(): void {
     this.todoDetail = {};
     this.fileList = [];
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('taskId', this.navParams.get('taskId'));
-    params.append('step', this.navParams.get('step'));
-    params.append('processName', this.navParams.get('processName'));
-    this.http.post('/webController/getSubSystemStandardIndex', params).subscribe((res: Response) => {
+    let params: Object = {
+      'stepCode': this.navParams.get('stepCode'),
+      'processName': this.navParams.get('processName'),
+      'taskId': this.navParams.get('id'),
+      'step': this.navParams.get('stepCode')
+    };
+    this.http.get('/bpm/todos/' + this.navParams.get('id'), { params: params }).subscribe((res: Response) => {
       this.todoDetail = res.json();
-      this.btnText = this.todoDetail['shenpi_btn_text'];
+      this.btnText = this.todoDetail['btnText'];
       if (this.btnText == null || this.btnText === '') {
-        if (this.todoDetail['shenpi_type'] === 'forward') {
+        if (this.todoDetail['approvalType'] === 'forward') {
           this.btnText = this.transateContent['READ'];
         } else {
           this.btnText = this.transateContent['APPROVAL'];
         }
       }
 
-      if (this.todoDetail['shenpi_type'] === 'viewonly') {
+      if (this.todoDetail['approvalType'] === 'viewonly') {
         this.hasApprovalBtn = false;
         this.promptInfo = this.transateContent['TODO_CANNOT_USE'];
       } else {
@@ -82,7 +82,7 @@ export class TodoDetailPage {
         this.hasApprovalBtn = true;
       }
 
-      for (let i = 0 ; i < this.todoDetail['forms'].length ; i++) {
+      for (let i = 0; i < this.todoDetail['forms'].length; i++) {
         let form = this.todoDetail['forms'][i];
         if (form['type'] === 'filelist' && form['values'] != null && form['values'].length > 0) {
           this.fileList.push(this.todoDetail['forms'][i]);
@@ -94,79 +94,52 @@ export class TodoDetailPage {
   }
 
   /**
-   * 审批评价
-   */
-  subApproval(): void {
-    let submitUtl: string = this.todoDetail['submit_path'];
-    if (submitUtl == null || submitUtl === '') {
-      submitUtl = '/webController/dealProcess';
-    }
-    let params: Object = {
-      approval: this.todoDetail['approval'],
-      submitUtl: submitUtl,
-      hideComment: false,
-      commentDefault: this.todoDetail['shenpi_comment_default'],
-      processName: this.navParams.get('processName'),
-      taskId: this.navParams.get('taskId'),
-      step: this.navParams.get('step'),
-      pageId: this.todoDetail['pageId'],
-      subApproval: true
-    };
-    this.navCtrl.push(TodoOpinionPage, params);
-  }
-
-  /**
    * 审批办理
    */
   approval(): void {
     let submitUtl: string = this.todoDetail['submit_path'];
     if (submitUtl == null || submitUtl === '') {
-      submitUtl = '/webController/dealProcess';
+      submitUtl = '/bpm/todos/' + this.navParams.get('id');
     }
-    if (this.todoDetail['shenpi_type'] === 'forward') {
-      let params: URLSearchParams = new URLSearchParams();
-      params.append('taskId', this.navParams.get('taskId'));
-      params.append('step', this.navParams.get('step'));
-      params.append('processName', this.navParams.get('processName'));
+    if (this.todoDetail['approvalType'] === 'forward') {
+      let params: Object = {
+        'stepCode': this.navParams.get('stepCode'),
+        'processName': this.navParams.get('processName'),
+        'taskId': this.navParams.get('id'),
+        'step': this.navParams.get('stepCode')
+      };
       this.http.post(submitUtl, params).subscribe((res: Response) => {
-        let data = res.json();
-        if (data.result === '0') {
-          this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
-          this.navCtrl.pop();
-        } else {
-          if (data.errMsg != null && data.errMsg !== '') {
-            this.toastService.show(data.errMsg);
-          } else {
-            this.toastService.show(this.transateContent['SUBMIT_ERROR']);
-          }
-        }
+        this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
+        this.navCtrl.pop();
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
-    } else if (this.todoDetail['shenpi_type'] === 'shenpipage') {
+    } else if (this.todoDetail['approvalType'] === 'shenpipage') {
       let params: Object = {
-        approval: this.todoDetail['approval'],
+        approvals: this.todoDetail['approvals'],
         submitUtl: submitUtl,
-        hideComment: this.todoDetail['shenpi_hide_comment'],
-        commentDefault: this.todoDetail['shenpi_comment_default'],
+        hideComment: this.todoDetail['hideComment'],
+        commentDefault: this.todoDetail['commentDefault'],
+        processName: this.navParams.get('processName'),
+        id: this.navParams.get('id'),
+        stepCode: this.navParams.get('stepCode'),
+        taskId: this.navParams.get('id'),
+        step: this.navParams.get('stepCode')
+      };
+      this.navCtrl.push(TodoOpinionPage, params);
+    } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
+      let params: Object = {
+        systemId: this.todoDetail['systemId'],
         processName: this.navParams.get('processName'),
         taskId: this.navParams.get('taskId'),
-        step: this.navParams.get('step'),
-        pageId: this.todoDetail['pageId']
+        step: this.navParams.get('step')
       };
-      if (this.todoDetail['pageId'] === 'todo-opinion-mission') {
-        this.navCtrl.push(TodoMissionOpinionPage, params);
-      } else if (this.todoDetail['pageId'] === 'todo-work-contact') {
-        this.navCtrl.push(TodoWorkContactPage, params);
-      }  else {
-        this.navCtrl.push(TodoOpinionPage, params);
-      }
+      this.navCtrl.push(TodoOpinionPage, params);
     } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
       let params: Object = {
         assignee: this.navParams.get('assignee'),
         taskId: this.navParams.get('taskId'),
-        step: this.navParams.get('step'),
-        isChange: true
+        step: this.navParams.get('step')
       };
       this.navCtrl.push(ApplicationPage, params);
     }

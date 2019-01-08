@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{'MAC_ADDRESS_HISTORY_LIST' | translate}}</ion-title>
+        <ion-buttons end>
+                <button ion-button icon-only (click)="backHome()">
+                    <ion-icon ios="ios-home" md="md-home"></ion-icon>
+                </button>
+              </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="content-gray-new">
+    <ion-list class="icmp-list-bottom-margin">
+    <ion-item-sliding *ngFor="let history of historyList">
+        <button ion-item detail-none (click)="checkProcess(history)">
+            <div class="app-type-content">
+                <p *ngIf="history.stateCode == 'DONE' && history.actualTypeCode == 0" class="bindColor">{{'START_BIND' | translate}}</p>
+                <p *ngIf="history.stateCode == 'DONE' && history.actualTypeCode == 1" class="unbindColor">{{'APPLY_UNBIND' | translate}}</p>
+                <p *ngIf="history.stateCode == 'DOING' && history.appliTypeCode == 0" class="bindColor">{{'START_BIND' | translate}}</p>
+                <p *ngIf="history.stateCode == 'DOING' && history.appliTypeCode == 1" class="unbindColor">{{'APPLY_UNBIND' | translate}}</p>
+            </div>
+            <div>
+                <p>{{'FACILITY_USER' | translate}}: {{history?.userName}}</p>
+                <p>{{'FACILITY_NAME' | translate}}: {{history?.deviceName}}</p>
+                <p>{{'MAC_ADDRESS' | translate}}: {{history?.macAddress}}</p>
+            </div>
+            <div class="app-type-content-right">
+                <p>{{history?.createTime.substr(0,16)}}</p>
+                <p class="process-type">
+                    <span>{{history?.stateCode == 'DONE' ? '已完成' : '审核中' }}</span>
+                    <ion-icon  style="margin-top: 2px" name="arrow-forward"></ion-icon>
+                </p>
+            </div>
+        </button>
+    </ion-item-sliding>
+    </ion-list>
+</ion-content>

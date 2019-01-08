@@ -12,6 +12,8 @@ export class HomeCustomComponent {
 
   // 用户配置的全部应用
   @Input() menus: Object;
+  // 全部图片的角标个数
+  @Input() allNum: Number;
   // 应用所占的宽度
   private menuWidth: string;
 

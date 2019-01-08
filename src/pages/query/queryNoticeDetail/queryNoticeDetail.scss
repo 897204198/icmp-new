@@ -1,9 +1,20 @@
 page-query-notice-detail {
-  p {
-    text-align: center;
+  .notice-content {
+    padding: 16px;
+    background-color: #fff;
+  }
+  .notice-title {
+    font-weight: bold;
+    margin-bottom: 25px;
+    margin-top: 10px;
+    font-size: 1.3em;
+  }
+  
+  .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
+    border-radius: 0;
   }
 
-  .display-center {
-    text-align: center;
+  .item-md ion-avatar ion-img, .item-md ion-avatar img {
+    border-radius: 0;
   }
 }

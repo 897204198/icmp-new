@@ -1,0 +1,103 @@
+[
+  {
+    "type": "hidden",
+    "model": "id",
+    "default": "1"
+  },
+  {
+    "type": "label",
+    "label": "例子",
+    "default": "测试申请单"
+  },
+  {
+    "type": "text",
+    "label": "名称",
+    "model": "name",
+    "default": "默认名称",
+    "validator": [
+      {
+        "type": "required"
+      }
+    ]
+  },
+  {
+    "type": "date",
+    "format": "YYYY-MM-DD",
+    "label": "开始时间",
+    "model": "date"
+  },
+  {
+    "type": "select",
+    "category": "single",
+    "label": "单选下拉",
+    "model": "select1",
+    "data": [
+      {
+        "id": "1",
+        "name": "心内科",
+        "controls": [
+          {
+            "type": "initSelect",
+            "model": "dSelect1",
+            "url": "/demo/selectSearchboxQuery"
+          }
+        ]
+      },
+      {
+        "id": "2",
+        "name": "肾内科",
+        "controls": [
+          {
+            "type": "display",
+            "models": [
+              "dyName"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "name": "质控办"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "status": "hidden",
+    "label": "动态名称",
+    "model": "dyName",
+    "validator": [
+      {
+        "type": "required"
+      }
+    ]
+  },
+  {
+    "type": "searchbox",
+    "category": "single",
+    "label": "选择器",
+    "model": "person",
+    "searchUrl": "/demo/selectSearchboxQuery?type=1",
+    "controls": [
+      {
+        "type": "initSelect",
+        "model": "dSelect2",
+        "url": "/demo/selectSearchboxQuery"
+      }
+    ]
+  },
+  {
+    "type": "select",
+    "category": "single",
+    "label": "内容联动1",
+    "model": "dSelect1",
+    "data": []
+  },
+  {
+    "type": "select",
+    "category": "single",
+    "label": "内容联动2",
+    "model": "dSelect2",
+    "data": []
+  }
+]

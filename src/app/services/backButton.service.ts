@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform, App, NavController, Tabs } from 'ionic-angular';
 import { ToastService } from './toast.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AppMinimize } from '@ionic-native/app-minimize';
 
 /**
  * 安卓物理返回键服务
@@ -20,7 +21,8 @@ export class BackButtonService {
   constructor(public platform: Platform,
               public appCtrl: App,
               private toastService: ToastService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private appMinimize: AppMinimize) {
     this.translate.get(['BACKBUTTON_PROMPT']).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -35,10 +37,12 @@ export class BackButtonService {
       if (activeNav.canGoBack() && tabRef != null) {
         activeNav.pop();
       } else {
-        if (tabRef == null || tabRef._selectHistory[tabRef._selectHistory.length - 1] === tabRef.getByIndex(0).id) {
+        // 登录页两次弹窗退出 
+        // tab 页直接最小化
+        if (tabRef == null) {
           this.showExit();
         } else {
-          tabRef.select(0);
+          this.appMinimize.minimize();
         }
       }
     });

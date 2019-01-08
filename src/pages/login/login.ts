@@ -1,19 +1,22 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController } from 'ionic-angular';
+import { NavController, Events, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
 import { AlertController } from 'ionic-angular';
 import { AdminPage } from './admin/admin';
+import { SetPasswordPage } from './setPassword/setPassword';
 import { APP_CONSTANT, AppConstant } from '../../app/constants/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
-import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
 import { CryptoService } from '../../app/services/crypto.service';
 import { PushService } from '../../app/services/push.service';
 import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
+import { DeviceService } from '../../app/services/device.service';
+import { ConfigsService } from '../../app/services/configs.service';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 /**
  * 登录页面
@@ -33,16 +36,21 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private nativeStorage: NativeStorage,
     private pushService: PushService,
     private cryptoService: CryptoService,
     private backButtonService: BackButtonService,
     private platform: Platform,
     private alertCtrl: AlertController,
+    private navParams: NavParams,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
-    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
+    private configsService: ConfigsService,
     private translate: TranslateService,
     private toastService: ToastService,
+    private deviceService: DeviceService,
+    private zone: NgZone,
     private http: Http,
+    private events: Events,
     private userService: UserService,
     private appVersionUpdateService: AppVersionUpdateService) {
     let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
@@ -56,15 +64,24 @@ export class LoginPage {
     });
 
     // 通过推送通知打开应用事
+    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+  }
+
+  /**
+   * 首次进入页面
+   */
+  ionViewDidLoad() {
+    if (localStorage.getItem('login') === '1') {
+      this.appVersionUpdateService.checkAppVersion(true, true);
+      localStorage.setItem('login', '0');
+    }
   }
 
   /**
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    // 检查版本更新
-    this.appVersionUpdateService.checkAppVersion(true);
     this.userInfo = this.userService.getUserInfo();
     if (!this.userInfo) {
       this.userInfo = initUserInfo;
@@ -87,52 +104,150 @@ export class LoginPage {
     }
   }
 
+  forget(): void {
+    this.navCtrl.push(SetPasswordPage, { isAutoLogin: false }).then(() => {
+    });
+  }
+
   /**
    * 登录请求
    */
-  loginNetService(loginName: string, password: string): void {
-
-    // 加密密码
+  loginNetService(account: string, password: string): void {
+    localStorage.removeItem('serviceheader');
+    let getServicekeyUrl;
+    if (localStorage.getItem('getServiceKeyUrl')) {
+      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+    } else {
+      getServicekeyUrl = this.configsService.getServiceKeyUrl() + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+    }
+    this.http.get(getServicekeyUrl).subscribe((res: Response) => {
+      // 存储servicekey
+      localStorage.setItem('serviceheader', res.headers.get('x-service-key'));
+      // 传给原生
+      this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
+      if (localStorage.getItem('pushinit') !== '1') {
+        this.pushService.init();
+        console.log('登录里创建插件');
+       }
+      if (res.headers.get('x-service-key') === 'propersoft') {
+        // 普日项目有环信
+        localStorage.setItem('haveIM' , '1');
+      } else {
+        localStorage.setItem('haveIM' , '0');
+      }
+      // 登录接口请求
+      // 加密密码
     let md5password: string = password;
     if (this.appConstant.oaConstant.md5Encryption) {
       md5password = this.cryptoService.hashMD5(md5password, true);
     }
 
     // 请求参数
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('loginName', loginName);
-    params.append('password', md5password);
-    this.http.post('/webController/checkUserByLoginNameAndPassword', params).subscribe((res: Response) => {
-      let data = res.json();
-      if (data.result === this.icmpConstant.reqResultSuccess) {
+    let params: Object = {
+      'username': account,
+      'pwd': md5password
+    };
+    this.http.post('/auth/login', params).subscribe((data) => {
+      localStorage.token = data['_body'];
+      this.http.get('/auth/current/user').subscribe((res3: Response) => {
+        let userData = res3.json()['data'];
+        let status: string = '';
+        if (userData['status'] != null && userData['status'] !== '') {
+          status = userData['status']['code'];
+        }
+        let sex: string = '';
+        let sexCode: string = '';
+        if (userData['sex'] != null && userData['sex'] !== '') {
+          if (userData['sex']['code'] === '0' || userData['sex']['code'] === 0) {
+            sex = '男';
+          } else {
+            sex = '女';
+          }
+          sexCode = userData['sex']['code'];
+        }
         let newUserInfo: UserInfoState = {
-          loginName: loginName,
+          account: account,
+          loginName: userData['username'],
           password: md5password,
-          userName: data['user']['name'],
           password0: password,
-          userId: data['userId'],
-          headImage: data['headImage'],
-          savePassword: this.userInfo.savePassword
+          savePassword: this.userInfo.savePassword,
+          userId: userData['id'],
+          userName: userData['name'],
+          headImage: userData['headImageContent'] ? userData['headImageContent'] : '',
+          jobNumber: userData['jobNumber'],
+          phone: userData['phone'],
+          email: userData['email'],
+          outter: userData['outter'],
+          sexCode: sexCode,
+          sex: sex,
+          status: status
         };
-
         this.userService.saveUserInfo(newUserInfo);
         this.userService.login();
-        this.navCtrl.push(TabsPage).then(() => {
-          const startIndex = this.navCtrl.getActive().index - 1;
-          this.navCtrl.remove(startIndex, 1);
-        });
-        this.pushService.bindUserid(data['userId'], loginName);
-      } else if (data.result === '2') {
-        if (data.errMsg != null && data.errMsg !== '') {
-          this.toastService.show(data.errMsg);
+
+        // 避免在 web 上无法显示页面
+        if (this.deviceService.getDeviceInfo().deviceType) {
+          let imparams = {
+            username: newUserInfo.loginName,
+            password: password,
+            baseUrl: this.configsService.getBaseUrl(),
+            pushUrl: this.configsService.getPushUrl(),
+            chatKey: this.configsService.getChatKey(),
+            token: 'Bearer ' + localStorage['token'],
+            chatId: newUserInfo.userId,
+            pushAppId: this.appConstant.properPushConstant.appId,
+            ext: {
+              from_user_id: newUserInfo.loginName,
+              from_username: newUserInfo.userName,
+              from_headportrait: newUserInfo.headImage
+            }
+          };
+          if (localStorage.getItem('haveIM') === '1') {
+            (<any>window).huanxin.imlogin(imparams, (loginData) => {
+              this.zone.run(() => {
+                if (loginData === 'user_not_found') {
+                  localStorage.setItem('imIsOpen', '0');
+                } else {
+                  localStorage.setItem('imIsOpen', '1');
+                }
+                // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+                this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+                  const startIndex = this.navCtrl.getActive().index - 1;
+                  this.navCtrl.remove(startIndex, 1);
+                  if (this.navParams.data.loginStatus !== 'logout') {
+                    this.events.publish('logined');
+                  }
+                });
+              });
+            });
+          }else{
+            // 如果是从登录页登录的，则在 tabs 页不执行自动登录
+            this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+              const startIndex = this.navCtrl.getActive().index - 1;
+              this.navCtrl.remove(startIndex, 1);
+              if (this.navParams.data.loginStatus !== 'logout') {
+                this.events.publish('logined');
+              }
+            });
+          }
+          this.pushService.bindUserid(newUserInfo.userId);
         } else {
-          this.toastService.show(this.transateContent['ERROR_ACCOUNT_PASSWORD']);
+          // Web 版不进行推送绑定，直接进首页
+          this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+            this.events.publish('logined');
+          });
         }
-      } else if (data.result === '3') {
-        this.toastService.show(this.transateContent['ERROR_DEVICE']);
-      }
-    }, (res: Response) => {
-      this.toastService.show(res.text());
+      }, (err: Response) => {
+        this.toastService.show(err.text());
+      });
+    }, (res2: Response) => {
+      this.toastService.show(res2.text());
+    });
+
+
+
     });
   }
 

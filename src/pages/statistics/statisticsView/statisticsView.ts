@@ -17,9 +17,9 @@ export class StatisticsViewPage {
   statisticsDate: Object = {};
 
   constructor(public navParams: NavParams,
-              private http: Http,
-              private el: ElementRef,
-              private toastService: ToastService) { }
+    private http: Http,
+    private el: ElementRef,
+    private toastService: ToastService) { }
 
   ionViewDidLoad(): void {
     this.title = this.navParams.get('title');
@@ -30,13 +30,14 @@ export class StatisticsViewPage {
    * 取得初始化数据
    */
   getInitData(): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
+    let params = {
+      'serviceName': this.navParams.get('serviceName')
+    };
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params.append(key, datas[key]);
+          params[key] = datas[key];
         }
       }
     }
@@ -44,13 +45,13 @@ export class StatisticsViewPage {
       let datas = this.navParams.get('queryCondition');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params.append(key, datas[key]);
+          params[key] = datas[key];
         }
       }
     }
-    this.http.post('/webController/getStatisticsData', params).subscribe((res: Response) => {
+    this.http.get('/business/statistics/result', { params: params }).subscribe((res: Response) => {
       this.statisticsDate = res.json();
-      for (let i = 0 ; i < this.statisticsDate['charts'].length ; i++) {
+      for (let i = 0; i < this.statisticsDate['charts'].length; i++) {
         if (this.statisticsDate['charts'][i]['height'] == null || this.statisticsDate['charts'][i]['height'] === '') {
           this.statisticsDate['charts'][i]['height'] = '300px';
         }

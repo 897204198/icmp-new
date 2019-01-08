@@ -21,9 +21,9 @@ export class QueryListConditionPage {
    * 构造函数
    */
   constructor(public navParams: NavParams,
-              public viewCtrl: ViewController,
-              private modalCtrl: ModalController,
-              private utilsService: UtilsService) {}
+    public viewCtrl: ViewController,
+    private modalCtrl: ModalController,
+    private utilsService: UtilsService) { }
 
   /**
    * 首次进入页面
@@ -42,19 +42,19 @@ export class QueryListConditionPage {
     if (this.queryInput == null) {
       this.queryInput = {};
     }
-    for (let i = 0 ; i < conditionListTmp.length ; i++) {
+    for (let i = 0; i < conditionListTmp.length; i++) {
       let conditionTmp = conditionListTmp[i];
-      if (conditionTmp['query_formatter'] != null && conditionTmp['query_formatter'] !== '') {
-        conditionTmp['query_formatter'] = conditionTmp['query_formatter'].replace(new RegExp('y', 'gm'), 'Y').replace(new RegExp('d', 'gm'), 'D');
+      if (conditionTmp['format'] != null && conditionTmp['format'] !== '') {
+        conditionTmp['format'] = conditionTmp['format'].replace(new RegExp('y', 'gm'), 'Y').replace(new RegExp('d', 'gm'), 'D');
       }
       this.conditionList.push(conditionTmp);
-      if (conditionTmp['query_data'] != null) {
-        for (let j = 0 ; j < conditionTmp['query_data'].length ; j++) {
-          let queryDataTmp = conditionTmp['query_data'][j];
+      if (conditionTmp['data'] != null) {
+        for (let j = 0; j < conditionTmp['data'].length; j++) {
+          let queryDataTmp = conditionTmp['data'][j];
           if (queryDataTmp['subforms'] != null) {
-            for (let m = 0 ; m < queryDataTmp['subforms'].length ; m++) {
+            for (let m = 0; m < queryDataTmp['subforms'].length; m++) {
               queryDataTmp['subforms'][m]['isSubCondition'] = true;
-              queryDataTmp['subforms'][m]['subConditionQValue'] = conditionTmp['query_value'];
+              queryDataTmp['subforms'][m]['subConditionQValue'] = conditionTmp['model'];
               queryDataTmp['subforms'][m]['subConditionValue'] = queryDataTmp['value'];
               this.conditionList.push(queryDataTmp['subforms'][m]);
             }
@@ -62,10 +62,10 @@ export class QueryListConditionPage {
         }
       }
     }
-    for (let i = 0 ; i < this.conditionList.length ; i++) {
+    for (let i = 0; i < this.conditionList.length; i++) {
       let condition = this.conditionList[i];
-      if (condition['query_default'] != null && condition['query_default'] !== '' && !condition['isSubCondition']) {
-        this.queryInput[condition['query_value']] = condition['query_default'];
+      if (condition['defaultName'] != null && condition['defaultName'] !== '' && !condition['isSubCondition']) {
+        this.queryInput[condition['model']] = condition['defaultName'];
       }
     }
   }
@@ -91,10 +91,10 @@ export class QueryListConditionPage {
     if (condition['isSubCondition']) {
       if (this.queryInput[condition['subConditionQValue']] != null) {
         if (this.queryInput[condition['subConditionQValue']].indexOf(condition['subConditionValue']) >= 0) {
-          this.queryInput[condition['query_value']] = condition['query_default'];
+          this.queryInput[condition['model']] = condition['defaultName'];
           return true;
         } else {
-          delete this.queryInput[condition['query_value']];
+          delete this.queryInput[condition['model']];
         }
       } else {
         return false;
@@ -109,16 +109,18 @@ export class QueryListConditionPage {
    */
   searchboxSelect(condition: Object): void {
     let multiple: boolean = condition['query_more'];
-    let searchUrl = condition['search_url'];
-    if (condition['query_type'] === 'select_person') {
-      searchUrl = '/webController/searchPerson';
-    }
-    let params: Object = {'title': condition['query_name'], 'multiple': multiple, 'searchUrl': searchUrl};
+    let searchUrl = condition['searchUrl'];
+
+    let params: Object = {
+      'title': condition['label'],
+      'multiple': multiple,
+      'searchUrl': searchUrl
+    };
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
       if (data != null) {
-        this.queryInput[condition['query_value'] + 'Name'] = data.name;
-        this.queryInput[condition['query_value']] = data.id;
+        this.queryInput[condition['model'] + 'Name'] = data.name;
+        this.queryInput[condition['model']] = data.id;
       }
     });
     modal.present();
@@ -128,8 +130,8 @@ export class QueryListConditionPage {
    * 设置日期控件默认值
    */
   setDatetime(condition: Object): void {
-    if (this.queryInput[condition['query_value']] == null || this.queryInput[condition['query_value']] === '') {
-      this.queryInput[condition['query_value']] = this.utilsService.formatDate(new Date(), condition['query_formatter']);
+    if (this.queryInput[condition['model']] == null || this.queryInput[condition['model']] === '') {
+      this.queryInput[condition['model']] = this.utilsService.formatDate(new Date(), condition['format']);
     }
   }
 
@@ -137,6 +139,6 @@ export class QueryListConditionPage {
    * 清空日期控件
    */
   clearDatetime(condition: Object): void {
-    this.queryInput[condition['query_value']] = '';
+    this.queryInput[condition['model']] = '';
   }
 }

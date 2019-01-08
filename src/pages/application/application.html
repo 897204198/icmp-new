@@ -24,7 +24,7 @@
       <!-- 文本框 -->
       <ion-item *ngIf="item.type == 'text'" [ngClass]="{'display-hidden': item.status == 'hidden'}">
         <ion-label fixed [innerHtml]="getSafeHtml(item.label)" [ngClass]="{'label-disabled': item.disabled}"></ion-label>
-        <ion-input type="text" class="form-text" [(ngModel)]="input[item.model]" [placeholder]="item.placeholder ? item.placeholder : ''" [disabled]="item.disabled" (ionBlur)="item.inputUrl ? onBlur(input[item.model], item) : ''"></ion-input>
+        <ion-input type="text" class="form-text" [(ngModel)]="input[item.model]" [disabled]="item.disabled"></ion-input>
       </ion-item>
       <!-- 文本域 -->
       <ion-item *ngIf="item.type == 'textarea'" class="item-textarea" [ngClass]="{'display-hidden': item.status == 'hidden'}">
@@ -74,14 +74,18 @@
       </ion-list>
       <!-- 嵌套表格 -->
       <ng-container *ngIf="item.type == 'list'">
+        <!-- 隔断 -->
+        <div class="blank-line"></div>
         <ion-item [ngClass]="{'display-hidden': item.status == 'hidden'}">
           <ion-label [innerHtml]="getSafeHtml(item.label)"></ion-label>
-          <button ion-button color="primary" small item-end (click)="addListRow(item, 'click')">
-            {{'ADD' | translate}}
-          </button>
+          <ion-icon class="add-circle-add" name="add-circle" color="primary" item-end (click)="addListRow(item, 'click')"></ion-icon>
         </ion-item>
         <ion-item [ngClass]="{'display-hidden': item.status == 'hidden'}">
           <ion-list *ngFor="let itemListAll of inputTemp[item['model'] + 'Components']; let iList = index" class="nested-list icmp-list-bottom-none">
+            <ion-item class="remove-circle-delete-border" *ngIf="iList > 0 || (iList == 0 && !item.initRow)">
+              <ion-icon class="remove-circle-delete" name="remove-circle" color="danger" (click)="deleteListRow(item, iList)"></ion-icon>
+              <span>时间段</span>
+            </ion-item>
             <ng-container *ngFor="let itemList of itemListAll">
               <ion-item>
                 <h2 item-start [innerHtml]="getSafeHtml(itemList.label)"></h2>
@@ -101,12 +105,6 @@
                 <input *ngIf="itemList.type == 'searchbox'" type="hidden" [(ngModel)]="input[item['model']][iList][itemList.model]">
               </ion-item>
             </ng-container>
-            <ion-item *ngIf="iList > 0 || (iList == 0 && !item.initRow)">
-              <h2>操作</h2>
-              <button ion-button color="danger" small item-end (click)="deleteListRow(item, iList)">
-                删除
-              </button>
-            </ion-item>
           </ion-list>
         </ion-item>
       </ng-container>
@@ -137,5 +135,5 @@
       </div>
     </div>
   </div>
-  <div *ngIf="extra" class="app-extra">{{extra}}</div>
+  <div class="blank-line"></div>
 </ion-content>

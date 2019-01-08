@@ -2,6 +2,7 @@
 
 var http = require('http');
 var common = require('./modules/common.js');
+var fs = require('fs');
 
 console.log('');
 console.log('PEP Proxy Server');
@@ -33,6 +34,7 @@ var onReq = function(req, res) {
     }
     handler = require(curPath + '/handler.js');
   } catch (err) {
+    console.log('err:' + err);
     console.log('Could not find handler in \'%s\'.', curPath);
     try {
       curPath = common.url2path(req, '.', 1);

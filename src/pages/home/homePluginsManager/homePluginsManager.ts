@@ -63,9 +63,9 @@ export class HomePluginsManagerPage {
    */
   getAllPlugins(): void {
     this.allPlugins = [];
-    this.http.post('/webController/getAllPlugins', null).subscribe((res: any) => {
+    this.http.get('/sys/plugins').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.allPlugins = res.json().rows;
+        this.allPlugins = res.json();
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -77,9 +77,9 @@ export class HomePluginsManagerPage {
    */
   getMyPlugins(): void {
     this.myPlugins = [];
-    this.http.post('/webController/getCurrentPlugins', null).subscribe((res: any) => {
+    this.http.get('/sys/plugins/user').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.myPlugins = res.json().rows;
+        this.myPlugins = res.json();
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -169,9 +169,10 @@ export class HomePluginsManagerPage {
     }
     localStorage.mainPlugins = ids.join(',');
 
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('ids', ids.join(','));
-    this.http.post('/webController/saveCurrentPlugins', params).subscribe(() => {
+    let params: Object = {
+      'ids': ids.join(',')
+    };
+    this.http.post('/sys/plugins/user', params).subscribe(() => {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

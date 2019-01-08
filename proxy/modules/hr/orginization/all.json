@@ -1,0 +1,304 @@
+{
+  "template": [
+    {
+      "model": "createUserName",
+      "default": "王者生（工号：0001)",
+      "label": "申请人",
+      "type": "label"
+    },
+    {
+      "model": "personId",
+      "default": "24461dd7-e96b-417e-9096-d470fa402cb2",
+      "type": "hidden"
+    },
+    {
+      "model": "jobNumber",
+      "default": "0001",
+      "type": "hidden"
+    },
+    {
+      "model": "reportDate",
+      "default": "2017-12-26",
+      "label": "申请时间",
+      "type": "label"
+    },
+    {
+      "model": "deptId",
+      "category": "single",
+      "default": "D04AD9EA-728E-4A54-943F-A82310BB9175",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "data": [
+        {
+          "id": "D04AD9EA-728E-4A54-943F-A82310BB9175",
+          "name": "超声医学科"
+        }
+      ],
+      "label": "科室",
+      "type": "select"
+    },
+    {
+      "model": "staffPersonName",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "label": "代职人员",
+      "type": "text"
+    },
+    {
+      "model": "startWorkTimeText",
+      "default": "1970-08-01",
+      "label": "参加工作日期",
+      "type": "label"
+    },
+    {
+      "model": "startWorkTime",
+      "default": "1970-08-01",
+      "type": "hidden"
+    },
+    {
+      "model": "workingLifeText",
+      "default": 47,
+      "label": "工作年限",
+      "type": "label"
+    },
+    {
+      "model": "workingLife",
+      "default": 47,
+      "type": "hidden"
+    },
+    {
+      "model": "leaveCategory",
+      "category": "single",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "data": [
+        {
+          "id": "b08f0e1e-2f17-49a3-959f-44a9bdf5b3bc",
+          "controls": [
+            {
+              "models": [
+                "yearAllText",
+                "yearTimeText"
+              ],
+              "type": "display"
+            }
+          ],
+          "name": "年休假"
+        },
+        {
+          "id": "66ac3725-f9ac-4089-bf79-5e63562c1f10",
+          "name": "病假"
+        },
+        {
+          "id": "52defd14-684b-4bf1-b6f2-bf3cc57ac6ae",
+          "name": "事假"
+        },
+        {
+          "id": "4cb861ff-b731-4591-8d56-b53385ecc52d",
+          "name": "婚假"
+        },
+        {
+          "id": "6d2e8b0c-06a6-436a-b6be-af24052b1a52",
+          "name": "探亲假"
+        },
+        {
+          "id": "2c3b5e15-7c48-4f4d-a4e1-32eb9be49dda",
+          "name": "出差"
+        },
+        {
+          "id": "98e18730-afac-4a9b-b73e-7e55cb5bd464",
+          "name": "丧假"
+        },
+        {
+          "id": "12550905-f45f-4c46-bf10-7f12fbbec70b",
+          "name": "开会"
+        },
+        {
+          "id": "39d9b014-008d-42ce-b330-ea443662b418",
+          "name": "产假"
+        },
+        {
+          "id": "e3fa3896-c540-44ab-8ba9-4254d9618843",
+          "name": "进修"
+        },
+        {
+          "id": "0c87fa72-e6e7-4eaa-9aab-bfa70eb314e4",
+          "name": "读研"
+        },
+        {
+          "id": "691ba750-ef79-4d29-957e-a9ffeb448c78",
+          "name": "下乡"
+        },
+        {
+          "id": "6ab1046d-b9e5-440b-b1f3-c9eebc556ade",
+          "name": "国内支援"
+        },
+        {
+          "id": "ba8adf7b-f4e3-4880-bf6d-04cbc1154f41",
+          "name": "国外支援"
+        },
+        {
+          "id": "a780302a-306a-4f09-9757-15b8a89e7c1d",
+          "name": "规培"
+        }
+      ],
+      "label": "请假种类",
+      "type": "select"
+    },
+    {
+      "model": "leaveDays",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "label": "请假天数(日)",
+      "type": "text",
+      "elementId": "displayDays"
+    },
+    {
+      "model": "yearAllText",
+      "default": "15天",
+      "status": "hidden",
+      "label": "年假天数",
+      "type": "label"
+    },
+    {
+      "model": "yearAll",
+      "default": 15.0,
+      "type": "hidden"
+    },
+    {
+      "model": "yearTimeText",
+      "default": "6.5天",
+      "status": "hidden",
+      "label": "剩余年假天数",
+      "type": "label",
+      "elementId": "displayLeaveDays"
+    },
+    {
+      "model": "yearTime",
+      "default": 6.5,
+      "type": "hidden",
+      "elementId": "leaveDays"
+    },
+    {
+      "model": "isNurse",
+      "category": "single",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "data": [
+        {
+          "id": "1",
+          "name": "护理人员"
+        },
+        {
+          "id": "0",
+          "name": "非护理人员"
+        }
+      ],
+      "label": "人员属性",
+      "type": "select"
+    },
+    {
+      "model": "leaveTime",
+      "initRow": true,
+      "label": "请假时间",
+      "event": "onchange",
+      "func": "(valueArr)=>{ let sum = 0; if(valueArr[0].leaveEnd != null && valueArr[0].leaveStart != null) {sum = (new Date(valueArr[0].leaveEnd).getTime() - new Date(valueArr[0].leaveStart).getTime()) / 3600000 / 24;} return {displayDays: sum, displayLeaveDays: '3天', leaveDays: 3, hasHeadDirector: '0'}}",
+      "components": [
+        {
+          "model": "leaveStart",
+          "validator": [
+            {
+              "type": "required"
+            }
+          ],
+          "label": "请假开始时间",
+          "format": "YYYY-MM-DD",
+          "type": "date"
+        },
+        {
+          "model": "leaveEnd",
+          "validator": [
+            {
+              "type": "required"
+            }
+          ],
+          "label": "请假结束时间",
+          "format": "YYYY-MM-DD",
+          "type": "date"
+        },
+        {
+          "model": "type",
+          "category": "single",
+          "default": [
+            "全天"
+          ],
+          "data": [
+            {
+              "id": "全天",
+              "name": "全天"
+            },
+            {
+              "id": "上午",
+              "name": "上午"
+            },
+            {
+              "id": "下午",
+              "name": "下午"
+            }
+          ],
+          "label": "时间类别",
+          "type": "select"
+        }
+      ],
+      "type": "list"
+    },
+    {
+      "model": "note",
+      "label": "请假说明",
+      "type": "textarea"
+    },
+    {
+      "model": "headDirector",
+      "category": "single",
+      "status": "hidden",
+      "elementId": "hasHeadDirector",
+      "validator": [
+        {
+          "type": "required"
+        }
+      ],
+      "data": [
+        {
+          "id": "cf2007ec-af3c-4e5f-ab7e-c8de09220a07",
+          "name": "穆雅坤"
+        },
+        {
+          "id": "eb413c3d-77eb-4d3b-9796-6279c7115bd1",
+          "name": "梁萍"
+        }
+      ],
+      "label": "主管院长",
+      "type": "select"
+    }
+  ],
+  "taskId": "",
+  "result": "0",
+  "title": "辽宁省人民医院员工请假单",
+  "shenpi_btn_text": "提交",
+  "shenpi_type": "forward"
+}

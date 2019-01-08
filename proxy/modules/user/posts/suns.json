@@ -1,0 +1,8 @@
+{
+  "id": "suns",
+  "deptId": "111", 
+  "deptName": "测试科室名称",                            
+  "jobId": "111", 
+  "jobName": "测试职位名称",
+  "isMajor": "是"
+}
