@@ -1,0 +1,53 @@
+{
+  "total": 18,
+  "rows": [
+    {
+      "id": "notifyPublishQueryService",
+      "title": "清明放假通知",
+      "subTitle": "2017年清明节放假日期为4月2日（星期日）至4月4日（星期二）放假3天。4月1日（星期六）上班，4月5日（周三）正常上班",
+      "time": "2017年04月03日 20:00:00",
+      "image": "./assets/images/system.png",
+      "style": "notice_style",
+      "detailTitleBarText": "公告通知详细",
+      "titleStyle": "plain"
+    },
+    {
+      "id": "notifyPublishQueryService",
+      "title": "劳动节放假通知",
+      "subTitle": "2017年劳动节放假日期为5月1日（星期日）至5月3日（星期二）放假3天。4月30日（星期六）上班，5月4日（周三）正常上班",
+      "time": "2017年04月27日 09:30:00",
+      "image": "./assets/images/system.png",
+      "style": "notice_style",
+      "detailTitleBarText": "公告通知详细"
+    },
+    {
+      "id": "notifyPublishQueryService",
+      "title": "端午节放假通知",
+      "subTitle": "假期值班安排见附件，粽子请到5楼领取",
+      "time": "2017年05月25日 14:24:56",
+      "image": "./assets/images/system.png",
+      "style": "notice_style",
+      "detailTitleBarText": "公告通知详细"
+    }
+  ],
+  "conditons": [
+    {
+      "type": "date",
+      "model": "date1",
+      "format": "yyyy-MM",
+      "label": "开始年月"
+    },
+    {
+      "type": "text",
+      "model": "serialNumberSr",
+      "label": "项目编号"
+    }
+  ],
+  "tabList": [
+    {
+      "tabName": "公告通知",
+      "tabValue": "default"
+    }
+  ],
+  "defaultTab": "default"
+}

@@ -48,6 +48,14 @@ page-todo-detail {
     }
   }
 
+  .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
+    border-radius: 0;
+  }
+
+  .item-md ion-avatar ion-img, .item-md ion-avatar img {
+    border-radius: 0;
+  }
+
   .layout_2_content {
     word-wrap: break-word;
     word-break: break-all;

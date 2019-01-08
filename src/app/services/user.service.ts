@@ -2,23 +2,39 @@ import { Injectable } from '@angular/core';
 import { SecureStorageService } from './secureStorage.service';
 
 export interface UserInfoState {
+  account: string;
   loginName: string;
   password: string;
   userName: string;
   password0: string;
   userId: string;
   headImage: string;
+  jobNumber: string;
+  phone: string;
+  email: string;
+  outter: string;
+  sexCode: string;
+  sex?: string;
   savePassword: boolean;
+  status: string;
 }
 
 export let initUserInfo: UserInfoState = {
+  account: '',
   loginName: '',
   password: '',
   userName: '',
   password0: '',
   userId: '',
   headImage: '',
-  savePassword: true
+  jobNumber: '',
+  phone: '',
+  email: '',
+  outter: '',
+  sexCode: '',
+  sex: '',
+  savePassword: true,
+  status: ''
 };
 
 /**
@@ -33,7 +49,7 @@ export class UserService {
   /**
    * 构造函数
    */
-  constructor(private secureStorageService: SecureStorageService) {}
+  constructor(private secureStorageService: SecureStorageService) { }
 
   /**
    * 判断是否登录
@@ -73,4 +89,34 @@ export class UserService {
   getUserInfo(): UserInfoState {
     return this.secureStorageService.getObject(UserService.SEC_KEY_USER_INFO);
   }
+
+  /**
+   * 取得用户信息
+   */
+  imIsOpen(): boolean {
+    if (localStorage.getItem('imIsOpen') === '1') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  // 设置token
+  setToken(token: string): void {
+    localStorage['token'] = token;
+  }
+
+  // 取得token
+  getToken(): string {
+    return localStorage['token'];
+  }
+
+  // 判断token是否存在
+  hasToken(): boolean {
+    return (localStorage['token'] != null && localStorage['token'] !== '');
+  };
+
+  // 清除token
+  clearToken(): void {
+    localStorage['token'] = '';
+  };
 }

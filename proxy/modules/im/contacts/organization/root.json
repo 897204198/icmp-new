@@ -1,0 +1,44 @@
+{
+  "organizationId": "root",
+  "organizationName": "普日软件",
+  "leafCount": 3,
+  "orgs":[
+    {
+      "organizationId": "manage",
+      "organizationName": "总经理办公室",
+      "leafCount": 0
+    },
+    {
+      "organizationId": "hr",
+      "organizationName": "行政部",
+      "leafCount": 0
+    },
+    {
+      "organizationId": "dev",
+      "organizationName": "研发部",
+      "leafCount": 3
+    }
+  ],
+  "contacts": [
+    {
+      "id": "cuiwc",
+      "name": "崔文成",
+      "account": "cuiwc",
+      "phone": "18888888888",
+      "email":"18888888888@qq.com",
+      "sex": {"code": "0"},
+      "status": {"code": "0"},
+      "headImageContent": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+    },
+    {
+      "id": "hex",
+      "name": "何鑫",
+      "account": "hex",
+      "phone": "18888888888",
+      "email":"18888888888@qq.com",
+      "sex": {"code": "0"},
+      "status": {"code": "3"},
+      "headImageContent": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+    }
+  ]
+}

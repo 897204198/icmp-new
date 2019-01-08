@@ -1,0 +1,22 @@
+[
+  {
+    "id": "cuiwc",
+    "name": "崔文成",
+    "account": "cuiwc",
+    "phone": "18888888888",
+    "email":"18888888888@qq.com",
+    "sex": {"code": "0"},
+    "status": {"code": "0"},
+    "headImageContent": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+  },
+  {
+    "id": "hex",
+    "name": "何鑫",
+    "account": "hex",
+    "phone": "18888888888",
+    "email":"18888888888@qq.com",
+    "sex": {"code": "0"},
+    "status": {"code": "3"},
+    "headImageContent": "http://chuantu.biz/t6/140/1510710227x3066599700.png"
+  }
+]

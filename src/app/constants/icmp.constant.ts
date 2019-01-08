@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-export interface SystemIdConstant {
+export interface PageIdConstant {
 
   // 申请单页面
   application: string;
@@ -22,6 +22,15 @@ export interface SystemIdConstant {
 
   // 统计页面
   statisticsView: string;
+
+  // 考试答题页面
+  examList: string;
+
+  // Mac 地址申请页面
+  macAddress: string;
+
+  // 邮箱页面
+  email: string;
 }
 
 /**
@@ -36,7 +45,7 @@ export interface IcmpConstant {
   reqResultSuccess: string;
 
   // 系统页面Id
-  systemId: SystemIdConstant;
+  page: PageIdConstant;
 
   // 安卓更新地址
   androidUpdateUrl: string;
@@ -47,20 +56,23 @@ export interface IcmpConstant {
 
 export let ICMP_CONSTANT = new InjectionToken<IcmpConstant>('icmp.constant');
 
-export const systemIdConstant: SystemIdConstant = {
+export const pageIdConstant: PageIdConstant = {
   application: 'application',
   queryList: 'query',
   queryDetail: 'queryDetail',
   todoList: 'bpm',
   instaShot: 'instaShot',
   statisticsSearch: 'statisticsSearch',
-  statisticsView: 'statisticsView'
+  statisticsView: 'statisticsView',
+  examList: 'examList',
+  macAddress: 'macAddress',
+  email: 'email'
 };
 
 export const icmpConstant: IcmpConstant = {
   pageSize: '20',
   reqResultSuccess: '0',
-  systemId: systemIdConstant,
-  androidUpdateUrl: 'https://www.baidu.com',
-  iosUpdateUrl: 'https://www.baidu.com'
+  page: pageIdConstant,
+  androidUpdateUrl: 'https://www.pgyer.com/TniF',
+  iosUpdateUrl: 'https://www.pgyer.com/RNv8'
 };

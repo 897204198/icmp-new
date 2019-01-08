@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "nickId": "何鑫",
+    "toUserId": "hex",
+    "headImage": "http://chuantu.biz/t6/140/1510710227x3066599700.png",
+    "state": {
+      "code": "1"
+    },
+    "isRead": {
+      "code": 0
+    }
+  },
+  {
+    "id": "2",
+    "nickId": "王维",
+    "toUserId": "wangw",
+    "headImage": "http://chuantu.biz/t6/140/1510710309x3066599700.png",
+    "state": {
+      "code": "2"
+    },
+    "isRead": {
+      "code": 1
+    }
+  },
+  {
+    "id": "3",
+    "nickId": "孙帅",
+    "toUserId": "suns",
+    "headImage": "http://chuantu.biz/t6/140/1510710379x3066599700.png",
+    "state": {
+      "code": "3"
+    },
+    "isRead": {
+      "code": 1
+    }
+  }
+]

@@ -39,12 +39,12 @@ export class QueryNoticeDetailPage {
    */
   getNoticeDetailed(): void {
     this.notice = {};
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
-    params.append('style', this.navParams.get('style'));
-    params.append('businessId', this.navParams.get('businessId'));
-    params.append('systemId', this.navParams.get('systemId'));
-    this.http.post('/webController/getSystemMsgDetail', params).subscribe((res: Response) => {
+    let params: Object = {
+      'serviceName': this.navParams.get('serviceName'),
+      'id': this.navParams.get('id'),
+      'style': this.navParams.get('style')
+    };
+    this.http.get('/business/querys/' + this.navParams.get('id'), { params: params }).subscribe((res: any) => {
       this.notice = res.json();
       if (this.notice['fileList'] != null) {
         for (let i = 0 ; i < this.notice['fileList'].length ; i++) {

@@ -13,8 +13,8 @@ common.parsePostData = function(req, res, callback) {
   req.addListener('end', function() {
     //console.log('callback: ', callback);
     //console.log('postData: %s', postData);
-    var data = parseJson(postData);
-    callback(req, res, data);
+    // var data = JSON.parse(postData);
+    callback(req, res, postData);
   });
 };
 

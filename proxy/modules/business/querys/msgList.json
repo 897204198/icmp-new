@@ -1,0 +1,84 @@
+{
+  "total": 12,
+  "defaultTab": "default",
+  "tabList": [
+    {
+      "tabName": "消息推送",
+      "tabValue": "default"
+    }
+  ],
+  "rows": [
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送1",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送2",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送3",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送4",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送5",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送6",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送7",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送8",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    },
+    {
+      "id": "pushMsgQueryService",
+      "title": "His消息推送9",
+      "subTitle": "您的申请单已被受理，请在手机app上关注反馈的消息",
+      "time": "2017年04月03日 20:00:00",
+      "style": "notice_style",
+      "detailTitleBarText": "消息推送详细"
+    }
+  ]
+}

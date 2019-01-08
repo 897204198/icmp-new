@@ -39,3 +39,5 @@ UserInterfaceState.xcuserstate
 package-lock.json
 
 e2e_report/
+
+.angulardoc.json

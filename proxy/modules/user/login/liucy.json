@@ -1,0 +1,11 @@
+{
+  "id": "liucy",
+  "name": "刘成尧", 
+  "jobNumber": "1000002230",
+  "phone": "13800000000",
+  "email": "test@propersoft.cn",
+  "outter": "院外",
+  "sex": {"code": "0"},
+  "status": {"code": "0"},
+  "headImage": "http://chuantu.biz/t6/151/1511167060x-1404781226.png"
+}

@@ -38,8 +38,7 @@ export class SearchboxComponent {
   /**
    * 构造函数
    */
-  constructor(
-    public navParams: NavParams,
+  constructor(public navParams: NavParams,
     @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private http: Http, private el: ElementRef,
     private toastService: ToastService,
@@ -77,11 +76,12 @@ export class SearchboxComponent {
    * 初始化查询结果
    */
   getSearchResults(isInit: boolean): void {
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('pageNo', this.pageNo.toString());
-    params.append('pageSize', this.icmpConstant.pageSize);
-    params.append('searchName', this.searchName);
-    this.http.post(this.navParams.get('searchUrl'), params).subscribe((res: Response) => {
+    let params: Object = {
+      'pageNo': this.pageNo.toString(),
+      'pageSize': this.icmpConstant.pageSize,
+      'searchName': this.searchName
+    };
+    this.http.get(this.navParams.get('searchUrl'), { params: params }).subscribe((res: Response) => {
       let data = res.json().result_list;
       if (isInit) {
         this.searchResults = data;
@@ -170,45 +170,17 @@ export class SearchboxComponent {
   searchboxSelect(result?: Object): void {
     let params: Object = new Object();
     if (result == null) {
-      for (const key in this.searchSelect) {
-        if (key) {
-          for (let i = 0; i < this.defaultId.length; i++) {
-            if (!this.searchSelect[key] && key === this.defaultId[i]) {
-              this.defaultId.splice(i, 1);
-              this.defaultName.splice(i, 1);
-            }
-          }
-        }
-      }
-      let ids: string[] = [...this.defaultId];
-      let names: string[] = [...this.defaultName];
-      for (const keys in this.searchSelect) {
-        if (keys) {
-          for (const item of this.defaultId) {
-            if (keys === item) {
-              delete this.searchSelect[keys];
-            }
-          }
-        }
-      }
-      for (const keys in this.searchSelect) {
-        if (this.searchSelect[keys]) {
-          ids.push(keys);
-          for (const item of this.searchResults) {
-            if (item['id'] === keys) {
-              names.push(item['name']);
-            }
-          }
+      let ids: string[] = [];
+      let names: string[] = [];
+      for (let i = 0; i < this.searchSelect.length; i++) {
+        if (this.searchSelect[i]) {
+          ids.push(this.searchResults[i]['id']);
+          names.push(this.searchResults[i]['name']);
         }
       }
       this.viewCtrl.dismiss({ id: ids.join(','), name: names.join(',') });
     } else {
-      params = {
-        id: result['id'],
-        name: result['name'],
-        controls: result['controls']
-      };
-      this.viewCtrl.dismiss(params);
+      this.viewCtrl.dismiss({ id: result['id'], name: result['name'] });
     }
   }
 }

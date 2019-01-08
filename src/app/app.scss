@@ -1,11 +1,9 @@
 .icmp-toast {
   .toast-wrapper {
     width: 90%;
-
     &.toast-bottom {
       bottom: 70px !important;
     }
-
     &.toast-top {
       top: 60px !important;
     }
@@ -15,6 +13,12 @@
 ion-content {
   &.content-gray {
     background-color: #efeeee;
+  }
+}
+
+ion-content {
+  &.content-gray-new {
+    background-color: #f0f4f7;
   }
 }
 
@@ -71,16 +75,13 @@ ion-content {
 
 .setting-menu {
   text-align: center;
-
   img {
     width: 60px;
     height: 60px;
   }
-
   ion-icon {
     display: none;
   }
-
   .menu-text {
     text-align: center;
     font-size: 14px;
@@ -96,16 +97,13 @@ ion-content {
   .form-table-content {
     padding: 12px 0;
     overflow-x: auto;
-
     table {
       tr {
         border-bottom: 1px solid #cccccc;
-
         td {
           padding: 8px 12px 8px 8px;
           font-size: 1.4rem;
           color: #8e9093;
-
           &.form-table-head {
             color: #333333;
             font-weight: 600;
@@ -114,4 +112,32 @@ ion-content {
       }
     }
   }
+}
+
+.word-head-image {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  margin: auto;
+  .word-head-image-content {
+    border-radius: 50%;
+    line-height: 40px;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+    background-color: color($colors, primary);
+  }
+}
+.item-md.item-input .item-inner { 
+  border-bottom: 1px solid #dedede !important; 
+  box-shadow: none !important; 
+}
+.list-md .item-input.item-input-has-focus:last-child, .list-md .item-input.input-has-fucus:last-child { 
+  border-bottom-color: transparent !important; 
+  box-shadow: none !important; 
+}
+.list-md .item-input:last-child {
+  border-bottom: 0px !important; 
+  box-shadow: none !important; 
 }

@@ -1,0 +1,136 @@
+[
+  {
+    "code": "category",
+    "typeName": "申请",
+    "apps": [
+      {
+        "id": "1",
+        "name": "申请单",
+        "page": "application",
+        "icon": "./assets/images/application.png",
+        "serviceName": "testService",
+        "data": {
+          "otherParam": "这里是其它Data中的其它参数"
+        }
+      }
+    ]
+  },
+  {
+    "code": "category",
+    "typeName": "查询",
+    "apps": [
+      {
+        "id": "2",
+        "name": "公告通知",
+        "icon": "./assets/images/notify.png",
+        "page": "query",
+        "style": "notice_style",
+        "serviceName": "notifyPublishQueryService"
+      },
+      {
+        "id": "3",
+        "name": "其它查询",
+        "style": "",
+        "icon": "./assets/images/other.png",
+        "page": "query",
+        "serviceName": "otherQueryService"
+      },
+      {
+        "id": "4",
+        "name": "推送查询",
+        "icon": "./assets/images/send_query.png",
+        "page": "query",
+        "style": "notice_style",
+        "serviceName": "pushMsgQueryService"
+      }
+    ]
+  },
+  {
+    "code": "category",
+    "typeName": "统计",
+    "apps": [
+      {
+        "id": "61",
+        "name": "看诊量统计",
+        "icon": "./assets/images/statistics.png",
+        "page": "statisticsSearch",
+        "serviceName": "doctorSeeService"
+      }
+    ]
+  },
+  {
+    "code": "category",
+    "typeName": "其它",
+    "apps": [
+      {
+        "id": "C28500F3-F93A-43E7-B6A8-6C27F551345A",
+        "name": "文件夹",
+        "appType": "folder",
+        "icon": "./assets/images/icon_folder.png",
+        "apps": [
+          {
+            "id": "71",
+            "name": "上传及搜索组件demo",
+            "page": "queryDetail",
+            "icon": "./assets/images/statistics.png",
+            "style": "tododetail_style",
+            "data": {
+              "webPath": "/demo/uploadAndSearch"
+            }
+          },
+          {
+            "id": "72",
+            "name": "其它查询",
+            "style": "",
+            "icon": "./assets/images/statistics.png",
+            "page": "query",
+            "serviceName": "otherQueryService"
+          }
+        ]
+      },
+      {
+        "id": "33",
+        "name": "随手拍",
+        "icon": "./assets/images/instashot.png",
+        "page": "instaShot"
+      },
+      {
+        "id": "5",
+        "name": "Mac地址申请",
+        "icon": "./assets/images/mac_address.png",
+        "page": "macAddress"
+      }
+    ]
+  },
+  {
+    "code": "category",
+    "typeName": "考试",
+    "apps": [
+      {
+        "id": "5",
+        "name": "我的考试",
+        "icon": "./assets/images/exam.png",
+        "page": "examList",
+        "data": {
+          "questionnaireNo": "qnnre1",
+          "url": "https://cloud.propersoft.cn/pea/master/#/customFrame/exam"
+        }
+      }
+    ]
+  },
+  {
+    "code": "category",
+    "typeName": "邮箱",
+    "apps": [
+      {
+        "id": "56",
+        "name": "我的邮箱",
+        "icon": "./assets/images/email.png",
+        "page": "email",
+        "data": {
+          "url": "https://mail.eyou.net"
+        }
+      }
+    ]
+  }
+]

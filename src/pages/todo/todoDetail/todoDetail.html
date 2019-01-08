@@ -16,18 +16,18 @@
   <div *ngIf="promptInfo != null && promptInfo != ''" class="prompt-info">
     {{promptInfo}}
   </div>
-  <div class="form-title">{{todoDetail?.form_title}}</div>
+  <div class="form-title">{{todoDetail?.formTitle}}</div>
   <ion-list class="icmp-list-bottom-none">
     <div *ngFor="let item of todoDetail?.forms">
-      <ion-item *ngIf="item.type != 'filelist' && item.type != 'tablelist' && item.layout == 'layout_1'">
+      <ion-item *ngIf="item.type != 'filelist' && item.type != 'table' && item.layout == 'layout_1'">
         <ion-label fixed>{{item.label}}</ion-label>
-        <p item-right class="form_text_value">{{item.value}}</p>
+        <p item-right class="form_text_value">{{item.default}}</p>
       </ion-item>
-      <ion-item *ngIf="item.type != 'filelist' && item.type != 'tablelist' && item.layout == 'layout_2'">
+      <ion-item *ngIf="item.type != 'filelist' && item.type != 'table' && item.layout == 'layout_2'">
         <h2 class="layout_2_content">{{item.label}}</h2>
-        <p class="form_textarea_value"><span [innerHtml]="item.value"></span></p>
+        <p class="form_textarea_value"><span [innerHtml]="item.default"></span></p>
       </ion-item>
-      <ion-item *ngIf="item.type == 'tablelist'" class="form-table-list">
+      <ion-item *ngIf="item.type == 'table'" class="form-table-list">
         <h2>{{item.label}}</h2>
         <div class="form-table-content">
           <table>
@@ -62,15 +62,15 @@
       </button>
     </ion-list>
   </div>
-  <div *ngIf="todoDetail != null && !todoDetail.shenpi_hide_approval && todoDetail.opinion != null && todoDetail.opinion.length > 0">
+  <div *ngIf="todoDetail != null && !todoDetail.hideApproval && todoDetail.opinions != null && todoDetail.opinions.length > 0">
     <div class="icmp-list-header">
       {{'APPROVAL_OPINION' | translate}}
     </div>
     <ion-list>
-      <ion-item *ngFor="let opinion of todoDetail?.opinion">
-        <h2 class="opinion_comment">{{opinion.opn1}}：<span [innerHtml]="opinion.opn2"></span></h2>
-        <p class="opinion_foot">{{'APPROVER' | translate}}：{{opinion.opn3}}</p>
-        <p class="opinion_foot">{{'APPROVAL_TIME' | translate}}：{{opinion.opn4}}</p>
+      <ion-item *ngFor="let opinion of todoDetail?.opinions">
+        <h2 class="opinion_comment">{{opinion.stepName}}：<span [innerHtml]="opinion.opinion"></span></h2>
+        <p class="opinion_foot">{{'APPROVER' | translate}}：{{opinion.name}}</p>
+        <p class="opinion_foot">{{'APPROVAL_TIME' | translate}}：{{opinion.approvalTime}}</p>
       </ion-item>
     </ion-list>
   </div>

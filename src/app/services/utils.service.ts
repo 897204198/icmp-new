@@ -78,4 +78,36 @@ export class UtilsService {
     }
     return years;
   }
+
+  /**
+   * 数组是否相等
+   */
+  arraysEqual(a: Array<any>, b: Array<any>): boolean {
+    if (a === b) {
+      return true;
+    } else if (a == null || b == null) {
+      return false;
+    } else if (a.length !== b.length) {
+      return false;
+    } else {
+      for (let i = 0; i < a.length; ++i) {
+        if (a[i].toString() !== b[i].toString()) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  /**
+   * 是否是正确的 Mac 地址
+   */
+  isMacAddress(value: string): boolean {
+    let reg = /^[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}:[A-Fa-f\d]{2}$/;
+    if (reg.test(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

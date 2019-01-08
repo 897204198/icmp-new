@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "fromUserId": "hex",
+    "toUserId": "liym",
+    "nickId": "hex",
+    "state": {"code": "1"},
+    "headImage": "http://chuantu.biz/t6/140/1510710227x3066599700.png",
+    "isRead": 0
+  },
+  {
+    "id": "2",
+    "fromUserId": "wangw",
+    "toUserId": "liym",
+    "nickId": "wangw",
+    "state": {"code": "2"},
+    "headImage": "http://chuantu.biz/t6/140/1510710309x3066599700.png",
+    "isRead": 0
+  },
+  {
+    "id": "4",
+    "fromUserId": "chenbj",
+    "toUserId": "liym",
+    "nickId": "chenbj",
+    "state": {"code": "4"},
+    "headImage": "http://chuantu.biz/t6/140/1510710309x3066599700.png",
+    "isRead": 0
+  },
+  {
+    "id": "5",
+    "fromUserId": "liucy",
+    "toUserId": "liym",
+    "nickId": "liucy",
+    "state": {"code": "5"},
+    "headImage": "http://chuantu.biz/t6/140/1510710309x3066599700.png",
+    "isRead": 0
+  },
+  {
+    "id": "6",
+    "fromUserId": "liangsw",
+    "toUserId": "liym",
+    "nickId": "liangsw",
+    "state": {"code": "6"},
+    "headImage": "http://chuantu.biz/t6/140/1510710309x3066599700.png",
+    "isRead": 0
+  },
+  {
+    "id": "3",
+    "fromUserId": "suns",
+    "toUserId": "liym",
+    "nickId": "suns",
+    "state": {"code": "3"},
+    "headImage": "http://chuantu.biz/t6/140/1510710379x3066599700.png",
+    "isRead": 1
+  }
+]

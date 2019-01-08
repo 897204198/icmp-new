@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { FormControl } from '@angular/forms';
 import 'rxjs/Rx';
 import { DragulaService } from 'ng2-dragula';
-import { ToastService } from '../../../app/services/toast.service';
-import { ModalController, NavController } from 'ionic-angular';
+import { ModalController, NavController, Events } from 'ionic-angular';
 import { MenuFolderComponent } from '../../../app/component/menuFolder/menuFolder.component';
 import { RoutersService } from '../../../app/services/routers.service';
 import { TranslateService } from '@ngx-translate/core';
-
+import { SearchFilterPipe } from '../../../app/pipes/searchFilter/searchFilter';
+import { AlertController } from 'ionic-angular';
+import { ToastService } from '../../../app/services/toast.service';
+import { LoginPage } from '../../login/login';
 /**
  * 首页应用组件
  */
@@ -32,17 +34,27 @@ export class HomeMenusManagerPage {
   private menuWidth: string;
   // 国际化文字
   private transateContent: Object;
+  // 搜索匹配的条数
+  private count: number = 0;
+  // 是否显示placeholder
+  private isShow: boolean = false;
+  // 待办个数
+  public waitNum: number = 0;
 
   /**
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              private dragulaService: DragulaService,
-              public http: Http,
-              private modalCtrl: ModalController,
-              private toastService: ToastService,
-              private translate: TranslateService,
-              private routersService: RoutersService) {
+    public alertCtrl: AlertController,
+    private toastService: ToastService,
+    private dragulaService: DragulaService,
+    public http: Http,
+    private modalCtrl: ModalController,
+    private SearchFilter: SearchFilterPipe,
+    private translate: TranslateService,
+    private routersService: RoutersService,
+    private zone: NgZone,
+    public events: Events) {
 
     // 设置功能区列数
     if (screen.width <= 375) {
@@ -59,50 +71,111 @@ export class HomeMenusManagerPage {
     });
 
     this.titleFilter.valueChanges.debounceTime(500).subscribe(
-      value => this.keyword = value
+      value => {
+        this.isShow = true;
+        this.count = 0;
+        this.keyword = value;
+        if (this.titleFilter.value) {
+          for (let option of this.categoryMenus) {
+            let len = this.SearchFilter.transform(option['menus'], 'name', value).length;
+            this.count += len;
+          }
+        } else {
+          this.isShow = false;
+        }
+      }
     );
+    // 从网页回来刷新首页角标
+    if (localStorage.getItem('haveIM') === '1') {
+      events.subscribe('refresh', () => {
+        this.getWaitNum();
+      });
+    }
   }
-
+  /**
+   * 每次进入页面
+   */
+  ionViewDidEnter(): void {
+    this.getWaitNum();
+  }
   /**
    * 进入页面
    */
   ionViewDidLoad() {
-    this.getMyMenus();
-    this.getAllMenus();
-
+    // this.getMyMenus();
+    // this.getAllMenus();
+    // this.getWaitNum();
     this.dragulaService.drop.subscribe((value) => {
       this.saveMenus();
     });
   }
-
+  /**
+   * 获取待办数量
+   */
+  getWaitNum(): void {
+    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+      this.waitNum = 0;
+      if (res._body != null && res._body !== '') {
+        let data = res.json(); // 待办个数
+        this.waitNum = data;
+      }
+      this.getMyMenus();
+      this.getAllMenus();
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+      this.getMyMenus();
+      this.getAllMenus();
+    });
+  }
   /**
    * 取得全部应用
    */
   getAllMenus(): void {
     this.categoryMenus = [];
-    this.http.post('/webController/getAllAppListTree', null).subscribe((res: Response) => {
-      let allMenus = res.json().rows;
+    this.http.get('/app/applications/all').subscribe((res: Response) => {
+      let allMenus = res.json();
       let noGroupMenus = {};
-      noGroupMenus['title'] = this.transateContent['NO_GROUP'];
+      noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
       noGroupMenus['menus'] = [];
-
-      for (let i = 0; i < allMenus.length; i++) {
-        let menu = allMenus[i];
-        menu.menus = [];
-        if (menu.appType === 'category') {
-          for (let rows of menu['rows']) {
-            menu.menus.push(rows);
+      console.log('获取全部应用');
+      this.zone.run(() => {
+        for (let i = 0; i < allMenus.length; i++) {
+          let menu = allMenus[i];
+          menu.menus = [];
+          for (let apps of menu['apps']) {
+            if (apps['name'] === '待办') {
+              apps['total'] = this.waitNum;
+              console.log('待办全部角标数' + apps['total']);
+            }
+            menu.menus.push(apps);
           }
+          console.log('待办个数' + this.waitNum);
           this.categoryMenus.push(menu);
-        } else {
-          noGroupMenus['menus'].push(menu);
         }
-      }
-      if (noGroupMenus['menus'].length > 0) {
-        this.categoryMenus.push(noGroupMenus);
-      }
+      });
     }, (res: Response) => {
-      this.toastService.show(res.text());
+      if (res.status === 401) {
+        console.log('抢登弹窗2');
+        const confirm = this.alertCtrl.create({
+          title: '提示',
+          message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
+          buttons: [
+            {
+              text: '确认',
+              handler: () => {
+              }
+            }
+          ]
+        });
+        confirm.present();
+        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+      } else {
+        // this.toastService.show(res.text());
+      }
     });
   }
 
@@ -111,15 +184,25 @@ export class HomeMenusManagerPage {
    */
   getMyMenus(): void {
     this.myMenus = [];
-    this.http.post('/webController/getCurrentAppListTree', null).subscribe((res: any) => {
+    const arr = [];
+    this.http.get('/app/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        this.myMenus = res.json().rows;
+        let data = res.json();
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].name === '待办') {
+            data[i].total = this.waitNum;
+          }
+          arr.push(data[i]);
+          console.log('新待办我的应用角标数' + data[i].total);
+        }
+        this.zone.run(() => {
+          this.myMenus = arr;
+        });
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
   }
-
   // 取得发送长按事件的图标
   getPressIcon(target: any): any {
     if (target.className.indexOf('setting-menu') >= 0) {
@@ -162,7 +245,7 @@ export class HomeMenusManagerPage {
   isMenuSelected(menu: Object): boolean {
     let isSelected = false;
     for (let i = 0; i < this.myMenus.length; i++) {
-      if (this.myMenus[i]['appid'] === menu['appid']) {
+      if (this.myMenus[i]['id'] === menu['id']) {
         isSelected = true;
         break;
       }
@@ -175,7 +258,7 @@ export class HomeMenusManagerPage {
    */
   currentMenuRemove(menu: Object): void {
     for (let i = 0; i < this.myMenus.length; i++) {
-      if (this.myMenus[i]['appid'] === menu['appid']) {
+      if (this.myMenus[i]['id'] === menu['id']) {
         this.myMenus.splice(i, 1);
         this.saveMenus();
         break;
@@ -188,7 +271,7 @@ export class HomeMenusManagerPage {
    */
   listMenuRemove(menu: Object): void {
     for (let i = 0; i < this.myMenus.length; i++) {
-      if (this.myMenus[i]['appid'] === menu['appid']) {
+      if (this.myMenus[i]['id'] === menu['id']) {
         this.myMenus.splice(i, 1);
         this.saveMenus();
         break;
@@ -210,13 +293,14 @@ export class HomeMenusManagerPage {
   saveMenus(): void {
     let ids = [];
     for (let i = 0; i < this.myMenus.length; i++) {
-      ids.push(this.myMenus[i]['appid']);
+      ids.push(this.myMenus[i]['id']);
     }
     localStorage.mainMenus = ids.join(',');
 
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('ids', ids.join(','));
-    this.http.post('/webController/saveCurrentAppList', params).subscribe(() => {
+    let params: Object = {
+      'ids': ids.join(',')
+    };
+    this.http.put('/app/applications', params).subscribe(() => {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
@@ -228,7 +312,7 @@ export class HomeMenusManagerPage {
   openApp(menu: any): void {
     if (!this.isManage) {
       if (menu['appType'] === 'folder') {
-        let modal = this.modalCtrl.create(MenuFolderComponent, {name: menu});
+        let modal = this.modalCtrl.create(MenuFolderComponent, { name: menu });
         modal.onDidDismiss(data => {
           if (data) {
             this.routersService.pageForward(this.navCtrl, data);

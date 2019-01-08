@@ -1,0 +1,35 @@
+[
+  {
+    "id": "id_001",
+    "name": "笔记本电脑",
+    "macAddress": "00-1D-64-R6-BB-9F",
+    "username": "李一鸣",
+    "applicant": "马化腾",
+    "appliTypeCode": "1",
+    "appliTypeName": "绑定",
+    "actualTypeCode": "0",
+    "actualTypeName": "绑定"
+  },
+  {
+    "id": "id_002",
+    "name": "手机",
+    "macAddress": "00-1D-64-R6-BB-9E",
+    "username": "李一鸣",
+    "applicant": "马化腾",
+    "appliTypeCode": "1",
+    "appliTypeName": "绑定",
+    "actualTypeCode": "2",
+    "actualTypeName": "解绑"
+  },
+  {
+    "id": "id_003",
+    "name": "iPad",
+    "macAddress": "00-1D-64-R6-BB-9G",
+    "username": "李一鸣",
+    "applicant": "马化腾",
+    "appliTypeCode": "0",
+    "appliTypeName": "绑定",
+    "actualTypeCode": "2",
+    "actualTypeName": "待审核"
+  }
+]
