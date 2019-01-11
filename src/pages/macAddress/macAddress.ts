@@ -7,9 +7,10 @@ import { ToastService } from '../../app/services/toast.service';
 import { Http, Response } from '@angular/http';
 import { UtilsService } from '../../app/services/utils.service';
 import { DeviceService, DeviceInfoState } from '../../app/services/device.service';
-import { MacFramePage } from '../macAddress/macFrame/macFrame';
 import { MacSuccPage } from '../macAddress/success/success';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { ConfigsService } from '../../app/services/configs.service';
+import { ExamCustomFramePage } from '../../pages/exam/customFrame/customFrame';
 
 @Component({
   selector: 'page-mac-address',
@@ -37,6 +38,7 @@ export class MacAddressPage {
    */
   constructor(
     public navCtrl: NavController,
+    private configsService: ConfigsService,
     private userService: UserService,
     private translate: TranslateService,
     private toastService: ToastService,
@@ -209,19 +211,33 @@ export class MacAddressPage {
    */
   openProcessCheck  = (params) => {
     const data = btoa(encodeURIComponent(JSON.stringify(params)));
-    let url = `${this.macMenu}/workflowMainPop?param=${data}`;
-    url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}&title=发起申请详细&close=true`;
+    let url = `${this.macMenu}/workflowMainPop?param=${data}&close=true`;
+    // url = `${url.replace('#', '?v=' + new Date().getTime() + '#')}&token=${localStorage.getItem('token')}&title=发起申请详细&close=true`;
     const dataALL = {
       name: '发起申请详细',
-      isPush: true,
+      isPush: false,
       data: {
         url
       }
     };
     if (this.deviceService.getDeviceInfo().deviceType === 'android') {
-      this.navCtrl.push(MacFramePage, dataALL);
-    }else {
-    const browser = this.iab.create(dataALL.data.url, '_blank', { 'location': 'no', 'toolbar': 'no' });
+      this.navCtrl.push(ExamCustomFramePage, dataALL);
+    }
+    else {
+      let menuStr: string = `${this.macMenu}/workflowMainPop?param=${data}&close=true`;
+      if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+        menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+      }else{
+        menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+      }
+      let newurl: string;
+      if (menuStr.includes('?')) {
+        newurl = menuStr + '&token=' + localStorage.getItem('token') + '&title=' + dataALL.name;
+      } else {
+        newurl = menuStr + '?token=' + localStorage.getItem('token') + '&title=' + dataALL.name;
+      }
+      newurl = newurl.replace('#', '?v=' + new Date().getTime() + '#');
+    const browser = this.iab.create(newurl, '_blank', { 'location': 'no', 'toolbar': 'no' });
     browser.on('loadstop').subscribe(event => {
       browser.executeScript({code: 'localStorage.setItem("If_Can_Back", "" );' });
       let loop = setInterval(() => {
