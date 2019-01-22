@@ -160,10 +160,7 @@ export class TabsPage {
     // 通过推送通知打开应用事件
     document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-    // 获取修改tab角标数
-    this.getWaitToDoNumber();
-    // 刷新首页待办角标和组件
-    this.events.publish('refresh');
+
   }
   /**
    * 取DOM元素
@@ -204,6 +201,10 @@ export class TabsPage {
    * 推送打开事件处理
    */
   doOpenNotification(event: any) {
+    // 获取修改tab角标数
+    this.getWaitToDoNumber();
+    // 刷新首页待办角标和组件
+    this.events.publish('refresh');
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
       this.appVersionUpdateService.checkAppVersion(true);
     } else if (event.properCustoms.bean) {

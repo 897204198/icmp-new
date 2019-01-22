@@ -91,7 +91,6 @@ export class HomePage {
     // 保证登录成功后再请求接口
     events.subscribe('logined', () => {
       this.getWaitNum();
-      this.setAppList();
       this.setPlugins();
       this.getComponentList();
       this.componentInit();
@@ -119,15 +118,14 @@ export class HomePage {
    */
   ionViewDidEnter(): void {
     // 首次不加载
-    // if (!this.isFirst) {
+    if (!this.isFirst) {
       this.getCache();
       this.setNotice();
       this.getWaitNum();
-      this.setAppList();
       this.setPlugins();
       this.getComponentList();
       this.componentInit();
-    // }
+    }
     this.isFirst = false;
 
     // 轮播图处理
@@ -352,7 +350,7 @@ export class HomePage {
         if (data === 0) {
           this.store.dispatch(new HomeReplaceBadageAction(''));
         } else {
-          this.store.dispatch(new HomeReplaceBadageAction(data.toString()));
+          this.store.dispatch(new HomeReplaceBadageAction(data.toString())); // 更新首页tab角标
         }
       }
       this.setAppList(); // 获取应用
