@@ -64,8 +64,8 @@ export class LoginPage {
     });
 
     // 通过推送通知打开应用事
-    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-    document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    // document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    // document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
   }
 
   /**
