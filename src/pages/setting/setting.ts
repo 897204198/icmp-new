@@ -132,27 +132,27 @@ export class SettingPage {
         this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
       }
     }, (res: Response) => {
-      if (res.status === 401) {
-        console.log('抢登弹窗6');
-        const confirm = this.alertCtrl.create({
-          title: '提示',
-          message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
-          buttons: [
-            {
-              text: '确认',
-              handler: () => {
+      if (localStorage.getItem('haveIM') !== '1') {
+        if (res.status === 401) {
+          console.log('抢登弹窗3');
+          const confirm = this.alertCtrl.create({
+            title: '提示',
+            message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
+            buttons: [
+              {
+                text: '确认',
+                handler: () => {
+                }
               }
-            }
-          ]
-        });
-        confirm.present();
-        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
-        this.navCtrl.push(LoginPage).then(() => {
-          const startIndex = this.navCtrl.getActive().index - 1;
-          this.navCtrl.remove(startIndex, 1);
-        });
-      } else {
-        // this.toastService.show(res.text());
+            ]
+          });
+          confirm.present();
+          // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+          this.navCtrl.push(LoginPage).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
+        }
       }
     });
   }

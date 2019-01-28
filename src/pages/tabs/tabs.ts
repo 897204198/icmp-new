@@ -78,16 +78,20 @@ export class TabsPage {
     });
     this.tabRoots = this.getTabInfo();
     // 通过推送通知打开应用事件
-    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-    document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    if (localStorage.getItem('addPushNotification') !== '1') {
+      document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      localStorage.setItem('addPushNotification', '1');
+    }
     platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(this.tabRef);
       // debugger
       // alert('添加推送监听测试');
       // 自动登录
       this.autoLogin();
-      // document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-      // document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      if (localStorage.getItem('addPushNotification') !== '1') {
+        document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+        localStorage.setItem('addPushNotification', '1');
+      }
       // app icon角标个数
       let iconNum: number = 0;
       let messageIconNum: number = 0;
@@ -158,9 +162,10 @@ export class TabsPage {
   }
   ionViewDidEnter(): void {
     // 通过推送通知打开应用事件
-    // document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-    // document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
-
+    if (localStorage.getItem('addPushNotification') !== '1') {
+      document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      localStorage.setItem('addPushNotification', '1');
+    }
   }
   /**
    * 取DOM元素
@@ -446,16 +451,16 @@ export class TabsPage {
       (<any>window).huanxin.getChatList('', (retData: Array<Object>) => {
         (<any>window).huanxin.loginState('', () => {
           // 推送服务取消与当前用户的绑定关系
-          this.pushService.unBindUserid(this.userInfo.userId);
+          // this.pushService.unBindUserid(this.userInfo.userId);
           // 取消自动登录
           this.userService.logout();
-          this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
+          // this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
           // 退出
           this.navCtrl.push(LoginPage).then(() => {
             const startIndex = this.navCtrl.getActive().index - 1;
             this.navCtrl.remove(startIndex, 1);
           });
-          (<any>window).huanxin.imlogout();
+          // (<any>window).huanxin.imlogout();
         });
         this.zone.run(() => {
           if (retData.length === 0) {

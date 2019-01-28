@@ -58,6 +58,7 @@ export class MyApp {
        this.pushService.init();
        console.log('Component里创建插件');
        localStorage.setItem('pushinit', '1');
+       localStorage.setItem('addPushNotification', '0');
       }
     });
     // 初始国际化

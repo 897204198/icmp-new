@@ -183,6 +183,7 @@ export class OrganizationAddressPage {
           }
         }
       }, (res: Response) => {
+        if (localStorage.getItem('haveIM') !== '1') {
         if (res.status === 401) {
           console.log('抢登弹窗3');
           const confirm = this.alertCtrl.create({
@@ -205,6 +206,9 @@ export class OrganizationAddressPage {
         } else {
           this.toastService.show(res.text());
         }
+      }else {
+        this.toastService.show(res.text());
+      }
       });
   }
 
