@@ -13,6 +13,7 @@ import { QueryDetailPage } from '../query/queryDetail/queryDetail';
 import { QueryNoticeDetailPage } from '../query/queryNoticeDetail/queryNoticeDetail';
 import { AddressPage } from '../address/address';
 import { ChatListPage } from '../chatList/chatList';
+import { TodoListPage2 } from '../../pages2/todo/todoList/todoList';
 
 import { Store } from '@ngrx/store';
 import { IM_BADGE_STATE } from '../../app/redux/app.reducer';
@@ -185,6 +186,13 @@ export class TabsPage {
         { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
         { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
         { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+      ];
+    }else if (localStorage.getItem('haveIM') === '2') {
+      // 项目
+      return [
+        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+        { root: TodoListPage2, tabTitle: '待办', tabIcon: 'chatboxes' },
+        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
       ];
     } else {
       return [
@@ -527,6 +535,7 @@ export class TabsPage {
     });
   }
   changeValue(tab: any) {
+    if (localStorage.getItem('haveIM') !== '1' && localStorage.getItem('haveIM') !== '2') {
     if (tab.tabTitle === '待办') {
       this.tabRef.select(0);
       const dataALL = {
@@ -541,4 +550,5 @@ export class TabsPage {
     }
     console.log('选择:' + tab.tabTitle);
   }
+}
 }

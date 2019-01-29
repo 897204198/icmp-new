@@ -107,6 +107,13 @@ import { NoticePage } from '../pages/notice/notice';
 import { InitService } from '../app/services/init.service';
 import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
 import { HttpService } from '../app/services/http.service';
+import { TodoListPage2 } from '../pages2/todo/todoList/todoList';
+import { TodoDetailPage2 } from '../pages2/todo/todoDetail/todoDetail';
+import { TodoOpinionPage2 } from '../pages2/todo/todoOpinion/todoOpinion';
+import { TodoMissionOpinionPage } from '../pages2/todo/todoOpinion/mission/missionOpinion';
+import { TodoWorkContactPage } from '../pages2/todo/todoOpinion/workContact/workContact';
+import { ApplicationPage2 } from '../pages2/application/application';
+
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -120,6 +127,12 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
+    TodoListPage,
+    TodoDetailPage,
+    TodoOpinionPage,
+    TodoMissionOpinionPage,
+    TodoWorkContactPage,
+    ApplicationPage2,
     WaitDonePage,
     MyApp,
     IcmpDblclickDirective,
@@ -160,9 +173,9 @@ export function createTranslateLoader(http: Http) {
     StatisticsQueryPage,
     StatisticsViewPage,
     ApplicationPage,
-    TodoListPage,
-    TodoDetailPage,
-    TodoOpinionPage,
+    TodoListPage2,
+    TodoDetailPage2,
+    TodoOpinionPage2,
     QueryDetailPage,
     InstaShotPage,
     AddressPage,
@@ -209,6 +222,12 @@ export function createTranslateLoader(http: Http) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    TodoListPage2,
+    TodoDetailPage2,
+    TodoOpinionPage2,
+    TodoMissionOpinionPage,
+    TodoWorkContactPage,
+    ApplicationPage2,
     WaitDonePage,
     MyApp,
     MenuFolderComponent,

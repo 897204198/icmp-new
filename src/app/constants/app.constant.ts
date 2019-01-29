@@ -66,7 +66,7 @@ export interface AppConstant {
 export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 
 const oaConstant: OaConstant = {
-  baseUrl: 'https://icmp2.propersoft.cn/icmp/server-dev/route',
+  baseUrl: 'http://192.168.1.111/icmp/server-dev/route',
   chatKey: '1166171023115752#icmp',
   md5Encryption: false,
   adminConsolePass: '123456',

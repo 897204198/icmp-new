@@ -1,0 +1,62 @@
+page-todo-list {
+  $todoList-prompt-height: 32px;
+
+  .content-md {
+    .scroll-content {
+      margin-top: $navbar-md-height + $todoList-prompt-height - 2px !important;
+    }
+
+    ion-refresher {
+      top: $navbar-md-height + $todoList-prompt-height - 2px !important;
+    }
+  }
+
+  .content-ios {
+    .scroll-content {
+      margin-top: $navbar-ios-height + $todoList-prompt-height + $ios-status-bar-height - 2px !important;
+    }
+
+    ion-refresher {
+      top: $navbar-ios-height + $todoList-prompt-height + $ios-status-bar-height - 2px !important;
+    }
+  }
+
+  .item p {
+    text-overflow: clip !important;
+    white-space: normal !important;
+  }
+
+  .item h2 {
+    text-overflow: ellipsis; 
+    overflow: hidden;
+  }
+
+  .todoList-prompt {
+    z-index: 1;
+    width: 100%;
+    background-color: color($colors, warm);
+    color: #ffffff;
+    font-size: 15px;
+    padding-left: 16px;
+    line-height: $todoList-prompt-height;
+    display: flex;
+    align-items: center;
+
+    ion-icon {
+      margin-right: 6px;
+    }
+  }
+
+  .item-buttons {
+    text-align: center;
+    padding-top: 3px;
+
+    .button {
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
+
+      padding: 4px 16px;
+    }
+  }
+}

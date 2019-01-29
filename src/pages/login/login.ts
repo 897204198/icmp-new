@@ -128,7 +128,11 @@ export class LoginPage {
       if (res.headers.get('x-service-key') === 'propersoft') {
         // 普日项目有环信
         localStorage.setItem('haveIM' , '1');
-      } else {
+      }else if (res.headers.get('x-service-key') === 'thrid_party') {
+        // 合并项目添加
+        localStorage.setItem('haveIM' , '2');
+      }
+       else {
         localStorage.setItem('haveIM' , '0');
       }
       // 登录接口请求
