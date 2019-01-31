@@ -49,7 +49,7 @@ const fn = (event) => {
               handler: () => {
                 photoService2.getMultiplePicture({maximumImagesCount: maximumImagesCount}).subscribe(img => {
                   // this.fileUpload(img);
-                  // let menus = [];
+                  let menus = [];
                   for (let i = 0; i < img.length; i++) {
                     let image = new Image();
                     image.src = img[i];
@@ -61,10 +61,10 @@ const fn = (event) => {
                       ctx.drawImage(this, 0, 0, this.width, this.height);
                       let ext = this.src.substring(this.src.lastIndexOf('.') + 1).toLowerCase();
                       let dataURL = canvas.toDataURL('image/' + ext);
-                      // menus.push(dataURL);
-                      // if (menus.length === img.length) {
-                      window.frames[0].postMessage({ id: eventId, data: [dataURL] }, '*');
-                      // } 
+                      menus.push(dataURL);
+                      if (menus.length === img.length) {
+                      window.frames[0].postMessage({ id: eventId, data: menus }, '*');
+                      }
                     }.bind(image);
                   }
                 });
