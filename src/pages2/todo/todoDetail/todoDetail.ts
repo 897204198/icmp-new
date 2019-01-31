@@ -5,7 +5,7 @@ import { ToastService } from '../../../app/services/toast.service';
 import { FileService } from '../../../app/services/file.service';
 import { TodoOpinionPage2 } from '../todoOpinion/todoOpinion';
 import { TranslateService } from '@ngx-translate/core';
-import { ApplicationPage2 } from '../../application/application';
+import { ApplicationPage } from '../../../pages/application/application';
 import { TodoMissionOpinionPage } from '../todoOpinion/mission/missionOpinion';
 import { TodoWorkContactPage } from '../todoOpinion/workContact/workContact';
 
@@ -168,7 +168,7 @@ export class TodoDetailPage2 {
         step: this.navParams.get('step'),
         isChange: true
       };
-      this.navCtrl.push(ApplicationPage2, params);
+      this.navCtrl.push(ApplicationPage, params);
     }
   }
 

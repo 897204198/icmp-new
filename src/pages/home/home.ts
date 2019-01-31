@@ -127,7 +127,6 @@ export class HomePage {
       this.componentInit();
     }
     this.isFirst = false;
-
     // 轮播图处理
     this.zone.runOutsideAngular(() => {
       this.intervalSlideId = setInterval(() => {
@@ -342,6 +341,24 @@ export class HomePage {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+    // this.menus = [{
+    //   "code": null,
+    //   "createTime": "2017-02-20 00:00:00",
+    //   "createUserId": "oa",
+    //   "data": {},
+    //   "defaultValue": true,
+    //   "enable": true,
+    //   "icon": "http://123.150.83.199:9999/img/邮件查询.png\n",
+    //   "id": "asdfasfa",
+    //   "lastModifyTime": "2017-02-20 00:00:00",
+    //   "lastModifyUserId": "oa",
+    //   "name": "功能1",
+    //   "page": "systemId",
+    //   "style": null,
+    //   "serviceName": "serviceName",
+    //   "total": 0
+    // }];
+    this.secureStorageService.putObject('home_applist', this.menus);
   }
    /**
    * 获取待办数量
