@@ -312,52 +312,54 @@ export class HomePage {
    * 设置首页应用列表
    */
   setAppList(): void {
-    this.http.get('/app/applications').subscribe((res: any) => {
-      if (res._body != null && res._body !== '') {
-        this.menus = [];
-        let data = res.json();
-        let haveWait = 0;
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].name === '待办') {
-            data[i].total =  this.waitNum;
-            haveWait++;
-            if (localStorage.getItem('haveIM') === '0') {
-              // 存储待办模块
-              localStorage.setItem('waitData', data[i].data.url);
-            }
-          }
-          this.menus.push(data[i]);
-        }
-        // 首页没有待办数量加在全部图标上
-        if (localStorage.getItem('haveIM') === '1') {
-          if (haveWait === 0){
-            this.allNum = this.waitNum;
-          }else{
-            this.allNum = 0;
-          }
-        }
-        this.secureStorageService.putObject('home_applist', this.menus);
-      }
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
-    // this.menus = [{
-    //   "code": null,
-    //   "createTime": "2017-02-20 00:00:00",
-    //   "createUserId": "oa",
-    //   "data": {},
-    //   "defaultValue": true,
-    //   "enable": true,
-    //   "icon": "http://123.150.83.199:9999/img/邮件查询.png\n",
-    //   "id": "asdfasfa",
-    //   "lastModifyTime": "2017-02-20 00:00:00",
-    //   "lastModifyUserId": "oa",
-    //   "name": "功能1",
-    //   "page": "systemId",
-    //   "style": null,
-    //   "serviceName": "serviceName",
-    //   "total": 0
-    // }];
+    // this.http.get('/app/applications').subscribe((res: any) => {
+    //   if (res._body != null && res._body !== '') {
+    //     this.menus = [];
+    //     let data = res.json();
+    //     let haveWait = 0;
+    //     for (let i = 0; i < data.length; i++) {
+    //       if (data[i].name === '待办') {
+    //         data[i].total =  this.waitNum;
+    //         haveWait++;
+    //         if (localStorage.getItem('haveIM') === '0') {
+    //           // 存储待办模块
+    //           localStorage.setItem('waitData', data[i].data.url);
+    //         }
+    //       }
+    //       this.menus.push(data[i]);
+    //     }
+    //     // 首页没有待办数量加在全部图标上
+    //     if (localStorage.getItem('haveIM') === '1') {
+    //       if (haveWait === 0){
+    //         this.allNum = this.waitNum;
+    //       }else{
+    //         this.allNum = 0;
+    //       }
+    //     }
+    //     this.secureStorageService.putObject('home_applist', this.menus);
+    //   }
+    // }, (res: Response) => {
+    //   this.toastService.show(res.text());
+    // });
+    // TODO 模拟菜单接口
+    this.menus = [{
+      "code": null,
+      "createTime": "2017-02-20 00:00:00",
+      "createUserId": "oa",
+      "data": {},
+      "defaultValue": true,
+      "enable": true,
+      "icon": "http://123.150.83.199:9999/img/邮件查询.png\n",
+      "id": 55,
+      "lastModifyTime": "2017-02-20 00:00:00",
+      "lastModifyUserId": "oa",
+      "name": "申请",
+      "page": "application",
+      "style": null,
+      "serviceName": "EmployeesLeaveApplyService",
+      "total": 0
+    }];
+    this.allNum = 0;
     this.secureStorageService.putObject('home_applist', this.menus);
   }
    /**

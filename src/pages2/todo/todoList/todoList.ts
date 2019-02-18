@@ -76,7 +76,7 @@ export class TodoListPage2 {
     let params: URLSearchParams = new URLSearchParams();
     params.append('pageNo', this.pageNo.toString());
     params.append('pageSize', this.icmpConstant.pageSize);
-    params.append('processName', this.navParams.get('processName'));
+    params.append('processName', '');
     this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
       this.todoList = [];
       let data = res.json();
