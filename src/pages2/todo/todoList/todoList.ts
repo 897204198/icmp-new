@@ -6,9 +6,8 @@ import { ToastService } from '../../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TodoDetailPage2 } from '../todoDetail/todoDetail';
 import { UserInfoState, UserService } from '../../../app/services/user.service';
-
+import { HomeReplaceBadageAction } from '../../../app/redux/actions/home.action';
 import { Store } from '@ngrx/store';
-import { TodoReplaceBadageAction } from '../../../app/redux/actions/todo.action';
 
 /**
  * 待办列表页面
@@ -18,7 +17,6 @@ import { TodoReplaceBadageAction } from '../../../app/redux/actions/todo.action'
   templateUrl: 'todoList.html',
 })
 export class TodoListPage2 {
-
   @ViewChild(InfiniteScroll) infiniteScroll: InfiniteScroll;
   // 页面标题
   private title: string = '';
@@ -44,7 +42,7 @@ export class TodoListPage2 {
               private userService: UserService,
               private translate: TranslateService,
               private store: Store<string>) {
-    this.title = navParams.get('title');
+    this.title = navParams.get('name');
 
     let translateKeys: string[] = ['CLAIM_SUCCESS', 'GOBACK_SUCCESS'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -85,9 +83,9 @@ export class TodoListPage2 {
       if (!this.navCtrl.canGoBack()) {
         // redux传值
         if (data.total === 0) {
-          this.store.dispatch(new TodoReplaceBadageAction(''));
+          this.store.dispatch(new HomeReplaceBadageAction(''));
         } else {
-          this.store.dispatch(new TodoReplaceBadageAction(data.total));
+          this.store.dispatch(new HomeReplaceBadageAction(data.total));
         }
       }
 

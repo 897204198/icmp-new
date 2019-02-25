@@ -154,7 +154,6 @@ export class HttpInterceptor extends Http {
         if (res.status === -1 || res.status === 0) {
           res._body = '网络异常，请稍后再试';
         } else if (res.status === 401) {
-          console.log('抢登了');
         } else if (res.status === 404) {
           res._body = '资源未找到';
         } else if (res.status === 502) {

@@ -22,7 +22,8 @@ export class UserInfoPage {
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
   private token: string = '?access_token=' + localStorage['token'];
-
+  // 是否有IM功能
+  haveChangeIm: boolean = false;
   /**
    * 构造函数
    */
@@ -36,6 +37,11 @@ export class UserInfoPage {
   ionViewDidLoad(): void {
     this.getUserInfoFromLocal();
     this.getUserInfoFromNet();
+    if (localStorage.getItem('haveIM') === '2') {
+      this.haveChangeIm = false;
+    }else{
+      this.haveChangeIm = true;
+    }
   }
 
   /**

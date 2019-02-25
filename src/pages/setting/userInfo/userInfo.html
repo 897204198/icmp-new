@@ -7,7 +7,7 @@
 <ion-content class="content-gray-new">
   <div class="user-head-image-div">
     <div class="user-head-image-div-img">
-      <input id="file" type="file" accept="image/*" (change)="changeAvatar($event)" />
+      <input *ngIf="haveChangeIm" id="file" type="file" accept="image/*" (change)="changeAvatar($event)" />
       <img *ngIf="userInfo.avatar" src="{{userInfo.avatar}}" (error)="resetImg()">
       <span *ngIf="!userInfo.avatar">{{surname}}</span>
     </div>

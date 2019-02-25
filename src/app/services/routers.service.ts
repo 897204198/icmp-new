@@ -1,12 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { ICMP_CONSTANT, IcmpConstant } from '../constants/icmp.constant';
-import { QueryNoticeDetailPage } from '../../pages/query/queryNoticeDetail/queryNoticeDetail';
+import { QueryNoticeDetailPage2 } from '../../pages2/query/queryNoticeDetail/queryNoticeDetail';
 import { ToastService } from './toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { QueryListPage } from '../../pages/query/queryList/queryList';
-import { TodoListPage } from '../../pages/todo/todoList/todoList';
-import { QueryDetailPage } from '../../pages/query/queryDetail/queryDetail';
+import { QueryListPage2 } from '../../pages2/query/queryList/queryList';
+import { TodoListPage2 } from '../../pages2/todo/todoList/todoList';
+import { QueryDetailPage2 } from '../../pages2/query/queryDetail/queryDetail';
 import { InstaShotPage } from '../../pages/instaShot/instaShot';
 import { StatisticsQueryPage } from '../../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statisticsView';
@@ -18,6 +18,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceInfoState, DeviceService } from './device.service';
 import { Store } from '@ngrx/store';
 import { ConfigsService } from '../services/configs.service';
+import { EmergencyTreatmentPage } from '../../pages2/emergencyTreatment/emergencyTreatment';
 
 /**
  * 路由服务
@@ -49,17 +50,17 @@ export class RoutersService {
    */
   pageForward(navCtrl: NavController, menu: any): void {
     if (menu.page === this.icmpConstant.page.queryList) {
-      navCtrl.push(QueryListPage, menu);
+      navCtrl.push(QueryListPage2, menu);
     } else if (menu.page === this.icmpConstant.page.queryDetail) { // 查询详细页
       if (menu.style === 'notice_style') {
-        navCtrl.push(QueryNoticeDetailPage, menu);
+        navCtrl.push(QueryNoticeDetailPage2, menu);
       } else if (menu.style === 'no_detail') {
         this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
       } else {
-        navCtrl.push(QueryDetailPage, menu);
+        navCtrl.push(QueryDetailPage2, menu);
       }
     } else if (menu.page === this.icmpConstant.page.todoList) {
-      navCtrl.push(TodoListPage, menu);
+      navCtrl.push(TodoListPage2, menu);
     } else if (menu.page === this.icmpConstant.page.instaShot) {
       navCtrl.push(InstaShotPage);
     } else if (menu.page === this.icmpConstant.page.application) {
@@ -68,6 +69,8 @@ export class RoutersService {
       navCtrl.push(StatisticsQueryPage, menu);
     } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
+    }else if (menu.page === this.icmpConstant.page.emergency) {
+      navCtrl.push(EmergencyTreatmentPage, menu);
     } else if (menu.page === this.icmpConstant.page.examList) {
       const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
       if (deviceInfo.deviceType === 'android') {

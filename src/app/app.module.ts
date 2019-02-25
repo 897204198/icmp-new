@@ -59,16 +59,20 @@ import { FeedDetailPage } from '../pages/setting/feedDetail/feedDetail';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
+import { QueryNoticeDetailPage2 } from '../pages2/query/queryNoticeDetail/queryNoticeDetail';
 import { QueryNoticeDetailPage } from '../pages/query/queryNoticeDetail/queryNoticeDetail';
 import { FileTypeImageComponent } from './component/fileTypeImage/fileTypeImage.component';
 import { FileService } from './services/file.service';
+import { QueryListPage2 } from '../pages2/query/queryList/queryList';
 import { QueryListPage } from '../pages/query/queryList/queryList';
+import { QueryListConditionPage2 } from '../pages2/query/queryListCondition/queryListCondition';
 import { QueryListConditionPage } from '../pages/query/queryListCondition/queryListCondition';
 import { SearchboxComponent } from './component/searchbox/searchbox.component';
 import { TodoListPage } from '../pages/todo/todoList/todoList';
 import { TodoDetailPage } from '../pages/todo/todoDetail/todoDetail';
 import { TodoOpinionPage } from '../pages/todo/todoOpinion/todoOpinion';
 import { UtilsService } from './services/utils.service';
+import { QueryDetailPage2 } from '../pages2/query/queryDetail/queryDetail';
 import { QueryDetailPage } from '../pages/query/queryDetail/queryDetail';
 import { UserService } from './services/user.service';
 import { DeviceService } from './services/device.service';
@@ -112,6 +116,8 @@ import { TodoDetailPage2 } from '../pages2/todo/todoDetail/todoDetail';
 import { TodoOpinionPage2 } from '../pages2/todo/todoOpinion/todoOpinion';
 import { TodoMissionOpinionPage } from '../pages2/todo/todoOpinion/mission/missionOpinion';
 import { TodoWorkContactPage } from '../pages2/todo/todoOpinion/workContact/workContact';
+import { EmergencyTreatmentPage } from '../pages2/emergencyTreatment/emergencyTreatment';
+import { CheckPage } from '../pages/check/check';
 
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
@@ -126,6 +132,7 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
+    CheckPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
@@ -165,8 +172,11 @@ export function createTranslateLoader(http: Http) {
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
+    QueryNoticeDetailPage2,
     QueryNoticeDetailPage,
+    QueryListPage2,
     QueryListPage,
+    QueryListConditionPage2,
     QueryListConditionPage,
     StatisticsQueryPage,
     StatisticsViewPage,
@@ -174,7 +184,9 @@ export function createTranslateLoader(http: Http) {
     TodoListPage2,
     TodoDetailPage2,
     TodoOpinionPage2,
+    QueryDetailPage2,
     QueryDetailPage,
+    EmergencyTreatmentPage,
     InstaShotPage,
     AddressPage,
     ChatListPage,
@@ -220,6 +232,7 @@ export function createTranslateLoader(http: Http) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    CheckPage,
     TodoListPage2,
     TodoDetailPage2,
     TodoOpinionPage2,
@@ -247,15 +260,20 @@ export function createTranslateLoader(http: Http) {
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
+    QueryNoticeDetailPage2,
     QueryNoticeDetailPage,
+    QueryListPage2,
     QueryListPage,
+    QueryListConditionPage2,
     QueryListConditionPage,
+    EmergencyTreatmentPage,
     StatisticsQueryPage,
     StatisticsViewPage,
     ApplicationPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
+    QueryDetailPage2,
     QueryDetailPage,
     InstaShotPage,
     AddressPage,

@@ -71,7 +71,7 @@ const oaConstant: OaConstant = {
   md5Encryption: false,
   adminConsolePass: '123456',
   getServiceKeyUrl: 'http://220918zh27.iok.la:52506/pep/streamline/streamline/',
-  baseWebUrl: 'https://icmp2.propersoft.cn/icmp/'
+  baseWebUrl: 'http://192.168.1.111/icmp/'
 };
 
 const properPushConstant: ProperPushConstant = {

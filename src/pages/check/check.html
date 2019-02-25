@@ -1,0 +1,18 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'CHECK' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+    <ion-item class="login-input">
+      <ion-label fixed class="login-icon">{{'CHECKCODE' | translate}}</ion-label> -->
+      <ion-input id="e2e-password" type="text"  placeholder="{{'PLEASE_ENTER_CHECKCODE' | translate}}" #password></ion-input>
+    </ion-item>
+
+  <div padding>
+    <button id="e2e-login-button" ion-button block round color="primary" (tap)="logIn(password)">
+      {{'CHECK' | translate}}
+    </button>
+  </div>
+</ion-content>

@@ -89,19 +89,32 @@ export class HomePage {
     this.bannerlHeight = width * 572 / 1280 + 'px';
     this.getCache();
     // 保证登录成功后再请求接口
+    let num = 0;
     events.subscribe('logined', () => {
-      this.getWaitNum();
-      this.setPlugins();
-      this.getComponentList();
-      this.componentInit();
+      // 防止push一次logined方法执行多次
+      num = num + 1;
+      if (num === 1) {
+        this.setPlugins();
+        this.getComponentList();
+        if (localStorage.getItem('haveIM') !== '2'){
+          this.getWaitNum();
+          this.componentInit();
+        }else{
+          this.getTodoNumber(); // 项目获取待办数量
+        }
+      }
     });
     // 从网页回来刷新首页角标
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
         console.log('event刷新消息啊啦啦啦');
-        this.getWaitNum();
         this.getComponentList();
-        this.componentInit();
+        if (localStorage.getItem('haveIM') !== '2'){
+          this.getWaitNum();
+          this.componentInit();
+        }else{
+          this.getTodoNumber(); // 项目获取待办数量
+        }
       });
     }
   }
@@ -121,10 +134,14 @@ export class HomePage {
     if (!this.isFirst) {
       this.getCache();
       this.setNotice();
-      this.getWaitNum();
       this.setPlugins();
       this.getComponentList();
-      this.componentInit();
+      if (localStorage.getItem('haveIM') !== '2'){
+        this.getWaitNum();
+        this.componentInit();
+      }else{
+        this.getTodoNumber(); // 项目获取待办数量
+      }
     }
     this.isFirst = false;
     // 轮播图处理
@@ -312,53 +329,56 @@ export class HomePage {
    * 设置首页应用列表
    */
   setAppList(): void {
-    // this.http.get('/app/applications').subscribe((res: any) => {
-    //   if (res._body != null && res._body !== '') {
-    //     this.menus = [];
-    //     let data = res.json();
-    //     let haveWait = 0;
-    //     for (let i = 0; i < data.length; i++) {
-    //       if (data[i].name === '待办') {
-    //         data[i].total =  this.waitNum;
-    //         haveWait++;
-    //         if (localStorage.getItem('haveIM') === '0') {
-    //           // 存储待办模块
-    //           localStorage.setItem('waitData', data[i].data.url);
-    //         }
-    //       }
-    //       this.menus.push(data[i]);
-    //     }
-    //     // 首页没有待办数量加在全部图标上
-    //     if (localStorage.getItem('haveIM') === '1') {
-    //       if (haveWait === 0){
-    //         this.allNum = this.waitNum;
-    //       }else{
-    //         this.allNum = 0;
-    //       }
-    //     }
-    //     this.secureStorageService.putObject('home_applist', this.menus);
-    //   }
-    // }, (res: Response) => {
-    //   this.toastService.show(res.text());
-    // });
+    this.http.get('/app/applications').subscribe((res: any) => {
+      if (res._body != null && res._body !== '') {
+        this.menus = [];
+        let data = res.json();
+        let haveWait = 0;
+        for (let i = 0; i < data.length; i++) {
+          data[i]['serviceName'] = data[i]['data']['serviceName'];
+          data[i]['processName'] = data[i]['data']['processName'];
+          data[i]['total'] = data[i]['data']['total'];
+          if (data[i].name === '待办') {
+            data[i].total =  this.waitNum;
+            haveWait++;
+            if (localStorage.getItem('haveIM') === '0') {
+              // 存储待办模块
+              localStorage.setItem('waitData', data[i].data.url);
+            }
+          }
+          this.menus.push(data[i]);
+        }
+        // 首页没有待办数量加在全部图标上
+        if (localStorage.getItem('haveIM') === '1') {
+          if (haveWait === 0){
+            this.allNum = this.waitNum;
+          }else{
+            this.allNum = 0;
+          }
+        }
+        this.secureStorageService.putObject('home_applist', this.menus);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
     // TODO 模拟菜单接口
-    this.menus = [{
-      "code": null,
-      "createTime": "2017-02-20 00:00:00",
-      "createUserId": "oa",
-      "data": {},
-      "defaultValue": true,
-      "enable": true,
-      "icon": "http://123.150.83.199:9999/img/邮件查询.png\n",
-      "id": 55,
-      "lastModifyTime": "2017-02-20 00:00:00",
-      "lastModifyUserId": "oa",
-      "name": "申请",
-      "page": "application",
-      "style": null,
-      "serviceName": "EmployeesLeaveApplyService",
-      "total": 0
-    }];
+    // this.menus = [{
+    //   "code": null,
+    //   "createTime": "2017-02-20 00:00:00",
+    //   "createUserId": "oa",
+    //   "data": {},
+    //   "defaultValue": true,
+    //   "enable": true,
+    //   "icon": "http://123.150.83.199:9999/img/邮件查询.png\n",
+    //   "id": 55,
+    //   "lastModifyTime": "2017-02-20 00:00:00",
+    //   "lastModifyUserId": "oa",
+    //   "name": "申请",
+    //   "page": "application",
+    //   "style": null,
+    //   "serviceName": "EmployeesLeaveApplyService",
+    //   "total": 0
+    // }];
     this.allNum = 0;
     this.secureStorageService.putObject('home_applist', this.menus);
   }
@@ -379,6 +399,24 @@ export class HomePage {
       this.setAppList(); // 获取应用
     }, (res: Response) => {
       this.toastService.show(res.text());
+      this.setAppList(); // 获取应用
+    });
+  }
+
+  // 获取待办数量
+  getTodoNumber() {
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('pageNo', '1');
+    params.append('pageSize', '0');
+    params.append('processName', '');
+    this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+      let data = res.json();
+      // redux传值
+      if (data.total === 0) {
+        this.store.dispatch(new HomeReplaceBadageAction(''));
+      } else {
+        this.store.dispatch(new HomeReplaceBadageAction(data.total));
+      }
       this.setAppList(); // 获取应用
     });
   }

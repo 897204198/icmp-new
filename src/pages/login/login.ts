@@ -7,6 +7,7 @@ import { BackButtonService } from '../../app/services/backButton.service';
 import { AlertController } from 'ionic-angular';
 import { AdminPage } from './admin/admin';
 import { SetPasswordPage } from './setPassword/setPassword';
+import { CheckPage } from '../check/check';
 import { APP_CONSTANT, AppConstant } from '../../app/constants/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
@@ -17,6 +18,7 @@ import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.ser
 import { DeviceService } from '../../app/services/device.service';
 import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { DeviceInfoState } from '../../app/services/device.service';
 
 /**
  * 登录页面
@@ -53,7 +55,7 @@ export class LoginPage {
     private events: Events,
     private userService: UserService,
     private appVersionUpdateService: AppVersionUpdateService) {
-    let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
+    let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN', 'PLEASE_ENTER_CHECKCODEFIRST'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -62,6 +64,10 @@ export class LoginPage {
     this.platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(null);
     });
+
+    // 通过推送通知打开应用事
+    document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
   }
 
   /**
@@ -96,10 +102,21 @@ export class LoginPage {
     } else if (password.value == null || password.value === '') {
       this.toastService.show(this.transateContent['PLEASE_ENTER_PASSWORD']);
     } else {
-      this.loginNetService(username.value, password.value);
+      if (!localStorage.getItem('checkUp')) {
+        this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+      }else{
+        this.loginNetService(username.value, password.value);
+      }
     }
   }
 
+  /**
+   * 校验事件
+   */
+  checkUp(username: HTMLInputElement, password: HTMLInputElement): void {
+    this.navCtrl.push(CheckPage, { isAutoLogin: false }).then(() => {
+    });
+  }
   forget(): void {
     this.navCtrl.push(SetPasswordPage, { isAutoLogin: false }).then(() => {
     });
@@ -112,9 +129,9 @@ export class LoginPage {
     localStorage.removeItem('serviceheader');
     let getServicekeyUrl;
     if (localStorage.getItem('getServiceKeyUrl')) {
-      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + localStorage.getItem('checkUp') + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
     } else {
-      getServicekeyUrl = this.configsService.getServiceKeyUrl() + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+      getServicekeyUrl = this.configsService.getServiceKeyUrl() + localStorage.getItem('checkUp') + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
     }
     this.http.get(getServicekeyUrl).subscribe((res: Response) => {
       // 存储servicekey
@@ -184,9 +201,12 @@ export class LoginPage {
         };
         this.userService.saveUserInfo(newUserInfo);
         this.userService.login();
-
+        // 获取底部tabs
+        // this.http.get('/application/tab').subscribe((res3: Response) => {
+          let tabsData = res3.json();
         // 避免在 web 上无法显示页面
-        if (this.deviceService.getDeviceInfo().deviceType) {
+        let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+        if (deviceInfo.deviceType) {
           let imparams = {
             username: newUserInfo.loginName,
             password: password,
@@ -211,7 +231,7 @@ export class LoginPage {
                   localStorage.setItem('imIsOpen', '1');
                 }
                 // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-                this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+                this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData}).then(() => {
                   const startIndex = this.navCtrl.getActive().index - 1;
                   this.navCtrl.remove(startIndex, 1);
                   if (this.navParams.data.loginStatus !== 'logout') {
@@ -222,7 +242,7 @@ export class LoginPage {
             });
           }else{
             // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-            this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+            this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData}).then(() => {
               const startIndex = this.navCtrl.getActive().index - 1;
               this.navCtrl.remove(startIndex, 1);
               if (this.navParams.data.loginStatus !== 'logout') {
@@ -233,21 +253,19 @@ export class LoginPage {
           this.pushService.bindUserid(newUserInfo.userId);
         } else {
           // Web 版不进行推送绑定，直接进首页
-          this.navCtrl.push(TabsPage, { isAutoLogin: false }).then(() => {
+          this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData }).then(() => {
             const startIndex = this.navCtrl.getActive().index - 1;
             this.navCtrl.remove(startIndex, 1);
             this.events.publish('logined');
           });
         }
+        // });
       }, (err: Response) => {
         this.toastService.show(err.text());
       });
     }, (res2: Response) => {
       this.toastService.show(res2.text());
     });
-
-
-
     });
   }
 
