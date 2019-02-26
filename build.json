@@ -18,7 +18,7 @@
   "ios": {
     "debug": {
       "codeSignIdentity": "iPhone Developer",
-      "developmentTeam": "3ABXQ736DX",
+      "developmentTeam": "8L25HXDJRR",
       "packageType": "development",
       "buildFlag": [
         "EMBEDDED_CONTENT_CONTAINS_SWIFT = YES",
@@ -28,8 +28,8 @@
     },
     "release": {
       "codeSignIdentity": "iPhone Developer",
-      "developmentTeam": "3ABXQ736DX",
-      "packageType": "enterprise",
+      "developmentTeam": "8L25HXDJRR",
+      "packageType": "distribution",
       "buildFlag": [
         "-UseModernBuildSystem=0",
         "EMBEDDED_CONTENT_CONTAINS_SWIFT = YES",

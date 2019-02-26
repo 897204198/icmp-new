@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="20000" id="com.proper.icmp" ios-CFBundleVersion="20000" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>掌上办公</name>
+<widget android-versionCode="20000" id="com.proper.icmp.online" ios-CFBundleVersion="20000" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>普日协同</name>
     <description>沈阳普日软件协同管理平台移动端程序.</description>
     <author email="gdpr@propersoft.cn" href="http://www.propersoft.cn/">Propersoft</author>
     <content src="index.html" />
@@ -22,6 +22,7 @@
     <preference name="android-minSdkVersion" value="16" />
     <preference name="android-targetSdkVersion" value="19" />
     <preference name="orientation" value="portrait" />
+    <preference name="loadUrlTimeoutValue" value="50000" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -80,7 +81,7 @@
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
     <chcp>
-        <config-file url="https://server.propersoft.cn/icmp/app-dev/chcp.json" />
+        <config-file url="https://icmp.propersoft.cn/online/chcp.json" />
     </chcp>
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.4" />

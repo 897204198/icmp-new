@@ -89,11 +89,18 @@ export class HomePage {
     this.bannerlHeight = width * 572 / 1280 + 'px';
     this.getCache();
     // 保证登录成功后再请求接口
+    let num = 0;
     events.subscribe('logined', () => {
-      this.getWaitNum();
-      this.setPlugins();
-      this.getComponentList();
-      this.componentInit();
+      // 防止push一次logined方法执行多次
+      num = num + 1;
+      if (num === 1) {
+        this.setPlugins();
+        this.getComponentList();
+        if (localStorage.getItem('haveIM') !== '2') {
+          this.getWaitNum();
+          this.componentInit();
+        }
+      }
     });
     // 从网页回来刷新首页角标
     if (localStorage.getItem('haveIM') === '1') {
@@ -141,11 +148,11 @@ export class HomePage {
 
     if (localStorage.getItem('haveIM') === '1') {
       this.haveIM = true;
-    }else{
+    } else {
       this.haveIM = false;
     }
   }
-  test_local_dict (number, index, total_sec): any {
+  test_local_dict(number, index, total_sec): any {
     // number：xxx 时间前 / 后的数字；
     // index：下面数组的索引号；
     // total_sec：时间间隔的总秒数；
@@ -165,8 +172,8 @@ export class HomePage {
       ['1年前', 'in 1 year'],
       ['%s年前', 'in %s years']
     ][index];
-};
-  getComponentList() : void {
+  };
+  getComponentList(): void {
     this.http.get('/plugin').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.componentList = res.json();
@@ -179,7 +186,7 @@ export class HomePage {
     });
   }
   componentInit(): void {
-    Date.prototype.toLocaleString = function() {
+    Date.prototype.toLocaleString = function () {
       return this.getFullYear() + '-' + (this.getMonth() + 1) + '-' + this.getDate() + ' ' + this.getHours() + ':' + this.getMinutes() + ':' + this.getSeconds();
     };
     this.http.get('/search/query?moduleName=workflow_task&pageNo=1&pageSize=5').subscribe((res: any) => {
@@ -202,7 +209,7 @@ export class HomePage {
               } else {
                 item['value'] = element['form']['formData'][item['name']];
               }
-              if (typeof(item['value']) === 'number' && item['value'].toString().length === 13) {
+              if (typeof (item['value']) === 'number' && item['value'].toString().length === 13) {
                 item['value'] = new Date(item['value']).toLocaleString();
               }
             });
@@ -238,7 +245,7 @@ export class HomePage {
         } else {
           this.toastService.show(res.text());
         }
-      }else {
+      } else {
         this.toastService.show(res.text());
       }
     });
@@ -320,7 +327,7 @@ export class HomePage {
         let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
           if (data[i].name === '待办') {
-            data[i].total =  this.waitNum;
+            data[i].total = this.waitNum;
             haveWait++;
             if (localStorage.getItem('haveIM') === '0') {
               // 存储待办模块
@@ -331,9 +338,9 @@ export class HomePage {
         }
         // 首页没有待办数量加在全部图标上
         if (localStorage.getItem('haveIM') === '1') {
-          if (haveWait === 0){
+          if (haveWait === 0) {
             this.allNum = this.waitNum;
-          }else{
+          } else {
             this.allNum = 0;
           }
         }
@@ -343,13 +350,13 @@ export class HomePage {
       this.toastService.show(res.text());
     });
   }
-   /**
-   * 获取待办数量
-   */
+  /**
+  * 获取待办数量
+  */
   getWaitNum(): void {
     this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json() ; // 待办个数
+        let data = res.json(); // 待办个数
         this.waitNum = data;
         if (data === 0) {
           this.store.dispatch(new HomeReplaceBadageAction(''));
@@ -383,14 +390,14 @@ export class HomePage {
    * 获取通知消息列表
    */
   setNotice(): void {
-    let params: Object = {infoType: 'NOTICE_INFORMATION'};
+    let params: Object = { infoType: 'NOTICE_INFORMATION' };
     this.http.get('/sys/announcement', { params: params }).subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json();
         this.notices = data;
         this.noticeLists = [...data];
         if (this.notices.length > 0) {
-          this.notices.push({title: this.notices[0]['title'], info: this.notices[0]['info'], beginTime: this.notices[0]['beginTime']});
+          this.notices.push({ title: this.notices[0]['title'], info: this.notices[0]['info'], beginTime: this.notices[0]['beginTime'] });
           this.noticeMarginIndex = 0;
           this.noticeScroll();
         }
@@ -429,10 +436,10 @@ export class HomePage {
   /**
    * 打开通知消息
    */
-   // 点击通知跳转
-   noticeClk(index: number): void {
+  // 点击通知跳转
+  noticeClk(index: number): void {
     let noticeInfo = this.notices[index];
-    this.navCtrl.push(NoticePage, {notices: this.noticeLists, index: index, title: noticeInfo['title'], info: noticeInfo['info'], beginTime: noticeInfo['beginTime'].substring(0, 10)});
+    this.navCtrl.push(NoticePage, { notices: this.noticeLists, index: index, title: noticeInfo['title'], info: noticeInfo['info'], beginTime: noticeInfo['beginTime'].substring(0, 10) });
   }
   openNotice(item: any): void {
     let title = item.detailTitleBarText ? item.detailTitleBarText : this.transateContent['NOTICE_DETAILED'];
@@ -461,7 +468,7 @@ export class HomePage {
   }
   getMoreInfo(menu): void {
     if (menu['appType'] === 'folder') {
-      let modal = this.modalCtrl.create(MenuFolderComponent, {name: menu});
+      let modal = this.modalCtrl.create(MenuFolderComponent, { name: menu });
       modal.onDidDismiss(data => {
         if (data) {
           this.routersService.pageForward(this.navCtrl, data);
@@ -485,7 +492,7 @@ export class HomePage {
         {
           text: '确认',
           handler: () => {
-            const {taskId, form} = record;
+            const { taskId, form } = record;
             if (record.form.formData) {
               const data = {
                 ...form.formData,
@@ -511,13 +518,13 @@ export class HomePage {
     confirm.present();
   }
   getDetail(record, title, targetUrl): void {
-    const {pepProcInst: {procInstId, processTitle}, taskId, name} = record;
+    const { pepProcInst: { procInstId, processTitle }, taskId, name } = record;
     const param = btoa(encodeURIComponent(JSON.stringify({
       isLaunch: false,
       taskOrProcDefKey: taskId,
       procInstId,
       name,
-      businessObj: {formTitle: processTitle},
+      businessObj: { formTitle: processTitle },
       stateCode: undefined
     })));
     const dataALL = {

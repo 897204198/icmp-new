@@ -107,6 +107,7 @@ import { NoticePage } from '../pages/notice/notice';
 import { InitService } from '../app/services/init.service';
 import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
 import { HttpService } from '../app/services/http.service';
+import { CheckPage } from '../pages/check/check';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -120,6 +121,7 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   declarations: [
+    CheckPage,
     WaitDonePage,
     MyApp,
     IcmpDblclickDirective,
@@ -209,6 +211,7 @@ export function createTranslateLoader(http: Http) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    CheckPage,
     WaitDonePage,
     MyApp,
     MenuFolderComponent,

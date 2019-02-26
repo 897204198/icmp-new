@@ -7,6 +7,7 @@ import { BackButtonService } from '../../app/services/backButton.service';
 import { AlertController } from 'ionic-angular';
 import { AdminPage } from './admin/admin';
 import { SetPasswordPage } from './setPassword/setPassword';
+import { CheckPage } from '../check/check';
 import { APP_CONSTANT, AppConstant } from '../../app/constants/app.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../app/services/toast.service';
@@ -53,7 +54,7 @@ export class LoginPage {
     private events: Events,
     private userService: UserService,
     private appVersionUpdateService: AppVersionUpdateService) {
-    let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN'];
+    let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN', 'PLEASE_ENTER_CHECKCODEFIRST'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -96,7 +97,11 @@ export class LoginPage {
     } else if (password.value == null || password.value === '') {
       this.toastService.show(this.transateContent['PLEASE_ENTER_PASSWORD']);
     } else {
+      if (!localStorage.getItem('checkUp')) {
+        this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+      }else{
       this.loginNetService(username.value, password.value);
+      }
     }
   }
 
@@ -104,7 +109,13 @@ export class LoginPage {
     this.navCtrl.push(SetPasswordPage, { isAutoLogin: false }).then(() => {
     });
   }
-
+  /**
+   * 校验事件
+   */
+  checkUp(username: HTMLInputElement, password: HTMLInputElement): void {
+    this.navCtrl.push(CheckPage, { isAutoLogin: false }).then(() => {
+    });
+  }
   /**
    * 登录请求
    */
@@ -112,9 +123,9 @@ export class LoginPage {
     localStorage.removeItem('serviceheader');
     let getServicekeyUrl;
     if (localStorage.getItem('getServiceKeyUrl')) {
-      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+      getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + localStorage.getItem('checkUp') + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
     } else {
-      getServicekeyUrl = this.configsService.getServiceKeyUrl() + account + '/' + password + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+      getServicekeyUrl = this.configsService.getServiceKeyUrl() + localStorage.getItem('checkUp') + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
     }
     this.http.get(getServicekeyUrl).subscribe((res: Response) => {
       // 存储servicekey
