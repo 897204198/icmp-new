@@ -20,6 +20,7 @@ import { IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
 import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
+import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ConfigsService } from '../../app/services/configs.service';
 import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
 import { DeviceService } from '../../app/services/device.service';
@@ -108,6 +109,7 @@ export class TabsPage {
       let homewaitIconNum: number = 0;
 
       if (localStorage.getItem('haveIM') === '1') {
+        // 普日项目带聊天
         // 消息角标绑定
         this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
@@ -119,7 +121,7 @@ export class TabsPage {
             }
           }
         });
-        // 首页待办消息绑定
+        // 首页消息绑定
         this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
             if (this.tabRoots[i]['tabTitle'] === '首页') {
@@ -132,15 +134,21 @@ export class TabsPage {
             }
           }
         });
-      } else {
+      } else if (localStorage.getItem('haveIM') === '2') {
+        // 袁艺项目
         // 待办tab消息绑定
-        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
-          for (let i = 0; i < this.tabRoots.length; i++) {
-            if (this.tabRoots[i]['tabTitle'] === '待办') {
-              console.log('首页待办角标个数' + data);
-              this.tabRoots[i]['tabBadge'] = data;
-            }
-          }
+        this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+          this.tabRoots[1]['tabBadge'] = data;
+          iconNum = Number(data);
+          this.pushService.sendBadgeNotification(iconNum);
+        });
+      } else {
+        // 标准版本
+        // 待办tab消息绑定
+        this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+          this.tabRoots[1]['tabBadge'] = data;
+          iconNum = Number(data);
+          this.pushService.sendBadgeNotification(iconNum);
         });
       }
     });
@@ -202,20 +210,22 @@ export class TabsPage {
         { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
         { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
       ];
-    // } else {
-    //   return [
-    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-    //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-    //   ];
-    // }
-    }else if (localStorage.getItem('haveIM') === '2') {
+      // } else {
+      //   return [
+      //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+      //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+      //   ];
+      // }
+    } else if (localStorage.getItem('haveIM') === '2') {
       // 项目
       return [
         { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: TodoListPage2, tabTitle: '待办', tabIcon: 'chatboxes', params: {
-          processName: '',
-          name: '待办列表'
-        } },
+        {
+          root: TodoListPage2, tabTitle: '待办', tabIcon: 'chatboxes', params: {
+            processName: '',
+            name: '待办列表'
+          }
+        },
         { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
       ];
     } else {
@@ -233,9 +243,9 @@ export class TabsPage {
    */
   doOpenNotification(event: any) {
     // 获取修改tab角标数
-    if (localStorage.getItem('haveIM') !== '2'){
+    if (localStorage.getItem('haveIM') !== '2') {
       this.getWaitToDoNumber();
-    }else{
+    } else {
       this.getTodoNumber(); // 项目获取待办数量
     }
     // 刷新首页待办角标和组件
@@ -512,9 +522,9 @@ export class TabsPage {
       }, (retData) => { });
     }
   }
-  // 获取待办事件个数
+  // 获取首页tab总数
   getWaitToDoNumber() {
-    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+    this.http.get('/notices/mainPageCount').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json(); // 待办个数
         // let data = 5;
@@ -530,7 +540,7 @@ export class TabsPage {
       this.toastService.show(res.text());
     });
   }
-  // 获取项目待办数量
+  // 获取项目获取首页tab总数
   getTodoNumber() {
     let params: URLSearchParams = new URLSearchParams();
     params.append('pageNo', '1');
@@ -574,19 +584,19 @@ export class TabsPage {
   }
   changeValue(tab: any) {
     if (localStorage.getItem('haveIM') !== '1' && localStorage.getItem('haveIM') !== '2') {
-    if (tab.tabTitle === '待办') {
-      this.tabRef.select(0);
-      const dataALL = {
-        name: '待办',
-        isPush: false,
-        data: {
-          url: '/#/webapp/workflow/todo'
-        },
-        page: 'examList'
-      };
-      this.routersService.pageForward(this.navCtrl, dataALL);
+      if (tab.tabTitle === '待办') {
+        this.tabRef.select(0);
+        const dataALL = {
+          name: '待办',
+          isPush: false,
+          data: {
+            url: '/#/webapp/workflow/todo'
+          },
+          page: 'examList'
+        };
+        this.routersService.pageForward(this.navCtrl, dataALL);
+      }
+      console.log('选择:' + tab.tabTitle);
     }
-    console.log('选择:' + tab.tabTitle);
   }
-}
 }

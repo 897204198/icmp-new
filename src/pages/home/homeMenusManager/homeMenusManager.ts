@@ -89,7 +89,8 @@ export class HomeMenusManagerPage {
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
         if (localStorage.getItem('haveIM') !== '2'){
-          this.getWaitNum();
+          this.getMyMenus();
+          this.getAllMenus();
         }
       });
     }
@@ -98,46 +99,44 @@ export class HomeMenusManagerPage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    this.getWaitNum();
+    this.getMyMenus();
+    this.getAllMenus();
   }
   /**
    * 进入页面
    */
   ionViewDidLoad() {
-    // this.getMyMenus();
-    // this.getAllMenus();
-    // this.getWaitNum();
     this.dragulaService.drop.subscribe((value) => {
       this.saveMenus();
     });
   }
-  /**
-   * 获取待办数量
-   */
-  getWaitNum(): void {
-    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
-      this.waitNum = 0;
-      if (res._body != null && res._body !== '') {
-        let data = res.json(); // 待办个数
-        this.waitNum = data;
-      }
-      this.getMyMenus();
-      this.getAllMenus();
-    }, (res: Response) => {
-      if (localStorage.getItem('haveIM') !== '2'){
-        this.toastService.show(res.text());
-      }
-      this.getMyMenus();
-      this.getAllMenus();
-    });
-  }
+  // /**
+  //  * 获取待办数量
+  //  */
+  // getWaitNum(): void {
+  //   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+  //     this.waitNum = 0;
+  //     if (res._body != null && res._body !== '') {
+  //       let data = res.json(); // 待办个数
+  //       this.waitNum = data;
+  //     }
+  //     this.getMyMenus();
+  //     this.getAllMenus();
+  //   }, (res: Response) => {
+  //     if (localStorage.getItem('haveIM') !== '2'){
+  //       this.toastService.show(res.text());
+  //     }
+  //     this.getMyMenus();
+  //     this.getAllMenus();
+  //   });
+  // }
   /**
    * 取得全部应用
    */
   getAllMenus(): void {
     this.categoryMenus = [];
     setTimeout(() => {
-      this.http.get('/app/applications/all').subscribe((res: Response) => {
+      this.http.get('/sys/applications/all').subscribe((res: Response) => {
         let allMenus = res.json();
         let noGroupMenus = {};
         noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
@@ -148,10 +147,12 @@ export class HomeMenusManagerPage {
             let menu = allMenus[i];
             menu.menus = [];
             for (let apps of menu['apps']) {
-              apps['serviceName'] = apps['data']['serviceName'];
-              apps['processName'] = apps['data']['processName'];
-              apps['queryCondition'] = apps['data']['queryCondition'];
-              apps['total'] = apps['data']['total'];
+              if (localStorage.getItem('haveIM') === '2'){
+                apps['serviceName'] = apps['data']['serviceName'];
+                apps['processName'] = apps['data']['processName'];
+                apps['queryCondition'] = apps['data']['queryCondition'];
+                apps['total'] = apps['data']['total'];
+              }
               if (apps['name'] === '待办') {
                 apps['total'] = this.waitNum;
                 console.log('待办全部角标数' + apps['total']);
@@ -199,13 +200,15 @@ export class HomeMenusManagerPage {
   getMyMenus(): void {
     this.myMenus = [];
     const arr = [];
-    this.http.get('/app/applications').subscribe((res: any) => {
+    this.http.get('/sys/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json();
         for (let i = 0; i < data.length; i++) {
-          data[i]['serviceName'] = data[i]['data']['serviceName'];
-          data[i]['processName'] = data[i]['data']['processName'];
-          data[i]['total'] = data[i]['data']['total'];
+          if (localStorage.getItem('haveIM') === '2'){
+            data[i]['serviceName'] = data[i]['data']['serviceName'];
+            data[i]['processName'] = data[i]['data']['processName'];
+            data[i]['total'] = data[i]['data']['total'];
+          }
           if (data[i].name === '待办') {
             data[i].total = this.waitNum;
           }

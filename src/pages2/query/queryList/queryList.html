@@ -10,19 +10,23 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <ion-refresher *ngIf="!isTabQuery" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *ngIf="!isTabQuery && !isScheduleQuery" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list *ngIf="isTabQuery">
+  <ion-list *ngIf="isTabQuery && !isScheduleQuery">
     <button id="e2e-tabquery-item" ion-item *ngFor="let item of queryList" (click)="goQuerySubList(item)">
       {{item.tab_name}}
     </button>
   </ion-list>
-  <ion-list *ngIf="!isTabQuery">
+  <ion-list *ngIf="!isTabQuery && !isScheduleQuery">
     <button id="e2e-query-item" ion-item *ngFor="let item of queryList" (click)="goQueryDetail(item)">
       <div [innerHtml]="getSafeHtml(item.title)"></div>
     </button>
   </ion-list>
+  <div *ngIf="isScheduleQuery">
+    <p style="font-size: 16px; color: #000; text-align: center;">{{caption}}</p>
+    <ion-calendar [(ngModel)]="date" [options]="options" (onSelect)="onSelect($event)" [type]="type" [format]="'YYYY-MM-DD'" (monthChange)="monthChange($event)"></ion-calendar>
+  </div>
   <ion-infinite-scroll (ionInfinite)="doInfinite()">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

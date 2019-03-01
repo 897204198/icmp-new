@@ -77,6 +77,6 @@ export const icmpConstant: IcmpConstant = {
   pageSize: '20',
   reqResultSuccess: '0',
   page: pageIdConstant,
-  androidUpdateUrl: 'https://www.pgyer.com/TniF',
-  iosUpdateUrl: 'https://www.pgyer.com/RNv8'
+  androidUpdateUrl: 'https://www.pgyer.com/QY06',
+  iosUpdateUrl: 'https://www.pgyer.com/DVKG'
 };

@@ -32,7 +32,7 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>{{'DEPARTMENTS' | translate}}</ion-label>
+      <ion-label>{{'REPAIR_DEPARTMENT' | translate}}</ion-label>
       <ion-select (ionChange)="clickDepartmentOption()" [(ngModel)]="submitInfo.department" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
         <ion-option *ngFor="let info2 of initData.department" value="{{info2}}">{{info2}}</ion-option>
       </ion-select>
@@ -61,21 +61,20 @@
     </ion-item-sliding>
   </ion-list>
 
+  <div class="accessory-button" tappable (tap)="getPhotoFromCamera()">
+    <div class="inside-button">
+      <ion-icon name="camera"></ion-icon>
+      {{'PHOTOGRAPH' | translate}}...
+    </div>
+  </div>
+  <div class="accessory-button" tappable (tap)="getPhotoFromAlbum()">
+    <div class="inside-button">
+      <ion-icon name="image"></ion-icon>
+      {{'ALBUM' | translate}}...
+    </div>
+  </div>
   <div class="gray-div">
     {{'INSTASHOT_INFO' | translate}}
   </div>
 
 </ion-content>
-<ion-footer class="instashot-footer">
-  <ion-toolbar>
-    <button ion-button clear color="primary" (click)="getPhotoFromAlbum()">
-      <ion-icon name="image"></ion-icon>
-      {{'ALBUM' | translate}}
-    </button>
-    <div class="footer-button-sp"></div>
-    <button ion-button clear color="primary" (click)="getPhotoFromCamera()">
-      <ion-icon name="camera"></ion-icon>
-      {{'PHOTOGRAPH' | translate}}
-    </button>
-  </ion-toolbar>
-</ion-footer>

@@ -66,7 +66,9 @@ import { FileService } from './services/file.service';
 import { QueryListPage2 } from '../pages2/query/queryList/queryList';
 import { QueryListPage } from '../pages/query/queryList/queryList';
 import { QueryListConditionPage2 } from '../pages2/query/queryListCondition/queryListCondition';
+import { QueryScheduleDetailPage } from '../pages2/query/queryScheduleDetail/queryScheduleDetail';
 import { QueryListConditionPage } from '../pages/query/queryListCondition/queryListCondition';
+import { CalendarModule } from 'icon2-calendar-ng-v4';
 import { SearchboxComponent } from './component/searchbox/searchbox.component';
 import { TodoListPage } from '../pages/todo/todoList/todoList';
 import { TodoDetailPage } from '../pages/todo/todoDetail/todoDetail';
@@ -177,6 +179,7 @@ export function createTranslateLoader(http: Http) {
     QueryListPage2,
     QueryListPage,
     QueryListConditionPage2,
+    QueryScheduleDetailPage,
     QueryListConditionPage,
     StatisticsQueryPage,
     StatisticsViewPage,
@@ -228,6 +231,7 @@ export function createTranslateLoader(http: Http) {
     IonicStorageModule.forRoot(),
     BrowserModule,
     HttpModule,
+    CalendarModule,
     DragulaModule
   ],
   bootstrap: [IonicApp],
@@ -261,6 +265,7 @@ export function createTranslateLoader(http: Http) {
     SafeAndPrivacyPage,
     GeneralPage,
     QueryNoticeDetailPage2,
+    QueryScheduleDetailPage,
     QueryNoticeDetailPage,
     QueryListPage2,
     QueryListPage,

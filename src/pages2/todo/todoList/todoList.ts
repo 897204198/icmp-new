@@ -6,7 +6,7 @@ import { ToastService } from '../../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TodoDetailPage2 } from '../todoDetail/todoDetail';
 import { UserInfoState, UserService } from '../../../app/services/user.service';
-import { HomeReplaceBadageAction } from '../../../app/redux/actions/home.action';
+import { TodoReplaceBadageAction } from '../../../app/redux/actions/todo.action';
 import { Store } from '@ngrx/store';
 
 /**
@@ -74,7 +74,7 @@ export class TodoListPage2 {
     let params: URLSearchParams = new URLSearchParams();
     params.append('pageNo', this.pageNo.toString());
     params.append('pageSize', this.icmpConstant.pageSize);
-    params.append('processName', '');
+    params.append('processName', this.navParams.get('processName'));
     this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
       this.todoList = [];
       let data = res.json();
@@ -83,9 +83,9 @@ export class TodoListPage2 {
       if (!this.navCtrl.canGoBack()) {
         // redux传值
         if (data.total === 0) {
-          this.store.dispatch(new HomeReplaceBadageAction(''));
+          this.store.dispatch(new TodoReplaceBadageAction(''));
         } else {
-          this.store.dispatch(new HomeReplaceBadageAction(data.total));
+          this.store.dispatch(new TodoReplaceBadageAction(data.total));
         }
       }
 

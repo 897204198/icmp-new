@@ -1,0 +1,16 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'DETAILED_INFO' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray">
+  <ion-list class="icmp-list-bottom-none icmp-list-top-margin">
+    <ion-item *ngFor="let opinion of opinionList">
+      <p *ngFor="let key of keysList">
+        <span>{{key}}：</span>
+        <span>{{opinion[key]}}</span>
+      </p>
+    </ion-item>
+  </ion-list>
+</ion-content>

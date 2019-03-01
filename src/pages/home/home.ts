@@ -18,6 +18,8 @@ import timeago from 'timeago.js';
 import { NoticePage } from '../notice/notice';
 import { ConfigsService } from '../../app/services/configs.service';
 import { LoginPage } from '../login/login';
+import { TodoReplaceBadageAction } from '../../app/redux/actions/todo.action';
+
 /**
  * 首页
  */
@@ -96,10 +98,11 @@ export class HomePage {
       if (num === 1) {
         this.setPlugins();
         this.getComponentList();
-        if (localStorage.getItem('haveIM') !== '2'){
+        if (localStorage.getItem('haveIM') !== '2') {
           this.getWaitNum();
           this.componentInit();
-        }else{
+          this.getWaitToDoNum();
+        } else {
           this.getTodoNumber(); // 项目获取待办数量
         }
       }
@@ -109,11 +112,12 @@ export class HomePage {
       events.subscribe('refresh', () => {
         console.log('event刷新消息啊啦啦啦');
         this.getComponentList();
-        if (localStorage.getItem('haveIM') !== '2'){
+        if (localStorage.getItem('haveIM') !== '2') {
           this.getWaitNum();
           this.componentInit();
-        }else{
-          this.getTodoNumber(); // 项目获取待办数量
+          this.getWaitToDoNum();
+        } else {
+          this.getTodoNumber(); // 项目获取首页tab数量
         }
       });
     }
@@ -136,11 +140,12 @@ export class HomePage {
       this.setNotice();
       this.setPlugins();
       this.getComponentList();
-      if (localStorage.getItem('haveIM') !== '2'){
+      if (localStorage.getItem('haveIM') !== '2') {
         this.getWaitNum();
         this.componentInit();
-      }else{
-        this.getTodoNumber(); // 项目获取待办数量
+        this.getWaitToDoNum();
+      } else {
+        this.getTodoNumber(); // 项目获取首页tab数量
       }
     }
     this.isFirst = false;
@@ -157,11 +162,11 @@ export class HomePage {
 
     if (localStorage.getItem('haveIM') === '1') {
       this.haveIM = true;
-    }else{
+    } else {
       this.haveIM = false;
     }
   }
-  test_local_dict (number, index, total_sec): any {
+  test_local_dict(number, index, total_sec): any {
     // number：xxx 时间前 / 后的数字；
     // index：下面数组的索引号；
     // total_sec：时间间隔的总秒数；
@@ -181,8 +186,8 @@ export class HomePage {
       ['1年前', 'in 1 year'],
       ['%s年前', 'in %s years']
     ][index];
-};
-  getComponentList() : void {
+  };
+  getComponentList(): void {
     this.http.get('/plugin').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.componentList = res.json();
@@ -195,7 +200,7 @@ export class HomePage {
     });
   }
   componentInit(): void {
-    Date.prototype.toLocaleString = function() {
+    Date.prototype.toLocaleString = function () {
       return this.getFullYear() + '-' + (this.getMonth() + 1) + '-' + this.getDate() + ' ' + this.getHours() + ':' + this.getMinutes() + ':' + this.getSeconds();
     };
     this.http.get('/search/query?moduleName=workflow_task&pageNo=1&pageSize=5').subscribe((res: any) => {
@@ -218,7 +223,7 @@ export class HomePage {
               } else {
                 item['value'] = element['form']['formData'][item['name']];
               }
-              if (typeof(item['value']) === 'number' && item['value'].toString().length === 13) {
+              if (typeof (item['value']) === 'number' && item['value'].toString().length === 13) {
                 item['value'] = new Date(item['value']).toLocaleString();
               }
             });
@@ -254,7 +259,7 @@ export class HomePage {
         } else {
           this.toastService.show(res.text());
         }
-      }else {
+      } else {
         this.toastService.show(res.text());
       }
     });
@@ -329,17 +334,19 @@ export class HomePage {
    * 设置首页应用列表
    */
   setAppList(): void {
-    this.http.get('/app/applications').subscribe((res: any) => {
+    this.http.get('/sys/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.menus = [];
         let data = res.json();
         let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
-          data[i]['serviceName'] = data[i]['data']['serviceName'];
-          data[i]['processName'] = data[i]['data']['processName'];
-          data[i]['total'] = data[i]['data']['total'];
+          if (localStorage.getItem('haveIM') === '2') {
+            data[i]['serviceName'] = data[i]['data']['serviceName'];
+            data[i]['processName'] = data[i]['data']['processName'];
+            data[i]['total'] = data[i]['data']['total'];
+          }
           if (data[i].name === '待办') {
-            data[i].total =  this.waitNum;
+            data[i].total = this.waitNum;
             haveWait++;
             if (localStorage.getItem('haveIM') === '0') {
               // 存储待办模块
@@ -350,9 +357,9 @@ export class HomePage {
         }
         // 首页没有待办数量加在全部图标上
         if (localStorage.getItem('haveIM') === '1') {
-          if (haveWait === 0){
+          if (haveWait === 0) {
             this.allNum = this.waitNum;
-          }else{
+          } else {
             this.allNum = 0;
           }
         }
@@ -382,13 +389,13 @@ export class HomePage {
     this.allNum = 0;
     this.secureStorageService.putObject('home_applist', this.menus);
   }
-   /**
-   * 获取待办数量
-   */
+  /**
+  * 获取首页tab总数数量
+  */
   getWaitNum(): void {
-    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+    this.http.get('/notices/mainPageCount').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json() ; // 待办个数
+        let data = res.json(); // 待办个数
         this.waitNum = data;
         if (data === 0) {
           this.store.dispatch(new HomeReplaceBadageAction(''));
@@ -402,8 +409,7 @@ export class HomePage {
       this.setAppList(); // 获取应用
     });
   }
-
-  // 获取待办数量
+  // 获取项目首页tab总数数量
   getTodoNumber() {
     let params: URLSearchParams = new URLSearchParams();
     params.append('pageNo', '1');
@@ -418,6 +424,25 @@ export class HomePage {
         this.store.dispatch(new HomeReplaceBadageAction(data.total));
       }
       this.setAppList(); // 获取应用
+    });
+  }
+  /**
+  * 获取待办数量
+  */
+  getWaitToDoNum(): void {
+    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+      if (res._body != null && res._body !== '') {
+        let data = res.json(); // 待办个数
+        if (data.total === 0) {
+          this.store.dispatch(new TodoReplaceBadageAction(''));
+        } else {
+          this.store.dispatch(new TodoReplaceBadageAction(data.toString()));
+        }
+      }
+    }, (res: Response) => {
+      if (localStorage.getItem('haveIM') !== '2') {
+        this.toastService.show(res.text());
+      }
     });
   }
 
@@ -440,14 +465,14 @@ export class HomePage {
    * 获取通知消息列表
    */
   setNotice(): void {
-    let params: Object = {infoType: 'NOTICE_INFORMATION'};
+    let params: Object = { infoType: 'NOTICE_INFORMATION' };
     this.http.get('/sys/announcement', { params: params }).subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json();
         this.notices = data;
         this.noticeLists = [...data];
         if (this.notices.length > 0) {
-          this.notices.push({title: this.notices[0]['title'], info: this.notices[0]['info'], beginTime: this.notices[0]['beginTime']});
+          this.notices.push({ title: this.notices[0]['title'], info: this.notices[0]['info'], beginTime: this.notices[0]['beginTime'] });
           this.noticeMarginIndex = 0;
           this.noticeScroll();
         }
@@ -486,10 +511,10 @@ export class HomePage {
   /**
    * 打开通知消息
    */
-   // 点击通知跳转
-   noticeClk(index: number): void {
+  // 点击通知跳转
+  noticeClk(index: number): void {
     let noticeInfo = this.notices[index];
-    this.navCtrl.push(NoticePage, {notices: this.noticeLists, index: index, title: noticeInfo['title'], info: noticeInfo['info'], beginTime: noticeInfo['beginTime'].substring(0, 10)});
+    this.navCtrl.push(NoticePage, { notices: this.noticeLists, index: index, title: noticeInfo['title'], info: noticeInfo['info'], beginTime: noticeInfo['beginTime'].substring(0, 10) });
   }
   openNotice(item: any): void {
     let title = item.detailTitleBarText ? item.detailTitleBarText : this.transateContent['NOTICE_DETAILED'];
@@ -518,7 +543,7 @@ export class HomePage {
   }
   getMoreInfo(menu): void {
     if (menu['appType'] === 'folder') {
-      let modal = this.modalCtrl.create(MenuFolderComponent, {name: menu});
+      let modal = this.modalCtrl.create(MenuFolderComponent, { name: menu });
       modal.onDidDismiss(data => {
         if (data) {
           this.routersService.pageForward(this.navCtrl, data);
@@ -542,7 +567,7 @@ export class HomePage {
         {
           text: '确认',
           handler: () => {
-            const {taskId, form} = record;
+            const { taskId, form } = record;
             if (record.form.formData) {
               const data = {
                 ...form.formData,
@@ -568,13 +593,13 @@ export class HomePage {
     confirm.present();
   }
   getDetail(record, title, targetUrl): void {
-    const {pepProcInst: {procInstId, processTitle}, taskId, name} = record;
+    const { pepProcInst: { procInstId, processTitle }, taskId, name } = record;
     const param = btoa(encodeURIComponent(JSON.stringify({
       isLaunch: false,
       taskOrProcDefKey: taskId,
       procInstId,
       name,
-      businessObj: {formTitle: processTitle},
+      businessObj: { formTitle: processTitle },
       stateCode: undefined
     })));
     const dataALL = {
