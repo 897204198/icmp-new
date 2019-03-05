@@ -20,13 +20,13 @@
     </div>
     <div class="user-head-image-div-content">
       <p>{{toUserInfo?.name}}</p>
-      <p *ngIf="toUserInfo != null && toUserInfo.orgName != null" class='orgName'>{{'DEPARTMENT' | translate}} : {{toUserInfo?.orgName}}</p>
+      <p *ngIf="toUserInfo != null && toUserInfo.organizationName != null" class='orgName'>{{'DEPARTMENT' | translate}} : {{toUserInfo?.organizationName}}</p>
     </div>
   </div>
   <ion-list>
-    <ion-item *ngIf="toUserInfo != null && toUserInfo.sexName != null">
+    <ion-item *ngIf="toUserInfo != null && toUserInfo.sex != null">
       {{'SEX' | translate}}
-      <p item-right>{{toUserInfo?.sexName}}</p>
+      <p item-right>{{toUserInfo?.sex}}</p>
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.phone != null">
       {{'PHONE' | translate}}
@@ -40,7 +40,7 @@
     </ion-item>
     <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
       {{'DEPARTMENT' | translate}}
-      <p item-right>{{toUserInfo?.orgName}}</p>
+      <p item-right>{{toUserInfo?.organizationName}}</p>
     </ion-item>
   </ion-list>
 </ion-content>

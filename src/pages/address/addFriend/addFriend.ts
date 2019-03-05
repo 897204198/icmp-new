@@ -124,7 +124,7 @@ export class AddFriendPage {
    */
   lookUserProfile(item: Object) {
     let isFriend: boolean = false;
-    if (item['status'] && (item['status']['code'] === '0' || item['status']['code'] === 0)) {
+    if (item['userEntity']['status'] && (item['userEntity']['status']['code'] === '0' || item['userEntity']['status']['code'] === 0)) {
       isFriend = true;
     }
     let params: object = {

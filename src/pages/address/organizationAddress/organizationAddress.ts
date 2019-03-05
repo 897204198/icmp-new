@@ -30,7 +30,6 @@ export class OrganizationAddressPage {
   private isSearch: boolean = false;
   // 面包屑是否是最后一层
   private isLast: boolean = false;
-
   // 搜索组织ID，默认为 root
   private organizationId: string = 'root';
   // 搜索用户列表
@@ -131,7 +130,7 @@ export class OrganizationAddressPage {
    * 改变组织
    */
   changeOrganization(item: Object, i: number) {
-    this.organizationId = item['organizationId'];
+    this.organizationId = item['id'];
     this.getOrganization();
     const spliceLength: number = this.organizationList.length - i - 1;
     this.organizationList.splice(i + 1, spliceLength);
@@ -139,25 +138,36 @@ export class OrganizationAddressPage {
   }
 
   /**
-   * 改变下级组织
+   * 改变下级组织&导航数据
    */
   changeSubOrganization(item: Object) {
-    this.organizationId = item['organizationId'];
-    if (item['leafCount'] !== 0 && item['leafCount'] !== '0') {
-      if (this.isLast === true) {
-        this.organizationList.pop();
-      }
-      this.isLast = false;
-      this.organizationList.push(item);
-    } else {
-      if (this.isLast === true) {
-        this.organizationList.pop();
+      this.organizationId = item['id'];
+      if (item['leafCount'] !== 0 && item['leafCount'] !== '0') {
+        if (this.isLast === true) {
+          this.organizationList.pop();
+        }
+        this.isLast = false;
+        this.isTitleRepeat(item, this.organizationList);
+        // 判断是否有子级部门
+        if (!item['isParent'] && !item['isFirst']) {
+          // 更新组织列表
+          this.getOrganization();
+        }
       } else {
-        this.isLast = true;
+        if (this.isLast === true) {
+          this.organizationList.pop();
+        } else {
+          this.isLast = true;
+        }
+        this.isTitleRepeat(item, this.organizationList);
       }
-      this.organizationList.push(item);
+
+    // 更新右侧列表
+    this.userList = item['employees'];
+    // 改变按钮背景颜色
+    for (let it of this.subOrganizationList) {
+      it['name'] === item['name'] ? it['isChecked'] = true : it['isChecked'] = false;
     }
-    this.getOrganization();
   }
 
   /**
@@ -166,21 +176,35 @@ export class OrganizationAddressPage {
   getOrganization() {
     this.http.get('/im/contacts/organization', { params: { 'organizationId': this.organizationId } })
       .subscribe((res: Response) => {
-        this.userList = res.json()['contacts'];
-        if (res.json()['leafCount'] !== 0 && res.json()['leafCount'] !== '0') {
-          this.subOrganizationList = res.json()['orgs'];
+        let data = res.json();
+        this.userList = data['employees'];
+        if (data['leafCount'] !== 0 && data['leafCount'] !== '0') {
+          this.subOrganizationList = data['orgs'];
+          this.subOrganizationList.map(item => {
+            item['isChecked'] = false;
+          });
+          // 添加总部门
+          let parentItem:  Array<Object> = [];
+          parentItem['name'] = data['name'];
+          parentItem['id'] = data['id'];
+          parentItem['leafCount'] = data['leafCount'];
+          parentItem['employees'] = data['employees'];
+          parentItem['isParent'] = true;
+          parentItem['isChecked'] = true;
+          parentItem['isFirst'] = true;
+          this.subOrganizationList.unshift(parentItem);
         }
         if (this.organizationId === 'root') {
           let item: Object = {
-            organizationId: res.json()['organizationId'],
-            organizationName: res.json()['organizationName']
+            id: data['id'],
+            name: data['name']
           };
           this.organizationList = [item];
         }
         for (let user of this.userList) {
           if (user['avatar']) {
             user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
-          }
+         }
         }
       }, (res: Response) => {
         if (localStorage.getItem('haveIM') !== '1') {
@@ -217,7 +241,7 @@ export class OrganizationAddressPage {
    */
   lookUserProfile(item: Object) {
     let isFriend: boolean = false;
-    if (item['status'] && (item['status']['code'] === '0' || item['status']['code'] === 0)) {
+    if (item['userEntity'] && item['userEntity']['status'] && (item['userEntity']['status']['code'] === '0' || item['userEntity']['status']['code'] === 0)) {
       isFriend = true;
     }
     let params: object = {
@@ -283,6 +307,13 @@ export class OrganizationAddressPage {
           break;
         }
       }
+    }
+  }
+
+  // 判断导航栏是否有重复项
+  isTitleRepeat(item: Object, data: Object[]){
+    if (data[data.length - 1]['id'] !== item['id']) {
+      this.organizationList.push(item);
     }
   }
 }

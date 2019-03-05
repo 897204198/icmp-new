@@ -104,17 +104,8 @@ export class UserProfilePage {
    * TODO 平台接口资源与菜单绑定, 没有菜单权限无法访问平台接口 目前使用老接口 
    */
   getUserInfoFromNet(userId: string, toUserId: string): void {
-    this.http.get('/user/info?userId=' + toUserId).subscribe((res: Response) => {
+    this.http.get('/im/contacts/organization/info?employeeId=' + toUserId).subscribe((res: Response) => {
       let data: Object = res.json();
-      if (data['sex'] != null && data['sex'] !== '') {
-        if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
-          data['sexName'] = '男';
-        } else {
-          data['sexName'] = '女';
-        }
-      } else {
-        data['sexName'] = '';
-      }
       this.toUserInfo = data;
       if (data['avatar']) {
         this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;

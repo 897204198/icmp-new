@@ -21,7 +21,7 @@
       {{'ACCOUNT' | translate}}
       <p item-right>{{userInfo?.account}}</p>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="hasSex">
       {{'SEX' | translate}}
       <p item-right>{{userInfo?.sexName}}</p>
     </ion-item>

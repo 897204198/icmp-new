@@ -24,6 +24,9 @@ export class UserInfoPage {
   private token: string = '?access_token=' + localStorage['token'];
   // 是否有IM功能
   haveChangeIm: boolean = false;
+  // 是否有sex属性
+  hasSex: boolean = false;
+
   /**
    * 构造函数
    */
@@ -73,12 +76,16 @@ export class UserInfoPage {
       this.userInfo['account'] = data.username;
       this.userInfo['headImageContent'] = data.headImageContent;
       this.userInfo['orgName'] = data.orgName;
+      // TODO 后台此接口没有该sex字段，暂时如此处理。待后续解决
       if (data['sex'] != null && data['sex'] !== '') {
         if (data['sex']['code'] === '0') {
           this.userInfo['sexName'] = '男';
         } else {
           this.userInfo['sexName'] = '女';
         }
+        this.hasSex = true;
+      } else {
+        this.hasSex = false;
       }
       if (data.avatar) {
         this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
