@@ -16,7 +16,7 @@
   <div class="user-head-image-div">
     <div class="user-head-image-div-img">
       <img *ngIf="toUserInfo['avatar']" src="{{toUserInfo['avatar']}}" (error)="resetImg()">
-      <div *ngIf="!toUserInfo['avatar']">{{toUserInfo['name'] ? toUserInfo['name'].substring(0, 1): ''}}</div>
+      <div *ngIf="!toUserInfo['avatar']">{{toUserInfo['name'] ? toUserInfo['name'].substring(toUserInfo['name'].length-2): ''}}</div>
     </div>
     <div class="user-head-image-div-content">
       <p>{{toUserInfo?.name}}</p>

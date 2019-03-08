@@ -89,7 +89,7 @@ export class SettingPage {
   ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
-    this.surname = this.userInfo.userName[0];
+    this.surname = this.userInfo.userName.substring(this.userInfo.userName.length - 2);
     // 获取当前程序的版本名
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo == null) {

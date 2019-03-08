@@ -52,7 +52,7 @@ export class UserInfoPage {
     */
   getUserInfoFromLocal(): void {
     this.localUserInfo = this.userService.getUserInfo();
-    this.surname = this.localUserInfo.userName[0];
+    this.surname = this.localUserInfo.userName.substring(this.localUserInfo.userName.length - 2);
     this.userInfo['name'] = this.localUserInfo.userName;
     this.userInfo['phone'] = this.localUserInfo.phone;
     this.userInfo['email'] = this.localUserInfo.email;

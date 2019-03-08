@@ -61,6 +61,7 @@ page-organizationAddress {
   .organization-content {
     .scroll-content {
       overflow-y: hidden;
+      margin-bottom: 0 !important;
     }
 
     ion-scroll.scroll-y .scroll-content {

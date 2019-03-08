@@ -20,7 +20,7 @@
         <ion-avatar item-left>
           <img *ngIf="user.avatar" src="{{user.avatar}}" (error)="resetImg(user, false)">
           <div *ngIf="!user.avatar" class="word-head-image">
-            <div class="word-head-image-content">{{user.name.substring(0, 1)}}</div>
+            <div class="word-head-image-content">{{user.name.substring(user.name.length - 2)}}</div>
           </div>
         </ion-avatar>
         <h2>{{user.name}}</h2>
@@ -52,7 +52,7 @@
           <button [ngClass]="!item.isChecked ? 'gray-button' : 'white-button'"   (click)="changeSubOrganization(item)" detail-none
             text-wrap>
            <h2>
-             <img *ngIf="!item.isParent" class="left-icon" src="../../../assets/images/im/department.png"/>
+             <img *ngIf="!item.isParent" class="left-icon" src="./assets/images/im/department.png"/>
              {{item?.name}}
           </h2>
           </button>
@@ -65,7 +65,7 @@
           <ion-avatar item-left>
             <img *ngIf="user.avatar" src="{{user.avatar}}" (error)="resetImg(user, true)">
             <div *ngIf="!user.avatar" class="word-head-image">
-              <div class="word-head-image-content">{{user.name.substring(0, 1)}}</div>
+              <div class="word-head-image-content">{{user.name.substring(user.name.length - 2)}}</div>
             </div>
           </ion-avatar>
           <h2>{{user.name}}</h2>
