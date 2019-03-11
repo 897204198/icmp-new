@@ -201,9 +201,12 @@ export class LoginPage {
         };
         this.userService.saveUserInfo(newUserInfo);
         this.userService.login();
+        let tabParams: Object = {
+          catalog: 'APPLICATION_TAB'
+        };
         // 获取底部tabs
-        // this.http.get('/application/tab').subscribe((res3: Response) => {
-          let tabsData = res3.json();
+        this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
+          let tabsData = res4.json();
         // 避免在 web 上无法显示页面
         let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
         if (deviceInfo.deviceType) {
@@ -259,7 +262,7 @@ export class LoginPage {
             this.events.publish('logined');
           });
         }
-        // });
+        });
       }, (err: Response) => {
         this.toastService.show(err.text());
       });

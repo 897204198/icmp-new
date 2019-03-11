@@ -49,15 +49,15 @@ export class TabsPage {
   userInfo: UserInfoState = this.userService.getUserInfo();
   // 是否是首次加载，用于解决杀进程状态点击推送跳转时还未登录问题
   private isFirst: boolean = true;
-  // private bottomTabs: Object = {
-  //   HomePage,
-  //   ChatListPage,
-  //   AddressPage,
-  //   SettingPage,
-  //   TodoListPage2,
-  //   WaitDonePage,
-  //   OrganizationAddressPage
-  // };
+  bottomTabs: Object = {
+    HomePage,
+    ChatListPage,
+    AddressPage,
+    SettingPage,
+    TodoListPage2,
+    WaitDonePage,
+    OrganizationAddressPage
+  };
 
   /**
    * 构造函数
@@ -196,46 +196,47 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    // const result = this.navParams.get('tabsArr');
-    // return result.map(it =>({
-    //   ...it,
-    //   root: this.bottomTabs[it.root]
-    // }))
-    if (localStorage.getItem('haveIM') === '1') {
-      // 网页调试注销掉的，真机测试再打开
-      // if (this.userService.imIsOpen()) { 
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
-        { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-        { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
-      ];
-      // } else {
-      //   return [
-      //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-      //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-      //   ];
-      // }
-    } else if (localStorage.getItem('haveIM') === '2') {
-      // 项目
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        {
-          root: TodoListPage2, tabTitle: '待办', tabIcon: 'chatboxes', params: {
-            processName: '',
-            name: '待办列表'
-          }
-        },
-        { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
-      ];
-    } else {
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
-        { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-        { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
-      ];
-    }
+    const result  = this.navParams.get('tabsArr');
+    return  result.map(it => ({
+        ...it,
+        root: this.bottomTabs[it.root]
+      }));
+    // if (localStorage.getItem('haveIM') === '1') {
+    //   // 网页调试注销掉的，真机测试再打开
+    //   // if (this.userService.imIsOpen()) { 
+    //   return [
+    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //     { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
+    //     { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+    //     { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+    //   ];
+    //   // } else {
+    //   //   return [
+    //   //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //   //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+    //   //   ];
+    //   // }
+    // } else if (localStorage.getItem('haveIM') === '2') {
+    //   // 项目
+    //   return [
+    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //     {
+    //       root: TodoListPage2, tabTitle: '待办', tabIcon: 'chatboxes', params: {
+    //         processName: '',
+    //         name: '待办列表'
+    //       }
+    //     },
+    //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+    //   ];
+    // } else {
+    //   return [
+    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //     { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
+    //     { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+    //     { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+    //   ];
+    // }
+
   }
 
   /**
