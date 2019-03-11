@@ -19,6 +19,9 @@ import { DeviceInfoState, DeviceService } from './device.service';
 import { Store } from '@ngrx/store';
 import { ConfigsService } from '../services/configs.service';
 import { EmergencyTreatmentPage } from '../../pages2/emergencyTreatment/emergencyTreatment';
+import { RfidPage } from '../../pages/rfid/rfid';
+import { PhotoService } from './photo.service';
+import { QueryDetailPage } from '../../pages/query/queryDetail/queryDetail';
 
 /**
  * 路由服务
@@ -39,6 +42,7 @@ export class RoutersService {
     private deviceService: DeviceService,
     private store: Store<string>,
     private events: Events,
+    private photoService: PhotoService,
     private iab: InAppBrowser) {
     this.translate.get(['NO_DETAILED_INFO']).subscribe((res: Object) => {
       this.transateContent = res;
@@ -118,7 +122,22 @@ export class RoutersService {
       navCtrl.push(MacAddressPage, {menu});
     } else if (menu.page === this.icmpConstant.page.email) {
       navCtrl.push(EmailPage, menu);
-    } else {
+    }else if (menu.systemId === this.icmpConstant.page.rfid) {
+      navCtrl.push(RfidPage, menu);
+    } else if (menu.systemId === this.icmpConstant.page.scan) {
+      this.photoService.openScan(function(rfidInfo){
+        if (rfidInfo) {
+          const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
+          if (!rfidInfo['cancelled']){
+            navCtrl.push(QueryDetailPage, addInfo);
+            console.log('正确扫码 进入详情页');
+          } else {
+            console.log('未扫码 返回上一页');
+            navCtrl.pop();
+          }
+        }
+      });
+    }else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }
   }

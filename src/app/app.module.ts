@@ -120,6 +120,12 @@ import { TodoMissionOpinionPage } from '../pages2/todo/todoOpinion/mission/missi
 import { TodoWorkContactPage } from '../pages2/todo/todoOpinion/workContact/workContact';
 import { EmergencyTreatmentPage } from '../pages2/emergencyTreatment/emergencyTreatment';
 import { CheckPage } from '../pages/check/check';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { RfidPage } from '../pages/rfid/rfid';
+import { RfidConnectPage } from '../pages/rfid/rfidConnect';
+import { RfidDetailPage } from '../pages/rfid/rfidDetail';
+import { RfidOpinionPage } from '../pages/rfid/rfidOpinion';
+import { RfidListPage } from '../pages/rfid/rfidList';
 
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
@@ -209,7 +215,13 @@ export function createTranslateLoader(http: Http) {
     OopStormPage,
     ImagePreviewPage,
     IcmpKeyboardAttachDirective,
-    NoticePage
+    NoticePage,
+    InstaShotPage,
+    RfidPage,
+    RfidConnectPage,
+    RfidListPage,
+    RfidDetailPage,
+    RfidOpinionPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -298,9 +310,16 @@ export function createTranslateLoader(http: Http) {
     EmailPage,
     OopStormPage,
     ImagePreviewPage,
-    NoticePage
+    NoticePage,
+    InstaShotPage,
+    RfidPage,
+    RfidConnectPage,
+    RfidListPage,
+    RfidDetailPage,
+    RfidOpinionPage
   ],
   providers: [
+    BarcodeScanner,
     StatusBar,
     SpellService,
     File,

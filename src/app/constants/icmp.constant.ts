@@ -34,6 +34,11 @@ export interface PageIdConstant {
 
   // 邮箱页面
   email: string;
+  // 条形码 扫一扫页面
+  scan: string;
+
+  // 资产管理页面
+  rfid: string;
 }
 
 /**
@@ -70,6 +75,8 @@ export const pageIdConstant: PageIdConstant = {
   examList: 'examList',
   macAddress: 'macAddress',
   emergency: 'emergency',
+  scan: 'scan',
+  rfid: 'rfid',
   email: 'email'
 };
 
