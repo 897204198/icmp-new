@@ -71,6 +71,7 @@ module.exports = function(grunt) {
           'cordova plugin add cordova-plugin-proper-update-version@1.0.3 --save',
           'cordova plugin add cordova-plugin-appminimize@1.0.0 --save',
           'cordova plugin add cordova-plugin-getMacaddress@1.0.0 --save',
+          'cordova plugin add cordova-plugin-proper-rfid@1.0.0 --save',
           'cordova plugin add cordova-plugin-unifiedv4version@1.0.0 --save'
         ].join('&&')
       },

@@ -32,7 +32,7 @@ export class PushService {
     this.initTargetObject();
     if (this.targetObj) {
       let properPushConstant: ProperPushConstant = this.appConstant.properPushConstant;
-      properPushConstant.pushUrl = this.configsService.getBaseUrl();
+      properPushConstant.pushUrl = this.configsService.getPushUrl();
       this.targetObj.init(properPushConstant, () => { }, () => { });
     }
   }
