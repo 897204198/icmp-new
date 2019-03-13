@@ -49,7 +49,9 @@ export class SettingPage {
   aboutPage: any;
   resetPasswordPage: any;
   surname: string;
-  private src: string = '';
+  src: string = '';
+  // 是否是项目
+  haveIm: string;
   // 文件上传/下载地址
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
@@ -81,7 +83,6 @@ export class SettingPage {
     this.translate.get(['ALREADY_LATEST_VERSION']).subscribe((res: Object) => {
       this.transateContent = res;
     });
-
   }
   /**
    * 首次进入页面
@@ -97,6 +98,7 @@ export class SettingPage {
     } else {
       this.appVersionName = deviceInfo.versionNumber;
     }
+    this.haveIm = localStorage.getItem('haveIM');
   }
 
   /**

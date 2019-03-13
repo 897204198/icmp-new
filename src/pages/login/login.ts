@@ -207,6 +207,7 @@ export class LoginPage {
         // 获取底部tabs
         this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
           let tabsData = res4.json();
+          localStorage.setItem('tabsData', JSON.stringify(tabsData));
         // 避免在 web 上无法显示页面
         let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
         if (deviceInfo.deviceType) {

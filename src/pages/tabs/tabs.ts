@@ -196,11 +196,13 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    const result  = this.navParams.get('tabsArr');
-    return  result.map(it => ({
+    const result  = JSON.parse(localStorage.getItem('tabsData'));
+    if (result && result.length) {
+      return  result.map(it => ({
         ...it,
         root: this.bottomTabs[it.root]
       }));
+    }
     // if (localStorage.getItem('haveIM') === '1') {
     //   // 网页调试注销掉的，真机测试再打开
     //   // if (this.userService.imIsOpen()) { 

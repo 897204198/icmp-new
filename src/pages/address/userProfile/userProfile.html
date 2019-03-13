@@ -20,25 +20,25 @@
     </div>
     <div class="user-head-image-div-content">
       <p>{{toUserInfo?.name}}</p>
-      <p *ngIf="toUserInfo != null && toUserInfo.organizationName != null" class='orgName'>{{'DEPARTMENT' | translate}} : {{toUserInfo?.organizationName}}</p>
+      <!-- <p *ngIf="toUserInfo != null && toUserInfo.organizationName != null" class='orgName'>{{'DEPARTMENT' | translate}} : {{toUserInfo?.organizationName}}</p> -->
     </div>
   </div>
   <ion-list>
-    <ion-item *ngIf="toUserInfo != null && toUserInfo.sex != null">
+    <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.sex != null : toUserInfo != null && toUserInfo.sex != null  && toUserInfo.show">
       {{'SEX' | translate}}
       <p item-right>{{toUserInfo?.sex}}</p>
     </ion-item>
-    <ion-item *ngIf="toUserInfo != null && toUserInfo.phone != null">
+    <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.phone != null : toUserInfo != null && toUserInfo.phone != null  && toUserInfo.show">
       {{'PHONE' | translate}}
       <a item-right href="tel:{{toUserInfo?.phone}}">{{toUserInfo?.phone}}</a>
       <!-- <p item-right>{{toUserInfo?.phone}}</p> -->
     </ion-item>
-    <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
+    <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.email != null : toUserInfo != null && toUserInfo.email != null  && toUserInfo.show">
       {{'EMAIL' | translate}}
       <a item-right href="mailto:{{toUserInfo?.email}}">{{toUserInfo?.email}}</a>
       <!-- <p item-right>{{toUserInfo?.email}}</p> -->
     </ion-item>
-    <ion-item *ngIf="toUserInfo != null && toUserInfo.email != null">
+    <ion-item *ngIf="toUserInfo != null && toUserInfo.organizationName != null">
       {{'DEPARTMENT' | translate}}
       <p item-right>{{toUserInfo?.organizationName}}</p>
     </ion-item>

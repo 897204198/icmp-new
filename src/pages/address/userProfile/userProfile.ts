@@ -35,8 +35,8 @@ export class UserProfilePage {
   private token: string = '?access_token=' + localStorage['token'];
   private toChatAatar: string = '';
   private fromChatAatar: string = '';
-    // 是否有IM功能
-    haveIM: boolean = false;
+  // 是否有IM功能
+  haveIM: boolean = false;
 
   /**
    * 构造函数
@@ -101,7 +101,7 @@ export class UserProfilePage {
 
   /**
    * 取得用户信息  
-   * TODO 平台接口资源与菜单绑定, 没有菜单权限无法访问平台接口 目前使用老接口 
+   * 
    */
   getUserInfoFromNet(userId: string, toUserId: string): void {
     this.http.get('/hr/employee/' + toUserId).subscribe((res: Response) => {
