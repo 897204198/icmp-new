@@ -103,13 +103,13 @@ export class UserProfilePage {
    * 取得用户信息  
    * 
    */
-  getUserInfoFromNet(userId: string, toUserId: string): void {
-    this.http.get('/hr/employee/' + toUserId).subscribe((res: Response) => {
+  getUserInfoFromNet(userId: string, employeeId: string): void {
+    this.http.get('/hr/employee/' + employeeId).subscribe((res: Response) => {
       let data: Object = res.json();
       this.toUserInfo = data;
-      if (data['avatar']) {
-        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
-        this.toChatAatar = data['avatar'];
+      if (data['userEntity'] &&  data['userEntity']['avatar']) {
+        this.toUserInfo['avatar'] = `${this.fileUrl}${data['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        this.toChatAatar = data['userEntity']['avatar'];
       }
     }, (err: Response) => {
       this.toastService.show(err.text());
@@ -120,6 +120,7 @@ export class UserProfilePage {
    * 发起聊天插件
    */
   chatToUser() {
+    // TODO 详细页面报错，导致发送信息
     let params: Object = {};
     params['from_user_id'] = this.fromUserInfo.loginName;
     params['from_username'] = this.fromUserInfo.userName;
@@ -160,7 +161,7 @@ export class UserProfilePage {
    * 删除好友
    */
   deleteFriend(): void {
-    this.presentConfirm(this.toUserInfo['id']);
+    this.presentConfirm(this.toUserInfo['id']);  // TODO 用户id
   }
 
   // 确认删除弹窗
@@ -198,7 +199,7 @@ export class UserProfilePage {
    */
   addFriend() {
     let params = {
-      'toUserId': this.toUserInfo['id'],
+      'toUserId': this.toUserInfo['userEntity']['id'],
       'type': '0'
     };
     this.http.post('/im/contacts/application', params).subscribe((res: Response) => {

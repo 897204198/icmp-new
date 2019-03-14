@@ -255,6 +255,13 @@ export class AddressPage {
     if (item['type'] && (item['type']['code'] === '0' || item['type']['code'] === 0)) {
       item['isFriend'] = true;
     }
+    // TODO 项目验证
+    this.http.get('/user/info/' + item['id']).subscribe((res) => {
+      item['id'] = JSON.stringify(res.json());
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+    // toUserId
     this.navCtrl.push(UserProfilePage, item);
   }
 

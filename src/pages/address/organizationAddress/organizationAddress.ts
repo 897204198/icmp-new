@@ -98,13 +98,20 @@ export class OrganizationAddressPage {
    * 搜索用户
    */
   searchUser() {
-    this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } })
+    const params = {
+      searchText: this.titleFilter.value,
+      pageNo: 1,
+      pageSize: 10
+    };
+    this.http.get('/im/contacts/users', { params: params })
       .subscribe((res: Response) => {
         this.searchUserList = res.json();
         for (let user of this.searchUserList) {
-          if (user['avatar']) {
-            user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+          if (user['userEntity'] &&  user['userEntity']['avatar']) {
+            user['avatar'] = `${this.fileUrl}${user['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
           }
+          // TODO 判断是否是朋友状态 项目
+          // user['status'] = user['userEntity']['status'];
         }
         this.isSearch = true;
       }, (res: Response) => {
@@ -201,10 +208,14 @@ export class OrganizationAddressPage {
           };
           this.organizationList = [item];
         }
+        // TODO 重新解头像和朋友status
         for (let user of this.userList) {
-          if (user['avatar']) {
-            user['avatar'] = `${this.fileUrl}${user['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+          const avatar = user['userEntity']['avatar'];
+          if (avatar) {
+            user['avatar'] = `${this.fileUrl}${avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
          }
+         // 添加status字段
+        //  user['status'] = user['userEntity']['status'];
         }
       }, (res: Response) => {
         if (localStorage.getItem('haveIM') !== '1') {
@@ -239,7 +250,7 @@ export class OrganizationAddressPage {
   /**
    * 进入个人信息详情
    */
-  lookUserProfile(item: Object) {
+  lookUserProfile(item: Object) { // TODO 验证
     let isFriend: boolean = false;
     if (item['userEntity'] && item['userEntity']['status'] && (item['userEntity']['status']['code'] === '0' || item['userEntity']['status']['code'] === 0)) {
       isFriend = true;
@@ -249,6 +260,7 @@ export class OrganizationAddressPage {
       remark: item['name'],
       isFriend: isFriend
     };
+    // TODO 项目验证
     this.navCtrl.push(UserProfilePage, params);
   }
 
@@ -258,7 +270,7 @@ export class OrganizationAddressPage {
   addFriend(event: any, user: Object) {
     event.stopPropagation();
     let params = {
-      'toUserId': user['id'],
+      'toUserId': user['userEntity']['id'], // TODO 项目验证
       'type': '0'
     };
     this.http.post('/im/contacts/application', params).subscribe((res: Response) => {
