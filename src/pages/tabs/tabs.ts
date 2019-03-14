@@ -5,7 +5,7 @@ import { HomePage } from '../home/home';
 import { SettingPage } from '../setting/setting';
 import { BackButtonService } from '../../app/services/backButton.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
-import { TodoDetailPage } from '../todo/todoDetail/todoDetail';
+import { TodoDetailPage2 } from '../../pages2/todo/todoDetail/todoDetail';
 import { UserService, UserInfoState } from '../../app/services/user.service';
 import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -343,12 +343,12 @@ export class TabsPage {
       this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
         let userInfo: UserInfoState = this.userService.getUserInfo();
         item['assignee'] = userInfo.loginName;
-        this.navCtrl.push(TodoDetailPage, item);
+        this.navCtrl.push(TodoDetailPage2, item);
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
     } else {
-      this.navCtrl.push(TodoDetailPage, item);
+      this.navCtrl.push(TodoDetailPage2, item);
     }
   }
 
