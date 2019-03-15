@@ -340,7 +340,9 @@ export class TabsPage {
     };
 
     if (item['sign'] == null || item['sign'] === '') {
-      this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
+      let params: URLSearchParams = new URLSearchParams();
+      params.append('taskId', item['taskId']);
+      this.http.post('/webController/claim', params).subscribe((res: Response) => {
         let userInfo: UserInfoState = this.userService.getUserInfo();
         item['assignee'] = userInfo.loginName;
         this.navCtrl.push(TodoDetailPage2, item);
