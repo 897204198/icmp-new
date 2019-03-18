@@ -14,7 +14,7 @@
         "grunt:debugAndroid": "npm run build:prepare && grunt build:debugAndroid",
         "grunt:releaseAndroid": "npm run build:prepare && grunt build:releaseAndroid",
         "grunt:releaseIOS": "npm run build:prepare && grunt build:releaseIOS",
-        "debugAndroid": "npm run grunt:debugAndroid && ionic cordova build android --no-interactive",
+        "debugAndroid": "npm run grunt:debugAndroid && ionic cordova build android --prod --no-interactive",
         "releaseAndroid": "npm run grunt:releaseAndroid && ionic cordova build android --prod --no-interactive --release --buildConfig=build.json",
         "releaseIOS": "npm run grunt:releaseIOS && ionic cordova build ios --prod --release --device --no-interactive --buildConfig build.json",
         "serve": "grunt serveProxy --force && ionic-app-scripts serve",

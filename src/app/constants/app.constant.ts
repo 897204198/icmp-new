@@ -66,7 +66,7 @@ export interface AppConstant {
 export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 
 const oaConstant: OaConstant = {
-  baseUrl: 'http://192.168.1.111/icmp/server-dev/route',
+  baseUrl: 'http://icmp2.propersoft.cn/icmp/server-dev/route',
   chatKey: '1166171023115752#icmp',
   md5Encryption: false,
   adminConsolePass: '123456',
@@ -76,7 +76,7 @@ const oaConstant: OaConstant = {
 
 const properPushConstant: ProperPushConstant = {
   'appId': 'MobileOADev',
-  'pushUrl': 'http://push.propersoft.cn/pep-push',
+  'pushUrl': 'http://push2.propersoft.cn/pep-push',
   'xiaomi': {
     'theAppid': '2882303761517720026',
     'theAppkey': '5401772090026'

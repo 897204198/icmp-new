@@ -106,6 +106,7 @@ module.exports = function(grunt) {
 
     if (target && target === 'debugAndroid') {
       tasks.push('shell:addAndroidPlugins');
+      tasks.push('shell:hcpBuild');
     } else if (target && target.startsWith('release')) {
       if (target === 'releaseAndroid') {
         tasks.push('shell:addAndroidPlugins');
