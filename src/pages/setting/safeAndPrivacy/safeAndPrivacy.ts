@@ -50,29 +50,16 @@ export class SafeAndPrivacyPage {
  }
   // radio 点击事件
   changeRadio(option: Object) {
-    this.http.get('/hr/employee/current').subscribe((res) => {
-      const employeeId = res.json()['id'];
-      this.http.get('/hr/employee/' + employeeId).subscribe((res2) => {
-        const params = {
-          ...res2.json(),
-          personalInfo: option['code']
-        };
-        this.http.put('/hr/employee/' + employeeId, params).subscribe((res3) => {
-          this.toastService.show('修改隐私状态成功');
-          }, (res3: Response) => {
-            this.toastService.show(res3.text());
-          });
-        }, (res2: Response) => {
-          this.toastService.show(res2.text());
-        });
+    this.http.put('/hr/infolevel?personalInfo=' + option['code'], {}).subscribe((res) => {
+      this.toastService.show('修改隐私状态成功');
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
   }
   // 获取当前隐私状态
   getMyselfLevel(){
-    this.http.get('/hr/employee/current').subscribe((res) => {
-      this.relationship = res.json()['data']['personalInfo'];
+    this.http.get('/hr/infolevel/current').subscribe((res) => {
+      this.relationship = res.json()['personalInfo'];
     });
   }
 }
