@@ -131,7 +131,11 @@ export class SettingPage {
     this.http.get('/auth/current/user', { params: params }).subscribe((res) => {
       let data = res.json()['data'];
       if (data.avatar) {
-        this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+          this.src = `${this.fileUrl}${data.avatar}${this.token}`;
+        } else {
+          this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
       }
     }, (res: Response) => {
       if (localStorage.getItem('haveIM') !== '1') {

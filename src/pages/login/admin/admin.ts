@@ -23,6 +23,8 @@ export class AdminPage {
    private getservicekeyUrl: string;
    // 获取servicekey地址
    private baseWebUrl: string;
+   // streamline
+   private stopStreamline: boolean = false;
   // 国际化文字
   private transateContent: Object;
 
@@ -47,6 +49,7 @@ export class AdminPage {
     this.chatKey = this.configsService.getChatKey();
     this.getservicekeyUrl = this.configsService.getServiceKeyUrl();
     this.baseWebUrl = this.configsService.getBaseWebUrl();
+    this.stopStreamline = <any>localStorage.getItem('stopStreamline') || false;
   }
 
   /**
@@ -58,6 +61,10 @@ export class AdminPage {
     this.configsService.setChatKey(this.chatKey);
     this.configsService.setServiceKeyUrl(this.getservicekeyUrl);
     this.configsService.setBaseWebUrl(this.baseWebUrl);
+    if (this.stopStreamline) {
+      localStorage.setItem('serviceheader', '');
+    }
+    localStorage.setItem('stopStreamline', <any>this.stopStreamline);
     this.showToastAndPop();
   }
 

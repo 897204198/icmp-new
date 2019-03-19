@@ -133,9 +133,15 @@ export class HttpInterceptor extends Http {
       options.headers = new Headers();
     }
     // 上线配置
-    if (localStorage['serviceheader']) {
-       options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
-       if (localStorage['token']) {
+    if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+      if (localStorage['serviceheader']) {
+        options.headers.append('X-SERVICE-KEY', localStorage['serviceheader']);
+        if (localStorage['token']) {
+         options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
+       }
+     }
+    } else {
+      if (localStorage['token']) {
         options.headers.append('Authorization', 'Bearer ' + localStorage['token']);
       }
     }

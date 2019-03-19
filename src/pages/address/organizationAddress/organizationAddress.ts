@@ -108,7 +108,11 @@ export class OrganizationAddressPage {
         this.searchUserList = res.json();
         for (let user of this.searchUserList) {
           if (user['userEntity'] &&  user['userEntity']['avatar']) {
-            user['avatar'] = `${this.fileUrl}${user['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+            if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+              user['avatar'] = `${this.fileUrl}${user['userEntity']['avatar']}${this.token}`;
+            } else {
+              user['avatar'] = `${this.fileUrl}${user['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+            }
           }
           // TODO 判断是否是朋友状态 项目
           // user['status'] = user['userEntity']['status'];
@@ -212,7 +216,11 @@ export class OrganizationAddressPage {
         for (let user of this.userList) {
           const avatar = user['userEntity']['avatar'];
           if (avatar) {
-            user['avatar'] = `${this.fileUrl}${avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+            if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+              user['avatar'] = `${this.fileUrl}${avatar}${this.token}`;
+            } else {
+              user['avatar'] = `${this.fileUrl}${avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+            }
          }
          // 添加status字段
         //  user['status'] = user['userEntity']['status'];

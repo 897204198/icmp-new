@@ -110,10 +110,14 @@ export class MacAddressHistoy {
       this.navCtrl.push(ExamCustomFramePage, dataALL);
     }else {
       let menuStr: string = `${this.macMenu}/workflowMainPop?param=${data}&close=true`;
-      if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-        menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
-      }else{
-        menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+      if (localStorage.getItem('stopStreamline') && JSON.parse(localStorage.getItem('stopStreamline'))) {
+        menuStr = this.configsService.getBaseWebUrl() + menuStr;
+      } else {
+        if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+          menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+        }else{
+          menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        }
       }
       let newurl: string;
       if (menuStr.includes('?')) {

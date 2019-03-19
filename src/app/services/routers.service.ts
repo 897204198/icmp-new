@@ -81,10 +81,14 @@ export class RoutersService {
         navCtrl.push(ExamCustomFramePage, menu);
       } else {
         let menuStr: string = menu.data.url;
-        if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-          menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
-        }else{
-          menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        if (localStorage.getItem('stopStreamline') && JSON.parse(localStorage.getItem('stopStreamline'))) {
+          menuStr = this.configsService.getBaseWebUrl() + menuStr;
+        } else {
+          if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+            menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+          }else{
+            menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+          }
         }
         let url;
 

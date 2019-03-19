@@ -104,10 +104,14 @@ export class ExamCustomFramePage {
     } else {
       let menuStr: string = this.navParams.data.data.url;
       // 添加serviceKey请求头
-      if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-        menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+      if (localStorage.getItem('stopStreamline') && JSON.parse(localStorage.getItem('stopStreamline'))) {
+        menuStr = this.configsService.getBaseWebUrl() + menuStr;
       } else {
-        menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+          menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+        }else{
+          menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        }
       }
       if (menuStr.includes('?')) {
         dangerousVideoUrl = menuStr + '&token=' + localStorage.getItem('token') + '&title=' + this.title;

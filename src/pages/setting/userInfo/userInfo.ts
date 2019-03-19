@@ -88,7 +88,11 @@ export class UserInfoPage {
         this.hasSex = false;
       }
       if (data.avatar) {
-        this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+          this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}`;
+        } else {
+          this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
       }
     }, (res: Response) => {
       this.toastService.show(res.text());

@@ -202,7 +202,12 @@ export class FeedbackPage implements DoCheck {
   }
 
   tapImage(pictureId: string) {
-    let pictureUrl = this.fileUrl + pictureId + this.token + this.service_key;
+    let pictureUrl;
+    if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+      pictureUrl = this.fileUrl + pictureId + this.token;
+    } else {
+      pictureUrl = this.fileUrl + pictureId + this.token + this.service_key;
+    }
     let profileModal = this.modalCtrl.create(ImagePreviewPage, { pictureUrl: pictureUrl });
     profileModal.present();
   }
