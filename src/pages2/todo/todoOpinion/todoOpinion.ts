@@ -427,7 +427,10 @@ export class TodoOpinionPage2 {
     for (let i = 0; i < this.opinionOtherList.length; i++) {
       delete this.opinionOtherList[i]['status'];
       let item = this.opinionOtherList[i];
-      this.approvalInput[item['control_name']] = item['control_default'];
+      // 如果有默认选项添加默认值
+      if (item.hasOwnProperty('control_default') && item['control_default'] != null && item['control_default'] !== '') {
+        this.approvalInput[item['control_name']] = item['control_default'];
+      }
       if (item['control_type'] === 'select_searchbox') {
         this.approvalInput[item['control_name'] + '_name'] = item['control_default_name'];
       }
