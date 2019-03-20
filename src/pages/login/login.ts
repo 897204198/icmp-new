@@ -161,6 +161,11 @@ export class LoginPage {
         this.loginService(account, password);
       });
     } else {
+      if (JSON.parse(localStorage.getItem('OA'))) {
+        localStorage.setItem('haveIM' , '2');
+      } else {
+        localStorage.setItem('haveIM' , '');
+      }
       this.loginService(account, password);
     }
   }

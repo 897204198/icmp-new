@@ -25,6 +25,8 @@ export class AdminPage {
    private baseWebUrl: string;
    // streamline
    private stopStreamline: boolean = false;
+   // 产品2.5OA
+   private OA: boolean = false;
   // 国际化文字
   private transateContent: Object;
 
@@ -49,7 +51,8 @@ export class AdminPage {
     this.chatKey = this.configsService.getChatKey();
     this.getservicekeyUrl = this.configsService.getServiceKeyUrl();
     this.baseWebUrl = this.configsService.getBaseWebUrl();
-    this.stopStreamline = <any>localStorage.getItem('stopStreamline') || false;
+    this.stopStreamline = JSON.parse(localStorage.getItem('stopStreamline')) === true ? true : false;
+    this.OA = JSON.parse(localStorage.getItem('OA')) === true ? true : false;
   }
 
   /**
@@ -65,6 +68,7 @@ export class AdminPage {
       localStorage.setItem('serviceheader', '');
     }
     localStorage.setItem('stopStreamline', <any>this.stopStreamline);
+    localStorage.setItem('OA', <any>this.OA);
     this.showToastAndPop();
   }
 
@@ -76,6 +80,9 @@ export class AdminPage {
     this.configsService.setPushUrl('');
     this.configsService.setChatKey('');
     this.configsService.setServiceKeyUrl('');
+    this.configsService.setBaseWebUrl('');
+    localStorage.setItem('stopStreamline', <any>false);
+    localStorage.setItem('OA', <any>false);
     this.showToastAndPop();
   }
 

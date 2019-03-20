@@ -34,6 +34,10 @@
       <ion-label>禁用streamline</ion-label>
       <ion-checkbox color="primary" [(ngModel)]="stopStreamline"></ion-checkbox>
     </ion-item>
+    <ion-item>
+      <ion-label>是否为OA</ion-label>
+      <ion-checkbox color="primary" [(ngModel)]="OA"></ion-checkbox>
+    </ion-item>
   </ion-list>
   <div padding>
     <button ion-button block color="danger" (tap)="resetUrl()">
