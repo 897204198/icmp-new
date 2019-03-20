@@ -126,9 +126,9 @@ export class RoutersService {
       navCtrl.push(MacAddressPage, {menu});
     } else if (menu.page === this.icmpConstant.page.email) {
       navCtrl.push(EmailPage, menu);
-    }else if (menu.systemId === this.icmpConstant.page.rfid) {
+    }else if (menu.page === this.icmpConstant.page.rfid) {
       navCtrl.push(RfidPage, menu);
-    } else if (menu.systemId === this.icmpConstant.page.scan) {
+    } else if (menu.page === this.icmpConstant.page.scan) {
       this.photoService.openScan(function(rfidInfo){
         if (rfidInfo) {
           const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
