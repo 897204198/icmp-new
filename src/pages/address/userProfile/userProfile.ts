@@ -69,7 +69,7 @@ export class UserProfilePage {
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
     let searchUserId: string = this.navParams.get('fromUserId');
-    let searchToUserId: string = this.navParams.get('toUserId');
+    let searchToUserId: string = this.navParams.get('employee');
     this.getUserInfoFromNet(searchUserId, searchToUserId);
     this.getCurrentUserInfoFromNet();
   }
@@ -161,7 +161,7 @@ export class UserProfilePage {
    * 删除好友
    */
   deleteFriend(): void {
-    this.presentConfirm(this.toUserInfo['id']);  // TODO 用户id
+    this.presentConfirm(this.toUserInfo['userEntity']['id']);
   }
 
   // 确认删除弹窗
@@ -180,7 +180,7 @@ export class UserProfilePage {
           text: this.transateContent['CONFIRM'],
           handler: () => {
             this.alertOpen = false;
-            this.http.delete('/im/contacts/' + this.toUserInfo['id']).subscribe((res: Response) => {
+            this.http.delete('/im/contacts/' + this.toUserInfo['userEntity']['id']).subscribe((res: Response) => {
               this.toastService.show(this.transateContent['DELETED']);
               this.navCtrl.pop();
             }, (err: Response) => {

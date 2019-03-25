@@ -132,13 +132,14 @@ export class AddFriendPage {
       remark: item['name'],
       isFriend: isFriend
     };
-    // TODO 项目验证
-    this.http.get('/user/info/' + item['id']).subscribe((res) => {
-      item['toUserId'] = JSON.stringify(res.json());
+    this.http.get('/user/info/' + item['toUserId']).subscribe((res) => {
+      if (res['_body'] != null && res['_body'] !== '') {
+        item['employee'] = res['_body'];
+        this.navCtrl.push(UserProfilePage, params);
+      }
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
-    this.navCtrl.push(UserProfilePage, params);
   }
 
   /**

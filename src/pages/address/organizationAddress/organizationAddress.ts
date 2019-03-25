@@ -114,8 +114,7 @@ export class OrganizationAddressPage {
               user['avatar'] = `${this.fileUrl}${user['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
             }
           }
-          // TODO 判断是否是朋友状态 项目
-          // user['status'] = user['userEntity']['status'];
+          user['status'] = user['userEntity']['status'];
         }
         this.isSearch = true;
       }, (res: Response) => {
@@ -212,18 +211,18 @@ export class OrganizationAddressPage {
           };
           this.organizationList = [item];
         }
-        // TODO 重新解头像和朋友status
+        // TODO 重新解头像
         for (let user of this.userList) {
           const avatar = user['userEntity']['avatar'];
-          if (avatar) {
+          if (avatar != null && avatar !== '') {
             if (JSON.parse(localStorage.getItem('stopStreamline'))) {
               user['avatar'] = `${this.fileUrl}${avatar}${this.token}`;
             } else {
               user['avatar'] = `${this.fileUrl}${avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
             }
          }
-         // 添加status字段
-        //  user['status'] = user['userEntity']['status'];
+         // 重置朋友状态
+         user['status'] = user['userEntity']['status'];
         }
       }, (res: Response) => {
         if (localStorage.getItem('haveIM') !== '1') {
@@ -258,17 +257,16 @@ export class OrganizationAddressPage {
   /**
    * 进入个人信息详情
    */
-  lookUserProfile(item: Object) { // TODO 验证
+  lookUserProfile(item: Object) {
     let isFriend: boolean = false;
     if (item['userEntity'] && item['userEntity']['status'] && (item['userEntity']['status']['code'] === '0' || item['userEntity']['status']['code'] === 0)) {
       isFriend = true;
     }
     let params: object = {
-      toUserId: item['id'],
+      employee: item['id'],
       remark: item['name'],
       isFriend: isFriend
     };
-    // TODO 项目验证
     this.navCtrl.push(UserProfilePage, params);
   }
 
@@ -278,7 +276,7 @@ export class OrganizationAddressPage {
   addFriend(event: any, user: Object) {
     event.stopPropagation();
     let params = {
-      'toUserId': user['userEntity']['id'], // TODO 项目验证
+      'toUserId': user['userEntity']['id'],
       'type': '0'
     };
     this.http.post('/im/contacts/application', params).subscribe((res: Response) => {

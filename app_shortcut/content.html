@@ -129,7 +129,7 @@
     let getAllInfoUrl = href[0] + "/icon";
     // 获取图片 base 接口路径
     let service_key = href[1];
-    $('#msg').attr("src", imgUrl + 'admin/list.png')
+    $('#msg').attr("src", imgUrl + 'admin/list.png');
     console.log(href)
     // 调用管理端接口 获取标题和头像id
     if (window.navigator.standalone == true)
@@ -141,6 +141,8 @@
     else {
       var imgId = '';
       var title = '请设置快捷方式名称';
+      $('#spin').hide();
+      $('#msg').show();
       // 获取title和图片id
       $.ajax({
         headers: {
@@ -160,7 +162,7 @@
               'X-SERVICE-KEY': service_key
             },
             type: "GET",
-            url: getAllInfoUrl + imgId, //请求url
+            url: getAllInfoUrl+ '/' + imgId, //请求url
             contentType: "application/x-www-form-urlencoded",
             success: (data) => {
               $('link').attr("href", data);  

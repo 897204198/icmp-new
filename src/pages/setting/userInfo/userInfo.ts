@@ -76,13 +76,13 @@ export class UserInfoPage {
       this.userInfo['account'] = data.username;
       this.userInfo['headImageContent'] = data.headImageContent;
       this.userInfo['orgName'] = data.orgName;
-      // TODO 后台此接口没有该sex字段，暂时如此处理。待后续解决
       if (data['sex'] != null && data['sex'] !== '') {
         if (data['sex']['code'] === '0') {
           this.userInfo['sexName'] = '男';
         } else {
           this.userInfo['sexName'] = '女';
         }
+        // TODO 后台此接口没有该sex字段，暂时如此处理。待后续解决
         this.hasSex = true;
       } else {
         this.hasSex = false;
