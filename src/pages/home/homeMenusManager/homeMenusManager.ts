@@ -320,7 +320,8 @@ export class HomeMenusManagerPage {
     let params: Object = {
       'ids': ids.join(',')
     };
-    this.http.put('/app/applications', params).subscribe(() => {
+    this.http.put('/sys/applications?ids=' + params['ids'], {}).subscribe((res) => {
+      console.log(res);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
