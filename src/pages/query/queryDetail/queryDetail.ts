@@ -12,10 +12,7 @@ import { FileService } from '../../../app/services/file.service';
   templateUrl: 'queryDetail.html',
 })
 export class QueryDetailPage {
-  // 资产条形码 
-  rfid: string = '';
-  // 是否是扫一扫详细页
-  isScan: boolean = false;
+
   // 页面标题
   title: string = '';
   // 查询表单详细
@@ -39,15 +36,7 @@ export class QueryDetailPage {
    */
   ionViewDidEnter(): void {
     this.title = this.navParams.get('title');
-    this.rfid = this.navParams.get('rfid');
-    this.isScan = this.navParams.get('scan');
-    // 判断是否有资产id
-    if (this.isScan){
-      this.getRfidDetail();
-      console.log(this.rfid);
-    } else{
-      this.getQueryDetail();
-    }
+    this.getQueryDetail();
   }
 
   /**
@@ -91,34 +80,4 @@ export class QueryDetailPage {
   getFileType(fileName: string): string {
     return fileName.substring(fileName.lastIndexOf('.') + 1, fileName.length).toLowerCase();
   }
-
-      /**
-   * 取得条形码详细信息
-   */
-  getRfidDetail(): void {
-    this.queryDetail = [];
-    this.fileList = [];
-    this.opinionList = [];
-    let params: URLSearchParams = new URLSearchParams();
-    params.append('serviceName', this.navParams.get('serviceName'));
-    params.append('epcCode', this.navParams.get('rfid'));
-    this.http.post('/webController/getAssetsIndexForScan', params).subscribe((res: Response) => {
-      let data = res.json();
-      if (data['result']  === '0'){
-        for (let i = 0 ; i < data['forms'].length ; i++) {
-          let form = data['forms'][i];
-          if (form['type'] === 'filelist') {
-            this.fileList.push(form);
-          }
-          this.queryDetail.push(form);
-        }
-        this.opinionList = data['opinion'];
-      } else {
-        this.toastService.show(data['errMsg']);
-      }
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
-  }
-
 }

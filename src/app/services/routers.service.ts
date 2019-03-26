@@ -21,7 +21,6 @@ import { ConfigsService } from '../services/configs.service';
 import { EmergencyTreatmentPage } from '../../pages2/emergencyTreatment/emergencyTreatment';
 import { RfidPage } from '../../pages/rfid/rfid';
 import { PhotoService } from './photo.service';
-import { QueryDetailPage } from '../../pages/query/queryDetail/queryDetail';
 
 /**
  * 路由服务
@@ -133,7 +132,7 @@ export class RoutersService {
         if (rfidInfo) {
           const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
           if (!rfidInfo['cancelled']){
-            navCtrl.push(QueryDetailPage, addInfo);
+            navCtrl.push(QueryDetailPage2, addInfo);
             console.log('正确扫码 进入详情页');
           } else {
             console.log('未扫码 返回上一页');
@@ -141,7 +140,7 @@ export class RoutersService {
           }
         }
       });
-    }else {
+    } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }
   }
