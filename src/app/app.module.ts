@@ -126,7 +126,8 @@ import { RfidConnectPage } from '../pages/rfid/rfidConnect';
 import { RfidDetailPage } from '../pages/rfid/rfidDetail';
 import { RfidOpinionPage } from '../pages/rfid/rfidOpinion';
 import { RfidListPage } from '../pages/rfid/rfidList';
-
+import { ChoosePage } from '../pages/choose/choose';
+import { WebSocketService } from '../app/services/webSocket.service';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -221,7 +222,8 @@ export function createTranslateLoader(http: Http) {
     RfidConnectPage,
     RfidListPage,
     RfidDetailPage,
-    RfidOpinionPage
+    RfidOpinionPage,
+    ChoosePage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -316,7 +318,8 @@ export function createTranslateLoader(http: Http) {
     RfidConnectPage,
     RfidListPage,
     RfidDetailPage,
-    RfidOpinionPage
+    RfidOpinionPage,
+    ChoosePage
   ],
   providers: [
     BarcodeScanner,
@@ -354,6 +357,7 @@ export function createTranslateLoader(http: Http) {
     NativeStorage,
     SearchFilterPipe,
     HttpService,
+    WebSocketService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

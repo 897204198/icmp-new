@@ -28,7 +28,8 @@ export interface PageIdConstant {
 
   // Mac 地址申请页面
   macAddress: string;
-
+  // 抓阄页面
+  choose: string;
   // 门急诊
   emergency: string;
 
@@ -77,7 +78,8 @@ export const pageIdConstant: PageIdConstant = {
   emergency: 'emergency',
   scan: 'scan',
   rfid: 'rfid',
-  email: 'email'
+  email: 'email',
+  choose: 'choose'
 };
 
 export const icmpConstant: IcmpConstant = {

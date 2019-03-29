@@ -19,6 +19,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
+import { WebSocketService } from '../../app/services/webSocket.service';
 
 declare let cordova: any;
 /**
@@ -72,6 +73,7 @@ export class SettingPage {
     private translate: TranslateService,
     private statusBar: StatusBar,
     private platform: Platform,
+    private wsService: WebSocketService,
     // private toastService: ToastService,
     private appVersionUpdateService: AppVersionUpdateService) {
 
@@ -179,6 +181,7 @@ export class SettingPage {
     this.pushService.unBindUserid(this.userInfo.userId);
     // 取消自动登录
     this.userService.logout();
+    this.wsService.disconnection();
     this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
     // 退出
     const data = {

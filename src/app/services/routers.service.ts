@@ -21,7 +21,7 @@ import { ConfigsService } from '../services/configs.service';
 import { EmergencyTreatmentPage } from '../../pages2/emergencyTreatment/emergencyTreatment';
 import { RfidPage } from '../../pages/rfid/rfid';
 import { PhotoService } from './photo.service';
-
+import { ChoosePage } from '../../pages/choose/choose';
 /**
  * 路由服务
  */
@@ -121,6 +121,8 @@ export class RoutersService {
           }, 500);
         });
       }
+    } else if (menu.page === this.icmpConstant.page.choose) {
+      navCtrl.push(ChoosePage, menu);
     } else if (menu.page === this.icmpConstant.page.macAddress) {
       navCtrl.push(MacAddressPage, {menu});
     } else if (menu.page === this.icmpConstant.page.email) {

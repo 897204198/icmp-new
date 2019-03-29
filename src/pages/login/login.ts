@@ -19,6 +19,7 @@ import { DeviceService } from '../../app/services/device.service';
 import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { DeviceInfoState } from '../../app/services/device.service';
+import { WebSocketService } from '../../app/services/webSocket.service';
 
 /**
  * 登录页面
@@ -54,6 +55,7 @@ export class LoginPage {
     private http: Http,
     private events: Events,
     private userService: UserService,
+    private wsService: WebSocketService,
     private appVersionUpdateService: AppVersionUpdateService) {
     let translateKeys: string[] = ['DEVELOPER_MODE', 'PLEASE_ENTER_PASSWORD', 'CANCEL', 'CONFIRM', 'PASSWORD_WRONG', 'PLEASE_ENTER_ACCOUNT', 'ERROR_ACCOUNT_PASSWORD', 'ERROR_DEVICE', 'PLEASE_LOGIN', 'PLEASE_ENTER_CHECKCODEFIRST'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
@@ -221,6 +223,9 @@ export class LoginPage {
           let tabParams: Object = {
             catalog: 'APPLICATION_TAB'
           };
+          this.wsService.connection(() => {
+            console.log('连接成功');
+          });
           // 获取底部tabs
           this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
             let tabsData = res4.json();

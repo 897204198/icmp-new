@@ -1,0 +1,14 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>抓阄</ion-title>
+	</ion-navbar>
+</ion-header>
+<ion-content>
+	<p class="name">{{chooseName}}</p>
+	<div *ngIf="!condition" class="button">
+		<button ion-button disabled="false" color="light" round full>抽取</button>
+	</div>
+	<div *ngIf="condition" (click)="choose()" class="button">
+		<button ion-button round full>抽取</button>
+	</div>
+</ion-content>
