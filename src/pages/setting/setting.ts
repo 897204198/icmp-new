@@ -20,6 +20,7 @@ import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
 
+declare let cordova: any;
 /**
  * 设置首页
  */
@@ -191,7 +192,28 @@ export class SettingPage {
       (<any>window).huanxin.imlogout();
     }
   }
+  shortCutsAction(): void{
 
+    this.http.get('/icon').subscribe((res: any) => {
+      let data = res.json();
+      let imparams = {
+        name: data['name'],
+        icon: data['icon'],
+        baseurl: this.configsService.getBaseUrl() + '&' + localStorage['serviceheader'],
+        hospitalUrl: data['url']
+        };
+        cordova.plugins.propershortcut.coolMethod(imparams,
+        function (msg) {
+          console.log(msg);
+          document.getElementById('testde').innerHTML = msg;
+        },
+        function (msg) {
+          console.log(msg);
+        });
+    }, (res: any) => {
+      this.toastService.show(res.text());
+    });
+  }
   /**
    * 图片加载出错或无图片显示文字
    */
