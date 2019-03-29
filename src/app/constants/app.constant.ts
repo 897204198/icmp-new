@@ -76,7 +76,6 @@ const oaConstant: OaConstant = {
 
 const properPushConstant: ProperPushConstant = {
   'appId': 'MobileOADev',
-  'pushUrl': 'http://push2.propersoft.cn/pep-push',
   'xiaomi': {
     'theAppid': '2882303761517720026',
     'theAppkey': '5401772090026'

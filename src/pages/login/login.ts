@@ -237,7 +237,7 @@ export class LoginPage {
               username: newUserInfo.loginName,
               password: password,
               baseUrl: this.configsService.getBaseUrl(),
-              pushUrl: this.configsService.getPushUrl(),
+              pushUrl: this.configsService.getBaseUrl(),
               chatKey: this.configsService.getChatKey(),
               token: 'Bearer ' + localStorage['token'],
               chatId: newUserInfo.userId,

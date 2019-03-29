@@ -466,7 +466,7 @@ export class TabsPage {
         username: this.userInfo.loginName,
         password: this.userInfo.password0,
         baseUrl: this.configsService.getBaseUrl(),
-        pushUrl: this.configsService.getPushUrl(),
+        pushUrl: this.configsService.getBaseUrl(),
         chatKey: this.configsService.getChatKey(),
         token: 'Bearer ' + localStorage['token'],
         chatId: this.userInfo.userId,
