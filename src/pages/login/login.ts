@@ -260,9 +260,7 @@ export class LoginPage {
                   this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData}).then(() => {
                     const startIndex = this.navCtrl.getActive().index - 1;
                     this.navCtrl.remove(startIndex, 1);
-                    if (this.navParams.data.loginStatus !== 'logout') {
-                      this.events.publish('logined');
-                    }
+                    this.events.publish('logined');
                   });
                 });
               });
@@ -271,9 +269,7 @@ export class LoginPage {
               this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData}).then(() => {
                 const startIndex = this.navCtrl.getActive().index - 1;
                 this.navCtrl.remove(startIndex, 1);
-                if (this.navParams.data.loginStatus !== 'logout') {
-                  this.events.publish('logined');
-                }
+                this.events.publish('logined');
               });
             }
             this.pushService.bindUserid(newUserInfo.userId);
