@@ -40,12 +40,7 @@ export class RfidConnectPage {
         this.http.post('/webController/getRoomStockOfRFID', params).subscribe((res: Response) => {
           let item: Object = res.json();
           this.itemArray = item['result_list'];
-          for (let i = 0; i < this.itemArray.length; i++ ) {
-            for (let j = 0; j < this.itemArray[i]['data'].length; j++) {
-              let num_1 = Number(this.itemArray[i]['data'][j].search_Num);
-              this.count = this.count + num_1;
-            }
-          }
+          this.count = item['total'];
         }, (res: Response) => {
           this.toastService.show(res.text());
         });
