@@ -10,7 +10,8 @@ export class WebSocketService {
   socket: any;
   stompClient: any;
   headers: any = {
-    PEP_STOMP_TOKEN: localStorage.getItem('token')
+    PEP_STOMP_TOKEN: localStorage.getItem('token'),
+    PEP_STOMP_USER: JSON.parse(window.atob(localStorage.getItem('token').split('.')[0])).id
   };
   constructor(private configService: ConfigsService) {}
 
