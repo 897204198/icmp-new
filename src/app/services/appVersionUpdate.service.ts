@@ -63,6 +63,7 @@ export class AppVersionUpdateService {
             let confirmAlert = this.alertCtrl.create({
               title: this.transateContent['PROMPT_INFO'],
               message: data.note,
+              enableBackdropDismiss: false,
               buttons: [
                 {
                   text: this.transateContent['UPDATE'],
@@ -141,7 +142,8 @@ export class AppVersionUpdateService {
         let versionInfo = {
           ver: data.ver || '0',
           url: data.androidUrl || '',
-          note: data.note.replace(/(<br>)/g, '\n') || '有新版本需要更新！'
+          note: data.note.replace(/(<br>)/g, '\n') || '有新版本需要更新！',
+          forceUpdate: data.forceUpdate
         };
         (<any>window).plugins.UpdateVersion.checkVersion(versionInfo);
       }
