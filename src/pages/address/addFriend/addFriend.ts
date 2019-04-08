@@ -56,7 +56,7 @@ export class AddFriendPage {
         }
       }
     );
-    this.http.get('/im/contacts/users').subscribe((res: Response) => {
+      this.http.get('/im/contacts/users', { params: { 'pageNo': 1, 'pageSize': 50 } }).subscribe((res: Response) => {
       this.userList = res.json();
       this.allUserList = res.json();
       for (let user of this.userList) {
@@ -76,7 +76,12 @@ export class AddFriendPage {
    * 搜索用户
    */
   searchUser() {
-    this.http.get('/im/contacts/users', { params: { 'searchText': this.titleFilter.value } }).subscribe((res: Response) => {
+    const params = {
+      searchText: this.titleFilter.value,
+      pageNo: 1,
+      pageSize: 50
+    };
+    this.http.get('/im/contacts/users', { params: params }).subscribe((res: Response) => {
       this.userList = res.json();
       for (let user of this.userList) {
         if (user['avatar']) {
@@ -128,18 +133,11 @@ export class AddFriendPage {
       isFriend = true;
     }
     let params: object = {
-      toUserId: item['id'],
+      employee: item['id'],
       remark: item['name'],
       isFriend: isFriend
     };
-    this.http.get('/user/info/' + item['toUserId']).subscribe((res) => {
-      if (res['_body'] != null && res['_body'] !== '') {
-        item['employee'] = res['_body'];
-        this.navCtrl.push(UserProfilePage, params);
-      }
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
+    this.navCtrl.push(UserProfilePage, params);
   }
 
   /**
