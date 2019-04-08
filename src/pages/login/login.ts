@@ -129,13 +129,6 @@ export class LoginPage {
     });
   }
   /**
-   * 校验事件
-   */
-  checkUp(username: HTMLInputElement, password: HTMLInputElement): void {
-    this.navCtrl.push(CheckPage, { isAutoLogin: false }).then(() => {
-    });
-  }
-  /**
    * 登录请求
    */
   loginNetService(account: string, password: string): void {
