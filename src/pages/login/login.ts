@@ -148,6 +148,7 @@ export class LoginPage {
         this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
         if (localStorage.getItem('pushinit') !== '1') {
           this.pushService.init();
+          localStorage.setItem('pushinit', '1');
           console.log('登录里创建插件');
         }
         if (res.headers.get('x-service-key') === 'propersoft') {
@@ -167,6 +168,11 @@ export class LoginPage {
         localStorage.setItem('haveIM' , '2');
       } else {
         localStorage.setItem('haveIM' , '');
+      }
+      if (localStorage.getItem('pushinit') !== '1') {
+        this.pushService.init();
+        localStorage.setItem('pushinit', '1');
+        console.log('登录里创建插件');
       }
       this.loginService(account, password);
     }
