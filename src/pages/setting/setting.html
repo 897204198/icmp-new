@@ -19,10 +19,7 @@
     <button ion-item [navPush]="newsNoticePage">
       {{'NEW_NOTICE' | translate}}
     </button>
-    <button *ngIf="haveIm === '1'" id="e2e-resetpassword" ion-item [navPush]="resetPasswordPage">
-      {{'RESET_PASSWORD' | translate}}
-    </button>
-    <button *ngIf="haveIm !== '1'" ion-item [navPush]="safeAndPrivacyPage">
+    <button ion-item [navPush]="safeAndPrivacyPage">
       {{'SAFE_AND_PRIVACY' | translate}}
     </button>
     <button id="e2e-checkversion" ion-item (tap)="checkVersion()">
