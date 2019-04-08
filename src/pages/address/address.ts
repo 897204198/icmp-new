@@ -301,7 +301,7 @@ export class AddressPage {
   resetImg(user) {
     for (let contact of this.contactInfos) {
       for (let item of contact['items']) {
-        if (item['fromUserId'] === user['fromUserId']) {
+        if (item['toUserId'] === user['toUserId']) {
           item['avatar'] = '';
           break;
         }

@@ -101,7 +101,7 @@ export class OrganizationAddressPage {
     const params = {
       searchText: this.titleFilter.value,
       pageNo: 1,
-      pageSize: 10
+      pageSize: 50
     };
     this.http.get('/im/contacts/users', { params: params })
       .subscribe((res: Response) => {

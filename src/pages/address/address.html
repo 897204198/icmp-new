@@ -42,7 +42,7 @@
       <button class="contact-no-bottom" *ngFor="let user of contact['items'] | searchFilter: 'remark': keyword" ion-item detail-none
         (click)="lookUserProfile(user)">
         <ion-avatar item-left class="list-avatar">
-          <img *ngIf="user.avatar" src="{{user.avatar}}" (error)="resetImg(user)"> 
+          <img *ngIf="user.avatar  && user.avatar !== ''" src="{{user.avatar}}" (error)="resetImg(user)"> 
           <div *ngIf="!user.avatar" class="word-head-image">
             <div class="word-head-image-content">{{user.remark.substring(user.remark.length - 2)}}</div>
           </div>
