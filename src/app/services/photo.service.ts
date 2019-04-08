@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Observable } from 'rxjs/Observable';
 import { ToastService } from './toast.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +21,7 @@ export class PhotoService {
     private camera: Camera,
     private imagePicker: ImagePicker,
     private toastService: ToastService,
+    private barcodeScanner: BarcodeScanner,
     private translate: TranslateService) {
     this.translate.get(['NO_JURISDICTION', 'FAIL_PHOTO']).subscribe((res: Object) => {
       this.transateContent = res;
@@ -115,6 +117,19 @@ export class PhotoService {
     });
   };
 
-
-
+  /**
+   * 调用扫一扫插件
+   */
+  openScan(callback) {
+    const options = {
+      disableSuccessBeep: true  // ios 成功嗡鸣声
+    };
+    this.barcodeScanner.scan(options).then(barcodeData => {
+      console.log('Succ', barcodeData);
+      callback(barcodeData);
+     }).catch(err => {
+      console.log('Error', err);
+      callback(null);
+     });
+  }
 }

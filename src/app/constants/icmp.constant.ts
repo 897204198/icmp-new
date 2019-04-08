@@ -28,9 +28,18 @@ export interface PageIdConstant {
 
   // Mac 地址申请页面
   macAddress: string;
+  // 抓阄页面
+  choose: string;
+  // 门急诊
+  emergency: string;
 
   // 邮箱页面
   email: string;
+  // 条形码 扫一扫页面
+  scan: string;
+
+  // 资产管理页面
+  rfid: string;
 }
 
 /**
@@ -66,13 +75,17 @@ export const pageIdConstant: PageIdConstant = {
   statisticsView: 'statisticsView',
   examList: 'examList',
   macAddress: 'macAddress',
-  email: 'email'
+  emergency: 'emergency',
+  scan: 'scan',
+  rfid: 'rfid',
+  email: 'email',
+  choose: 'choose'
 };
 
 export const icmpConstant: IcmpConstant = {
   pageSize: '20',
   reqResultSuccess: '0',
   page: pageIdConstant,
-  androidUpdateUrl: 'https://www.pgyer.com/TniF',
-  iosUpdateUrl: 'https://www.pgyer.com/RNv8'
+  androidUpdateUrl: 'https://www.pgyer.com/QY06',
+  iosUpdateUrl: 'https://www.pgyer.com/DVKG'
 };

@@ -111,24 +111,7 @@
     }
   }
 
-  .add-circle-add {
-    font-size: 30px;
-  }
-
-  .remove-circle-delete {
-    font-size: 24px;
-    margin-right: 10px;
-  }
-
-  .remove-circle-delete-border {
-    border-top: 1px solid #dedede;
-  }
-
-  .item-ios ion-avatar ion-img, .item-ios ion-avatar img {
-    border-radius: 0;
-  }
-
-  .item-md ion-avatar ion-img, .item-md ion-avatar img {
-    border-radius: 0;
+  .app-extra {
+    padding: 16px;
   }
 }

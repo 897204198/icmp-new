@@ -1,24 +1,27 @@
 import { Injectable, Inject } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { ICMP_CONSTANT, IcmpConstant } from '../constants/icmp.constant';
-import { QueryNoticeDetailPage } from '../../pages/query/queryNoticeDetail/queryNoticeDetail';
+import { QueryNoticeDetailPage2 } from '../../pages2/query/queryNoticeDetail/queryNoticeDetail';
 import { ToastService } from './toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { QueryListPage } from '../../pages/query/queryList/queryList';
-import { TodoListPage } from '../../pages/todo/todoList/todoList';
-import { QueryDetailPage } from '../../pages/query/queryDetail/queryDetail';
+import { QueryListPage2 } from '../../pages2/query/queryList/queryList';
+import { TodoListPage2 } from '../../pages2/todo/todoList/todoList';
+import { QueryDetailPage2 } from '../../pages2/query/queryDetail/queryDetail';
 import { InstaShotPage } from '../../pages/instaShot/instaShot';
-import { ApplicationPage } from '../../pages/application/application';
 import { StatisticsQueryPage } from '../../pages/statistics/statisticsQuery/statisticsQuery';
 import { StatisticsViewPage } from '../../pages/statistics/statisticsView/statisticsView';
 import { ExamCustomFramePage } from '../../pages/exam/customFrame/customFrame';
 import { MacAddressPage } from '../../pages/macAddress/macAddress';
 import { EmailPage } from '../../pages/email/email';
+import { ApplicationPage } from '../../pages/application/application';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { DeviceInfoState, DeviceService } from './device.service';
 import { Store } from '@ngrx/store';
 import { ConfigsService } from '../services/configs.service';
-
+import { EmergencyTreatmentPage } from '../../pages2/emergencyTreatment/emergencyTreatment';
+import { RfidPage } from '../../pages/rfid/rfid';
+import { PhotoService } from './photo.service';
+import { ChoosePage } from '../../pages/choose/choose';
 /**
  * 路由服务
  */
@@ -38,6 +41,7 @@ export class RoutersService {
     private deviceService: DeviceService,
     private store: Store<string>,
     private events: Events,
+    private photoService: PhotoService,
     private iab: InAppBrowser) {
     this.translate.get(['NO_DETAILED_INFO']).subscribe((res: Object) => {
       this.transateContent = res;
@@ -49,17 +53,17 @@ export class RoutersService {
    */
   pageForward(navCtrl: NavController, menu: any): void {
     if (menu.page === this.icmpConstant.page.queryList) {
-      navCtrl.push(QueryListPage, menu);
+      navCtrl.push(QueryListPage2, menu);
     } else if (menu.page === this.icmpConstant.page.queryDetail) { // 查询详细页
       if (menu.style === 'notice_style') {
-        navCtrl.push(QueryNoticeDetailPage, menu);
+        navCtrl.push(QueryNoticeDetailPage2, menu);
       } else if (menu.style === 'no_detail') {
         this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
       } else {
-        navCtrl.push(QueryDetailPage, menu);
+        navCtrl.push(QueryDetailPage2, menu);
       }
     } else if (menu.page === this.icmpConstant.page.todoList) {
-      navCtrl.push(TodoListPage, menu);
+      navCtrl.push(TodoListPage2, menu);
     } else if (menu.page === this.icmpConstant.page.instaShot) {
       navCtrl.push(InstaShotPage);
     } else if (menu.page === this.icmpConstant.page.application) {
@@ -68,16 +72,22 @@ export class RoutersService {
       navCtrl.push(StatisticsQueryPage, menu);
     } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
+    }else if (menu.page === this.icmpConstant.page.emergency) {
+      navCtrl.push(EmergencyTreatmentPage, menu);
     } else if (menu.page === this.icmpConstant.page.examList) {
       const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
       if (deviceInfo.deviceType === 'android') {
         navCtrl.push(ExamCustomFramePage, menu);
       } else {
         let menuStr: string = menu.data.url;
-        if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-          menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
-        }else{
-          menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        if (localStorage.getItem('stopStreamline') && JSON.parse(localStorage.getItem('stopStreamline'))) {
+          menuStr = this.configsService.getBaseWebUrl() + menuStr;
+        } else {
+          if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+            menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+          }else{
+            menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+          }
         }
         let url;
 
@@ -111,10 +121,27 @@ export class RoutersService {
           }, 500);
         });
       }
+    } else if (menu.page === this.icmpConstant.page.choose) {
+      navCtrl.push(ChoosePage, menu);
     } else if (menu.page === this.icmpConstant.page.macAddress) {
       navCtrl.push(MacAddressPage, {menu});
     } else if (menu.page === this.icmpConstant.page.email) {
       navCtrl.push(EmailPage, menu);
+    }else if (menu.page === this.icmpConstant.page.rfid) {
+      navCtrl.push(RfidPage, menu);
+    } else if (menu.page === this.icmpConstant.page.scan) {
+      this.photoService.openScan(function(rfidInfo){
+        if (rfidInfo) {
+          const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
+          if (!rfidInfo['cancelled']){
+            navCtrl.push(QueryDetailPage2, addInfo);
+            console.log('正确扫码 进入详情页');
+          } else {
+            console.log('未扫码 返回上一页');
+            navCtrl.pop();
+          }
+        }
+      });
     } else {
       this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
     }

@@ -44,7 +44,7 @@
         <ion-avatar item-left class="list-avatar">
           <img *ngIf="user.avatar" src="{{user.avatar}}" (error)="resetImg(user)"> 
           <div *ngIf="!user.avatar" class="word-head-image">
-            <div class="word-head-image-content">{{user.remark.substring(0, 1)}}</div>
+            <div class="word-head-image-content">{{user.remark.substring(user.remark.length - 2)}}</div>
           </div>
         </ion-avatar>
         <h2>{{user.remark}}</h2>

@@ -15,7 +15,7 @@
         <ion-avatar item-start class="main-item">
           <img *ngIf="user.headDownloadImage" src="{{user.headDownloadImage}}" (error)="resetImg(user)">
           <div *ngIf="!user.headDownloadImage" class="word-head-image">
-            <div class="word-head-image-content">{{user.toChatNickName.substring(0, 1)}}</div>
+            <div class="word-head-image-content">{{user.toChatNickName.substring(user.toChatNickName.length - 2)}}</div>
           </div>
         </ion-avatar>
         <span class="item-superscript-area">

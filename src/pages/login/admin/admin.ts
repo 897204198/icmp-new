@@ -16,13 +16,15 @@ export class AdminPage {
   // 服务器地址
   private baseUrl: string;
   // 推送服务器地址
-  private pushUrl: string;
-  // 推送服务器地址
   private chatKey: string;
    // 获取servicekey地址
    private getservicekeyUrl: string;
    // 获取servicekey地址
    private baseWebUrl: string;
+   // streamline
+   private stopStreamline: boolean = false;
+   // 产品2.5OA
+   private OA: boolean = false;
   // 国际化文字
   private transateContent: Object;
 
@@ -43,10 +45,11 @@ export class AdminPage {
    */
   ionViewDidEnter(): void {
     this.baseUrl = this.configsService.getBaseUrl();
-    this.pushUrl = this.configsService.getPushUrl();
     this.chatKey = this.configsService.getChatKey();
     this.getservicekeyUrl = this.configsService.getServiceKeyUrl();
     this.baseWebUrl = this.configsService.getBaseWebUrl();
+    this.stopStreamline = JSON.parse(localStorage.getItem('stopStreamline')) === true ? true : false;
+    this.OA = JSON.parse(localStorage.getItem('OA')) === true ? true : false;
   }
 
   /**
@@ -54,10 +57,14 @@ export class AdminPage {
    */
   saveUrl(): void {
     this.configsService.setBaseUrl(this.baseUrl);
-    this.configsService.setPushUrl(this.pushUrl);
     this.configsService.setChatKey(this.chatKey);
     this.configsService.setServiceKeyUrl(this.getservicekeyUrl);
     this.configsService.setBaseWebUrl(this.baseWebUrl);
+    if (this.stopStreamline) {
+      localStorage.setItem('serviceheader', '');
+    }
+    localStorage.setItem('stopStreamline', <any>this.stopStreamline);
+    localStorage.setItem('OA', <any>this.OA);
     this.showToastAndPop();
   }
 
@@ -69,6 +76,9 @@ export class AdminPage {
     this.configsService.setPushUrl('');
     this.configsService.setChatKey('');
     this.configsService.setServiceKeyUrl('');
+    this.configsService.setBaseWebUrl('');
+    localStorage.setItem('stopStreamline', <any>false);
+    localStorage.setItem('OA', <any>false);
     this.showToastAndPop();
   }
 

@@ -88,7 +88,10 @@ export class HomeMenusManagerPage {
     // 从网页回来刷新首页角标
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
-        this.getWaitNum();
+        if (localStorage.getItem('haveIM') !== '2'){
+          this.getMyMenus();
+          this.getAllMenus();
+        }
       });
     }
   }
@@ -96,91 +99,99 @@ export class HomeMenusManagerPage {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    this.getWaitNum();
+    this.getMyMenus();
+    this.getAllMenus();
   }
   /**
    * 进入页面
    */
   ionViewDidLoad() {
-    // this.getMyMenus();
-    // this.getAllMenus();
-    // this.getWaitNum();
     this.dragulaService.drop.subscribe((value) => {
       this.saveMenus();
     });
   }
-  /**
-   * 获取待办数量
-   */
-  getWaitNum(): void {
-    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
-      this.waitNum = 0;
-      if (res._body != null && res._body !== '') {
-        let data = res.json(); // 待办个数
-        this.waitNum = data;
-      }
-      this.getMyMenus();
-      this.getAllMenus();
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-      this.getMyMenus();
-      this.getAllMenus();
-    });
-  }
+  // /**
+  //  * 获取待办数量
+  //  */
+  // getWaitNum(): void {
+  //   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+  //     this.waitNum = 0;
+  //     if (res._body != null && res._body !== '') {
+  //       let data = res.json(); // 待办个数
+  //       this.waitNum = data;
+  //     }
+  //     this.getMyMenus();
+  //     this.getAllMenus();
+  //   }, (res: Response) => {
+  //     if (localStorage.getItem('haveIM') !== '2'){
+  //       this.toastService.show(res.text());
+  //     }
+  //     this.getMyMenus();
+  //     this.getAllMenus();
+  //   });
+  // }
   /**
    * 取得全部应用
    */
   getAllMenus(): void {
     this.categoryMenus = [];
-    this.http.get('/app/applications/all').subscribe((res: Response) => {
-      let allMenus = res.json();
-      let noGroupMenus = {};
-      noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
-      noGroupMenus['menus'] = [];
-      console.log('获取全部应用');
-      this.zone.run(() => {
-        for (let i = 0; i < allMenus.length; i++) {
-          let menu = allMenus[i];
-          menu.menus = [];
-          for (let apps of menu['apps']) {
-            if (apps['name'] === '待办') {
-              apps['total'] = this.waitNum;
-              console.log('待办全部角标数' + apps['total']);
-            }
-            menu.menus.push(apps);
-          }
-          console.log('待办个数' + this.waitNum);
-          this.categoryMenus.push(menu);
-        }
-      });
-    }, (res: Response) => {
-      if (localStorage.getItem('haveIM') !== '1') {
-        if (res.status === 401) {
-          console.log('抢登弹窗3');
-          const confirm = this.alertCtrl.create({
-            title: '提示',
-            message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
-            buttons: [
-              {
-                text: '确认',
-                handler: () => {
-                }
+    setTimeout(() => {
+      this.http.get('/sys/applications/all').subscribe((res: Response) => {
+        let allMenus = res.json();
+        let noGroupMenus = {};
+        noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
+        noGroupMenus['menus'] = [];
+        console.log('获取全部应用');
+        this.zone.run(() => {
+          for (let i = 0; i < allMenus.length; i++) {
+            let menu = allMenus[i];
+            menu.menus = [];
+            for (let apps of menu['apps']) {
+              if (localStorage.getItem('haveIM') === '2'){
+                apps['serviceName'] = apps['data']['serviceName'];
+                apps['processName'] = apps['data']['processName'];
+                apps['queryCondition'] = apps['data']['queryCondition'];
+                apps['total'] = apps['data']['total'];
               }
-            ]
-          });
-          confirm.present();
-          // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
-          this.navCtrl.push(LoginPage).then(() => {
-            const startIndex = this.navCtrl.getActive().index - 1;
-            this.navCtrl.remove(startIndex, 1);
-          });
-        } else {
+              if (apps['name'] === '待办') {
+                apps['total'] = this.waitNum;
+                console.log('待办全部角标数' + apps['total']);
+              }
+              menu.menus.push(apps);
+            }
+            console.log('待办个数' + this.waitNum);
+            this.categoryMenus.push(menu);
+          }
+        });
+      }, (res: Response) => {
+        if (localStorage.getItem('haveIM') !== '1') {
+          if (res.status === 401) {
+            console.log('抢登弹窗3');
+            const confirm = this.alertCtrl.create({
+              title: '提示',
+              message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
+              buttons: [
+                {
+                  text: '确认',
+                  handler: () => {
+                  }
+                }
+              ]
+            });
+            confirm.present();
+            // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+            this.navCtrl.push(LoginPage).then(() => {
+              const startIndex = this.navCtrl.getActive().index - 1;
+              this.navCtrl.remove(startIndex, 1);
+            });
+          } else {
+            // this.toastService.show(res.text());
+          }
+        }else {
           // this.toastService.show(res.text());
         }
-      }else {
-        // this.toastService.show(res.text());
-      }
-    });
+      });
+    }, 500);
   }
 
   /**
@@ -189,10 +200,15 @@ export class HomeMenusManagerPage {
   getMyMenus(): void {
     this.myMenus = [];
     const arr = [];
-    this.http.get('/app/applications').subscribe((res: any) => {
+    this.http.get('/sys/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json();
         for (let i = 0; i < data.length; i++) {
+          if (localStorage.getItem('haveIM') === '2'){
+            data[i]['serviceName'] = data[i]['data']['serviceName'];
+            data[i]['processName'] = data[i]['data']['processName'];
+            data[i]['total'] = data[i]['data']['total'];
+          }
           if (data[i].name === '待办') {
             data[i].total = this.waitNum;
           }
@@ -304,7 +320,8 @@ export class HomeMenusManagerPage {
     let params: Object = {
       'ids': ids.join(',')
     };
-    this.http.put('/app/applications', params).subscribe(() => {
+    this.http.put('/sys/applications?ids=' + params['ids'], {}).subscribe((res) => {
+      console.log(res);
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

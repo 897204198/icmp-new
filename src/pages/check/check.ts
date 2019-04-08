@@ -90,7 +90,8 @@ export class CheckPage {
         } else {
           url = this.configsService.getServiceKeyUrl() + 'signature' + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
         }
-        localStorage.clear();
+        localStorage.removeItem('__proper_SecureStorage_deviceInfo');
+        localStorage.removeItem('serviceheader');
         this.http.post(url, password.value).subscribe((data) => {
           localStorage.token = data['_body'];
           this.toastService.show(this.transateContent['CHECKCODE_SUCCEED']);

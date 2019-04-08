@@ -1,0 +1,33 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title id="e2e-query-list-title">{{title}}</ion-title>
+    <ion-buttons *ngIf="hasCondition" end>
+      <button ion-button clear color="primary" (click)="queryConditonOpen()">
+        {{'QUERY_CONDITON' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="content-gray">
+  <ion-refresher *ngIf="!isTabQuery && !isScheduleQuery" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngIf="isTabQuery && !isScheduleQuery">
+    <button id="e2e-tabquery-item" ion-item *ngFor="let item of queryList" (click)="goQuerySubList(item)">
+      {{item.tab_name}}
+    </button>
+  </ion-list>
+  <ion-list *ngIf="!isTabQuery && !isScheduleQuery">
+    <button id="e2e-query-item" ion-item *ngFor="let item of queryList" (click)="goQueryDetail(item)">
+      <div [innerHtml]="getSafeHtml(item.title)"></div>
+    </button>
+  </ion-list>
+  <div *ngIf="isScheduleQuery">
+    <p style="font-size: 16px; color: #000; text-align: center;">{{caption}}</p>
+    <ion-calendar [(ngModel)]="date" [options]="options" (onSelect)="onSelect($event)" [type]="type" [format]="'YYYY-MM-DD'" (monthChange)="monthChange($event)"></ion-calendar>
+  </div>
+  <ion-infinite-scroll (ionInfinite)="doInfinite()">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -22,6 +22,10 @@ export class UserInfoPage {
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
   private token: string = '?access_token=' + localStorage['token'];
+  // 是否有IM功能
+  haveChangeIm: boolean = false;
+  // 是否有sex属性
+  hasSex: boolean = false;
 
   /**
    * 构造函数
@@ -36,6 +40,11 @@ export class UserInfoPage {
   ionViewDidLoad(): void {
     this.getUserInfoFromLocal();
     this.getUserInfoFromNet();
+    if (localStorage.getItem('haveIM') === '2') {
+      this.haveChangeIm = false;
+    }else{
+      this.haveChangeIm = true;
+    }
   }
 
   /**
@@ -43,7 +52,7 @@ export class UserInfoPage {
     */
   getUserInfoFromLocal(): void {
     this.localUserInfo = this.userService.getUserInfo();
-    this.surname = this.localUserInfo.userName[0];
+    this.surname = this.localUserInfo.userName.substring(this.localUserInfo.userName.length - 2);
     this.userInfo['name'] = this.localUserInfo.userName;
     this.userInfo['phone'] = this.localUserInfo.phone;
     this.userInfo['email'] = this.localUserInfo.email;
@@ -73,9 +82,17 @@ export class UserInfoPage {
         } else {
           this.userInfo['sexName'] = '女';
         }
+        // TODO 后台此接口没有该sex字段，暂时如此处理。待后续解决
+        this.hasSex = true;
+      } else {
+        this.hasSex = false;
       }
       if (data.avatar) {
-        this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+          this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}`;
+        } else {
+          this.userInfo['avatar'] = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
       }
     }, (res: Response) => {
       this.toastService.show(res.text());

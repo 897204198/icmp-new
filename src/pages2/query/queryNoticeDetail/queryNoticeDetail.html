@@ -1,0 +1,29 @@
+<icmp-spinner></icmp-spinner>
+<ion-header>
+  <ion-navbar>
+    <ion-title id="e2e-query-notice-title">{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div>
+    <h4 class="display-center">{{notice?.title}}</h4>
+    <hr/>
+    <p *ngIf="notice != null && notice.keyword != null && notice.keyword != ''">{{'KEYWORD' | translate}}：{{notice?.keyword}}</p>
+    <p *ngIf="notice != null && notice.organizationName != null && notice.organizationName != ''">{{notice?.organizationName}}：{{notice?.createUserName}}</p>
+    <div [innerHtml]="notice?.content"></div>
+  </div>
+  <div *ngIf="notice != null && notice.fileList != null && notice.fileList.length > 0">
+    <div class="icmp-list-header">
+      {{'ATTACHMENT' | translate}}
+    </div>
+    <ion-list>
+      <button ion-item *ngFor="let file of notice.fileList" (click)="downloadFile(file)">
+        <ion-avatar item-start>
+          <icmp-file-type-image *ngIf="!file.thumbImage" [fileType]="file.fileType"></icmp-file-type-image>
+          <img *ngIf="file.thumbImage" [src]="file.thumbImage">
+        </ion-avatar>
+        {{file.fileName}}
+      </button>
+    </ion-list>
+  </div>
+</ion-content>

@@ -124,7 +124,7 @@ export class AddFriendPage {
    */
   lookUserProfile(item: Object) {
     let isFriend: boolean = false;
-    if (item['status'] && (item['status']['code'] === '0' || item['status']['code'] === 0)) {
+    if (item['userEntity']['status'] && (item['userEntity']['status']['code'] === '0' || item['userEntity']['status']['code'] === 0)) {
       isFriend = true;
     }
     let params: object = {
@@ -132,7 +132,14 @@ export class AddFriendPage {
       remark: item['name'],
       isFriend: isFriend
     };
-    this.navCtrl.push(UserProfilePage, params);
+    this.http.get('/user/info/' + item['toUserId']).subscribe((res) => {
+      if (res['_body'] != null && res['_body'] !== '') {
+        item['employee'] = res['_body'];
+        this.navCtrl.push(UserProfilePage, params);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**
