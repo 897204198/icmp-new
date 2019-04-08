@@ -20,7 +20,7 @@ export class ChoosePage {
     if (this.wsService.stompClient) {
       this.socket();
     } else {
-      this.wsService.connection(() => {
+      this.wsService.connection(localStorage.getItem('token'), () => {
         this.socket();
       });
     }

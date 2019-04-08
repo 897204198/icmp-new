@@ -223,7 +223,7 @@ export class LoginPage {
           let tabParams: Object = {
             catalog: 'APPLICATION_TAB'
           };
-          this.wsService.connection(() => {
+          this.wsService.connection(localStorage.token, () => {
             console.log('连接成功');
           });
           // 获取底部tabs

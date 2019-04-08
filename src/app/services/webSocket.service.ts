@@ -10,16 +10,21 @@ export class WebSocketService {
   socket: any;
   stompClient: any;
   headers: any = {
-    PEP_STOMP_TOKEN: localStorage.getItem('token'),
-    PEP_STOMP_USER: JSON.parse(window.atob(localStorage.getItem('token').split('.')[0])).id
+    // PEP_STOMP_TOKEN: localStorage.getItem('token'),
+    // PEP_STOMP_USER: JSON.parse(window.atob(localStorage.getItem('token').split('.')[0])).id
   };
   constructor(private configService: ConfigsService) {}
 
-  connection(fn) {
+  connection(token, fn) {
     // const token = 'eyJpZCI6ImMzYjU2MDZjLTMyNGQtNDI4Ny1hMDY5LTJhZGY5YjU5Y2ZkZSIsIm5hbWUiOiJsaWh1aXlhbiAifQ.eyJuYW1lIjoi5Yav6Imz546yIiwiaGFzUm9sZSI6ZmFsc2V9.7uN-TIQZ9i2ELuv6uXtjLdKm9lV4HdAawWnl3-AMong';
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    this.headers = {
+      PEP_STOMP_TOKEN: token,
+      PEP_STOMP_USER: JSON.parse(window.atob(token.split('.')[0])).id
+    };
+    const service_key = localStorage.getItem('serviceheader');
     // let socket = new SockJs(this.configService.getBaseUrl() + '/stomp?access_token=' + token);
-    let socket = new SockJs(this.configService.getBaseUrl() + '/stomp?access_token=' + token);
+    let socket = new SockJs(this.configService.getBaseUrl() + '/stomp?access_token=' + token + '&service_key=' + service_key);
     this.stompClient = Stomp.over(socket);
     this.stompClient.connect(this.headers, fn
     //   () => {
