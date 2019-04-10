@@ -108,6 +108,9 @@ export class HomeComponentPage {
         // for (let apps of menu['apps']) {
         //   menu.menus.push(apps);
         // }
+        menu['serviceName'] = menu['data']['serviceName'];
+        menu['processName'] = menu['data']['processName'];
+        menu['total'] = menu['data']['total'];
         this.categoryMenus.push(menu);
       };
     }, (res: Response) => {

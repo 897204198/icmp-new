@@ -19,7 +19,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
+import { WebSocketService } from '../../app/services/webSocket.service';
 
+declare let cordova: any;
 /**
  * 设置首页
  */
@@ -49,7 +51,9 @@ export class SettingPage {
   aboutPage: any;
   resetPasswordPage: any;
   surname: string;
-  private src: string = '';
+  src: string = '';
+  // 是否是项目
+  haveIm: string;
   // 文件上传/下载地址
   private fileUrl: string = this.configsService.getBaseUrl() + '/file/';
   // token
@@ -69,6 +73,7 @@ export class SettingPage {
     private translate: TranslateService,
     private statusBar: StatusBar,
     private platform: Platform,
+    private wsService: WebSocketService,
     // private toastService: ToastService,
     private appVersionUpdateService: AppVersionUpdateService) {
 
@@ -81,7 +86,6 @@ export class SettingPage {
     this.translate.get(['ALREADY_LATEST_VERSION']).subscribe((res: Object) => {
       this.transateContent = res;
     });
-
   }
   /**
    * 首次进入页面
@@ -89,7 +93,7 @@ export class SettingPage {
   ionViewDidLoad() {
     // 设置个人信息
     this.userInfo = this.userService.getUserInfo();
-    this.surname = this.userInfo.userName[0];
+    this.surname = this.userInfo.userName.substring(this.userInfo.userName.length - 2);
     // 获取当前程序的版本名
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo == null) {
@@ -97,6 +101,7 @@ export class SettingPage {
     } else {
       this.appVersionName = deviceInfo.versionNumber;
     }
+    this.haveIm = localStorage.getItem('haveIM');
   }
 
   /**
@@ -129,7 +134,11 @@ export class SettingPage {
     this.http.get('/auth/current/user', { params: params }).subscribe((res) => {
       let data = res.json()['data'];
       if (data.avatar) {
-        this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        if (JSON.parse(localStorage.getItem('stopStreamline'))) {
+          this.src = `${this.fileUrl}${data.avatar}${this.token}`;
+        } else {
+          this.src = `${this.fileUrl}${data.avatar}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        }
       }
     }, (res: Response) => {
       if (localStorage.getItem('haveIM') !== '1') {
@@ -172,6 +181,7 @@ export class SettingPage {
     this.pushService.unBindUserid(this.userInfo.userId);
     // 取消自动登录
     this.userService.logout();
+    this.wsService.disconnection();
     this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
     // 退出
     const data = {
@@ -185,7 +195,28 @@ export class SettingPage {
       (<any>window).huanxin.imlogout();
     }
   }
+  shortCutsAction(): void{
 
+    this.http.get('/icon').subscribe((res: any) => {
+      let data = res.json();
+      let imparams = {
+        name: data['name'],
+        icon: data['icon'],
+        baseurl: this.configsService.getBaseUrl() + '&' + localStorage['serviceheader'],
+        hospitalUrl: data['url']
+        };
+        cordova.plugins.propershortcut.coolMethod(imparams,
+        function (msg) {
+          console.log(msg);
+          document.getElementById('testde').innerHTML = msg;
+        },
+        function (msg) {
+          console.log(msg);
+        });
+    }, (res: any) => {
+      this.toastService.show(res.text());
+    });
+  }
   /**
    * 图片加载出错或无图片显示文字
    */

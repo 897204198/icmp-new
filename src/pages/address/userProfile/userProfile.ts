@@ -35,8 +35,8 @@ export class UserProfilePage {
   private token: string = '?access_token=' + localStorage['token'];
   private toChatAatar: string = '';
   private fromChatAatar: string = '';
-    // 是否有IM功能
-    haveIM: boolean = false;
+  // 是否有IM功能
+  haveIM: boolean = false;
 
   /**
    * 构造函数
@@ -69,7 +69,7 @@ export class UserProfilePage {
     // 设置个人信息
     this.fromUserInfo = this.userService.getUserInfo();
     let searchUserId: string = this.navParams.get('fromUserId');
-    let searchToUserId: string = this.navParams.get('toUserId');
+    let searchToUserId: string = this.navParams.get('employee');
     this.getUserInfoFromNet(searchUserId, searchToUserId);
     this.getCurrentUserInfoFromNet();
   }
@@ -101,24 +101,15 @@ export class UserProfilePage {
 
   /**
    * 取得用户信息  
-   * TODO 平台接口资源与菜单绑定, 没有菜单权限无法访问平台接口 目前使用老接口 
+   * 
    */
-  getUserInfoFromNet(userId: string, toUserId: string): void {
-    this.http.get('/user/info?userId=' + toUserId).subscribe((res: Response) => {
+  getUserInfoFromNet(userId: string, employeeId: string): void {
+    this.http.get('/hr/employee/' + employeeId).subscribe((res: Response) => {
       let data: Object = res.json();
-      if (data['sex'] != null && data['sex'] !== '') {
-        if (data['sex']['code'] === '0' || data['sex']['code'] === 0) {
-          data['sexName'] = '男';
-        } else {
-          data['sexName'] = '女';
-        }
-      } else {
-        data['sexName'] = '';
-      }
       this.toUserInfo = data;
-      if (data['avatar']) {
-        this.toUserInfo['avatar'] = `${this.fileUrl}${data['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
-        this.toChatAatar = data['avatar'];
+      if (data['userEntity'] &&  data['userEntity']['avatar']) {
+        this.toUserInfo['avatar'] = `${this.fileUrl}${data['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+        this.toChatAatar = data['userEntity']['avatar'];
       }
     }, (err: Response) => {
       this.toastService.show(err.text());
@@ -129,6 +120,7 @@ export class UserProfilePage {
    * 发起聊天插件
    */
   chatToUser() {
+    // TODO 详细页面报错，导致发送信息
     let params: Object = {};
     params['from_user_id'] = this.fromUserInfo.loginName;
     params['from_username'] = this.fromUserInfo.userName;
@@ -169,7 +161,7 @@ export class UserProfilePage {
    * 删除好友
    */
   deleteFriend(): void {
-    this.presentConfirm(this.toUserInfo['id']);
+    this.presentConfirm(this.toUserInfo['userEntity']['id']);
   }
 
   // 确认删除弹窗
@@ -188,7 +180,7 @@ export class UserProfilePage {
           text: this.transateContent['CONFIRM'],
           handler: () => {
             this.alertOpen = false;
-            this.http.delete('/im/contacts/' + this.toUserInfo['id']).subscribe((res: Response) => {
+            this.http.delete('/im/contacts/' + this.toUserInfo['userEntity']['id']).subscribe((res: Response) => {
               this.toastService.show(this.transateContent['DELETED']);
               this.navCtrl.pop();
             }, (err: Response) => {
@@ -207,7 +199,7 @@ export class UserProfilePage {
    */
   addFriend() {
     let params = {
-      'toUserId': this.toUserInfo['id'],
+      'toUserId': this.toUserInfo['userEntity']['id'],
       'type': '0'
     };
     this.http.post('/im/contacts/application', params).subscribe((res: Response) => {

@@ -30,6 +30,10 @@ export class ApplicationPage {
   deviceType: string = '';
   fileIndex: number = 0;
   fileReIndex: number = 0;
+  extra: string = '';
+
+  private serviceName: string = '';
+
   private transateContent: Object;
 
   constructor(public navCtrl: NavController,
@@ -46,7 +50,7 @@ export class ApplicationPage {
     private deviceService: DeviceService,
     private userService: UserService,
     private toastService: ToastService) {
-    let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING'];
+    let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING', 'PLEASE_INPUT_NUMBER'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -71,25 +75,26 @@ export class ApplicationPage {
    * 取得初始化数据
    */
   getInitData(): void {
-    let params: Object = {
-      'serviceName': this.navParams.get('serviceName'),
-      'user': this.navParams.get('assignee'),
-      'taskId': this.navParams.get('taskId'),
-      'step': this.navParams.get('step')
-    };
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('serviceName', this.navParams.get('serviceName'));
+    params.append('user', this.navParams.get('assignee'));
+    params.append('taskId', this.navParams.get('taskId'));
+    params.append('step', this.navParams.get('step'));
+    params.append('businessId', this.navParams.get('businessId'));
     if (this.navParams.get('data') != null) {
       let datas = this.navParams.get('data');
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
-          params[key] = datas[key];
+          params.append(key, datas[key]);
         }
       }
     }
-    this.http.get('/bpm/application', { params: params }).subscribe((res: Response) => {
+    this.http.post('/webController/getApplicationInit', params).subscribe((res: Response) => {
       let data = res.json();
-
+      this.serviceName = data['serviceName'];
       this.title = data['title'];
       this.template = data['template'];
+      this.extra = data['extra'];
 
       for (let i = 0; i < this.template.length; i++) {
         let item = this.template[i];
@@ -129,7 +134,7 @@ export class ApplicationPage {
     if (item.event != null && item.event === 'onchange' && item.func != null) {
       let dateFunc = eval(item.func);
       let result = dateFunc(value);
-      for (let i = 0; i < this.template.length ; i++) {
+      for (let i = 0; i < this.template.length; i++) {
         for (let key in result) {
           if (result.hasOwnProperty(key)) {
             if (this.template[i]['elementId'] === key) {
@@ -137,7 +142,7 @@ export class ApplicationPage {
               this.template[i]['default'] = result[key];
               if (result[key] === '1') {
                 this.setInputStatus(this.template[i]['model'], 'display');
-              } else if (result[key] === '0'){
+              } else if (result[key] === '0') {
                 this.setInputStatus(this.template[i]['model'], 'hidden');
               }
             }
@@ -221,12 +226,17 @@ export class ApplicationPage {
 
     this.isSubmit = true;
     if (this.verification()) {
-      let params: Object = {
-        'serviceName': this.navParams.get('serviceName'),
-        'user': this.navParams.get('assignee'),
-        'taskId': this.navParams.get('taskId'),
-        'step': this.navParams.get('step')
-      };
+      let params: URLSearchParams = new URLSearchParams();
+      // 如果是修改，则取 getApplicationInit 返回的 serviceName
+      if (this.navParams.get('isChange')) {
+        params.append('serviceName', this.serviceName);
+      } else {
+        params.append('serviceName', this.navParams.get('serviceName'));
+      }
+      params.append('user', this.navParams.get('assignee'));
+      params.append('taskId', this.navParams.get('taskId'));
+      params.append('step', this.navParams.get('step'));
+      params.append('businessId', this.navParams.get('businessId'));
       for (let key in this.input) {
         if (this.input.hasOwnProperty(key)) {
           if (this.input[key] instanceof Array && this.input[key][0] instanceof Object) {
@@ -245,21 +255,26 @@ export class ApplicationPage {
             }
             for (let key2 in data) {
               if (data.hasOwnProperty(key2)) {
-                params[key2] = data[key2];
+                params.append(key2, data[key2]);
               }
             }
           } else {
-            params[key] = this.input[key];
+            params.append(key, this.input[key]);
           }
         }
       }
-      this.http.post('/bpm/application', params).subscribe((res: Response) => {
-        if (res.json().errMsg != null) {
-          this.toastService.show(res.json().errMsg);
-          this.isSubmit = false;
-        }else {
+      this.http.post('/webController/saveApplication', params).subscribe((res: Response) => {
+        let data = res.json();
+        if (data.result === '0') {
           this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
           this.navCtrl.popToRoot();
+        } else {
+          this.isSubmit = false;
+          if (data.errMsg != null && data.errMsg !== '') {
+            this.toastService.show(data.errMsg);
+          } else {
+            this.toastService.show(this.transateContent['SUBMIT_ERROR']);
+          }
         }
       }, (res: Response) => {
         this.isSubmit = false;
@@ -305,11 +320,11 @@ export class ApplicationPage {
     if (index == null) {
       let multiple: boolean = (item['category'] === 'multi');
       let searchUrl = item['searchUrl'];
-      params = { 'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
+      params = { 'title': item['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.input[item['model']], 'name': this.input[item['model'] + 'Name'] };
     } else {
       let multiple: boolean = (itemList['category'] === 'multi');
       let searchUrl = itemList['searchUrl'];
-      params = { 'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl };
+      params = { 'title': itemList['labelBak'], 'multiple': multiple, 'searchUrl': searchUrl, 'id': this.input[item['model']][index][itemList['model']], 'name': this.input[item['model']][index][itemList['model'] + 'Name'] };
     }
     let modal = this.modalCtrl.create(SearchboxComponent, params);
     modal.onDidDismiss(data => {
@@ -323,6 +338,7 @@ export class ApplicationPage {
           this.input[item['model']][index][itemList['model']] = data.id;
           this.searchboxChange(item, index, itemList);
         }
+        this.setControl(item, data);
       }
     });
     modal.present();
@@ -352,6 +368,18 @@ export class ApplicationPage {
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
+    if (this.input[item['latModel']]) {
+      if (this.input[item['model']] && this.input[item['latModel']]) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.append('patient', this.input[item['model']]);
+        params.append('num', this.input[item['latModel']]);
+        for (const value of this.template) {
+          if (item['latModel'] === value['model']) {
+            this.inputData(value, params);
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -373,6 +401,38 @@ export class ApplicationPage {
     for (let i = 0; i < data.length; i++) {
       this.setControl(item, data[i]);
     }
+  }
+
+  /**
+   * inputs失去焦点事件
+   */
+  onBlur(value: string, item: Object): void {
+    value = value.replace(/[^0-9]/g, '').substring(0, 7);
+    if (value.length < 7 && value.length !== 0) {
+      let len = 7 - value.length;
+      for (let i = 0; i < len; i++) {
+        value = 0 + value;
+      }
+    }
+    this.input[item['model']] = value;
+    if (this.input[item['model']] && this.input[item['preModel']]) {
+      let params: URLSearchParams = new URLSearchParams();
+      params.append('patient', this.input[item['preModel']]);
+      params.append('num', this.input[item['model']]);
+      this.inputData(item, params);
+    }
+  }
+
+  /**
+   * 获取inputData
+   */
+  inputData(item: Object, params): void {
+    this.http.post(item['inputUrl'], params).subscribe((res: Response) => {
+      let data = res.json();
+      this.setControl(item, data);
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**
@@ -452,7 +512,7 @@ export class ApplicationPage {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          if (item['type'] === 'date' || item['type'] === 'searchbox') {
+          if (item['type'] === 'date' || item['type'] === 'searchbox' || (item['inputUrl'] && this.input[item['model']])) {
             flg = true;
           } else {
             if (index == null) {
@@ -467,20 +527,23 @@ export class ApplicationPage {
           }
           if (flg) {
             let url = control['url'];
-            let params: Object = {
-              'serviceName': this.navParams.get('serviceName')
-            };
+            let params: URLSearchParams = new URLSearchParams();
+            params.append('serviceName', this.navParams.get('serviceName'));
             if (index == null) {
-              params['id'] = this.input[item['model']];
+              params.append('id', this.input[item['model']]);
             } else {
-              params['id'] = this.input[itemParent['model']][index][item['model']];
+              params.append('id', this.input[itemParent['model']][index][item['model']]);
             }
             this.http.post(url, params).subscribe((res: Response) => {
               let data = res.json().result_list;
               if (index == null) {
                 for (let k = 0; k < this.template.length; k++) {
                   if (this.template[k]['model'] === control['model']) {
-                    this.template[k]['data'] = data;
+                    if (this.template[k]['type'] === 'text') {
+                      this.input[this.template[k]['model']] = data;
+                    } else {
+                      this.template[k]['data'] = data;
+                    }
                     break;
                   }
                 }
@@ -554,13 +617,13 @@ export class ApplicationPage {
       item['components'] = item['components'].reduce((ite, next) => {
         if (hash[next.model]) {
           hash[next.model] = '';
-        }else {
+        } else {
           hash[next.model] = true && ite.push(next);
         }
         return ite;
       }, []);
       let listItem = {};
-      for (let j = 0; j < item['components'].length ; j++) {
+      for (let j = 0; j < item['components'].length; j++) {
         let component = item['components'][j];
         if (component['type'] === 'searchbox' || component['type'] === 'select') {
           listItem[component['model']] = null;
@@ -575,7 +638,7 @@ export class ApplicationPage {
       this.input[item['model']].push(listItem);
 
       let itemComponents = [];
-      for (let j = 0; j < item['components'].length ; j++) {
+      for (let j = 0; j < item['components'].length; j++) {
         itemComponents.push({ ...item['components'][j] });
       }
       if (this.inputTemp[item['model'] + 'Components'] == null) {
@@ -586,8 +649,8 @@ export class ApplicationPage {
       let tempArray = [];
       let index = [];
       let listItemArray = [];
-      for (let i = 0; i < item['components'].length ; i++) {
-        if (item['components'][0]['model'] === item['components'][i]['model']){
+      for (let i = 0; i < item['components'].length; i++) {
+        if (item['components'][0]['model'] === item['components'][i]['model']) {
           index.push(i);
         }
       }
@@ -595,13 +658,13 @@ export class ApplicationPage {
       for (let j = 0; j < index.length - 1; j++) {
         if (index[j + 1] === -1) {
           tempArray.push(item['components'].slice(index[j]));
-        }else {
+        } else {
           tempArray.push(item['components'].slice(index[j], index[j + 1]));
         }
       }
-      for (let i = 0; i < tempArray.length ; i++) {
+      for (let i = 0; i < tempArray.length; i++) {
         let listItem = new Object();
-        for (let j = 0; j < tempArray[i].length ; j++) {
+        for (let j = 0; j < tempArray[i].length; j++) {
           let component = tempArray[i][j];
           if (component['type'] === 'searchbox' || component['type'] === 'select') {
             listItem[component['model']] = component['defaultId'];
@@ -668,21 +731,18 @@ export class ApplicationPage {
       mimeType: 'multipart/form-data'
     };
     let userInfo = this.userService.getUserInfo();
-    this.http.post('/sys/files', {}).subscribe((res: Response) => {
-      let url = res.json().url;
-      fileTransfer.upload(filePath, url + userInfo.loginName, options).then((data) => {
-        if (this.input[item['model']] == null) {
-          this.input[item['model']] = [data.response];
-        } else {
-          this.input[item['model']].push(data.response);
-        }
-        this.fileReIndex++;
-        file['id'] = data.response;
-      }, () => {
-        this.toastService.show(this.transateContent['FILE_GET_ERROR']);
-        this.deleteFile(item, file);
-        this.fileReIndex++;
-      });
+    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName, options).then((data) => {
+      if (this.input[item['model']] == null) {
+        this.input[item['model']] = [data.response];
+      } else {
+        this.input[item['model']].push(data.response);
+      }
+      this.fileReIndex++;
+      file['id'] = data.response;
+    }, () => {
+      this.toastService.show(this.transateContent['FILE_GET_ERROR']);
+      this.deleteFile(item, file);
+      this.fileReIndex++;
     });
   }
 
@@ -691,10 +751,9 @@ export class ApplicationPage {
    */
   deleteFile(item: Object, file: Object): void {
     if (file['id'] != null && file['id'] !== '') {
-      let params = {
-        id: file['id']
-      };
-      this.http.delete('/sys/files/' + file['id'], {params: params}).subscribe((res: Response) => { });
+      let params: URLSearchParams = new URLSearchParams();
+      params.append('fileId', file['id']);
+      this.http.post('/webController/deleteFile', params).subscribe((res: Response) => { });
       if (this.input[item['model']] != null) {
         for (let i = 0; i < this.input[item['model']].length; i++) {
           if (this.input[item['model']][i] === file['id']) {
@@ -719,10 +778,9 @@ export class ApplicationPage {
     for (let i = 0; i < this.template.length; i++) {
       let item = this.template[i];
       if (item['type'] === 'file' && this.input[item['model']] != null && this.input[item['model']].length > 0) {
-        let params = {
-          id: this.input[item['model']].join(',')
-        };
-        this.http.delete('/sys/files/' + this.input[item['model']].join(','), {params: params}).subscribe((res: Response) => { });
+        let params: URLSearchParams = new URLSearchParams();
+        params.append('fileId', this.input[item['model']].join(','));
+        this.http.post('/webController/deleteFile', params).subscribe((res: Response) => { });
       }
     }
   }

@@ -165,8 +165,9 @@ export class AddressPage {
       }
       for (let contact of this.contactInfos) {
         for (let item of contact['items']) {
-          if (item['avatar']) {
+          if (item['avatar'] != null && item['avatar'] !== '') {
             item['avatar'] = `${this.fileUrl}${item['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
+            console.log(item['avatar']);
           }
         }
       }
@@ -255,7 +256,15 @@ export class AddressPage {
     if (item['type'] && (item['type']['code'] === '0' || item['type']['code'] === 0)) {
       item['isFriend'] = true;
     }
-    this.navCtrl.push(UserProfilePage, item);
+    this.http.get('/user/info/' + item['toUserId']).subscribe((res) => {
+      if (res['_body'] != null && res['_body'] !== '') {
+        item['employee'] = res['_body'];
+        this.navCtrl.push(UserProfilePage, item);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+
   }
 
   /**
@@ -292,7 +301,7 @@ export class AddressPage {
   resetImg(user) {
     for (let contact of this.contactInfos) {
       for (let item of contact['items']) {
-        if (item['fromUserId'] === user['fromUserId']) {
+        if (item['toUserId'] === user['toUserId']) {
           item['avatar'] = '';
           break;
         }

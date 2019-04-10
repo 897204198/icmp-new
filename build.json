@@ -29,7 +29,7 @@
     "release": {
       "codeSignIdentity": "iPhone Developer",
       "developmentTeam": "8L25HXDJRR",
-      "packageType": "distribution",
+      "packageType": "development",
       "buildFlag": [
         "-UseModernBuildSystem=0",
         "EMBEDDED_CONTENT_CONTAINS_SWIFT = YES",

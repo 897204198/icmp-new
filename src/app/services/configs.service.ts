@@ -32,16 +32,6 @@ export class ConfigsService {
       return this.appConstant.oaConstant.baseWebUrl;
     }
   }
-  /**
-   * 取得推送服务器地址
-   */
-  getPushUrl(): string {
-    if (localStorage.getItem('pushUrl') != null && localStorage.getItem('pushUrl') !== '') {
-      return localStorage.getItem('pushUrl');
-    } else {
-      return this.appConstant.properPushConstant.pushUrl;
-    }
-  }
 
   /**
    * 取得 ChatKey

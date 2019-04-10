@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>资产盘点</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="refreshRFID()">
+        刷新
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="content-gray">
+  <div padding>
+    <button ion-button block (click)="startEndRFID()">
+      {{buttonText}}
+    </button>
+  </div>
+  <ion-list class="icmp-list-bottom-margin">
+    <ion-item>
+      资产数量
+      <span item-end>{{count}}</span>
+    </ion-item>
+    <ion-item>
+      按保管地点分类
+    </ion-item>
+  </ion-list>
+  <ion-list *ngFor="let item of itemArray" no-lines class="noline-list-item" tappable (tap)="getRfidList(item)">
+    <ion-item class="item-small">{{item.room_name}}</ion-item>
+    <ion-item class="item-small">
+      <span item-end class="item_right">库存</span>
+      <span item-end class="item_right">实物</span>
+    </ion-item>
+    
+    <ion-item *ngFor="let data of item.data" text-wrap>
+      <ion-label flexd class="item_long">{{data.name}}</ion-label>
+      <span item-end class="item_right item_num">{{data.num}}</span>
+      <span item-end class="item_right item_search_num">{{data.search_Num}}</span>
+    </ion-item>
+  </ion-list>
+</ion-content>

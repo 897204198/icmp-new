@@ -123,10 +123,13 @@ ion-content {
   .word-head-image-content {
     border-radius: 50%;
     line-height: 40px;
-    font-size: 20px;
+    font-size: 12px;
     color: #fff;
     text-align: center;
     background-color: color($colors, primary);
+  }
+  .word-head-image-group-content {
+    font-size: 20px !important;
   }
 }
 .item-md.item-input .item-inner { 

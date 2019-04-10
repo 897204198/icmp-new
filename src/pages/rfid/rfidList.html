@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>资产盘点</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="primary" (click)="opinionAllRfid()">
+        全部盘点
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="content-gray">
+  <ion-list class="icmp-list-bottom-margin">
+    <ion-item>
+      {{areaTitle}}
+    </ion-item>
+    <ion-item>
+      资产列表
+    </ion-item>
+    <ion-item *ngFor="let item of itemArray" text-wrap tappable (tap)="dealRfid(item)">
+      <h2>{{item.index}}</h2>
+      <div class="assetsList">
+        <h2>{{item?.assetsName}}/{{item?.specifications}}</h2>
+        <h3>资产编号：{{item?.assetsNum}}</h3>
+        <h3>使用科室：{{item?.targetOrgName}}</h3>
+        <h3>状态：{{item?.inventoryState}}</h3>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

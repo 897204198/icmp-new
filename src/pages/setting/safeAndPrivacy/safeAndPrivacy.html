@@ -8,7 +8,7 @@
     {{'ACCOUNT_SAFE' | translate}}
   </div>
   <ion-list class="icmp-list-bottom-none">
-    <button ion-item>
+    <button ion-item [navPush]="resetPasswordPage">
       <ion-label>{{'RESET_PASSWORD' | translate}}</ion-label>
     </button>
   </ion-list>
@@ -17,6 +17,7 @@
     {{'PERSONAL_INFO_DIS_LEVEL' | translate}}
   </div>
   <ion-list radio-group [(ngModel)]="relationship">
+  <!--
     <ion-item>
       <ion-label>{{'DIS_LEVEL_FRIENDS' | translate}}</ion-label>
       <ion-radio></ion-radio>
@@ -29,9 +30,17 @@
       <ion-label>{{'DIS_LEVEL_INNER' | translate}}</ion-label>
       <ion-radio></ion-radio>
     </ion-item>
-    <ion-item>
+   <ion-item>
       <ion-label>{{'DIS_LEVEL_ALL' | translate}}</ion-label>
       <ion-radio></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'NO_DIS_LEVEL_ALL' | translate}}</ion-label>
+      <ion-radio></ion-radio>
+    </ion-item> -->
+    <ion-item *ngFor="let option of data" text-wrap>
+      <ion-label class="small-label">{{option.name}}</ion-label>
+      <ion-radio [value]="option.code" (ionSelect)="changeRadio(option)"></ion-radio>
     </ion-item>
   </ion-list>
 

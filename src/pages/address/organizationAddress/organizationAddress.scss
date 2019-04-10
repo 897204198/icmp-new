@@ -61,6 +61,7 @@ page-organizationAddress {
   .organization-content {
     .scroll-content {
       overflow-y: hidden;
+      margin-bottom: 0 !important;
     }
 
     ion-scroll.scroll-y .scroll-content {
@@ -113,7 +114,16 @@ page-organizationAddress {
           width: 33%;
           .gray-button { 
             background-color: #f0f4f7; 
-            color: gray; 
+            color: gray;
+            width: 100%; 
+            h2 {
+              font-size: 14px;
+            }
+          }
+          .white-button {
+            background-color: #fff !important;
+            color: gray;
+            width: 100%; 
             h2 {
               font-size: 14px;
             }
@@ -121,8 +131,37 @@ page-organizationAddress {
           .item-ios {
             background-color: transparent;
           }
+          .left-icon {
+            width: 8px;
+          }
         }
-  
+        
+        &.subject-scroll-left {
+          width: 33%;
+          button {
+            width:100%;
+            text-align: left;
+            padding-left: 15px;
+            .gray-button { 
+              background-color: #f0f4f7; 
+              color: gray; 
+              h2 {
+                font-size: 14px;
+              }
+            }
+            .white-button {
+              background-color: #fff !important;
+              color: gray;
+              h2 {
+                font-size: 14px;
+              }
+            }
+          }
+          .item-ios {
+            background-color: transparent;
+          }
+        }
+
         &.subject-scroll-right {
           width: 67%;
           background: #ffffff;

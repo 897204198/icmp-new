@@ -59,16 +59,22 @@ import { FeedDetailPage } from '../pages/setting/feedDetail/feedDetail';
 import { NewsNoticePage } from '../pages/setting/newsNotice/newsNotice';
 import { SafeAndPrivacyPage } from '../pages/setting/safeAndPrivacy/safeAndPrivacy';
 import { GeneralPage } from '../pages/setting/general/general';
+import { QueryNoticeDetailPage2 } from '../pages2/query/queryNoticeDetail/queryNoticeDetail';
 import { QueryNoticeDetailPage } from '../pages/query/queryNoticeDetail/queryNoticeDetail';
 import { FileTypeImageComponent } from './component/fileTypeImage/fileTypeImage.component';
 import { FileService } from './services/file.service';
+import { QueryListPage2 } from '../pages2/query/queryList/queryList';
 import { QueryListPage } from '../pages/query/queryList/queryList';
+import { QueryListConditionPage2 } from '../pages2/query/queryListCondition/queryListCondition';
+import { QueryScheduleDetailPage } from '../pages2/query/queryScheduleDetail/queryScheduleDetail';
 import { QueryListConditionPage } from '../pages/query/queryListCondition/queryListCondition';
+import { CalendarModule } from 'icon2-calendar-ng-v4';
 import { SearchboxComponent } from './component/searchbox/searchbox.component';
 import { TodoListPage } from '../pages/todo/todoList/todoList';
 import { TodoDetailPage } from '../pages/todo/todoDetail/todoDetail';
 import { TodoOpinionPage } from '../pages/todo/todoOpinion/todoOpinion';
 import { UtilsService } from './services/utils.service';
+import { QueryDetailPage2 } from '../pages2/query/queryDetail/queryDetail';
 import { QueryDetailPage } from '../pages/query/queryDetail/queryDetail';
 import { UserService } from './services/user.service';
 import { DeviceService } from './services/device.service';
@@ -107,7 +113,21 @@ import { NoticePage } from '../pages/notice/notice';
 import { InitService } from '../app/services/init.service';
 import { WaitDonePage } from '../pages/exam/waitDone/waitDone';
 import { HttpService } from '../app/services/http.service';
+import { TodoListPage2 } from '../pages2/todo/todoList/todoList';
+import { TodoDetailPage2 } from '../pages2/todo/todoDetail/todoDetail';
+import { TodoOpinionPage2 } from '../pages2/todo/todoOpinion/todoOpinion';
+import { TodoMissionOpinionPage } from '../pages2/todo/todoOpinion/mission/missionOpinion';
+import { TodoWorkContactPage } from '../pages2/todo/todoOpinion/workContact/workContact';
+import { EmergencyTreatmentPage } from '../pages2/emergencyTreatment/emergencyTreatment';
 import { CheckPage } from '../pages/check/check';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { RfidPage } from '../pages/rfid/rfid';
+import { RfidConnectPage } from '../pages/rfid/rfidConnect';
+import { RfidDetailPage } from '../pages/rfid/rfidDetail';
+import { RfidOpinionPage } from '../pages/rfid/rfidOpinion';
+import { RfidListPage } from '../pages/rfid/rfidList';
+import { ChoosePage } from '../pages/choose/choose';
+import { WebSocketService } from '../app/services/webSocket.service';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -122,6 +142,11 @@ export function createTranslateLoader(http: Http) {
 @NgModule({
   declarations: [
     CheckPage,
+    TodoListPage,
+    TodoDetailPage,
+    TodoOpinionPage,
+    TodoMissionOpinionPage,
+    TodoWorkContactPage,
     WaitDonePage,
     MyApp,
     IcmpDblclickDirective,
@@ -156,16 +181,22 @@ export function createTranslateLoader(http: Http) {
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
+    QueryNoticeDetailPage2,
     QueryNoticeDetailPage,
+    QueryListPage2,
     QueryListPage,
+    QueryListConditionPage2,
+    QueryScheduleDetailPage,
     QueryListConditionPage,
     StatisticsQueryPage,
     StatisticsViewPage,
     ApplicationPage,
-    TodoListPage,
-    TodoDetailPage,
-    TodoOpinionPage,
+    TodoListPage2,
+    TodoDetailPage2,
+    TodoOpinionPage2,
+    QueryDetailPage2,
     QueryDetailPage,
+    EmergencyTreatmentPage,
     InstaShotPage,
     AddressPage,
     ChatListPage,
@@ -185,7 +216,14 @@ export function createTranslateLoader(http: Http) {
     OopStormPage,
     ImagePreviewPage,
     IcmpKeyboardAttachDirective,
-    NoticePage
+    NoticePage,
+    InstaShotPage,
+    RfidPage,
+    RfidConnectPage,
+    RfidListPage,
+    RfidDetailPage,
+    RfidOpinionPage,
+    ChoosePage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -207,11 +245,17 @@ export function createTranslateLoader(http: Http) {
     IonicStorageModule.forRoot(),
     BrowserModule,
     HttpModule,
+    CalendarModule,
     DragulaModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     CheckPage,
+    TodoListPage2,
+    TodoDetailPage2,
+    TodoOpinionPage2,
+    TodoMissionOpinionPage,
+    TodoWorkContactPage,
     WaitDonePage,
     MyApp,
     MenuFolderComponent,
@@ -234,15 +278,21 @@ export function createTranslateLoader(http: Http) {
     NewsNoticePage,
     SafeAndPrivacyPage,
     GeneralPage,
+    QueryNoticeDetailPage2,
+    QueryScheduleDetailPage,
     QueryNoticeDetailPage,
+    QueryListPage2,
     QueryListPage,
+    QueryListConditionPage2,
     QueryListConditionPage,
+    EmergencyTreatmentPage,
     StatisticsQueryPage,
     StatisticsViewPage,
     ApplicationPage,
     TodoListPage,
     TodoDetailPage,
     TodoOpinionPage,
+    QueryDetailPage2,
     QueryDetailPage,
     InstaShotPage,
     AddressPage,
@@ -262,9 +312,17 @@ export function createTranslateLoader(http: Http) {
     EmailPage,
     OopStormPage,
     ImagePreviewPage,
-    NoticePage
+    NoticePage,
+    InstaShotPage,
+    RfidPage,
+    RfidConnectPage,
+    RfidListPage,
+    RfidDetailPage,
+    RfidOpinionPage,
+    ChoosePage
   ],
   providers: [
+    BarcodeScanner,
     StatusBar,
     SpellService,
     File,
@@ -299,6 +357,7 @@ export function createTranslateLoader(http: Http) {
     NativeStorage,
     SearchFilterPipe,
     HttpService,
+    WebSocketService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

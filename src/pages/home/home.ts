@@ -18,6 +18,8 @@ import timeago from 'timeago.js';
 import { NoticePage } from '../notice/notice';
 import { ConfigsService } from '../../app/services/configs.service';
 import { LoginPage } from '../login/login';
+import { TodoReplaceBadageAction } from '../../app/redux/actions/todo.action';
+
 /**
  * 首页
  */
@@ -99,6 +101,9 @@ export class HomePage {
         if (localStorage.getItem('haveIM') !== '2') {
           this.getWaitNum();
           this.componentInit();
+          this.getWaitToDoNum();
+        } else {
+          this.getTodoNumber(); // 项目获取待办数量
         }
       }
     });
@@ -106,9 +111,14 @@ export class HomePage {
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
         console.log('event刷新消息啊啦啦啦');
-        this.getWaitNum();
         this.getComponentList();
-        this.componentInit();
+        if (localStorage.getItem('haveIM') !== '2') {
+          this.getWaitNum();
+          this.componentInit();
+          this.getWaitToDoNum();
+        } else {
+          this.getTodoNumber(); // 项目获取首页tab数量
+        }
       });
     }
   }
@@ -128,13 +138,17 @@ export class HomePage {
     if (!this.isFirst) {
       this.getCache();
       this.setNotice();
-      this.getWaitNum();
       this.setPlugins();
       this.getComponentList();
-      this.componentInit();
+      if (localStorage.getItem('haveIM') !== '2') {
+        this.getWaitNum();
+        this.componentInit();
+        this.getWaitToDoNum();
+      } else {
+        this.getTodoNumber(); // 项目获取首页tab数量
+      }
     }
     this.isFirst = false;
-
     // 轮播图处理
     this.zone.runOutsideAngular(() => {
       this.intervalSlideId = setInterval(() => {
@@ -320,12 +334,17 @@ export class HomePage {
    * 设置首页应用列表
    */
   setAppList(): void {
-    this.http.get('/app/applications').subscribe((res: any) => {
+    this.http.get('/sys/applications').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.menus = [];
         let data = res.json();
         let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
+          if (localStorage.getItem('haveIM') === '2') {
+            data[i]['serviceName'] = data[i]['data']['serviceName'];
+            data[i]['processName'] = data[i]['data']['processName'];
+            data[i]['total'] = data[i]['data']['total'];
+          }
           if (data[i].name === '待办') {
             data[i].total = this.waitNum;
             haveWait++;
@@ -349,12 +368,32 @@ export class HomePage {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });
+    // TODO 模拟菜单接口
+    // this.menus = [{
+    //   "code": null,
+    //   "createTime": "2017-02-20 00:00:00",
+    //   "createUserId": "oa",
+    //   "data": {},
+    //   "defaultValue": true,
+    //   "enable": true,
+    //   "icon": "http://123.150.83.199:9999/img/邮件查询.png\n",
+    //   "id": 55,
+    //   "lastModifyTime": "2017-02-20 00:00:00",
+    //   "lastModifyUserId": "oa",
+    //   "name": "申请",
+    //   "page": "application",
+    //   "style": null,
+    //   "serviceName": "EmployeesLeaveApplyService",
+    //   "total": 0
+    // }];
+    this.allNum = 0;
+    this.secureStorageService.putObject('home_applist', this.menus);
   }
   /**
-  * 获取待办数量
+  * 获取首页tab总数数量
   */
   getWaitNum(): void {
-    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+    this.http.get('/notices/mainPageCount').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json(); // 待办个数
         this.waitNum = data;
@@ -368,6 +407,42 @@ export class HomePage {
     }, (res: Response) => {
       this.toastService.show(res.text());
       this.setAppList(); // 获取应用
+    });
+  }
+  // 获取项目首页tab总数数量
+  getTodoNumber() {
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('pageNo', '1');
+    params.append('pageSize', '0');
+    params.append('processName', '');
+    this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+      let data = res.json();
+      // redux传值
+      if (data.total === 0) {
+        this.store.dispatch(new HomeReplaceBadageAction(''));
+      } else {
+        this.store.dispatch(new HomeReplaceBadageAction(data.total));
+      }
+      this.setAppList(); // 获取应用
+    });
+  }
+  /**
+  * 获取待办数量
+  */
+  getWaitToDoNum(): void {
+    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+      if (res._body != null && res._body !== '') {
+        let data = res.json(); // 待办个数
+        if (data.total === 0) {
+          this.store.dispatch(new TodoReplaceBadageAction(''));
+        } else {
+          this.store.dispatch(new TodoReplaceBadageAction(data.toString()));
+        }
+      }
+    }, (res: Response) => {
+      if (localStorage.getItem('haveIM') !== '2') {
+        this.toastService.show(res.text());
+      }
     });
   }
 

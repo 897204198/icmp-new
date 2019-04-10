@@ -13,17 +13,14 @@
   </div>
 
   <ion-list class="icmp-list-bottom-margin">
-    <!-- <button ion-item [navPush]="safeAndPrivacyPage">
-      {{'SAFE_AND_PRIVACY' | translate}}
-    </button> -->
     <!-- <button ion-item [navPush]="generalPage">
       {{'GENERAL' | translate}}
     </button> -->
     <button ion-item [navPush]="newsNoticePage">
       {{'NEW_NOTICE' | translate}}
     </button>
-    <button id="e2e-resetpassword" ion-item [navPush]="resetPasswordPage">
-      {{'RESET_PASSWORD' | translate}}
+    <button ion-item [navPush]="safeAndPrivacyPage">
+      {{'SAFE_AND_PRIVACY' | translate}}
     </button>
     <button id="e2e-checkversion" ion-item (tap)="checkVersion()">
       {{'CHECK_VERSION' | translate}}
@@ -34,6 +31,9 @@
     </button>
     <button id="e2e-aboutme" ion-item [navPush]="aboutPage">
       {{'ABOUT_US' | translate}}
+    </button>
+    <button id="e2e-shortcutsplugin" ion-item (tap)="shortCutsAction()">
+      {{'SHORTCUTS' | translate}}
     </button>
   </ion-list>
 

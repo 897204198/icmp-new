@@ -83,7 +83,14 @@ export class ApplyPage {
       params['fromUserId'] = item['toUserId'];
       params['toUserId'] = item['fromUserId'];
     }
-    this.navCtrl.push(UserProfilePage, params);
+    this.http.get('/user/info/' + params['toUserId']).subscribe((res) => {
+      if (res['_body'] != null && res['_body'] !== '') {
+        params['employee'] = res['_body'];
+        this.navCtrl.push(UserProfilePage, params);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
   }
 
   /**

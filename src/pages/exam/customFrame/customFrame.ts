@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { NavParams, NavController, Navbar } from 'ionic-angular';
+import { NavParams, NavController, Navbar, Events } from 'ionic-angular';
 import { ConfigsService } from '../../../app/services/configs.service';
 import { PhotoService } from '../../../app/services/photo.service';
 import { ActionSheetController } from 'ionic-angular';
@@ -12,14 +12,17 @@ export const QUALITY_SIZE = 94; // 图像压缩质量，范围为0 - 100
 let navCtrl2;
 let actionSheetCtrl2;
 let photoService2;
+let event2;
 const fn = (event) => {
   const eventId = event.data.id;
       const type = event.data.type;
       const maximumImagesCount = event.data.maximumImagesCount;
       if (event.data === 'back') {
+        event2.publish('refresh');
         navCtrl2.pop();
       }
       if (event.data === 'close') {
+        event2.publish('refresh');
         navCtrl2.pop();
       }
       if (type === 'chooseImage') {
@@ -92,11 +95,20 @@ export class ExamCustomFramePage {
   data: string = '';
   imageBase64: Array<string> = [];
   constructor(
-    private imagePicker: ImagePicker, private camera: Camera, private actionSheetCtrl: ActionSheetController, private photoService: PhotoService, private sanitizer: DomSanitizer, public navParams: NavParams, private navCtrl: NavController, private configsService: ConfigsService,
+    private imagePicker: ImagePicker,
+    private camera: Camera,
+    private actionSheetCtrl: ActionSheetController,
+    private photoService: PhotoService,
+    private sanitizer: DomSanitizer,
+    public navParams: NavParams,
+    private navCtrl: NavController,
+    private configsService: ConfigsService,
+    private events: Events,
   ) {
     navCtrl2 = this.navCtrl;
     actionSheetCtrl2 = this.actionSheetCtrl;
     photoService2 = this.photoService;
+    event2 = this.events;
     this.title = this.navParams.data.name;
     let dangerousVideoUrl = '';
     if (this.navParams.data.isPush === true) {
@@ -104,10 +116,14 @@ export class ExamCustomFramePage {
     } else {
       let menuStr: string = this.navParams.data.data.url;
       // 添加serviceKey请求头
-      if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
-        menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+      if (localStorage.getItem('stopStreamline') && JSON.parse(localStorage.getItem('stopStreamline'))) {
+        menuStr = this.configsService.getBaseWebUrl() + menuStr;
       } else {
-        menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
+          menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
+        }else{
+          menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
+        }
       }
       if (menuStr.includes('?')) {
         dangerousVideoUrl = menuStr + '&token=' + localStorage.getItem('token') + '&title=' + this.title;
@@ -123,5 +139,4 @@ export class ExamCustomFramePage {
     console.log(navCtrl2);
     window.removeEventListener('message', fn);
   }
-
 }

@@ -1,0 +1,22 @@
+page-rfidConnect {
+  ion-label {
+    color: black !important;
+  }
+
+  .assetsList {
+    margin-left: 20px; 
+    margin-top: -20px;
+  }
+
+  .noline-list-item {
+    margin-top: -15px !important;
+    .item-small {
+      min-height: 1rem;
+      height: 28px;
+    }
+  }
+  .item_right{
+    width:15%;
+    text-align: right;
+  }
+}

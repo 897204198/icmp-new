@@ -5,20 +5,22 @@ import { HomePage } from '../home/home';
 import { SettingPage } from '../setting/setting';
 import { BackButtonService } from '../../app/services/backButton.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
-import { TodoDetailPage } from '../todo/todoDetail/todoDetail';
+import { TodoDetailPage2 } from '../../pages2/todo/todoDetail/todoDetail';
 import { UserService, UserInfoState } from '../../app/services/user.service';
 import { ToastService } from '../../app/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
-import { QueryDetailPage } from '../query/queryDetail/queryDetail';
-import { QueryNoticeDetailPage } from '../query/queryNoticeDetail/queryNoticeDetail';
+import { QueryDetailPage2 } from '../../pages2/query/queryDetail/queryDetail';
+import { QueryNoticeDetailPage2 } from '../../pages2/query/queryNoticeDetail/queryNoticeDetail';
 import { AddressPage } from '../address/address';
 import { ChatListPage } from '../chatList/chatList';
+import { TodoListPage2 } from '../../pages2/todo/todoList/todoList';
 
 import { Store } from '@ngrx/store';
 import { IM_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ImReplaceBadageAction } from '../../app/redux/actions/im.action';
 import { Home_BADGE_STATE } from '../../app/redux/app.reducer'; // 替换首页tab角标
 import { HomeReplaceBadageAction } from '../../app/redux/actions/home.action';
+import { TODO_BADGE_STATE } from '../../app/redux/app.reducer';
 import { ConfigsService } from '../../app/services/configs.service';
 import { AppConstant, APP_CONSTANT } from '../../app/constants/app.constant';
 import { DeviceService } from '../../app/services/device.service';
@@ -47,6 +49,15 @@ export class TabsPage {
   userInfo: UserInfoState = this.userService.getUserInfo();
   // 是否是首次加载，用于解决杀进程状态点击推送跳转时还未登录问题
   private isFirst: boolean = true;
+  bottomTabs: Object = {
+    HomePage,
+    ChatListPage,
+    AddressPage,
+    SettingPage,
+    TodoListPage2,
+    WaitDonePage,
+    OrganizationAddressPage
+  };
 
   /**
    * 构造函数
@@ -98,6 +109,7 @@ export class TabsPage {
       let homewaitIconNum: number = 0;
 
       if (localStorage.getItem('haveIM') === '1') {
+        // 普日项目带聊天
         // 消息角标绑定
         this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
@@ -109,7 +121,7 @@ export class TabsPage {
             }
           }
         });
-        // 首页待办消息绑定
+        // 首页消息绑定
         this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
             if (this.tabRoots[i]['tabTitle'] === '首页') {
@@ -122,15 +134,21 @@ export class TabsPage {
             }
           }
         });
-      } else {
+      } else if (localStorage.getItem('haveIM') === '2') {
+        // 袁艺项目
         // 待办tab消息绑定
-        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
-          for (let i = 0; i < this.tabRoots.length; i++) {
-            if (this.tabRoots[i]['tabTitle'] === '待办') {
-              console.log('首页待办角标个数' + data);
-              this.tabRoots[i]['tabBadge'] = data;
-            }
-          }
+        this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+          this.tabRoots[1]['tabBadge'] = data;
+          iconNum = Number(data);
+          this.pushService.sendBadgeNotification(iconNum);
+        });
+      } else {
+        // 标准版本
+        // 待办tab消息绑定
+        this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+          this.tabRoots[1]['tabBadge'] = data;
+          iconNum = Number(data);
+          this.pushService.sendBadgeNotification(iconNum);
         });
       }
     });
@@ -178,28 +196,49 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    // if (this.userService.imIsOpen()) {
-    if (localStorage.getItem('haveIM') === '1') {
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
-        { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-        { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
-      ];
-    } else {
-      return [
-        { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-        { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
-        { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
-        { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
-      ];
+    const result  = JSON.parse(localStorage.getItem('tabsData'));
+    if (result && result.length) {
+      return  result.map(it => ({
+        ...it,
+        root: this.bottomTabs[it.root]
+      }));
     }
+    // if (localStorage.getItem('haveIM') === '1') {
+    //   // 网页调试注销掉的，真机测试再打开
+    //   // if (this.userService.imIsOpen()) { 
+    //   return [
+    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //     { root: ChatListPage, tabTitle: '消息', tabIcon: 'chatboxes' },
+    //     { root: AddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+    //     { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
+    //   ];
+    //   // } else {
+    //   //   return [
+    //   //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //   //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+    //   //   ];
+    //   // }
+    // } else if (localStorage.getItem('haveIM') === '2') {
+    //   // 项目
+    //   return [
+    //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
+    //     {
+    //       root: TodoListPage2, tabTitle: '待办', tabIcon: 'chatboxes', params: {
+    //         processName: '',
+    //         name: '待办列表'
+    //       }
+    //     },
+    //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+    //   ];
     // } else {
     //   return [
     //     { root: HomePage, tabTitle: '首页', tabIcon: 'home' },
-    //     { root: SettingPage, tabTitle: '更多', tabIcon: 'person' }
+    //     { root: WaitDonePage, tabTitle: '待办', tabIcon: 'time' },
+    //     { root: OrganizationAddressPage, tabTitle: '通讯录', tabIcon: 'contacts' },
+    //     { root: SettingPage, tabTitle: '我的', tabIcon: 'person' }
     //   ];
     // }
+
   }
 
   /**
@@ -207,7 +246,11 @@ export class TabsPage {
    */
   doOpenNotification(event: any) {
     // 获取修改tab角标数
-    this.getWaitToDoNumber();
+    if (localStorage.getItem('haveIM') !== '2') {
+      this.getWaitToDoNumber();
+    } else {
+      this.getTodoNumber(); // 项目获取待办数量
+    }
     // 刷新首页待办角标和组件
     this.events.publish('refresh');
     if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
@@ -297,26 +340,28 @@ export class TabsPage {
     };
 
     if (item['sign'] == null || item['sign'] === '') {
-      this.http.get('/bpm/todos/' + item['id'] + 'claim').subscribe((res: Response) => {
+      let params: URLSearchParams = new URLSearchParams();
+      params.append('taskId', item['taskId']);
+      this.http.post('/webController/claim', params).subscribe((res: Response) => {
         let userInfo: UserInfoState = this.userService.getUserInfo();
         item['assignee'] = userInfo.loginName;
-        this.navCtrl.push(TodoDetailPage, item);
+        this.navCtrl.push(TodoDetailPage2, item);
       }, (res: Response) => {
         this.toastService.show(res.text());
       });
     } else {
-      this.navCtrl.push(TodoDetailPage, item);
+      this.navCtrl.push(TodoDetailPage2, item);
     }
   }
 
   // 推送通知打开查询
   doOpenNotificationQuery(customsDic: any) {
-    this.navCtrl.push(QueryDetailPage, customsDic);
+    this.navCtrl.push(QueryDetailPage2, customsDic);
   }
 
   // 推送通知打开通知查询
   doOpenNotificationNoticeQuery(customsDic: any) {
-    this.navCtrl.push(QueryNoticeDetailPage, customsDic);
+    this.navCtrl.push(QueryNoticeDetailPage2, customsDic);
   }
 
   // 推送通知打开意见反馈
@@ -421,7 +466,7 @@ export class TabsPage {
         username: this.userInfo.loginName,
         password: this.userInfo.password0,
         baseUrl: this.configsService.getBaseUrl(),
-        pushUrl: this.configsService.getPushUrl(),
+        pushUrl: this.configsService.getBaseUrl(),
         chatKey: this.configsService.getChatKey(),
         token: 'Bearer ' + localStorage['token'],
         chatId: this.userInfo.userId,
@@ -482,9 +527,9 @@ export class TabsPage {
       }, (retData) => { });
     }
   }
-  // 获取待办事件个数
+  // 获取首页tab总数
   getWaitToDoNumber() {
-    this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
+    this.http.get('/notices/mainPageCount').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         let data = res.json(); // 待办个数
         // let data = 5;
@@ -498,6 +543,22 @@ export class TabsPage {
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
+    });
+  }
+  // 获取项目获取首页tab总数
+  getTodoNumber() {
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('pageNo', '1');
+    params.append('pageSize', '0');
+    params.append('processName', '');
+    this.http.post('/webController/getPersonalAllTodoTask', params).subscribe((res: Response) => {
+      let data = res.json();
+      // redux传值
+      if (data.total === 0) {
+        this.store.dispatch(new HomeReplaceBadageAction(''));
+      } else {
+        this.store.dispatch(new HomeReplaceBadageAction(data.total));
+      }
     });
   }
   /**
@@ -527,18 +588,20 @@ export class TabsPage {
     });
   }
   changeValue(tab: any) {
-    if (tab.tabTitle === '待办') {
-      this.tabRef.select(0);
-      const dataALL = {
-        name: '待办',
-        isPush: false,
-        data: {
-          url: '/#/webapp/workflow/todo'
-        },
-        page: 'examList'
-      };
-      this.routersService.pageForward(this.navCtrl, dataALL);
+    if (localStorage.getItem('haveIM') !== '1' && localStorage.getItem('haveIM') !== '2') {
+      if (tab.tabTitle === '待办') {
+        this.tabRef.select(0);
+        const dataALL = {
+          name: '待办',
+          isPush: false,
+          data: {
+            url: '/#/webapp/workflow/todo'
+          },
+          page: 'examList'
+        };
+        this.routersService.pageForward(this.navCtrl, dataALL);
+      }
+      console.log('选择:' + tab.tabTitle);
     }
-    console.log('选择:' + tab.tabTitle);
   }
 }
