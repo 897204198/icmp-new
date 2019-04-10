@@ -4,11 +4,16 @@
 	</ion-navbar>
 </ion-header>
 <ion-content>
-	<p class="name">{{chooseName}}</p>
-	<div *ngIf="!condition" class="button">
-		<button ion-button disabled="false" color="light" round full>抽取</button>
+	<div class="nameBox">
+		<p *ngFor="let name of nameList ">{{name}}</p>
 	</div>
-	<div *ngIf="condition" (click)="choose()" class="button">
-		<button ion-button round full>抽取</button>
+	<div class="chooseBox">
+		<p class="name">{{chooseName}}</p>
+		<div *ngIf="!condition" class="button">
+			<button ion-button disabled="false" color="light" round full>抽取</button>
+		</div>
+		<div *ngIf="condition" (click)="choose()" class="button">
+			<button ion-button round full>抽取</button>
+		</div>
 	</div>
 </ion-content>
