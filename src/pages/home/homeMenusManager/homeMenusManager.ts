@@ -134,7 +134,6 @@ export class HomeMenusManagerPage {
    * 取得全部应用
    */
   getAllMenus(): void {
-    this.categoryMenus = [];
     setTimeout(() => {
       this.http.get('/sys/applications/all').subscribe((res: Response) => {
         let allMenus = res.json();
@@ -143,6 +142,7 @@ export class HomeMenusManagerPage {
         noGroupMenus['menus'] = [];
         console.log('获取全部应用');
         this.zone.run(() => {
+          this.categoryMenus = [];
           for (let i = 0; i < allMenus.length; i++) {
             let menu = allMenus[i];
             menu.menus = [];
