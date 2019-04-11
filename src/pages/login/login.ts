@@ -150,7 +150,7 @@ export class LoginPage {
           localStorage.setItem('pushinit', '1');
           console.log('登录里创建插件');
         }
-        if (res.headers.get('x-service-key') === 'propersoft') {
+        if (res.headers.get('x-service-key') === 'propersoft' || res.headers.get('x-service-key') === 'propersoft_grey') {
           // 普日项目有环信
           localStorage.setItem('haveIM' , '1');
         }else if (res.headers.get('x-service-key') === 'thrid_party') {

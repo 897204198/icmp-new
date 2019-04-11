@@ -38,8 +38,7 @@ export class HomeMenusManagerPage {
   private count: number = 0;
   // 是否显示placeholder
   private isShow: boolean = false;
-  // 待办个数
-  public waitNum: number = 0;
+
 
   /**
    * 构造函数
@@ -110,26 +109,7 @@ export class HomeMenusManagerPage {
       this.saveMenus();
     });
   }
-  // /**
-  //  * 获取待办数量
-  //  */
-  // getWaitNum(): void {
-  //   this.http.get('/workflow/task/todo/count').subscribe((res: any) => {
-  //     this.waitNum = 0;
-  //     if (res._body != null && res._body !== '') {
-  //       let data = res.json(); // 待办个数
-  //       this.waitNum = data;
-  //     }
-  //     this.getMyMenus();
-  //     this.getAllMenus();
-  //   }, (res: Response) => {
-  //     if (localStorage.getItem('haveIM') !== '2'){
-  //       this.toastService.show(res.text());
-  //     }
-  //     this.getMyMenus();
-  //     this.getAllMenus();
-  //   });
-  // }
+
   /**
    * 取得全部应用
    */
@@ -153,13 +133,8 @@ export class HomeMenusManagerPage {
                 apps['queryCondition'] = apps['data']['queryCondition'];
                 apps['total'] = apps['data']['total'];
               }
-              if (apps['name'] === '待办') {
-                apps['total'] = this.waitNum;
-                console.log('待办全部角标数' + apps['total']);
-              }
               menu.menus.push(apps);
             }
-            console.log('待办个数' + this.waitNum);
             this.categoryMenus.push(menu);
           }
         });
@@ -208,9 +183,6 @@ export class HomeMenusManagerPage {
             data[i]['serviceName'] = data[i]['data']['serviceName'];
             data[i]['processName'] = data[i]['data']['processName'];
             data[i]['total'] = data[i]['data']['total'];
-          }
-          if (data[i].name === '待办') {
-            data[i].total = this.waitNum;
           }
           arr.push(data[i]);
           console.log('新待办我的应用角标数' + data[i].total);
