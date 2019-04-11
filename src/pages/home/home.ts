@@ -99,7 +99,7 @@ export class HomePage {
         this.setPlugins();
         this.getComponentList();
         if (localStorage.getItem('haveIM') !== '2') {
-          this.getWaitNum();// 获取首页tab数量
+          this.getWaitNum(); // 获取首页tab数量
           this.componentInit();
           this.getWaitToDoNum();
         } else {
@@ -338,7 +338,7 @@ export class HomePage {
       if (res._body != null && res._body !== '') {
         this.menus = [];
         let data = res.json();
-        let haveWait = 0;
+        // let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
           if (localStorage.getItem('haveIM') === '2') {
             data[i]['serviceName'] = data[i]['data']['serviceName'];
@@ -387,7 +387,7 @@ export class HomePage {
   getWaitNum(): void {
     this.http.get('/notices/mainPageCount').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json(); 
+        let data = res.json();
         this.waitNum = data;
         if (data === 0) {
           this.store.dispatch(new HomeReplaceBadageAction(''));
