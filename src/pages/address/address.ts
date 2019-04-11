@@ -167,7 +167,6 @@ export class AddressPage {
         for (let item of contact['items']) {
           if (item['avatar'] != null && item['avatar'] !== '') {
             item['avatar'] = `${this.fileUrl}${item['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
-            console.log(item['avatar']);
           }
         }
       }
