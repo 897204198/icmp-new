@@ -114,7 +114,9 @@ export class TabsPage {
         this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
           for (let i = 0; i < this.tabRoots.length; i++) {
             if (this.tabRoots[i]['tabTitle'] === '消息') {
-              this.tabRoots[i]['tabBadge'] = data;
+              if (data !== '0') {
+                this.tabRoots[i]['tabBadge'] = data;
+              }
               messageIconNum = Number(data);
               iconNum = homewaitIconNum + messageIconNum;
               this.pushService.sendBadgeNotification(iconNum);
@@ -126,7 +128,9 @@ export class TabsPage {
           for (let i = 0; i < this.tabRoots.length; i++) {
             if (this.tabRoots[i]['tabTitle'] === '首页') {
               console.log('首页待办角标个数' + data);
+              if (data !== '0') {
               this.tabRoots[i]['tabBadge'] = data;
+              }
               homewaitIconNum = Number(data);
               iconNum = messageIconNum + homewaitIconNum;
               console.log('消息数' + iconNum);
@@ -138,7 +142,9 @@ export class TabsPage {
         // 袁艺项目
         // 待办tab消息绑定
         this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+          if (data !== '0') {
           this.tabRoots[1]['tabBadge'] = data;
+          }
           iconNum = Number(data);
           this.pushService.sendBadgeNotification(iconNum);
         });
@@ -146,7 +152,9 @@ export class TabsPage {
         // 标准版本
         // 待办tab消息绑定
         this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+          if (data !== '0') {
           this.tabRoots[1]['tabBadge'] = data;
+          }
           iconNum = Number(data);
           this.pushService.sendBadgeNotification(iconNum);
         });

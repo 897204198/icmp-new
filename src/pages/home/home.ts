@@ -99,11 +99,11 @@ export class HomePage {
         this.setPlugins();
         this.getComponentList();
         if (localStorage.getItem('haveIM') !== '2') {
-          this.getWaitNum();
+          this.getWaitNum(); // 获取首页tab数量
           this.componentInit();
           this.getWaitToDoNum();
         } else {
-          this.getTodoNumber(); // 项目获取待办数量
+          this.getTodoNumber(); // 项目获取首页tab数量
         }
       }
     });
@@ -113,7 +113,7 @@ export class HomePage {
         console.log('event刷新消息啊啦啦啦');
         this.getComponentList();
         if (localStorage.getItem('haveIM') !== '2') {
-          this.getWaitNum();
+          this.getWaitNum(); // 获取首页tab数量
           this.componentInit();
           this.getWaitToDoNum();
         } else {
@@ -338,31 +338,23 @@ export class HomePage {
       if (res._body != null && res._body !== '') {
         this.menus = [];
         let data = res.json();
-        let haveWait = 0;
+        // let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
           if (localStorage.getItem('haveIM') === '2') {
             data[i]['serviceName'] = data[i]['data']['serviceName'];
             data[i]['processName'] = data[i]['data']['processName'];
             data[i]['total'] = data[i]['data']['total'];
           }
-          if (data[i].name === '待办') {
-            data[i].total = this.waitNum;
-            haveWait++;
-            if (localStorage.getItem('haveIM') === '0') {
-              // 存储待办模块
-              localStorage.setItem('waitData', data[i].data.url);
-            }
-          }
           this.menus.push(data[i]);
         }
         // 首页没有待办数量加在全部图标上
-        if (localStorage.getItem('haveIM') === '1') {
-          if (haveWait === 0) {
-            this.allNum = this.waitNum;
-          } else {
-            this.allNum = 0;
-          }
-        }
+        // if (localStorage.getItem('haveIM') === '1') {
+        //   if (haveWait === 0) {
+        //     this.allNum = this.waitNum;
+        //   } else {
+        //     this.allNum = 0;
+        //   }
+        // }
         this.secureStorageService.putObject('home_applist', this.menus);
       }
     }, (res: Response) => {
@@ -395,7 +387,7 @@ export class HomePage {
   getWaitNum(): void {
     this.http.get('/notices/mainPageCount').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
-        let data = res.json(); // 待办个数
+        let data = res.json();
         this.waitNum = data;
         if (data === 0) {
           this.store.dispatch(new HomeReplaceBadageAction(''));
