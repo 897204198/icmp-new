@@ -114,7 +114,7 @@ export class OrganizationAddressPage {
               user['avatar'] = `${this.fileUrl}${user['userEntity']['avatar']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
             }
           }
-          user['status'] = user['userEntity']['status'];
+          user['status'] = user['userEntity'] && user['userEntity']['status'] ? user['userEntity']['status'] : null;
         }
         this.isSearch = true;
       }, (res: Response) => {
