@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>资产盘点</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="content-gray">
+  <ion-list class="icmp-list-top-margin">
+    <ion-item>
+      <ion-label>串口号</ion-label>
+      <ion-select [(ngModel)]="portNumber" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-option *ngFor="let port of portNumberArray" value="{{port}}">{{port}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>波特率</ion-label>
+      <ion-select [(ngModel)]="baudRate" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-option value="9600">9600</ion-option>
+        <ion-option value="115200">115200</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <div padding>
+    <button ion-button block (click)="connect()">
+      立即链接
+    </button>
+  </div>
+</ion-content>
