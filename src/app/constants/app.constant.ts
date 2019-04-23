@@ -77,8 +77,8 @@ const oaConstant: OaConstant = {
 const properPushConstant: ProperPushConstant = {
   'appId': 'MobileOAOnline',
   'xiaomi': {
-    'theAppid': '2882303761517896401',
-    'theAppkey': '5531789611401'
+    'theAppid': '2882303761517987674',
+    'theAppkey': '5711798799674'
   }
 };
 
