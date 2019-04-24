@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
 import { ScanDetailPage } from '../../pages/scan/scanDetail';
 
@@ -19,6 +19,7 @@ export class ScanConnectPage {
 
    constructor(
     public navCtrl: NavController,
+    public navParams: NavParams,
     private toastService: ToastService,
     private zone: NgZone) { }
 
@@ -41,10 +42,8 @@ export class ScanConnectPage {
       baud: this.baudRate
     };
     (<any>window).rfid.connectScannerSerialPort(params, (retData) => {
-      (<any>window).rfid.initScanner('', (res) => {
-        this.zone.run(() => {
-          this.navCtrl.push(ScanDetailPage);
-        });
+      this.zone.run(() => {
+        this.navCtrl.push(ScanDetailPage, this.navParams);
       });
     }, (err) => {
       this.toastService.show('连接失败');

@@ -1,7 +1,8 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { ToastService } from '../../app/services/toast.service';
+import { QueryDetailPage2 } from '../../pages2/query/queryDetail/queryDetail';
 
 
 @Component({
@@ -15,12 +16,11 @@ export class ScanDetailPage {
    buttonText: string = '开始盘存';
    // 资产列表
    itemArray: Array<Object> = [];
-   // rfid 数组
-   ecpIdArray: Array<string> = [];
    count: number = 0;
  
    constructor(
      public navCtrl: NavController,
+     public navParams: NavParams,
      private toastService: ToastService,
      private http: Http,
      private zone: NgZone) {
@@ -28,22 +28,20 @@ export class ScanDetailPage {
 
    // 进入页面
   ionViewDidLoad() {
-    (<any>window).rfid.listener('', (retData) => {
-      this.zone.run(() => {
-        this.count = retData.epcId;
-        // this.ecpIdArray.push(retData.epcId);
-        // let params: URLSearchParams = new URLSearchParams();
-        // params.append('epcCode', this.ecpIdArray.toString());
-        // this.http.post('/webController/getRoomStockOfRFID', params).subscribe((res: Response) => {
-        //   let item: Object = res.json();
-        //   this.itemArray = item['result_list'];
-        //   this.count = item['total'];
-        // }, (res: Response) => {
-        //   this.toastService.show(res.text());
-        // });
-      });
+    (<any>window).rfid.initScanner('', (retData) => {
+      console.log('激光传回的值是：' + retData);
+      if (retData) {
+        const addInfo = Object.assign(this.navParams, { 'rfid': retData, 'scan': true});
+        // if (!rfidInfo['cancelled']){
+          console.log('正确扫码 进入详情页1');
+          this.navCtrl.push(QueryDetailPage2, addInfo);
+        // } else {
+        //   console.log('未扫码 返回上一页');
+        //   this.navCtrl.pop();
+        // }
+      }
     }, (err) => {
-      this.toastService.show('盘存失败');
+      this.toastService.show('扫描失败');
     });
   }
 }
