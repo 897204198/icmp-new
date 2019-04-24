@@ -15,7 +15,7 @@ export class WebSocketService {
   };
   constructor(private configService: ConfigsService) {}
 
-  connection(token, fn) {
+  connection(token, fn, errFn?) {
     // const token = 'eyJpZCI6ImMzYjU2MDZjLTMyNGQtNDI4Ny1hMDY5LTJhZGY5YjU5Y2ZkZSIsIm5hbWUiOiJsaWh1aXlhbiAifQ.eyJuYW1lIjoi5Yav6Imz546yIiwiaGFzUm9sZSI6ZmFsc2V9.7uN-TIQZ9i2ELuv6uXtjLdKm9lV4HdAawWnl3-AMong';
     // const token = localStorage.getItem('token');
     this.headers = {
@@ -42,8 +42,10 @@ export class WebSocketService {
     //   // );
     // }
     , (err) => {
-      console.log('连接失败');
-      console.log(err);
+      console.log(err)
+      console.log('连接失败')
+      localStorage.setItem('sock', '0');
+      if(errFn) errFn();
     });
   }
   addSubscribe(url: string, callback, fn) {
@@ -59,9 +61,12 @@ export class WebSocketService {
   unSubscribe(obj) {
     obj.unsubscribe();
   }
-  disconnection() {
+  disconnection(fn?) {
     if (this.stompClient) {
       this.stompClient.disconnect();
+      if (fn) {
+        fn();
+      }
       console.log('Disconnected');
     }
   }
