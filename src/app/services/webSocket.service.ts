@@ -45,7 +45,9 @@ export class WebSocketService {
       console.log(err);
       console.log('连接失败');
       localStorage.setItem('sock', '0');
-      if (errFn) errFn();
+      if (errFn) {
+        errFn();
+      }
     });
   }
   addSubscribe(url: string, callback, fn) {
