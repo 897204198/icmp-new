@@ -48,10 +48,14 @@ export class ScanDetailPage {
       this.toastService.show('扫描失败');
     });
    }
+    // 离开时销毁
+  ionViewWillUnload() {
+    (<any>window).rfid.destroyRFID('');
+  }
    /**
    * 首次进入页面
    */
   ionViewDidLoad() {
-    
+
   }
 }

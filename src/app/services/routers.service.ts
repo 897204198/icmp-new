@@ -133,20 +133,21 @@ export class RoutersService {
       navCtrl.push(RfidPage, menu);
     } else if (menu.page === this.icmpConstant.page.scan) {
       navCtrl.push(ScanConnectPage, menu);
-      // this.photoService.openScan(function(rfidInfo){
-      //   if (rfidInfo) {
-      //     const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
-      //     if (!rfidInfo['cancelled']){
-      //       navCtrl.push(QueryDetailPage2, addInfo);
-      //       console.log('正确扫码 进入详情页');
-      //     } else {
-      //       console.log('未扫码 返回上一页');
-      //       navCtrl.pop();
-      //     }
-      //   }
-      // });
-    } else {
-      this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
-    }
+    //   this.photoService.openScan(function(rfidInfo){
+    //     if (rfidInfo) {
+    //       const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
+    //       if (!rfidInfo['cancelled']){
+    //         navCtrl.push(QueryDetailPage2, addInfo);
+    //         console.log('正确扫码 进入详情页');
+    //       } else {
+    //         console.log('未扫码 返回上一页');
+    //         navCtrl.pop();
+    //       }
+    //     }
+    //   });
+    // } else {
+    //   this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
+    // }
   }
+}
 }

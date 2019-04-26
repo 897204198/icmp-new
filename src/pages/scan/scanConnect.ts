@@ -2,6 +2,8 @@ import { Component, NgZone } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
 import { ScanDetailPage } from '../../pages/scan/scanDetail';
+import { PhotoService } from '../../app/services/photo.service';
+import { QueryDetailPage2 } from '../../pages2/query/queryDetail/queryDetail';
 
 @Component({
   selector: 'page-scanConnect',
@@ -20,6 +22,7 @@ export class ScanConnectPage {
    constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
+    private photoService: PhotoService,
     private toastService: ToastService,
     private zone: NgZone) { }
 
@@ -47,6 +50,23 @@ export class ScanConnectPage {
       });
     }, (err) => {
       this.toastService.show('连接失败');
+    });
+  }
+  /**
+   * 点击扫一扫按钮
+   */
+  manageMenus(): void {
+    this.photoService.openScan(function(rfidInfo){
+      if (rfidInfo) {
+        const addInfo = Object.assign(this.navParams, { 'rfid': rfidInfo['text'], 'scan': true});
+        if (!rfidInfo['cancelled']){
+          this.navCtrl.push(QueryDetailPage2, addInfo);
+          console.log('正确扫码 进入详情页');
+        } else {
+          console.log('未扫码 返回上一页');
+          this.navCtrl.pop();
+        }
+      }
     });
   }
 }
