@@ -1,24 +1,219 @@
 page-choose {
+  .container {
+    position: relative;
+    // height: 100vh;
+    background: #d54;
+  }
+  ion-content {
+    background: #d54;
+  }
+  .toast {
+    background: #f4f4f4;
+  }
   .name {
     text-align: center;
-    // height: 30px;
-    // margin-top: 30vh;
   }
   .nameBox {
-    margin-top: 20px;
     height: 30vh;
     overflow: auto;
+    text-align: center;
+    margin-top: 20px;
     p {
+      // display: inline-block;
       text-align: center;
+      color: #fff;
     }
   }
   .chooseBox {
-    width: 100%;
-    position: fixed;
-    bottom: 40vh;
+    .button {
+      width: 100%;
+      margin: 0;
+    }
   }
-  .button {
-    width: 100%;
-    margin-top: 10px;
+  .chooseBtn {
+    position: absolute;
+    width: 30%;
+    margin-left: 35%;
+    bottom: 10vh;
+  }
+  .animate {
+    animation-name: shake;
+    animation-duration: 100ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  @keyframes shake {
+    2% {
+      transform: translate(3px, 0) rotate(0);
+    }
+    4% {
+      transform: translate(1px, 0) rotate(0);
+    }
+    6% {
+      transform: translate(4px, 0) rotate(0);
+    }
+    8% {
+      transform: translate(-2px, 0) rotate(0);
+    }
+    10% {
+      transform: translate(9px, 0) rotate(0);
+    }
+    12% {
+      transform: translate(0px, 0) rotate(0);
+    }
+    14% {
+      transform: translate(-8px, 0) rotate(0);
+    }
+    16% {
+      transform: translate(-7px, 0) rotate(0);
+    }
+    18% {
+      transform: translate(1px, 0) rotate(0);
+    }
+    20% {
+      transform: translate(-5px, 0) rotate(0);
+    }
+    22% {
+      transform: translate(-2px, 0) rotate(0);
+    }
+    24% {
+      transform: translate(-5px, 0) rotate(0);
+    }
+    26% {
+      transform: translate(-1px, 0) rotate(0);
+    }
+    28% {
+      transform: translate(3px, 0) rotate(0);
+    }
+    30% {
+      transform: translate(-7px, 0) rotate(0);
+    }
+    32% {
+      transform: translate(-8px, 0) rotate(0);
+    }
+    34% {
+      transform: translate(4px, 0) rotate(0);
+    }
+    36% {
+      transform: translate(8px, 0) rotate(0);
+    }
+    38% {
+      transform: translate(-5px, 0) rotate(0);
+    }
+    40% {
+      transform: translate(-6px, 0) rotate(0);
+    }
+    42% {
+      transform: translate(7px, 0) rotate(0);
+    }
+    44% {
+      transform: translate(1px, 0) rotate(0);
+    }
+    46% {
+      transform: translate(3px, 0) rotate(0);
+    }
+    48% {
+      transform: translate(10px, 0) rotate(0);
+    }
+    50% {
+      transform: translate(1px, 0) rotate(0);
+    }
+    52% {
+      transform: translate(3px, 0) rotate(0);
+    }
+    54% {
+      transform: translate(-9px, 0) rotate(0);
+    }
+    56% {
+      transform: translate(-8px, 0) rotate(0);
+    }
+    58% {
+      transform: translate(7px, 0) rotate(0);
+    }
+    60% {
+      transform: translate(2px, 0) rotate(0);
+    }
+    62% {
+      transform: translate(-6px, 0) rotate(0);
+    }
+    64% {
+      transform: translate(-9px, 0) rotate(0);
+    }
+    66% {
+      transform: translate(-2px, 0) rotate(0);
+    }
+    68% {
+      transform: translate(4px, 0) rotate(0);
+    }
+    70% {
+      transform: translate(8px, 0) rotate(0);
+    }
+    72% {
+      transform: translate(2px, 0) rotate(0);
+    }
+    74% {
+      transform: translate(6px, 0) rotate(0);
+    }
+    76% {
+      transform: translate(-4px, 0) rotate(0);
+    }
+    78% {
+      transform: translate(4px, 0) rotate(0);
+    }
+    80% {
+      transform: translate(9px, 0) rotate(0);
+    }
+    82% {
+      transform: translate(6px, 0) rotate(0);
+    }
+    84% {
+      transform: translate(-6px, 0) rotate(0);
+    }
+    86% {
+      transform: translate(5px, 0) rotate(0);
+    }
+    88% {
+      transform: translate(5px, 0) rotate(0);
+    }
+    90% {
+      transform: translate(-4px, 0) rotate(0);
+    }
+    92% {
+      transform: translate(0px, 0) rotate(0);
+    }
+    94% {
+      transform: translate(-6px, 0) rotate(0);
+    }
+    96% {
+      transform: translate(6px, 0) rotate(0);
+    }
+    98% {
+      transform: translate(10px, 0) rotate(0);
+    }
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0);
+    }
+  }
+  .statusBox {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    .statusItem {
+      .default {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ccc;
+      }
+      .active {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #32cd32;
+      }
+    }
   }
 }

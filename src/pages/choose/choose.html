@@ -1,19 +1,35 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>抓阄</ion-title>
+		<ion-title>抽签</ion-title>
 	</ion-navbar>
 </ion-header>
-<ion-content>
-	<div class="nameBox">
-		<p *ngFor="let name of nameList ">{{name}}</p>
-	</div>
+<ion-content class="container">
+	<!-- <div class="toast">
+		<ion-spinner name="crescent"></ion-spinner>	{{chooseName}}
+	</div> -->
 	<div class="chooseBox">
-		<p class="name">{{chooseName}}</p>
-		<div *ngIf="!condition" class="button">
-			<button ion-button disabled="false" color="light" round full>抽取</button>
+		<!-- <p class="name">{{chooseName}}</p> -->
+		<div *ngIf="topStatus" class="button">
+			<button ion-button disabled="false" color="light" full>
+				<span *ngIf="loading"><ion-spinner name="crescent" ></ion-spinner></span>
+				<span>{{chooseName}}</span>
+			</button>
 		</div>
-		<div *ngIf="condition" (click)="choose()" class="button">
-			<button ion-button round full>抽取</button>
+	</div>
+	<div class="nameBox">
+		<p *ngFor="let name of nameList ">恭喜：{{name}}</p>
+	</div>
+	<div [class]="chooseStatus ? 'animate chooseBtn' : 'chooseBtn'" (click)="choose()">
+		<img src="./assets/images/chooseUser.png">
+	</div>
+	<div class="statusBox">
+		<div class="statusItem">
+			<span [ngClass]="connect ? 'active' : 'default'"></span>
+			<span>connect</span>
+		</div>
+		<div class="statusItem">
+			<span [ngClass]="slack ? 'active' : 'default'"></span>
+			<span>slack</span>
 		</div>
 	</div>
 </ion-content>
