@@ -181,7 +181,9 @@ export class SettingPage {
     this.pushService.unBindUserid(this.userInfo.userId);
     // 取消自动登录
     this.userService.logout();
-    this.wsService.disconnection();
+    this.wsService.disconnection(() => {
+      localStorage.setItem('sock', '0');
+    });
     this.http.post(' /auth/logout', {}).subscribe(() => { }, () => { });
     // 退出
     const data = {

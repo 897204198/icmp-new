@@ -229,6 +229,7 @@ export class LoginPage {
             catalog: 'APPLICATION_TAB'
           };
           this.wsService.connection(localStorage.token, () => {
+            localStorage.setItem('sock', '1');
             console.log('连接成功');
           });
           // 获取底部tabs
