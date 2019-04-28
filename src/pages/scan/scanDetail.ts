@@ -49,7 +49,7 @@ export class ScanDetailPage {
     });
    }
     // 离开时销毁
-  ionViewWillUnload() {
+    ionViewWillLeave() {
     (<any>window).rfid.destroyRFID('');
   }
    /**
