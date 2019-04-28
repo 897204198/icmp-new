@@ -32,12 +32,15 @@ export class ChoosePage {
       this.socket();
     } else {
       this.wsService.connection(localStorage.getItem('token'), () => {
-        if (localStorage.getItem('sock') === '1') {
-          this.socket();
-        }
+        localStorage.setItem('sock', '1');
+        // if (localStorage.getItem('sock') === '1') {
+        this.socket();
+        // }
       }, () => {
         this.chooseName = 'socket连接失败';
         this.connect = false;
+        this.slack = false;
+        this.condition = false;
         this.loading = false;
       });
     }
