@@ -66,6 +66,7 @@ export class WebSocketService {
   disconnection(fn?) {
     if (this.stompClient) {
       this.stompClient.disconnect();
+      localStorage.setItem('sock', '0');
       if (fn) {
         fn();
       }
