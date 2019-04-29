@@ -29,7 +29,7 @@ export class ScanDetailPage {
    * 每次进入页面
    */
    ionViewDidEnter(): void {
-    (<any>window).rfid.initScanner('', (retData) => {
+    (<any>window).vorgea.initScanner('', (retData) => {
       console.log('激光传回的值是：' + retData);
       if (retData) {
         let params = this.navParams.data;
@@ -50,7 +50,7 @@ export class ScanDetailPage {
    }
     // 离开时销毁
     ionViewWillLeave() {
-    (<any>window).rfid.destroyRFID('');
+    (<any>window).vorgea.destroyRFID('');
   }
    /**
    * 首次进入页面

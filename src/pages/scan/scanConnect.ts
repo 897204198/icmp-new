@@ -28,7 +28,7 @@ export class ScanConnectPage {
 
       // 进入页面
   ionViewDidLoad() {
-    (<any>window).rfid.serialPortList('', (retData) => {
+    (<any>window).vorgea.serialPortList('', (retData) => {
       this.zone.run(() => {
         this.portNumberArray = retData;
         this.portNumber = 'ttyS1 (rk_serial)';
@@ -44,7 +44,7 @@ export class ScanConnectPage {
       port: this.portNumber,
       baud: this.baudRate
     };
-    (<any>window).rfid.connectScannerSerialPort(params, (retData) => {
+    (<any>window).vorgea.connectScannerSerialPort(params, (retData) => {
       this.zone.run(() => {
         this.navCtrl.push(ScanDetailPage, this.navParams);
       });
