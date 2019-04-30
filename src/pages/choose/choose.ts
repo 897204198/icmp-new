@@ -56,7 +56,7 @@ export class ChoosePage {
         this.topStatus = false;
       }
       if (value.sender) {
-        this.nameList.push(value.sender);
+        this.nameList.unshift(value.sender);
         this.condition = true;
         this.chooseStatus = false;
         // this.chooseName = '再次抽签';
