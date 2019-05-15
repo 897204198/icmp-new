@@ -1,6 +1,6 @@
 import { Component, Inject, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, Events, NavParams } from 'ionic-angular';
+import { NavController, Events, NavParams} from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -66,7 +66,9 @@ export class LoginPage {
     this.platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(null);
     });
-
+    let VConsole = require('../../../node_modules/vconsole/dist/vconsole.min.js');
+    let vConsole = new VConsole();
+    console.log(vConsole.version);
     // 通过推送通知打开应用事
     document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
@@ -149,30 +151,18 @@ export class LoginPage {
         if (localStorage.getItem('pushinit') !== '1') {
           this.pushService.init();
           localStorage.setItem('pushinit', '1');
-          console.log('登录里创建插件');
-        }
-        if (res.headers.get('x-service-key') === 'propersoft') {
-          // 普日项目有环信
-          localStorage.setItem('haveIM' , '1');
-        }else if (res.headers.get('x-service-key') === 'thrid_party') {
-          // 合并项目添加
-          localStorage.setItem('haveIM' , '2');
-        }
-        else {
-          localStorage.setItem('haveIM' , '0');
         }
         this.loginService(account, password);
       });
     } else {
       if (JSON.parse(localStorage.getItem('OA'))) {
-        localStorage.setItem('haveIM' , '2');
+        localStorage.setItem('todoState' , '2');
       } else {
         localStorage.setItem('haveIM' , '');
       }
       if (localStorage.getItem('pushinit') !== '1') {
         this.pushService.init();
         localStorage.setItem('pushinit', '1');
-        console.log('登录里创建插件');
       }
       this.loginService(account, password);
     }
@@ -237,6 +227,22 @@ export class LoginPage {
           this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
             let tabsData = res4.json();
             localStorage.setItem('tabsData', JSON.stringify(tabsData));
+            const result  = JSON.parse(localStorage.getItem('tabsData'));
+            for (let index = 0; index < result.length; index++) {
+              const element = result[index];
+              if (element['root'] === 'ChatListPage') {
+                // 首页底部有消息环信功能呢
+                localStorage.setItem('haveIM' , '1');
+              }
+              if (element['root'] === 'TodoListPage1') {
+                // 待办是新版打开react页面
+                localStorage.setItem('todoState' , '1');
+              }
+              if (element['root'] === 'TodoListPage2') {
+                // 待办是旧版版打开angular页面
+                localStorage.setItem('todoState' , '2');
+              }
+            }
           // 避免在 web 上无法显示页面
           let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
           if (deviceInfo.deviceType) {

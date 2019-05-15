@@ -40,7 +40,7 @@ export class UserInfoPage {
   ionViewDidLoad(): void {
     this.getUserInfoFromLocal();
     this.getUserInfoFromNet();
-    if (localStorage.getItem('haveIM') === '2') {
+    if (localStorage.getItem('todoState') === '2') {
       this.haveChangeIm = false;
     }else{
       this.haveChangeIm = true;

@@ -96,6 +96,7 @@
         "stompjs": "^2.3.3",
         "sw-toolbox": "3.6.0",
         "timeago.js": "4.0.0-beta.1",
+        "vconsole": "3.3.0",
         "ts-node": "3.3.0",
         "zone.js": "0.8.26"
     },

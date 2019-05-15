@@ -110,7 +110,6 @@ export class RoutersService {
               if (If_Can_Back === 'back') {
                 clearInterval(loop);
                 browser.close();
-                console.log('看看浏览器走back哈哈');
                 // 刷新首页角标
                 this.events.publish('refresh');
               }

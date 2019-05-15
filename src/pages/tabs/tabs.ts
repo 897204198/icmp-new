@@ -95,8 +95,6 @@ export class TabsPage {
     }
     platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(this.tabRef);
-      // debugger
-      // alert('添加推送监听测试');
       // 自动登录
       this.autoLogin();
       if (localStorage.getItem('addPushNotification') !== '1') {
@@ -107,50 +105,45 @@ export class TabsPage {
       let iconNum: number = 0;
       let messageIconNum: number = 0;
       let homewaitIconNum: number = 0;
-
-      if (localStorage.getItem('haveIM') === '1') {
-        // 普日项目带聊天
-        // 消息角标绑定
-        this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
-          for (let i = 0; i < this.tabRoots.length; i++) {
-            if (this.tabRoots[i]['tabTitle'] === '消息') {
+      // 消息角标绑定
+      this.store.select(IM_BADGE_STATE).subscribe((data: string) => {
+        for (let i = 0; i < this.tabRoots.length; i++) {
+          if (this.tabRoots[i]['tabTitle'] === '消息' && localStorage.getItem('haveIM') === '1') {
+            // this.tabRoots[i]['tabBadge'] = data;
+            if (data !== '0') {
               this.tabRoots[i]['tabBadge'] = data;
-              messageIconNum = Number(data);
-              iconNum = homewaitIconNum + messageIconNum;
-              this.pushService.sendBadgeNotification(iconNum);
             }
+            messageIconNum = Number(data);
+            iconNum = homewaitIconNum + messageIconNum;
+            this.pushService.sendBadgeNotification(iconNum);
           }
-        });
-        // 首页消息绑定
-        this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
-          for (let i = 0; i < this.tabRoots.length; i++) {
-            if (this.tabRoots[i]['tabTitle'] === '首页') {
-              console.log('首页待办角标个数' + data);
+        }
+      });
+      // 首页消息绑定
+      this.store.select(Home_BADGE_STATE).subscribe((data: string) => {
+        for (let i = 0; i < this.tabRoots.length; i++) {
+          if (this.tabRoots[i]['tabTitle'] === '首页' && localStorage.getItem('todoState') !== '2') {
+            if (data !== '0') {
               this.tabRoots[i]['tabBadge'] = data;
-              homewaitIconNum = Number(data);
-              iconNum = messageIconNum + homewaitIconNum;
-              console.log('消息数' + iconNum);
-              this.pushService.sendBadgeNotification(iconNum);
             }
+            homewaitIconNum = Number(data);
+            iconNum = messageIconNum + homewaitIconNum;
+            this.pushService.sendBadgeNotification(iconNum);
           }
-        });
-      } else if (localStorage.getItem('haveIM') === '2') {
-        // 袁艺项目
-        // 待办tab消息绑定
-        this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
-          this.tabRoots[1]['tabBadge'] = data;
-          iconNum = Number(data);
-          this.pushService.sendBadgeNotification(iconNum);
-        });
-      } else {
-        // 标准版本
-        // 待办tab消息绑定
-        this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
-          this.tabRoots[1]['tabBadge'] = data;
-          iconNum = Number(data);
-          this.pushService.sendBadgeNotification(iconNum);
-        });
-      }
+        }
+      });
+      // 待办tab消息绑定
+      this.store.select(TODO_BADGE_STATE).subscribe((data: string) => {
+        for (let i = 0; i < this.tabRoots.length; i++) {
+          if (this.tabRoots[i]['tabTitle'] === '待办') {
+            if (data !== '0') {
+              this.tabRoots[1]['tabBadge'] = data;
+            }
+            iconNum = Number(data);
+            this.pushService.sendBadgeNotification(iconNum);
+          }
+        }
+      });
     });
   }
 
@@ -196,9 +189,9 @@ export class TabsPage {
    * 取得Tab配置信息
    */
   getTabInfo(): Object[] {
-    const result  = JSON.parse(localStorage.getItem('tabsData'));
+    const result = JSON.parse(localStorage.getItem('tabsData'));
     if (result && result.length) {
-      return  result.map(it => ({
+      return result.map(it => ({
         ...it,
         root: this.bottomTabs[it.root]
       }));
@@ -246,7 +239,7 @@ export class TabsPage {
    */
   doOpenNotification(event: any) {
     // 获取修改tab角标数
-    if (localStorage.getItem('haveIM') !== '2') {
+    if (localStorage.getItem('todoState') !== '2') {
       this.getWaitToDoNumber();
     } else {
       this.getTodoNumber(); // 项目获取待办数量
@@ -411,7 +404,6 @@ export class TabsPage {
             if (If_Can_Back === 'back') {
               clearInterval(loop);
               browser.close();
-              console.log(' 推送浏览器走back刷新');
               // 刷新首页角标
               this.events.publish('refresh');
             }
@@ -588,7 +580,7 @@ export class TabsPage {
     });
   }
   changeValue(tab: any) {
-    if (localStorage.getItem('haveIM') !== '1' && localStorage.getItem('haveIM') !== '2') {
+    if (localStorage.getItem('todoState') === '1') {
       if (tab.tabTitle === '待办') {
         this.tabRef.select(0);
         const dataALL = {
@@ -601,7 +593,6 @@ export class TabsPage {
         };
         this.routersService.pageForward(this.navCtrl, dataALL);
       }
-      console.log('选择:' + tab.tabTitle);
     }
   }
 }
