@@ -32,6 +32,7 @@ export class AboutPage {
   chcpVersion: string = '';
   // 版本数据
   versionData: string = '';
+  VConsole = new (require('../../../../node_modules/vconsole/dist/vconsole.min.js'));
 
   constructor(
     public navCtrl: NavController,
@@ -44,6 +45,7 @@ export class AboutPage {
     this.translate.get(['PROMPT_INFO', 'APP_DOWNLOAD_SKIP_PROMPT', 'CANCEL', 'CONFIRM']).subscribe((res: Object) => {
       this.transateContent = res;
     });
+    document.getElementById('__vconsole').style.display = 'none';
   }
 
   ionViewDidLoad() {
@@ -89,7 +91,17 @@ export class AboutPage {
       chcpVersion: this.chcpVersion
     });
   }
-
+  // 打开或关闭调试的vconsole
+  versionClk() {
+    let debugOn = localStorage.getItem('debug');
+    if (debugOn !== '1') {
+      document.getElementById('__vconsole').style.display = 'block';
+      localStorage.setItem('debug', '1');
+    }else{
+      document.getElementById('__vconsole').style.display = 'none';
+      localStorage.setItem('debug', '0');
+    }
+  }
   /**
    * 点击下载
    */

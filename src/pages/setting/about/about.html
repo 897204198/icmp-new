@@ -10,7 +10,7 @@
   <div class="about-logo">
     <img src="./assets/images/qrcode.png" tappable (tap)="downloadApp()">
   </div>
-  <div class="about-version">
+  <div class="about-version" (click)="versionClk()">
     V{{versionNumber}}
   </div>
   <div class="about-description" [innerHtml]="versionData.note"></div>

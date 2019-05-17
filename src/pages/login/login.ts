@@ -1,6 +1,6 @@
 import { Component, Inject, NgZone } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { NavController, Events, NavParams} from 'ionic-angular';
+import { NavController, Events, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { Platform } from 'ionic-angular';
 import { BackButtonService } from '../../app/services/backButton.service';
@@ -66,9 +66,6 @@ export class LoginPage {
     this.platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(null);
     });
-    let VConsole = require('../../../node_modules/vconsole/dist/vconsole.min.js');
-    let vConsole = new VConsole();
-    console.log(vConsole.version);
     // 通过推送通知打开应用事
     document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
@@ -109,7 +106,7 @@ export class LoginPage {
       if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
         if (!localStorage.getItem('checkUp')) {
           this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
-        }else{
+        } else {
           this.loginNetService(username.value, password.value);
         }
       } else {
@@ -156,9 +153,9 @@ export class LoginPage {
       });
     } else {
       if (JSON.parse(localStorage.getItem('OA'))) {
-        localStorage.setItem('todoState' , '2');
+        localStorage.setItem('todoState', '2');
       } else {
-        localStorage.setItem('haveIM' , '');
+        localStorage.setItem('haveIM', '');
       }
       if (localStorage.getItem('pushinit') !== '1') {
         this.pushService.init();
@@ -168,81 +165,92 @@ export class LoginPage {
     }
   }
   loginService(account: string, password: string): void {
-      // 登录接口请求
-      // 加密密码
-      let md5password: string = password;
-      if (this.appConstant.oaConstant.md5Encryption) {
-        md5password = this.cryptoService.hashMD5(md5password, true);
-      }
-      // 请求参数
-      let params: Object = {
-        'username': account,
-        'pwd': md5password
-      };
-      this.http.post('/auth/login', params).subscribe((data) => {
-        localStorage.token = data['_body'];
-        this.http.get('/auth/current/user').subscribe((res3: Response) => {
-          let userData = res3.json()['data'];
-          let status: string = '';
-          if (userData['status'] != null && userData['status'] !== '') {
-            status = userData['status']['code'];
+    // 登录接口请求
+    // 加密密码
+    let md5password: string = password;
+    if (this.appConstant.oaConstant.md5Encryption) {
+      md5password = this.cryptoService.hashMD5(md5password, true);
+    }
+    // 请求参数
+    let params: Object = {
+      'username': account,
+      'pwd': md5password
+    };
+    this.http.post('/auth/login', params).subscribe((data) => {
+      localStorage.token = data['_body'];
+      this.http.get('/auth/current/user').subscribe((res3: Response) => {
+        let userData = res3.json()['data'];
+        let status: string = '';
+        if (userData['status'] != null && userData['status'] !== '') {
+          status = userData['status']['code'];
+        }
+        let sex: string = '';
+        let sexCode: string = '';
+        if (userData['sex'] != null && userData['sex'] !== '') {
+          if (userData['sex']['code'] === '0' || userData['sex']['code'] === 0) {
+            sex = '男';
+          } else {
+            sex = '女';
           }
-          let sex: string = '';
-          let sexCode: string = '';
-          if (userData['sex'] != null && userData['sex'] !== '') {
-            if (userData['sex']['code'] === '0' || userData['sex']['code'] === 0) {
-              sex = '男';
-            } else {
-              sex = '女';
+          sexCode = userData['sex']['code'];
+        }
+        let newUserInfo: UserInfoState = {
+          account: account,
+          loginName: userData['username'],
+          password: md5password,
+          password0: password,
+          savePassword: this.userInfo.savePassword,
+          userId: userData['id'],
+          userName: userData['name'],
+          headImage: userData['headImageContent'] ? userData['headImageContent'] : '',
+          jobNumber: userData['jobNumber'],
+          phone: userData['phone'],
+          email: userData['email'],
+          outter: userData['outter'],
+          sexCode: sexCode,
+          sex: sex,
+          status: status
+        };
+        this.userService.saveUserInfo(newUserInfo);
+        this.userService.login();
+        let tabParams: Object = {
+          catalog: 'APPLICATION_TAB'
+        };
+        this.wsService.connection(localStorage.token, () => {
+          localStorage.setItem('sock', '1');
+          console.log('连接成功');
+        });
+        // 获取底部tabs
+        this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
+          let tabsData = res4.json();
+          localStorage.setItem('tabsData', JSON.stringify(tabsData));
+          const result = JSON.parse(localStorage.getItem('tabsData'));
+          let haveSettingpage = false;
+          for (let index = 0; index < result.length; index++) {
+            const element = result[index];
+            if (element['root'] === 'ChatListPage') {
+              // 首页底部有消息环信功能呢
+              localStorage.setItem('haveIM', '1');
             }
-            sexCode = userData['sex']['code'];
+            if (element['root'] === 'TodoListPage1') {
+              // 待办是新版打开react页面
+              localStorage.setItem('todoState', '1');
+            }
+            if (element['root'] === 'TodoListPage2') {
+              // 待办是旧版版打开angular页面
+              localStorage.setItem('todoState', '2');
+            }
+            if (element['root'] === 'SettingPage') {
+              // 是否有我的页面
+              haveSettingpage = true;
+            }
           }
-          let newUserInfo: UserInfoState = {
-            account: account,
-            loginName: userData['username'],
-            password: md5password,
-            password0: password,
-            savePassword: this.userInfo.savePassword,
-            userId: userData['id'],
-            userName: userData['name'],
-            headImage: userData['headImageContent'] ? userData['headImageContent'] : '',
-            jobNumber: userData['jobNumber'],
-            phone: userData['phone'],
-            email: userData['email'],
-            outter: userData['outter'],
-            sexCode: sexCode,
-            sex: sex,
-            status: status
-          };
-          this.userService.saveUserInfo(newUserInfo);
-          this.userService.login();
-          let tabParams: Object = {
-            catalog: 'APPLICATION_TAB'
-          };
-          this.wsService.connection(localStorage.token, () => {
-            localStorage.setItem('sock', '1');
-            console.log('连接成功');
-          });
-          // 获取底部tabs
-          this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
-            let tabsData = res4.json();
+          if (!haveSettingpage) {
+            // 后台没有返回手动添加我的页面
+            let settingPage = { 'root': 'SettingPage', 'tabTitle': '我的', 'tabIcon': 'person', 'params': { 'processName': '', 'name': '' } };
+            tabsData.push(settingPage);
             localStorage.setItem('tabsData', JSON.stringify(tabsData));
-            const result  = JSON.parse(localStorage.getItem('tabsData'));
-            for (let index = 0; index < result.length; index++) {
-              const element = result[index];
-              if (element['root'] === 'ChatListPage') {
-                // 首页底部有消息环信功能呢
-                localStorage.setItem('haveIM' , '1');
-              }
-              if (element['root'] === 'TodoListPage1') {
-                // 待办是新版打开react页面
-                localStorage.setItem('todoState' , '1');
-              }
-              if (element['root'] === 'TodoListPage2') {
-                // 待办是旧版版打开angular页面
-                localStorage.setItem('todoState' , '2');
-              }
-            }
+          }
           // 避免在 web 上无法显示页面
           let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
           if (deviceInfo.deviceType) {
@@ -270,16 +278,16 @@ export class LoginPage {
                     localStorage.setItem('imIsOpen', '1');
                   }
                   // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-                  this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData}).then(() => {
+                  this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData }).then(() => {
                     const startIndex = this.navCtrl.getActive().index - 1;
                     this.navCtrl.remove(startIndex, 1);
                     this.events.publish('logined');
                   });
                 });
               });
-            }else{
+            } else {
               // 如果是从登录页登录的，则在 tabs 页不执行自动登录
-              this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData}).then(() => {
+              this.navCtrl.push(TabsPage, { isAutoLogin: false, tabsArr: tabsData }).then(() => {
                 const startIndex = this.navCtrl.getActive().index - 1;
                 this.navCtrl.remove(startIndex, 1);
                 this.events.publish('logined');
@@ -294,13 +302,13 @@ export class LoginPage {
               this.events.publish('logined');
             });
           }
-          });
-        }, (err: Response) => {
-          this.toastService.show(err.text());
         });
-      }, (res2: Response) => {
-        this.toastService.show(res2.text());
+      }, (err: Response) => {
+        this.toastService.show(err.text());
       });
+    }, (res2: Response) => {
+      this.toastService.show(res2.text());
+    });
   }
   /**
    * 长按启动管理按钮
