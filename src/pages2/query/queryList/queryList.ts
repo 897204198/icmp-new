@@ -27,6 +27,10 @@ export class QueryListPage2 {
   pageNo: number = 0;
   // 是否为一级查询列表
   isTabQuery: boolean = true;
+  // 是否为二级查询列表
+  isAssetsType: boolean = false;
+  // 默认tab参数
+  defaultTab: string = '';
   // 日历当前选中月份
   nowMonth: string = '';
   // 日历标题
@@ -106,6 +110,8 @@ export class QueryListPage2 {
     params.append('pageSize', this.icmpConstant.pageSize);
     params.append('serviceName', this.navParams.get('serviceName'));
     params.append('defaultTab', this.navParams.get('defaultTab'));
+    /* 全院资产-补充参数 */
+    params.append('ASSETS_CODE', this.navParams.get('ASSETS_CODE'));
     if (isMonthChange){
       params.append('date', this.nowMonth);
     }else {
@@ -113,6 +119,10 @@ export class QueryListPage2 {
     }
     if (isInit && this.isScheduleQuery) {
       params.append('date', this.selectTime);
+    }
+    /* 添加查询条件到二级查询 */
+    if (this.navParams.get('queryInput')) {
+      this.queryInput = this.navParams.get('queryInput');
     }
     if (this.queryInput != null) {
       for (let key in this.queryInput) {
@@ -144,28 +154,39 @@ export class QueryListPage2 {
       this.http.post('/webController/getSystemMsgList', params).subscribe((res: any) => {
         let data = res.json();
         let defaultTab = this.navParams.get('defaultTab');
+        /* 下一级的defalut_tab */
+        this.defaultTab = data.default_tab;
         if (data.tab_list == null || data.tab_list.length <= 1 || (defaultTab != null && defaultTab !== '' && defaultTab !== 'default')) {
           this.isTabQuery = false;
         } else {
           this.isTabQuery = true;
         }
+        if (data.type_list == null || data.type_list.length <= 1 ) {
+          this.isAssetsType = false;
+        } else {
+          this.isAssetsType = true;
+        }
+        /* 多级查询 */
         if (!this.isTabQuery) {
-          if (isInit) {
-            this.queryList = data.result_list;
+          const tempArray = this.isAssetsType ? data.type_list : data.result_list;
+           if (isInit) {
+            this.queryList = tempArray;
             if (data.query_conditon != null && data.query_conditon.length > 0) {
               this.hasCondition = true;
               this.conditionList = data.query_conditon;
             }
           } else {
-            for (let i = 0 ; i < data.result_list.length ; i++) {
-              this.queryList.push(data.result_list[i]);
+            for (let i = 0 ; i < tempArray.length ; i++) {
+              this.queryList.push(tempArray[i]);
             }
           }
+          /* 更新分页 */
           this.infiniteScrollComplete();
-          if ((data.result_list == null || data.result_list.length < Number(this.icmpConstant.pageSize)) && this.infiniteScroll != null) {
+          if ((tempArray == null || tempArray.length < Number(this.icmpConstant.pageSize)) && this.infiniteScroll != null) {
             this.infiniteScroll.enable(false);
           }
-        } else {
+        } else if (this.isTabQuery && !this.isAssetsType){
+          /* 二级查询-用车查询 */
           this.queryList = data.tab_list;
         }
       }, (res: Response) => {
@@ -194,10 +215,25 @@ export class QueryListPage2 {
    * 跳转到二级查询列表
    */
   goQuerySubList(item: Object): void {
-    let menu = {...this.navParams.data};
-    menu.title = item['tab_name'];
-    menu.defaultTab = item['tab_value'];
-    this.navCtrl.push(QueryListPage2, menu);
+    /* 二级查询 */
+    if (!this.isAssetsType) {
+      let menu = {...this.navParams.data};
+      menu.title = item['tab_name'];
+      menu.defaultTab = item['tab_value'];
+      this.navCtrl.push(QueryListPage2, menu);
+    } else {
+      /* 多级查询 */
+      let menu = {...this.navParams.data};
+      /* 添加查询条件 */
+      menu.queryInput = this.queryInput;
+      menu.defaultTab = this.defaultTab;
+      if (this.defaultTab !== 'assetsDetail') {
+        menu.ASSETS_CODE = item['ASSETS_CODE'];
+        this.navCtrl.push(QueryListPage2, menu);
+      } else {
+        this.goQueryDetail(item);
+      }
+    }
   }
 
   /**
@@ -210,7 +246,7 @@ export class QueryListPage2 {
     }
     let params: Object = {
       title: detailTitle,
-      businessId: item['id'],
+      businessId: item.hasOwnProperty('ID') ? item['ID'] : item['id'],
       serviceName: this.navParams.get('serviceName'),
       defaultTab: this.navParams.get('defaultTab')
     };

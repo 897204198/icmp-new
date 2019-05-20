@@ -3,4 +3,22 @@ page-query-list {
         position: absolute;
         bottom: -14px;
     }
+    .noline-list-item {
+        margin-top: -15px !important;
+        .item-small {
+          min-height: 1rem;
+          height: 28px;
+        }
+    }
+    .item_right{
+      width:20%;
+      text-align: right;
+    }
+    .item_left{
+      width:60%;
+      text-align: left;
+    }
+    .item-line {
+      border-bottom: 0.55px solid #c8c7cc !important;
+    }
 }
