@@ -15,6 +15,8 @@ import { Content } from 'ionic-angular';
 import { UtilsService } from '../../app/services/utils.service';
 import { OrganizationAddressPage } from './organizationAddress/organizationAddress';
 import { SearchFilterPipe } from '../../app/pipes/searchFilter/searchFilter';
+import { LoginPage } from '../login/login';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-address',
@@ -51,6 +53,7 @@ export class AddressPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    public alertCtrl: AlertController,
     private configsService: ConfigsService,
     private elementref: ElementRef,
     private toastService: ToastService,
@@ -89,7 +92,6 @@ export class AddressPage {
       this.keyboard.onKeyboardShow().subscribe(() => this.event.publish('hideTabs'));
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
     }
-    this.fetchContactInfos();
   }
 
   /**
@@ -174,6 +176,25 @@ export class AddressPage {
         this.slider.push(this.contactInfos[i]['first']);
       }
     }, (res: Response) => {
+      if (res.status === 404) {
+        const confirm = this.alertCtrl.create({
+          title: '提示',
+          message: '您的App版本太低，请下载最新版本',
+          buttons: [
+            {
+              text: '确认',
+              handler: () => {
+              }
+            }
+          ]
+        });
+        confirm.present();
+        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+      }
       this.toastService.show(res.text());
     });
   }

@@ -6,6 +6,8 @@ import { DeviceService, DeviceInfoState } from '../../../app/services/device.ser
 import { AppVersionUpdateService } from '../../../app/services/appVersionUpdate.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OopStormPage } from './oopStorm/oopStorm';
+import { ToastService } from '../../../app/services/toast.service';
+import { UserService } from '../../../app/services/user.service';
 
 
 
@@ -36,6 +38,8 @@ export class AboutPage {
 
   constructor(
     public navCtrl: NavController,
+    private userService: UserService,
+    private toastService: ToastService,
     private http: Http,
     private translate: TranslateService,
     private deviceService: DeviceService,
@@ -93,14 +97,35 @@ export class AboutPage {
   }
   // 打开或关闭调试的vconsole
   versionClk() {
-    let debugOn = localStorage.getItem('debug');
-    if (debugOn !== '1') {
-      document.getElementById('__vconsole').style.display = 'block';
-      localStorage.setItem('debug', '1');
-    }else{
-      document.getElementById('__vconsole').style.display = 'none';
-      localStorage.setItem('debug', '0');
+    this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
+      if (res._body != null && res._body !== '') {
+        let userList = [];
+        userList = res.json();
+        let userInfo = this.userService.getUserInfo();
+        let havedebug = this.in_arrays(userList, userInfo.userId);
+        if (havedebug) {
+          let debugOn = localStorage.getItem('debug');
+          if (debugOn !== '1') {
+            document.getElementById('__vconsole').style.display = 'block';
+            localStorage.setItem('debug', '1');
+          } else {
+            document.getElementById('__vconsole').style.display = 'none';
+            localStorage.setItem('debug', '0');
+          }
+        }
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+  }
+  // 判断用户是否可以打开开发者模式
+  in_arrays(list, userid) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i]['name'] === userid){
+        return true;
+      }
     }
+    return false;
   }
   /**
    * 点击下载
