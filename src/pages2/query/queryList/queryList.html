@@ -23,14 +23,14 @@
     <div *ngFor="let item of queryList" style="margin-bottom: 20px">
       <ion-item class="item-line">{{item.title}}</ion-item>
         <ion-item class="item-small">
-            <span item-end class="item_left">名称</span>
-          <span item-end class="item_right">数量</span>
-          <span item-end class="item_right">金额</span>
+          <ion-label flexd class="item_long">{{'REMARK' | translate}}</ion-label>
+          <span item-end class="item_right_num">{{'NUM' | translate}}</span>
+          <span item-end class="item_right_price">{{'TOTAL_PRICE' | translate}}</span>
         </ion-item>
         <ion-item *ngFor="let data of item.data" text-wrap (tap)="goQuerySubList(data)">
           <ion-label flexd class="item_long">{{data.ASSETS_NAME}}</ion-label>
-          <span item-end class="item_right item_num">{{data.TOTAL}}</span>
-          <span item-end class="item_right item_search_num">{{data.PRICE}}</span>
+          <span item-end class="item_right_num">{{data.TOTAL}}</span>
+          <span item-end class="item_right_price">{{data.PRICE}}</span>
         </ion-item>
       </div>
   </ion-list>

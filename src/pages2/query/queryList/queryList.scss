@@ -10,13 +10,13 @@ page-query-list {
           height: 28px;
         }
     }
-    .item_right{
-      width:20%;
+    .item_right_num {
+      width: 20%;
       text-align: right;
     }
-    .item_left{
-      width:60%;
-      text-align: left;
+    .item_right_price {
+      width: 30%;
+      text-align: right;
     }
     .item-line {
       border-bottom: 0.55px solid #c8c7cc !important;

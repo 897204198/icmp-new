@@ -38,7 +38,7 @@ export class QueryDetailPage2 {
    * 每次进入页面
    */
   ionViewDidEnter(): void {
-    this.title = this.navParams.get('name');
+    this.title = this.navParams.get('title');
     this.rfid = this.navParams.get('rfid');
     this.isScan = this.navParams.get('scan');
     // 判断是否有资产id

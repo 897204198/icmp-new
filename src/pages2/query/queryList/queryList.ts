@@ -161,7 +161,7 @@ export class QueryListPage2 {
         } else {
           this.isTabQuery = true;
         }
-        if (data.type_list == null || data.type_list.length <= 1 ) {
+        if (data.type_list == null || data.type_list.length < 1 ) {
           this.isAssetsType = false;
         } else {
           this.isAssetsType = true;

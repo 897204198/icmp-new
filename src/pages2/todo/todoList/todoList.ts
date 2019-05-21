@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { NavController, NavParams, Refresher, InfiniteScroll } from 'ionic-angular';
 import { IcmpConstant, ICMP_CONSTANT } from '../../../app/constants/icmp.constant';
 import { ToastService } from '../../../app/services/toast.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { TodoDetailPage2 } from '../todoDetail/todoDetail';
 import { UserInfoState, UserService } from '../../../app/services/user.service';
@@ -41,6 +42,7 @@ export class TodoListPage2 {
               private toastService: ToastService,
               private userService: UserService,
               private translate: TranslateService,
+              private sanitizer: DomSanitizer,
               private store: Store<string>) {
     this.title = navParams.get('name');
 
@@ -214,5 +216,12 @@ export class TodoListPage2 {
       processName: item['variables']['processName']
     };
     this.navCtrl.push(TodoDetailPage2, params);
+  }
+
+  /**
+   * 转换Html格式
+   */
+  getSafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }
