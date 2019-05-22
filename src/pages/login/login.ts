@@ -107,9 +107,18 @@ export class LoginPage {
         if (!localStorage.getItem('checkUp')) {
           this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
         } else {
+          if (localStorage.getItem('pushinit') !== '1') {
+            this.pushService.init();
+            localStorage.setItem('pushinit', '1');
+          }
+          this.deviceService.setDeviceInfo();
           this.loginNetService(username.value, password.value);
         }
       } else {
+        if (localStorage.getItem('pushinit') !== '1') {
+          this.pushService.init();
+          localStorage.setItem('pushinit', '1');
+        }
         this.deviceService.setDeviceInfo();
         this.loginNetService(username.value, password.value);
       }
@@ -145,10 +154,6 @@ export class LoginPage {
         localStorage.setItem('serviceheader', res.headers.get('x-service-key'));
         // 传给原生
         this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
-        if (localStorage.getItem('pushinit') !== '1') {
-          this.pushService.init();
-          localStorage.setItem('pushinit', '1');
-        }
         this.loginService(account, password);
       });
     } else {
@@ -156,10 +161,6 @@ export class LoginPage {
         localStorage.setItem('todoState', '2');
       } else {
         localStorage.setItem('haveIM', '');
-      }
-      if (localStorage.getItem('pushinit') !== '1') {
-        this.pushService.init();
-        localStorage.setItem('pushinit', '1');
       }
       this.loginService(account, password);
     }
