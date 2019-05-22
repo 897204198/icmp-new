@@ -118,7 +118,7 @@ export class AddressPage {
    * 获取用户通讯录
    */
   fetchContactInfos() {
-    this.http.get('/im/contact/0').subscribe((res: Response) => {
+    this.http.get('/im/contact/type/0').subscribe((res: Response) => {
       let temporary: Array<Object> = [];
       temporary = res.json();
       if (this.utils.arraysEqual(this.cacaheArray, res.json())) {
