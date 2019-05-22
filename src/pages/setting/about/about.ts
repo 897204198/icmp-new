@@ -34,6 +34,9 @@ export class AboutPage {
   chcpVersion: string = '';
   // 版本数据
   versionData: string = '';
+  // 设备id
+  deviceid: string = '';
+  checkUpCode: string = '';
   VConsole = new (require('../../../../node_modules/vconsole/dist/vconsole.min.js'));
 
   constructor(
@@ -57,6 +60,8 @@ export class AboutPage {
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo !== null) {
       this.versionNumber = deviceInfo.versionNumber;
+      this.deviceid = deviceInfo.deviceId;
+      this.checkUpCode = localStorage.getItem('checkUp');
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString();
       if (deviceInfo.deviceType === 'android') {
@@ -101,8 +106,7 @@ export class AboutPage {
       if (res._body != null && res._body !== '') {
         let userList = [];
         userList = res.json();
-        let userInfo = this.userService.getUserInfo();
-        let havedebug = this.in_arrays(userList, userInfo.userId);
+        let havedebug = this.in_arrays(userList, this.deviceid);
         if (havedebug) {
           let debugOn = localStorage.getItem('debug');
           if (debugOn !== '1') {
@@ -119,9 +123,9 @@ export class AboutPage {
     });
   }
   // 判断用户是否可以打开开发者模式
-  in_arrays(list, userid) {
+  in_arrays(list, deviceid) {
     for (let i = 0; i < list.length; i++) {
-      if (list[i]['name'] === userid){
+      if (list[i]['name'] === deviceid){
         return true;
       }
     }
