@@ -106,7 +106,7 @@ export class AboutPage {
   versionClk() {
     let adminConsolePass: string = this.appConstant.oaConstant.adminConsolePass;
     if (adminConsolePass != null && adminConsolePass !== '') {
-      //debug模式
+      // debug模式
       let debugOn = localStorage.getItem('debug');
       if (debugOn !== '1') {
         document.getElementById('__vconsole').style.display = 'block';
@@ -116,7 +116,7 @@ export class AboutPage {
         localStorage.setItem('debug', '0');
       }
     }else{
-      //release模式
+      // release模式
       this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
         if (res._body != null && res._body !== '') {
           let userList = [];
