@@ -24,6 +24,9 @@
     <preference name="orientation" value="portrait" />
     <preference name="loadUrlTimeoutValue" value="50000" />
     <platform name="android">
+        <preference name="loadUrlTimeoutValue" value="600000" />
+    </platform>
+    <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />

@@ -10,11 +10,13 @@
   <div class="about-logo">
     <img src="./assets/images/qrcode.png" tappable (tap)="downloadApp()">
   </div>
-  <div class="about-version">
+  <div class="about-version" (click)="versionClk()">
     V{{versionNumber}}
   </div>
   <div class="about-description" [innerHtml]="versionData.note"></div>
   <div class="about-footer">
+      <div class="about-deviceInfo" >设备id: {{deviceid}}</div>
+      <div class="about-deviceInfo" >激活码: {{checkUpCode}}</div>
     <div class="footer-content" tappable (click)="oopStormWebClk()">
       <div class="footer-font"><img src="./assets/images/proper_logo.png"></div>
       <div class="footer-font">{{'COMPANY_WEB' | translate}}</div>

@@ -123,7 +123,7 @@ export class HomeComponentPage {
    */
   getMyMenus(): void {
     this.myMenus = [];
-    this.http.get('/plugin').subscribe((res: any) => {
+    this.http.get('/plugin/custom').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.myMenus = res.json();
       };
@@ -229,7 +229,7 @@ export class HomeComponentPage {
     let params: Object = {
       'ids': ids.join(',')
     };
-    this.http.put('/plugin', params).subscribe(() => {
+    this.http.put('/plugin/custom', params).subscribe(() => {
     }, (res: Response) => {
       this.toastService.show(res.text());
     });

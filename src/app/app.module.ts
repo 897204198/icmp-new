@@ -128,6 +128,8 @@ import { RfidOpinionPage } from '../pages/rfid/rfidOpinion';
 import { RfidListPage } from '../pages/rfid/rfidList';
 import { ChoosePage } from '../pages/choose/choose';
 import { WebSocketService } from '../app/services/webSocket.service';
+import { ScanConnectPage } from '../pages/scan/scanConnect';
+import { ScanDetailPage } from '../pages/scan/scanDetail';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -223,7 +225,9 @@ export function createTranslateLoader(http: Http) {
     RfidListPage,
     RfidDetailPage,
     RfidOpinionPage,
-    ChoosePage
+    ChoosePage,
+    ScanConnectPage,
+    ScanDetailPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, {
@@ -319,7 +323,9 @@ export function createTranslateLoader(http: Http) {
     RfidListPage,
     RfidDetailPage,
     RfidOpinionPage,
-    ChoosePage
+    ChoosePage,
+    ScanConnectPage,
+    ScanDetailPage
   ],
   providers: [
     BarcodeScanner,

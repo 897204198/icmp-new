@@ -34,7 +34,11 @@ page-about {
     height: 53%;
     overflow-y: auto;
   }
-  
+  .about-deviceInfo {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 2px;
+  }
   .about-footer {
     width: 100%;
     position: absolute;

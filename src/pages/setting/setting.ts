@@ -143,7 +143,6 @@ export class SettingPage {
     }, (res: Response) => {
       if (localStorage.getItem('haveIM') !== '1') {
         if (res.status === 401) {
-          console.log('抢登弹窗3');
           const confirm = this.alertCtrl.create({
             title: '提示',
             message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
@@ -189,6 +188,8 @@ export class SettingPage {
     const data = {
       loginStatus: 'logout'
     };
+    localStorage.removeItem('todoState');
+    localStorage.removeItem('haveIM');
     this.navCtrl.push(LoginPage, data).then(() => {
       const startIndex = this.navCtrl.getActive().index - 1;
       this.navCtrl.remove(startIndex, 1);

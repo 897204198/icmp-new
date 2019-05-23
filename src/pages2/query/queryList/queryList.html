@@ -10,15 +10,31 @@
   </ion-navbar>
 </ion-header>
 <ion-content class="content-gray">
-  <ion-refresher *ngIf="!isTabQuery && !isScheduleQuery" (ionRefresh)="doRefresh($event)">
+  <ion-refresher *ngIf="!isTabQuery && !isScheduleQuery && !isAssetsType" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list *ngIf="isTabQuery && !isScheduleQuery">
+  <ion-list *ngIf="isTabQuery && !isScheduleQuery && !isAssetsType">
     <button id="e2e-tabquery-item" ion-item *ngFor="let item of queryList" (click)="goQuerySubList(item)">
       {{item.tab_name}}
     </button>
   </ion-list>
-  <ion-list *ngIf="!isTabQuery && !isScheduleQuery">
+  <!-- 多级查询分类 -->
+  <ion-list *ngIf="!isTabQuery && !isScheduleQuery && isAssetsType" no-lines tappable >
+    <div *ngFor="let item of queryList" style="margin-bottom: 20px">
+      <ion-item class="item-line">{{item.title}}</ion-item>
+        <ion-item class="item-small">
+          <ion-label flexd class="item_long">{{'REMARK' | translate}}</ion-label>
+          <span item-end class="item_right_num">{{'NUM' | translate}}</span>
+          <span item-end class="item_right_price">{{'TOTAL_PRICE' | translate}}</span>
+        </ion-item>
+        <ion-item *ngFor="let data of item.data" text-wrap (tap)="goQuerySubList(data)">
+          <ion-label flexd class="item_long">{{data.ASSETS_NAME}}</ion-label>
+          <span item-end class="item_right_num">{{data.TOTAL}}</span>
+          <span item-end class="item_right_price">{{data.PRICE}}</span>
+        </ion-item>
+      </div>
+  </ion-list>
+  <ion-list *ngIf="!isTabQuery && !isScheduleQuery && !isAssetsType">
     <button id="e2e-query-item" ion-item *ngFor="let item of queryList" (click)="goQueryDetail(item)">
       <div [innerHtml]="getSafeHtml(item.title)"></div>
     </button>

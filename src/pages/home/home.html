@@ -46,7 +46,7 @@
     </span>
     <button ion-button small round class="notice-content-btn" (click)="openAllNotice()">{{'MORE' | translate}}</button>
   </div> -->
-  <div *ngIf="haveIM" style="margin-top: 8px; font-size: 16px">
+  <div style="margin-top: 8px; font-size: 16px">
     <div *ngIf="hasLoaded && hasListLoaded">
         <!-- <div *ngIf=false> -->
       <div *ngIf="componentList.length > 0">
@@ -113,7 +113,7 @@
         </ion-item>
       </div>
     </div>
-    <div *ngIf="!(hasLoaded && hasListLoaded)">
+    <div *ngIf="!(hasLoaded)">
       <div style="padding: 20px; background: #fff;">
           <ion-spinner name="bubbles"></ion-spinner>加载中.....
       </div>
