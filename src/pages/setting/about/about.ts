@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NavController, AlertController, Alert } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { OopStormPage } from './oopStorm/oopStorm';
 import { ToastService } from '../../../app/services/toast.service';
 import { UserService } from '../../../app/services/user.service';
+import { APP_CONSTANT, AppConstant } from '../../../app/constants/app.constant';
 
 
 
@@ -41,6 +42,7 @@ export class AboutPage {
 
   constructor(
     public navCtrl: NavController,
+    @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private userService: UserService,
     private toastService: ToastService,
     private http: Http,
@@ -102,25 +104,39 @@ export class AboutPage {
   }
   // 打开或关闭调试的vconsole
   versionClk() {
-    this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
-      if (res._body != null && res._body !== '') {
-        let userList = [];
-        userList = res.json();
-        let havedebug = this.in_arrays(userList, this.deviceid);
-        if (havedebug) {
-          let debugOn = localStorage.getItem('debug');
-          if (debugOn !== '1') {
-            document.getElementById('__vconsole').style.display = 'block';
-            localStorage.setItem('debug', '1');
-          } else {
-            document.getElementById('__vconsole').style.display = 'none';
-            localStorage.setItem('debug', '0');
+    let adminConsolePass: string = this.appConstant.oaConstant.adminConsolePass;
+    if (adminConsolePass != null && adminConsolePass !== '') {
+      //debug模式
+      let debugOn = localStorage.getItem('debug');
+      if (debugOn !== '1') {
+        document.getElementById('__vconsole').style.display = 'block';
+        localStorage.setItem('debug', '1');
+      } else {
+        document.getElementById('__vconsole').style.display = 'none';
+        localStorage.setItem('debug', '0');
+      }
+    }else{
+      //release模式
+      this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
+        if (res._body != null && res._body !== '') {
+          let userList = [];
+          userList = res.json();
+          let havedebug = this.in_arrays(userList, this.deviceid);
+          if (havedebug) {
+            let debugOn = localStorage.getItem('debug');
+            if (debugOn !== '1') {
+              document.getElementById('__vconsole').style.display = 'block';
+              localStorage.setItem('debug', '1');
+            } else {
+              document.getElementById('__vconsole').style.display = 'none';
+              localStorage.setItem('debug', '0');
+            }
           }
         }
-      }
-    }, (res: Response) => {
-      this.toastService.show(res.text());
-    });
+      }, (res: Response) => {
+        this.toastService.show(res.text());
+      });
+    }
   }
   // 判断用户是否可以打开开发者模式
   in_arrays(list, deviceid) {
