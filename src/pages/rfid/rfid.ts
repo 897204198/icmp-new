@@ -26,7 +26,7 @@ export class RfidPage {
 
   // 进入页面
   ionViewDidLoad() {
-    (<any>window).rfid.serialPortList('', (retData) => {
+    (<any>window).vorgea.serialPortList('', (retData) => {
       this.zone.run(() => {
         this.portNumberArray = retData;
         this.portNumber = 'ttyS4 (rk_serial)';
@@ -38,7 +38,7 @@ export class RfidPage {
 
   // 离开时销毁
   ionViewWillUnload() {
-    (<any>window).rfid.destroyRFID('');
+    (<any>window).vorgea.destroyRFID('');
   }
 
   // 开始链接
@@ -47,8 +47,8 @@ export class RfidPage {
       port: this.portNumber,
       baud: this.baudRate
     };
-    (<any>window).rfid.connectSerialPort(params, (retData) => {
-      (<any>window).rfid.initRFID('', (res) => {
+    (<any>window).vorgea.connectSerialPort(params, (retData) => {
+      (<any>window).vorgea.initRFID('', (res) => {
         this.zone.run(() => {
           this.navCtrl.push(RfidConnectPage);
         });

@@ -22,6 +22,8 @@ import { EmergencyTreatmentPage } from '../../pages2/emergencyTreatment/emergenc
 import { RfidPage } from '../../pages/rfid/rfid';
 import { PhotoService } from './photo.service';
 import { ChoosePage } from '../../pages/choose/choose';
+import { ScanConnectPage } from '../../pages/scan/scanConnect';
+
 /**
  * 路由服务
  */
@@ -108,7 +110,6 @@ export class RoutersService {
               if (If_Can_Back === 'back') {
                 clearInterval(loop);
                 browser.close();
-                console.log('看看浏览器走back哈哈');
                 // 刷新首页角标
                 this.events.publish('refresh');
               }
@@ -130,20 +131,22 @@ export class RoutersService {
     }else if (menu.page === this.icmpConstant.page.rfid) {
       navCtrl.push(RfidPage, menu);
     } else if (menu.page === this.icmpConstant.page.scan) {
-      this.photoService.openScan(function(rfidInfo){
-        if (rfidInfo) {
-          const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
-          if (!rfidInfo['cancelled']){
-            navCtrl.push(QueryDetailPage2, addInfo);
-            console.log('正确扫码 进入详情页');
-          } else {
-            console.log('未扫码 返回上一页');
-            navCtrl.pop();
-          }
-        }
-      });
-    } else {
-      this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
-    }
+      navCtrl.push(ScanConnectPage, menu);
+    //   this.photoService.openScan(function(rfidInfo){
+    //     if (rfidInfo) {
+    //       const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
+    //       if (!rfidInfo['cancelled']){
+    //         navCtrl.push(QueryDetailPage2, addInfo);
+    //         console.log('正确扫码 进入详情页');
+    //       } else {
+    //         console.log('未扫码 返回上一页');
+    //         navCtrl.pop();
+    //       }
+    //     }
+    //   });
+    // } else {
+    //   this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
+    // }
   }
+}
 }

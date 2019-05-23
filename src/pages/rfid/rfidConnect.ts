@@ -32,7 +32,7 @@ export class RfidConnectPage {
 
   // 进入页面
   ionViewDidLoad() {
-    (<any>window).rfid.listener('', (retData) => {
+    (<any>window).vorgea.listener('', (retData) => {
       this.zone.run(() => {
         this.ecpIdArray.push(retData.epcId);
         let params: URLSearchParams = new URLSearchParams();
@@ -52,7 +52,7 @@ export class RfidConnectPage {
 
   // 刷新
   refreshRFID() {
-    (<any>window).rfid.refreshRFID('', (retData) => {
+    (<any>window).vorgea.refreshRFID('', (retData) => {
       this.zone.run(() => {
         this.itemArray.splice(0, this.itemArray.length);
         this.ecpIdArray.splice(0, this.ecpIdArray.length);
@@ -64,7 +64,7 @@ export class RfidConnectPage {
 
   // 开始或结束盘存
   startEndRFID() {
-    (<any>window).rfid.startEndRFID({ state: this.state });
+    (<any>window).vorgea.startEndRFID({ state: this.state });
     this.state = this.state === 'start' ? 'end' : 'start';
     this.buttonText = this.buttonText === '开始盘存' ? '结束盘存' : '开始盘存';
   }

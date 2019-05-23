@@ -70,6 +70,23 @@
     }
   }
 ```
+###streamline分流
+通过输入不同的激活码跳转到对应的后台  
 
+* 抢先版：  
+普日：7654321  
+标准版：1234  
+* 正式版：  
+普日：16fd9588-252c-11e9-99b9-0242ac11000c  
+标准版：1234
+
+####版本区分
+
+* 普日版本  
+有环信聊天功能，底部tab第二个为消息，通过`/application/tab`接口获取底部导航栏，有`ChatListPage`代表有消息功能，使用`localStorage.getItem('haveIM')`来储存判断，值为1则代表是有环信功能 
  
- 
+* oa版本  
+底部第二个tab是angular的待办页面，通过`/application/tab`接口获取底部导航栏，有`old_todo`代表是这个版本,使用`localStorage.getItem('todoState')`来储存判断，值为1则代表是旧版本待办
+    
+* 新版标准版  
+底部第二个tab是react的待办页面，通过`/application/tab`接口获取底部导航栏，有`new_todo`代表是这个版本，使用`localStorage.getItem('todoState')`来储存判断，值为2则代表是新版本待办，点击tab判断是这个版本的打开浏览器跳转到react的流程待办页面

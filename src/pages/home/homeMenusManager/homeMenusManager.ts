@@ -38,6 +38,8 @@ export class HomeMenusManagerPage {
   private count: number = 0;
   // 是否显示placeholder
   private isShow: boolean = false;
+  // // 待办个数
+  // public waitNum: number = 0;
 
 
   /**
@@ -87,7 +89,7 @@ export class HomeMenusManagerPage {
     // 从网页回来刷新首页角标
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
-        if (localStorage.getItem('haveIM') !== '2'){
+        if (localStorage.getItem('todoState') !== '2'){
           this.getMyMenus();
           this.getAllMenus();
         }
@@ -120,28 +122,31 @@ export class HomeMenusManagerPage {
         let noGroupMenus = {};
         noGroupMenus['typeName'] = this.transateContent['NO_GROUP'];
         noGroupMenus['menus'] = [];
-        console.log('获取全部应用');
         this.zone.run(() => {
           this.categoryMenus = [];
           for (let i = 0; i < allMenus.length; i++) {
             let menu = allMenus[i];
             menu.menus = [];
             for (let apps of menu['apps']) {
-              if (localStorage.getItem('haveIM') === '2'){
+              if (localStorage.getItem('todoState') === '2'){
                 apps['serviceName'] = apps['data']['serviceName'];
                 apps['processName'] = apps['data']['processName'];
                 apps['queryCondition'] = apps['data']['queryCondition'];
                 apps['total'] = apps['data']['total'];
               }
+              // if (apps['name'] === '待办') {
+              //   apps['total'] = this.waitNum;
+              //   console.log('待办全部角标数' + apps['total']);
+              // }
               menu.menus.push(apps);
             }
+            // console.log('待办个数' + this.waitNum);
             this.categoryMenus.push(menu);
           }
         });
       }, (res: Response) => {
         if (localStorage.getItem('haveIM') !== '1') {
           if (res.status === 401) {
-            console.log('抢登弹窗3');
             const confirm = this.alertCtrl.create({
               title: '提示',
               message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
@@ -179,13 +184,15 @@ export class HomeMenusManagerPage {
       if (res._body != null && res._body !== '') {
         let data = res.json();
         for (let i = 0; i < data.length; i++) {
-          if (localStorage.getItem('haveIM') === '2'){
+          if (localStorage.getItem('todoState') === '2'){
             data[i]['serviceName'] = data[i]['data']['serviceName'];
             data[i]['processName'] = data[i]['data']['processName'];
             data[i]['total'] = data[i]['data']['total'];
           }
+          // if (data[i].name === '待办') {
+          //   data[i].total = this.waitNum;
+          // }
           arr.push(data[i]);
-          console.log('新待办我的应用角标数' + data[i].total);
         }
         this.zone.run(() => {
           this.myMenus = arr;

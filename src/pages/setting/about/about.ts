@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NavController, AlertController, Alert } from 'ionic-angular';
 import { Http, Response } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -6,6 +6,9 @@ import { DeviceService, DeviceInfoState } from '../../../app/services/device.ser
 import { AppVersionUpdateService } from '../../../app/services/appVersionUpdate.service';
 import { TranslateService } from '@ngx-translate/core';
 import { OopStormPage } from './oopStorm/oopStorm';
+import { ToastService } from '../../../app/services/toast.service';
+import { UserService } from '../../../app/services/user.service';
+import { APP_CONSTANT, AppConstant } from '../../../app/constants/app.constant';
 
 
 
@@ -32,9 +35,16 @@ export class AboutPage {
   chcpVersion: string = '';
   // 版本数据
   versionData: string = '';
+  // 设备id
+  deviceid: string = '';
+  checkUpCode: string = '';
+  VConsole = new (require('../../../../node_modules/vconsole/dist/vconsole.min.js'));
 
   constructor(
     public navCtrl: NavController,
+    @Inject(APP_CONSTANT) private appConstant: AppConstant,
+    private userService: UserService,
+    private toastService: ToastService,
     private http: Http,
     private translate: TranslateService,
     private deviceService: DeviceService,
@@ -44,6 +54,7 @@ export class AboutPage {
     this.translate.get(['PROMPT_INFO', 'APP_DOWNLOAD_SKIP_PROMPT', 'CANCEL', 'CONFIRM']).subscribe((res: Object) => {
       this.transateContent = res;
     });
+    document.getElementById('__vconsole').style.display = 'none';
   }
 
   ionViewDidLoad() {
@@ -51,6 +62,8 @@ export class AboutPage {
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
     if (deviceInfo !== null) {
       this.versionNumber = deviceInfo.versionNumber;
+      this.deviceid = deviceInfo.deviceId;
+      this.checkUpCode = localStorage.getItem('checkUp');
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString();
       if (deviceInfo.deviceType === 'android') {
@@ -89,7 +102,51 @@ export class AboutPage {
       chcpVersion: this.chcpVersion
     });
   }
-
+  // 打开或关闭调试的vconsole
+  versionClk() {
+    let adminConsolePass: string = this.appConstant.oaConstant.adminConsolePass;
+    if (adminConsolePass != null && adminConsolePass !== '') {
+      // debug模式
+      let debugOn = localStorage.getItem('debug');
+      if (debugOn !== '1') {
+        document.getElementById('__vconsole').style.display = 'block';
+        localStorage.setItem('debug', '1');
+      } else {
+        document.getElementById('__vconsole').style.display = 'none';
+        localStorage.setItem('debug', '0');
+      }
+    }else{
+      // release模式
+      this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
+        if (res._body != null && res._body !== '') {
+          let userList = [];
+          userList = res.json();
+          let havedebug = this.in_arrays(userList, this.deviceid);
+          if (havedebug) {
+            let debugOn = localStorage.getItem('debug');
+            if (debugOn !== '1') {
+              document.getElementById('__vconsole').style.display = 'block';
+              localStorage.setItem('debug', '1');
+            } else {
+              document.getElementById('__vconsole').style.display = 'none';
+              localStorage.setItem('debug', '0');
+            }
+          }
+        }
+      }, (res: Response) => {
+        this.toastService.show(res.text());
+      });
+    }
+  }
+  // 判断用户是否可以打开开发者模式
+  in_arrays(list, deviceid) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i]['name'] === deviceid){
+        return true;
+      }
+    }
+    return false;
+  }
   /**
    * 点击下载
    */

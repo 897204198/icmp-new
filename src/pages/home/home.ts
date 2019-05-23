@@ -98,26 +98,29 @@ export class HomePage {
       if (num === 1) {
         this.setPlugins();
         this.getComponentList();
-        if (localStorage.getItem('haveIM') !== '2') {
-          this.getWaitNum(); // 获取首页tab数量
+        if (localStorage.getItem('todoState') !== '2') {
+          // 新版项目获取首页角标总数
+          this.getWaitNum();
           this.componentInit();
           this.getWaitToDoNum();
         } else {
-          this.getTodoNumber(); // 项目获取首页tab数量
+          // oa项目获取待办数量
+          this.getTodoNumber();
         }
       }
     });
     // 从网页回来刷新首页角标
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
-        console.log('event刷新消息啊啦啦啦');
         this.getComponentList();
-        if (localStorage.getItem('haveIM') !== '2') {
-          this.getWaitNum(); // 获取首页tab数量
+        if (localStorage.getItem('todoState') !== '2') {
+          // 新版项目获取首页角标总数
+          this.getWaitNum();
           this.componentInit();
           this.getWaitToDoNum();
         } else {
-          this.getTodoNumber(); // 项目获取首页tab数量
+          // oa项目获取待办数量
+          this.getTodoNumber();
         }
       });
     }
@@ -140,12 +143,14 @@ export class HomePage {
       this.setNotice();
       this.setPlugins();
       this.getComponentList();
-      if (localStorage.getItem('haveIM') !== '2') {
+      if (localStorage.getItem('todoState') !== '2') {
+        // 新版项目获取首页角标总数
         this.getWaitNum();
         this.componentInit();
         this.getWaitToDoNum();
       } else {
-        this.getTodoNumber(); // 项目获取首页tab数量
+        // oa项目获取待办数量
+        this.getTodoNumber();
       }
     }
     this.isFirst = false;
@@ -188,7 +193,7 @@ export class HomePage {
     ][index];
   };
   getComponentList(): void {
-    this.http.get('/plugin').subscribe((res: any) => {
+    this.http.get('/plugin/custom').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
         this.componentList = res.json();
         this.zone.run(() => {
@@ -196,6 +201,25 @@ export class HomePage {
         });
       };
     }, (res: Response) => {
+      if (res.status === 404) {
+        const confirm = this.alertCtrl.create({
+          title: '提示',
+          message: '您的App版本太低，请下载最新版本',
+          buttons: [
+            {
+              text: '确认',
+              handler: () => {
+              }
+            }
+          ]
+        });
+        confirm.present();
+        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+        this.navCtrl.push(LoginPage).then(() => {
+          const startIndex = this.navCtrl.getActive().index - 1;
+          this.navCtrl.remove(startIndex, 1);
+        });
+      }
       this.toastService.show(res.text());
     });
   }
@@ -238,7 +262,6 @@ export class HomePage {
     }, (res: Response) => {
       if (localStorage.getItem('haveIM') !== '1') {
         if (res.status === 401) {
-          console.log('抢登弹窗3');
           const confirm = this.alertCtrl.create({
             title: '提示',
             message: '您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码',
@@ -340,11 +363,19 @@ export class HomePage {
         let data = res.json();
         // let haveWait = 0;
         for (let i = 0; i < data.length; i++) {
-          if (localStorage.getItem('haveIM') === '2') {
+          if (localStorage.getItem('todoState') === '2') {
             data[i]['serviceName'] = data[i]['data']['serviceName'];
             data[i]['processName'] = data[i]['data']['processName'];
             data[i]['total'] = data[i]['data']['total'];
           }
+          // if (data[i].name === '待办') {
+          //   data[i].total = this.waitNum;
+          //   haveWait++;
+          //   if (localStorage.getItem('haveIM') === '0') {
+          //     // 存储待办模块
+          //     localStorage.setItem('waitData', data[i].data.url);
+          //   }
+          // }
           this.menus.push(data[i]);
         }
         // 首页没有待办数量加在全部图标上
@@ -411,9 +442,9 @@ export class HomePage {
       let data = res.json();
       // redux传值
       if (data.total === 0) {
-        this.store.dispatch(new HomeReplaceBadageAction(''));
+        this.store.dispatch(new TodoReplaceBadageAction(''));
       } else {
-        this.store.dispatch(new HomeReplaceBadageAction(data.total));
+        this.store.dispatch(new TodoReplaceBadageAction(data.total));
       }
       this.setAppList(); // 获取应用
     });
@@ -432,7 +463,7 @@ export class HomePage {
         }
       }
     }, (res: Response) => {
-      if (localStorage.getItem('haveIM') !== '2') {
+      if (localStorage.getItem('todoState') !== '2') {
         this.toastService.show(res.text());
       }
     });
@@ -572,7 +603,7 @@ export class HomePage {
               this.http.post(`/workflow/task/${taskId}`, data).subscribe((res: any) => {
                 this.toastService.show(this.transateContent['PROCESS_SUCC']);
                 this.componentInit();
-                // 刷新待办角标
+                // 刷新首页角标总数
                 this.getWaitNum();
               }, (res: Response) => {
                 this.toastService.show(res.text());

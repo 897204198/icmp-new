@@ -14,7 +14,7 @@
   </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let item of todoList">
-      <h2>{{item.processInstanceName}}</h2>
+      <h2 [innerHtml]="getSafeHtml(item.processInstanceName)"></h2>
       <p>
         <span *ngIf="!item.hideProcessInstanceInitiatorName" style="margin-right: 6px">{{'INITIATOR' | translate}}：{{item.processInstanceInitiatorName}}</span>
         <span *ngIf="!item.hideName">{{'CURRENT_STEP' | translate}}：{{item.name}}</span>
