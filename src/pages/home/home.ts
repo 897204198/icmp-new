@@ -62,6 +62,8 @@ export class HomePage {
   private hasListLoaded: boolean = false;
   // 是否有IM功能
   haveIM: boolean = false;
+  // 是否是普日项目判断首页插件组件
+  properSoft: boolean = false;
 
   /**
    * 构造函数
@@ -98,6 +100,7 @@ export class HomePage {
       if (num === 1) {
         this.setPlugins();
         this.getComponentList();
+        this.setAppList(); // 获取应用
         if (localStorage.getItem('todoState') !== '2') {
           // 新版项目获取首页角标总数
           this.getWaitNum();
@@ -113,6 +116,7 @@ export class HomePage {
     if (localStorage.getItem('haveIM') === '1') {
       events.subscribe('refresh', () => {
         this.getComponentList();
+        this.setAppList(); // 获取应用
         if (localStorage.getItem('todoState') !== '2') {
           // 新版项目获取首页角标总数
           this.getWaitNum();
@@ -143,6 +147,7 @@ export class HomePage {
       this.setNotice();
       this.setPlugins();
       this.getComponentList();
+      this.setAppList(); // 获取应用
       if (localStorage.getItem('todoState') !== '2') {
         // 新版项目获取首页角标总数
         this.getWaitNum();
@@ -170,6 +175,11 @@ export class HomePage {
     } else {
       this.haveIM = false;
     }
+    if (localStorage.getItem('properSoft') === '1') {
+      this.properSoft = true;
+    } else {
+      this.properSoft = false;
+    }
   }
   test_local_dict(number, index, total_sec): any {
     // number：xxx 时间前 / 后的数字；
@@ -192,6 +202,9 @@ export class HomePage {
       ['%s年前', 'in %s years']
     ][index];
   };
+  /**
+   * 获取插件列表
+   */
   getComponentList(): void {
     this.http.get('/plugin/custom').subscribe((res: any) => {
       if (res._body != null && res._body !== '') {
@@ -426,10 +439,8 @@ export class HomePage {
           this.store.dispatch(new HomeReplaceBadageAction(data.toString())); // 更新首页tab角标
         }
       }
-      this.setAppList(); // 获取应用
     }, (res: Response) => {
       this.toastService.show(res.text());
-      this.setAppList(); // 获取应用
     });
   }
   // 获取项目首页tab总数数量
@@ -446,7 +457,6 @@ export class HomePage {
       } else {
         this.store.dispatch(new TodoReplaceBadageAction(data.total));
       }
-      this.setAppList(); // 获取应用
     });
   }
   /**

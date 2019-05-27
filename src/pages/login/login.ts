@@ -153,6 +153,12 @@ export class LoginPage {
         localStorage.setItem('serviceheader', res.headers.get('x-service-key'));
         // 传给原生
         this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
+        if (res.headers.get('x-service-key') === 'propersoft') {
+          // 普日项目有环信
+          localStorage.setItem('properSoft' , '1');
+        }else{
+          localStorage.setItem('properSoft' , '0');
+        }
         this.loginService(account, password);
       });
     } else {

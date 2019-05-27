@@ -234,7 +234,14 @@ export class InstaShotPage {
         fileName: this.photoList[i]['imageName'],
         mimeType: 'multipart/form-data'
       };
-      fileTransfer.upload(this.photoList[i]['imageUrl'], this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName, options)
+      let upUrl = '';
+    if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName;
+    } else {
+      // 不使用streamline
+      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName;
+    }
+      fileTransfer.upload(this.photoList[i]['imageUrl'], upUrl, options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
           this.photoUrlArray.push(data.response);
