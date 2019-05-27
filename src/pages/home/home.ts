@@ -62,6 +62,8 @@ export class HomePage {
   private hasListLoaded: boolean = false;
   // 是否有IM功能
   haveIM: boolean = false;
+  // 是否是普日项目判断首页插件组件
+  properSoft: boolean = false;
 
   /**
    * 构造函数
@@ -172,6 +174,11 @@ export class HomePage {
       this.haveIM = true;
     } else {
       this.haveIM = false;
+    }
+    if (localStorage.getItem('properSoft') === '1') {
+      this.properSoft = true;
+    } else {
+      this.properSoft = false;
     }
   }
   test_local_dict(number, index, total_sec): any {

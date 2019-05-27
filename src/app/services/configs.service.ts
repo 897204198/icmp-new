@@ -23,6 +23,17 @@ export class ConfigsService {
     }
   }
   /**
+   * 取得mobielplatform请求地址
+   */
+  getMobileplatformUrl(): string {
+    if (localStorage.getItem('mobileplatformUrl') != null && localStorage.getItem('mobileplatformUrl') !== '') {
+      return localStorage.getItem('mobileplatformUrl');
+    } else {
+      return this.appConstant.oaConstant.mobileplatformUrl;
+    }
+  }
+
+  /**
    * 取得web前半段地址
    */
   getBaseWebUrl(): string {
@@ -63,7 +74,16 @@ export class ConfigsService {
       localStorage.removeItem('baseUrl');
     }
   }
-
+   /**
+   * 设置mobieplatform请求地址
+   */
+  setMobielplatformUrl(mobileplatformUrl: string): void {
+    if (mobileplatformUrl != null && mobileplatformUrl !== '') {
+      localStorage.setItem('mobileplatformUrl', mobileplatformUrl);
+    } else {
+      localStorage.removeItem('mobileplatformUrl');
+    }
+  }
   /**
    * 设置推送服务器地址
    */

@@ -15,6 +15,8 @@ export class AdminPage {
 
   // 服务器地址
   private baseUrl: string;
+  // 服务器地址
+  private mobileplatformUrl: string;
   // 推送服务器地址
   private chatKey: string;
    // 获取servicekey地址
@@ -45,6 +47,7 @@ export class AdminPage {
    */
   ionViewDidEnter(): void {
     this.baseUrl = this.configsService.getBaseUrl();
+    this.mobileplatformUrl = this.configsService.getMobileplatformUrl();
     this.chatKey = this.configsService.getChatKey();
     this.getservicekeyUrl = this.configsService.getServiceKeyUrl();
     this.baseWebUrl = this.configsService.getBaseWebUrl();
@@ -57,6 +60,7 @@ export class AdminPage {
    */
   saveUrl(): void {
     this.configsService.setBaseUrl(this.baseUrl);
+    this.configsService.setMobielplatformUrl(this.mobileplatformUrl);
     this.configsService.setChatKey(this.chatKey);
     this.configsService.setServiceKeyUrl(this.getservicekeyUrl);
     this.configsService.setBaseWebUrl(this.baseWebUrl);
@@ -67,12 +71,12 @@ export class AdminPage {
     localStorage.setItem('OA', <any>this.OA);
     this.showToastAndPop();
   }
-
   /**
    * 重置url
    */
   resetUrl(): void {
     this.configsService.setBaseUrl('');
+    this.configsService.setMobielplatformUrl('');
     this.configsService.setPushUrl('');
     this.configsService.setChatKey('');
     this.configsService.setServiceKeyUrl('');

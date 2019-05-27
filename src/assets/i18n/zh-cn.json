@@ -15,6 +15,7 @@
   "DEVELOPER_OPTIONS": "开发者选项",
   "DEVELOPER_MODE": "开发者模式",
   "SERVER_URL": "服务器地址",
+  "MOBIELPLATFORM_URL": "Mobile Platform地址",
   "PUSH_URL": "推送服务器地址",
   "RESET_CONFIG": "重置设置",
   "SETTING_SUCCESS": "设置成功",

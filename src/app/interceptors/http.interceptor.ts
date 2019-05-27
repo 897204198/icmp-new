@@ -32,7 +32,16 @@ export class HttpInterceptor extends Http {
     }
     this.store.dispatch(new RequestIncrementAction());
     if (this.needContextPrefix(urlStr)) {
-      typeof url === 'string' ? (url = this.configsService.getBaseUrl() + url) : (url['url'] = this.configsService.getBaseUrl() + url['url']);
+      if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+        typeof url === 'string' ? (url = this.configsService.getBaseUrl() + url) : (url['url'] = this.configsService.getBaseUrl() + url['url']);
+      } else {
+        // 不使用streamline
+        if (urlStr.indexOf('webController') !== -1) {
+          typeof url === 'string' ? (url = this.configsService.getMobileplatformUrl() + url) : (url['url'] = this.configsService.getMobileplatformUrl() + url['url']);
+        }else{
+          typeof url === 'string' ? (url = this.configsService.getBaseUrl() + url) : (url['url'] = this.configsService.getBaseUrl() + url['url']);
+        }
+      }
     }
     return this.intercept(super.request(url, options), false);
   }

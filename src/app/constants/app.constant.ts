@@ -8,6 +8,9 @@ export interface OaConstant {
   // oa服务器 http请求的根地址
   baseUrl: string;
 
+  // mobielplatform地址
+  mobileplatformUrl: string;
+
   // 用户的密码是否需要md5加密
   md5Encryption: boolean;
 
@@ -67,6 +70,7 @@ export let APP_CONSTANT = new InjectionToken<AppConstant>('app.constant');
 
 const oaConstant: OaConstant = {
   baseUrl: 'https://icmp.propersoft.cn/icmp/api/route/',
+  mobileplatformUrl: '',
   chatKey: '1166171023115752#pr',
   md5Encryption: false,
   adminConsolePass: '',
