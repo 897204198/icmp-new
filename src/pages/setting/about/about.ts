@@ -104,8 +104,8 @@ export class AboutPage {
   }
   // 打开或关闭调试的vconsole
   versionClk() {
-    let adminConsolePass: string = this.appConstant.oaConstant.adminConsolePass;
-    if (adminConsolePass != null && adminConsolePass !== '') {
+    // let adminConsolePass: string = this.appConstant.oaConstant.adminConsolePass;
+    // if (adminConsolePass != null && adminConsolePass !== '') {
       // debug模式
       let debugOn = localStorage.getItem('debug');
       if (debugOn !== '1') {
@@ -115,28 +115,28 @@ export class AboutPage {
         document.getElementById('__vconsole').style.display = 'none';
         localStorage.setItem('debug', '0');
       }
-    }else{
-      // release模式
-      this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
-        if (res._body != null && res._body !== '') {
-          let userList = [];
-          userList = res.json();
-          let havedebug = this.in_arrays(userList, this.deviceid);
-          if (havedebug) {
-            let debugOn = localStorage.getItem('debug');
-            if (debugOn !== '1') {
-              document.getElementById('__vconsole').style.display = 'block';
-              localStorage.setItem('debug', '1');
-            } else {
-              document.getElementById('__vconsole').style.display = 'none';
-              localStorage.setItem('debug', '0');
-            }
-          }
-        }
-      }, (res: Response) => {
-        this.toastService.show(res.text());
-      });
-    }
+    // }else{
+    //   // release模式
+    //   this.http.get('/sys/datadic/catalog/VCONSOLE_PERMISSION').subscribe((res: any) => {
+    //     if (res._body != null && res._body !== '') {
+    //       let userList = [];
+    //       userList = res.json();
+    //       let havedebug = this.in_arrays(userList, this.deviceid);
+    //       if (havedebug) {
+    //         let debugOn = localStorage.getItem('debug');
+    //         if (debugOn !== '1') {
+    //           document.getElementById('__vconsole').style.display = 'block';
+    //           localStorage.setItem('debug', '1');
+    //         } else {
+    //           document.getElementById('__vconsole').style.display = 'none';
+    //           localStorage.setItem('debug', '0');
+    //         }
+    //       }
+    //     }
+    //   }, (res: Response) => {
+    //     this.toastService.show(res.text());
+    //   });
+    // }
   }
   // 判断用户是否可以打开开发者模式
   in_arrays(list, deviceid) {
