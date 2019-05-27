@@ -587,7 +587,14 @@ export class RfidOpinionPage {
       mimeType: 'multipart/form-data'
     };
     let userInfo = this.userService.getUserInfo();
-    fileTransfer.upload(filePath, this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName, options).then((data) => {
+    let upUrl = '';
+    if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+    } else {
+      // 不使用streamline
+      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+    }
+    fileTransfer.upload(filePath, upUrl, options).then((data) => {
       if (this.approvalInput[item['model']] == null) {
         this.approvalInput[item['model']] = [data.response];
       } else {

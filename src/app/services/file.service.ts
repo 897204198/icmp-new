@@ -41,7 +41,13 @@ export class FileService {
     // 文件类型
     let fileType: string = this.getFileType(fileName);
     // 文件 url
-    let fileUrl: string = this.configsService.getBaseUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password;
+    let fileUrl = '';
+    if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+      fileUrl = this.configsService.getBaseUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password;
+    } else {
+      // 不使用streamline
+      fileUrl = this.configsService.getMobileplatformUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password;
+    }
     // 本地文件保存位置
     let filePlace: string = this.file.dataDirectory + this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + fileType;
     // 安卓版本
