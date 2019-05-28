@@ -43,10 +43,10 @@ export class FileService {
     // 文件 url
     let fileUrl = '';
     if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-      fileUrl = this.configsService.getBaseUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password;
+      fileUrl = this.configsService.getBaseUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password + '&service_key=' + localStorage['serviceheader'];
     } else {
       // 不使用streamline
-      fileUrl = this.configsService.getMobileplatformUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password;
+      fileUrl = this.configsService.getMobileplatformUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password + '&service_key=' + localStorage['serviceheader'];
     }
     // 本地文件保存位置
     let filePlace: string = this.file.dataDirectory + this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + fileType;

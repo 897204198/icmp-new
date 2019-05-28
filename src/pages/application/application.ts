@@ -733,10 +733,10 @@ export class ApplicationPage {
     let userInfo = this.userService.getUserInfo();
     let upUrl = '';
     if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
     } else {
       // 不使用streamline
-      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
     }
     fileTransfer.upload(filePath, upUrl, options).then((data) => {
       if (this.input[item['model']] == null) {
