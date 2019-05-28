@@ -236,10 +236,10 @@ export class InstaShotPage {
       };
       let upUrl = '';
     if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName;
+      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
     } else {
       // 不使用streamline
-      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName;
+      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
     }
       fileTransfer.upload(this.photoList[i]['imageUrl'], upUrl, options)
         .then((data) => {
