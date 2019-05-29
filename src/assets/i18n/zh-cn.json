@@ -30,7 +30,7 @@
   "PLEASE_ENTER_CHECKCODEFIRST": "请先激活账号",
   "ERROR_ACCOUNT_CHECKCODE": "帐号或激活码错误",
   "PLEASE_ENTER_PHONE": "请输入手机号或工号",
-  "PLEASE_ENTER_ACCOUNT": "请输入手机号",
+  "PLEASE_ENTER_ACCOUNT": "请输入登录账号",
   "PLEASE_ENTER_PASSWORD": "请输入密码",
   "BACKBUTTON_PROMPT": "再按一次退出应用",
   "PASSWORD_WRONG": "密码错误",
