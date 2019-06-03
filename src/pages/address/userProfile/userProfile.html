@@ -26,7 +26,7 @@
   <ion-list>
     <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.sex != null : toUserInfo != null && toUserInfo.sex != null  && toUserInfo.show">
       {{'SEX' | translate}}
-      <p item-right>{{toUserInfo?.sex}}</p>
+      <p item-right>{{toUserInfo?.sex.name}}</p>
     </ion-item>
     <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.phone != null : toUserInfo != null && toUserInfo.phone != null  && toUserInfo.show">
       {{'PHONE' | translate}}
