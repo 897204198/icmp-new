@@ -28,10 +28,10 @@
       {{'SEX' | translate}}
       <p item-right>{{toUserInfo?.sex.name}}</p>
     </ion-item>
-    <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.phone != null : toUserInfo != null && toUserInfo.phone != null  && toUserInfo.show">
+    <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.telephone != null : toUserInfo != null && toUserInfo.telephone != null  && toUserInfo.show">
       {{'PHONE' | translate}}
-      <a item-right href="tel:{{toUserInfo?.phone}}">{{toUserInfo?.phone}}</a>
-      <!-- <p item-right>{{toUserInfo?.phone}}</p> -->
+      <a item-right href="tel:{{toUserInfo?.telephone}}">{{toUserInfo?.telephone}}</a>
+      <!-- <p item-right>{{toUserInfo?.telephone}}</p> -->
     </ion-item>
     <ion-item *ngIf="haveIM ? toUserInfo != null && toUserInfo.email != null : toUserInfo != null && toUserInfo.email != null  && toUserInfo.show">
       {{'EMAIL' | translate}}
