@@ -83,7 +83,7 @@ export class ApplyPage {
       params['fromUserId'] = item['toUserId'];
       params['toUserId'] = item['fromUserId'];
     }
-    this.http.get('/hr/employee/info/' + params['toUserId']).subscribe((res) => {
+    this.http.get('/user/info/' + params['toUserId']).subscribe((res) => {
       if (res['_body'] != null && res['_body'] !== '') {
         params['employee'] = res['_body'];
         this.navCtrl.push(UserProfilePage, params);
