@@ -81,10 +81,10 @@ export class LoginPage {
     function checkPermissionCallback( status: any) {
       if (!status.hasPermission) {
         let errorCallback = function () {
-          console.warn('手机的权限没有打开');
+          console.warn('电话权限没有打开');
         };
         permissions.requestPermission(
-          permissions.CAMERA,
+          permissions.READ_PHONE_STATE,
           function () {
             if (!status.hasPermission) {
               errorCallback();
