@@ -20,6 +20,7 @@ import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { DeviceInfoState } from '../../app/services/device.service';
 import { WebSocketService } from '../../app/services/webSocket.service';
+declare let cordova: any;
 
 /**
  * 登录页面
@@ -75,6 +76,25 @@ export class LoginPage {
    * 首次进入页面
    */
   ionViewDidLoad() {
+    let permissions = cordova.plugins.permissions;
+    permissions.hasPermission(permissions.READ_PHONE_STATE, checkPermissionCallback, null);
+    function checkPermissionCallback( status: any) {
+      if (!status.hasPermission) {
+        let errorCallback = function () {
+          console.warn('电话权限没有打开');
+        };
+        permissions.requestPermission(
+          permissions.READ_PHONE_STATE,
+          function () {
+            if (!status.hasPermission) {
+              errorCallback();
+            console.log('获取权限成功！');
+            }
+          },
+          errorCallback);
+      }
+    }
+
     if (localStorage.getItem('login') === '1') {
       this.appVersionUpdateService.checkAppVersion(true, true);
       localStorage.setItem('login', '0');
