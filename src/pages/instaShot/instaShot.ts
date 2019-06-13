@@ -45,8 +45,8 @@ export class InstaShotPage {
   private photoList: any[] = [];
   // 图片 url 数组
   private photoUrlArray: string[] = [];
-
-
+  // 是否匿名隐藏
+  anonymou: boolean = true;
   // 最后提交的数据
   private submitInfo: Object = {};
 
@@ -75,6 +75,7 @@ export class InstaShotPage {
     this.submitInfo['username'] = this.userInfo.userName;
 
     this.submitInfo['isAnonymity'] = 'false';
+    this.getanonymous();
     this.gethospitalArea();
   }
 
@@ -90,7 +91,6 @@ export class InstaShotPage {
         this.hospitalAreaInfo = data;
         // 临时的 Array，循环获取所属院区列表数据
         let dataArray: Array<string> = this.getNameInfoFromArray(data);
-
         // 默认院区是第一个，code相同
         this.hospitalAreaCode = data[0].code;
         this.hospitalAreaPlaceholder = dataArray[0];
@@ -105,7 +105,27 @@ export class InstaShotPage {
       this.toastService.show(res.text());
     });
   }
-
+  // 获取是否匿名
+  getanonymous() {
+    let params: URLSearchParams = new URLSearchParams();
+    params.append('serviceName', 'anonymous');
+    this.http.post('/webController/getInstaShotInfo', params).subscribe((res: Response) => {
+      if (res.json().result === '0') {
+        let data = res.json().checkAnonymity;
+        if (data === '0') {
+          //
+          this.anonymou = false;
+        } else {
+          // 显示是否匿名
+          this.anonymou = true;
+        }
+      } else {
+        this.toastService.show(res.json().errMsg);
+      }
+    }, (res: Response) => {
+      this.toastService.show(res.text());
+    });
+  }
   // 获取科室信息
   getDepartment(areaCode: string) {
     let params: URLSearchParams = new URLSearchParams();
@@ -235,12 +255,12 @@ export class InstaShotPage {
         mimeType: 'multipart/form-data'
       };
       let upUrl = '';
-    if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
-    } else {
-      // 不使用streamline
-      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
-    }
+      if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+        upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+      } else {
+        // 不使用streamline
+        upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+      }
       fileTransfer.upload(this.photoList[i]['imageUrl'], upUrl, options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
