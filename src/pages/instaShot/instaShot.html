@@ -14,7 +14,7 @@
 
 <ion-content class="content-gray">
   <ion-list class="icmp-list-top-margin" radio-group>
-    <ion-item>
+    <ion-item *ngIf="anonymou">
       <ion-label>{{'IS_ANONYMITY' | translate}}</ion-label>
       <ion-select placeholder="否" [(ngModel)]="submitInfo.isAnonymity" class="gray-label" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
         <ion-option value='true'>{{'YES' | translate}}</ion-option>
