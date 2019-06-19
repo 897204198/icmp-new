@@ -272,7 +272,7 @@ export class InstaShotPage {
             this.infoSubmit();
           }
         }, (err) => {
-
+          this.toastService.show(err.text());
         });
     }
   }
@@ -300,7 +300,7 @@ export class InstaShotPage {
         this.toastService.show(this.transateContent['SUBMIT_SUCCESS']);
         this.navCtrl.pop();
       } else {
-        this.toastService.show(data.errMsg);
+        this.toastService.show(data.errmsg);
       }
     }, (res: Response) => {
       this.toastService.show(res.text());

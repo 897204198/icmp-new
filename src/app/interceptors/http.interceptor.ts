@@ -7,8 +7,7 @@ import { DeviceInfoState, DeviceService } from '../services/device.service';
 import { UserService, UserInfoState } from '../services/user.service';
 import { Store } from '@ngrx/store';
 import { RequestIncrementAction, RequestDecrementAction } from '../redux/actions/request.action';
-
-
+import 'url-search-params-polyfill';
 /**
  * HTTP请求拦截器
  */
@@ -59,13 +58,12 @@ export class HttpInterceptor extends Http {
   put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
     return this.intercept(super.put(url, body, this.getRequestOptionArgs('put', options)), true);
   }
-
   /**
    * post拦截器
    */
   post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
     // 判断body实例是否为URL
-    if (body instanceof URLSearchParams){
+    if ( URLSearchParams && body instanceof URLSearchParams){
       if (body == null) {
         body = new URLSearchParams();
       }
