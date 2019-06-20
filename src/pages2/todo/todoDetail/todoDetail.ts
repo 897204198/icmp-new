@@ -35,11 +35,11 @@ export class TodoDetailPage2 {
    * 构造函数
    */
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private http: Http,
-              private toastService: ToastService,
-              private fileService: FileService,
-              private translate: TranslateService) {
+    public navParams: NavParams,
+    private http: Http,
+    private toastService: ToastService,
+    private fileService: FileService,
+    private translate: TranslateService) {
     let translateKeys: string[] = ['SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'TODO_CANNOT_USE', 'READ', 'APPROVAL'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
@@ -64,29 +64,35 @@ export class TodoDetailPage2 {
     params.append('step', this.navParams.get('step'));
     params.append('processName', this.navParams.get('processName'));
     this.http.post('/webController/getSubSystemStandardIndex', params).subscribe((res: Response) => {
-      this.todoDetail = res.json();
-      this.btnText = this.todoDetail['shenpi_btn_text'];
-      if (this.btnText == null || this.btnText === '') {
-        if (this.todoDetail['shenpi_type'] === 'forward') {
-          this.btnText = this.transateContent['READ'];
+      let data = res.json();
+      if (data.result === '0') {
+        // 成功
+        this.todoDetail = res.json();
+        this.btnText = this.todoDetail['shenpi_btn_text'];
+        if (this.btnText == null || this.btnText === '') {
+          if (this.todoDetail['shenpi_type'] === 'forward') {
+            this.btnText = this.transateContent['READ'];
+          } else {
+            this.btnText = this.transateContent['APPROVAL'];
+          }
+        }
+
+        if (this.todoDetail['shenpi_type'] === 'viewonly') {
+          this.hasApprovalBtn = false;
+          this.promptInfo = this.transateContent['TODO_CANNOT_USE'];
         } else {
-          this.btnText = this.transateContent['APPROVAL'];
+          this.promptInfo = this.todoDetail['prompt_info'];
+          this.hasApprovalBtn = true;
         }
-      }
 
-      if (this.todoDetail['shenpi_type'] === 'viewonly') {
-        this.hasApprovalBtn = false;
-        this.promptInfo = this.transateContent['TODO_CANNOT_USE'];
+        for (let i = 0; i < this.todoDetail['forms'].length; i++) {
+          let form = this.todoDetail['forms'][i];
+          if (form['type'] === 'filelist' && form['values'] != null && form['values'].length > 0) {
+            this.fileList.push(this.todoDetail['forms'][i]);
+          }
+        }
       } else {
-        this.promptInfo = this.todoDetail['prompt_info'];
-        this.hasApprovalBtn = true;
-      }
-
-      for (let i = 0 ; i < this.todoDetail['forms'].length ; i++) {
-        let form = this.todoDetail['forms'][i];
-        if (form['type'] === 'filelist' && form['values'] != null && form['values'].length > 0) {
-          this.fileList.push(this.todoDetail['forms'][i]);
-        }
+        this.toastService.show(data.errmsg);
       }
     }, (res: Response) => {
       this.toastService.show(res.text());
@@ -158,7 +164,7 @@ export class TodoDetailPage2 {
         this.navCtrl.push(TodoMissionOpinionPage, params);
       } else if (this.todoDetail['pageId'] === 'todo-work-contact') {
         this.navCtrl.push(TodoWorkContactPage, params);
-      }  else {
+      } else {
         this.navCtrl.push(TodoOpinionPage2, params);
       }
     } else if (this.todoDetail['shenpi_type'] === 'shenqingpage') {
