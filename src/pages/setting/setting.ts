@@ -188,15 +188,15 @@ export class SettingPage {
     const data = {
       loginStatus: 'logout'
     };
+    if (localStorage.getItem('haveIM') === '1') {
+      (<any>window).huanxin.imlogout();
+    }
     localStorage.removeItem('todoState');
     localStorage.removeItem('haveIM');
     this.navCtrl.push(LoginPage, data).then(() => {
       const startIndex = this.navCtrl.getActive().index - 1;
       this.navCtrl.remove(startIndex, 1);
     });
-    if (localStorage.getItem('haveIM') === '1') {
-      (<any>window).huanxin.imlogout();
-    }
   }
   shortCutsAction(): void{
 

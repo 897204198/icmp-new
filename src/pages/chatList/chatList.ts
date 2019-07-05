@@ -77,14 +77,14 @@ export class ChatListPage {
               } else {
                 user['headDownloadImage'] = user['headImage'];
               }
-            }else{
+            } else {
               if (user['headImage']) {
                 let image: string = user['headImage'];
                 if (image.match('http')) {
                   user['headDownloadImage'] = user['headImage'];
-                }else{
+                } else {
                   if (user['headImage']) {
-                    user['headDownloadImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+                    user['headDownloadImage'] = `${this.fileUrl}${user['headImage']}${this.token}${'&service_key=' + localStorage['serviceheader']}`;
                   }
                 }
               }
@@ -100,29 +100,29 @@ export class ChatListPage {
       this.keyboard.onKeyboardHide().subscribe(() => this.event.publish('showTabs'));
     }
   }
-ionViewDidEnter(){
-  this.userInfo = this.userService.getUserInfo();
-  this.getCurrentUserInfoFromNet();
-  // (<any>window).huanxin.getChatList('', (retData) => {
-  //   this.zone.run(() => {
-  //     this.chatList = retData;
-  //     for (let user of this.chatList) {
-  //       if (user['headImage']) {
-  //         let image: string = user['headImage'];
-  //         if (image.match('http')) {
-  //           user['headImage'] = user['headImage'];
-  //         }else{
-  //           if (user['headImage']) {
-  //             user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
-  //           }
-  //         }
-  //       }
-  //     }
-  //     this.checkRedMessage();
-  //     this.changeUnreadMessageNumber();
-  //   });
-  // });
-}
+  ionViewDidEnter() {
+    this.userInfo = this.userService.getUserInfo();
+    this.getCurrentUserInfoFromNet();
+    // (<any>window).huanxin.getChatList('', (retData) => {
+    //   this.zone.run(() => {
+    //     this.chatList = retData;
+    //     for (let user of this.chatList) {
+    //       if (user['headImage']) {
+    //         let image: string = user['headImage'];
+    //         if (image.match('http')) {
+    //           user['headImage'] = user['headImage'];
+    //         }else{
+    //           if (user['headImage']) {
+    //             user['headImage'] = `${this.fileUrl}${user['headImage']}${this.token}`;
+    //           }
+    //         }
+    //       }
+    //     }
+    //     this.checkRedMessage();
+    //     this.changeUnreadMessageNumber();
+    //   });
+    // });
+  }
   /**
    * 取得当前用户信息
    */
@@ -229,8 +229,8 @@ ionViewDidEnter(){
    */
   resetImg(item) {
     for (let user of this.chatList) {
-      if (item['id'] === user['id']) {
-        user['headImage'] = '';
+      if (item['to_chatId'] === user['to_chatId']) {
+        user['headDownloadImage'] = '';
         break;
       }
     }

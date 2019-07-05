@@ -126,7 +126,7 @@ export class UserProfilePage {
     params['from_username'] = this.fromUserInfo.userName;
     params['from_headportrait'] = this.fromChatAatar;
     // params['from_headportrait'] = this.fromUserInfo.headImage;
-    params['to_user_id'] = this.toUserInfo['account'];
+    params['to_user_id'] = this.toUserInfo['userEntity']['username'];
     params['to_username'] = this.toUserInfo['name'];
     params['to_headportrait'] = this.toChatAatar;
     params['headImge'] = this.toChatAatar;

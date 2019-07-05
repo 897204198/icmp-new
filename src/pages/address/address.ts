@@ -276,7 +276,7 @@ export class AddressPage {
     if (item['type'] && (item['type']['code'] === '0' || item['type']['code'] === 0)) {
       item['isFriend'] = true;
     }
-    this.http.get('/user/info/' + item['toUserId']).subscribe((res) => {
+    this.http.get('/hr/employee/info/' + item['toUserId']).subscribe((res) => {
       if (res['_body'] != null && res['_body'] !== '') {
         item['employee'] = res['_body'];
         this.navCtrl.push(UserProfilePage, item);
