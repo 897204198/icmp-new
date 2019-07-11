@@ -75,9 +75,6 @@ export class AppVersionUpdateService {
             });
             confirmAlert.present();
           } else {
-            if (deviceInfo.deviceType === 'android' && data.androidUrl) {
-              this.doUpdateVersion(deviceInfo.deviceType, data);
-            } else {
               let confirmAlert = this.alertCtrl.create({
                 title: this.transateContent['PROMPT_INFO'],
                 message: data.note,
@@ -100,7 +97,6 @@ export class AppVersionUpdateService {
                 ]
               });
               confirmAlert.present();
-            }
           }
         } else {
           if (!hiddenToast) {
@@ -120,7 +116,7 @@ export class AppVersionUpdateService {
   doUpdateVersion(deviceType: string, data?: any) {
     if (deviceType === 'android') {
       if (data && data.androidUrl) {
-        this.updateAndroidVersion(data);
+        this.inAppBrowser.create(data.androidUrl, '_system');
       } else {
         this.inAppBrowser.create(this.icmpConstant.androidUpdateUrl, '_system');
       }
