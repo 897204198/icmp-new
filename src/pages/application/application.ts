@@ -9,6 +9,8 @@ import { SearchboxComponent } from '../../app/component/searchbox/searchbox.comp
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { DeviceService } from '../../app/services/device.service';
+import { PhotoService } from '../../app/services/photo.service';
+import { FileService } from '../../app/services/file.service';
 import { FileTransferObject, FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer';
 import { ConfigsService } from '../../app/services/configs.service';
 import { UserService } from '../../app/services/user.service';
@@ -31,11 +33,16 @@ export class ApplicationPage {
   fileIndex: number = 0;
   fileReIndex: number = 0;
   extra: string = '';
-
+  // 图片列表
+  private photoList: any[] = [];
+  // 临时图片列表
+  private tempPhotoList: any[] = [];
+  // 图片 url 数组
+  private photoUrlArray: string[] = [];
+  // 是否显示遮罩
+  private isShowSpinner: boolean = false;
   private serviceName: string = '';
-
   private transateContent: Object;
-
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
@@ -49,8 +56,10 @@ export class ApplicationPage {
     private translate: TranslateService,
     private deviceService: DeviceService,
     private userService: UserService,
+    private fileService: FileService,
+    private photoService: PhotoService,
     private toastService: ToastService) {
-    let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING', 'PLEASE_INPUT_NUMBER'];
+    let translateKeys: string[] = ['VALI_REQUIRED', 'SUBMIT_SUCCESS', 'SUBMIT_ERROR', 'FILE_GET_ERROR', 'FILE_UPLOAD_ERROR', 'FILE_WAITING', 'PLEASE_INPUT_NUMBER', 'MAX_PHOTO', 'VALI_REQUIRED_IMAGE'];
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
@@ -183,9 +192,18 @@ export class ApplicationPage {
       let item = this.template[i];
       if (item['validator'] != null && item['status'] !== 'hidden') {
         for (let j = 0; j < item['validator'].length; j++) {
-          if (item['validator'][j]['type'] === 'required' && (this.input[item['model']] == null || this.input[item['model']] === '')) {
+          if (item['validator'][j]['type'] === 'required' && item['type'] !== 'image_list' && (this.input[item['model']] == null || this.input[item['model']] === '')) {
             this.toastService.show(this.transateContent['VALI_REQUIRED']);
             return false;
+          } else if (item['type'] === 'image_list' && item['validator'][j]['type'] === 'required') {
+            // ios
+            if (this.photoList.length === 0 && this.deviceType === 'ios') {
+              this.toastService.show(this.transateContent['VALI_REQUIRED_IMAGE']);
+              return false;
+            // andriod
+            } else if (this.inputTemp[item['model']] === 0 || this.inputTemp[item['model']] === undefined) {
+              this.toastService.show(this.transateContent['VALI_REQUIRED_IMAGE']);
+            }
           }
         }
       } else if (item['type'] === 'list' && item['status'] !== 'hidden') {
@@ -214,7 +232,14 @@ export class ApplicationPage {
     }
     return true;
   }
-
+  beforeSubmit () {
+    // 没选照片直接上报事件 否则先提交照片，后作为参数一起上传
+    if (this.photoList.length === 0) {
+      this.submit();
+    } else {
+      this.imageUpload();
+    }
+  }
   /**
    * 提交申请
    */
@@ -705,7 +730,8 @@ export class ApplicationPage {
       this.fileIndex++;
       this.filePath.resolveNativePath(uri).then((filePath) => {
         let file: Object = {
-          name: filePath.substr(filePath.lastIndexOf('/') + 1)
+          name: filePath.substr(filePath.lastIndexOf('/') + 1),
+          type: 'file'
         };
         if (this.inputTemp[item['model']] == null) {
           this.inputTemp[item['model']] = [file];
@@ -784,7 +810,7 @@ export class ApplicationPage {
   clearFile(): void {
     for (let i = 0; i < this.template.length; i++) {
       let item = this.template[i];
-      if (item['type'] === 'file' && this.input[item['model']] != null && this.input[item['model']].length > 0) {
+      if ((item['type'] === 'file' || item['type'] === 'image_list') && this.input[item['model']] != null && this.input[item['model']].length > 0) {
         let params: URLSearchParams = new URLSearchParams();
         params.append('fileId', this.input[item['model']].join(','));
         this.http.post('/webController/deleteFile', params).subscribe((res: Response) => { });
@@ -799,5 +825,121 @@ export class ApplicationPage {
     return {
       title: item['labelBak']
     };
+  }
+
+  // 拍照获取图片
+  getPhotoFromCamera(iamgeType?: string, item?: object) {
+    this.photoService.getPictureByCamera({
+      destinationType: 1
+    }).subscribe(img => {
+      let imageInfo: Object = {
+        imageUrl: img,
+        imageName: this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + this.fileService.getFileType(img),
+        type: 'image'
+      };
+      if (iamgeType === 'imageList' ) {
+        this.tempPhotoList.splice(0, this.tempPhotoList.length);        // 清空临时图片列表
+        this.tempPhotoList.push(imageInfo);
+        this.tempImageUpload(item);
+      } else {
+        this.photoList.push(imageInfo);
+      }
+    });
+  }
+  // 侧滑删除图片
+  deletePhoto(photo: any) {
+    let index = this.photoList.indexOf(photo);
+    this.photoList.splice(index, 1);
+  }
+  tempImageUpload(item) {
+    // 清空照片 url
+    this.photoUrlArray.splice(0, this.photoUrlArray.length);
+     /* 图片上传 */
+     const fileTransfer: FileTransferObject = this.transfer.create();
+     for (let i = 0; i < this.tempPhotoList.length; i++) {
+      if (this.inputTemp[item['model']] == null) {
+        this.inputTemp[item['model']] = [this.tempPhotoList[i]];
+      } else {
+        this.inputTemp[item['model']].push(this.tempPhotoList[i]);
+      }
+       let options: FileUploadOptions = {
+         fileKey: 'file',
+         fileName: this.tempPhotoList[i]['imageName'],
+         mimeType: 'multipart/form-data'
+       };
+       let userInfo = this.userService.getUserInfo();
+       let upUrl = '';
+       upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+       fileTransfer.upload(this.tempPhotoList[i]['imageUrl'], upUrl, options)
+         .then((data) => {
+           // 每传一张图，就往 photoUrlArray 添加一张
+           this.photoUrlArray.push(data.response);
+           this.tempPhotoList[i]['id'] = data.response;
+           // 判断图片是否已经全部上传完
+           if (this.photoUrlArray.length === this.tempPhotoList.length) {
+             if (this.input['fileId'] === undefined || this.input['fileId'].length === 0 ) {
+              this.input['fileId'] = [...this.photoUrlArray];
+            } else {
+              this.input['fileId'] = [...this.photoUrlArray, ...this.input['fileId']];
+             }
+             this.isShowSpinner = false;
+           }
+         }, (err) => {
+           this.toastService.show(err.text());
+         });
+        }
+  }
+  // 照片上传
+  imageUpload() {
+    // 照片超过9个给提示
+    if (this.photoList.length > 9) {
+      this.toastService.show(this.transateContent['MAX_PHOTO']);
+      return false;
+    }
+    // 清空照片 url
+    this.photoUrlArray.splice(0, this.photoUrlArray.length);
+    // 显示遮罩
+    this.isShowSpinner = true;
+
+    /* 图片上传 */
+    const fileTransfer: FileTransferObject = this.transfer.create();
+    for (let i = 0; i < this.photoList.length; i++) {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: this.photoList[i]['imageName'],
+        mimeType: 'multipart/form-data'
+      };
+      let userInfo = this.userService.getUserInfo();
+      let upUrl = '';
+      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+      fileTransfer.upload(this.photoList[i]['imageUrl'], upUrl, options)
+        .then((data) => {
+          // 每传一张图，就往 photoUrlArray 添加一张
+          this.photoUrlArray.push(data.response);
+          // 判断图片是否已经全部上传完
+          if (this.photoUrlArray.length === this.photoList.length) {
+            this.input['fileId'] = this.photoUrlArray;
+            this.isShowSpinner = false;
+            this.submit();
+          }
+        }, (err) => {
+          this.toastService.show(err.text());
+        });
+    }
+  }
+  // 从相册获取图片
+  getPhotoFromAlbum() {
+    this.photoService.getMultiplePicture({
+      destinationType: 1
+    }).subscribe(img => {
+      // 从数组中取图片
+      for (let i = 0; i < img.length; i++) {
+        let imageInfo: Object = {};
+        imageInfo['imageUrl'] = img[i];
+        imageInfo['imageName'] = this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + i + '.' + this.fileService.getFileType(img[i]);
+        this.photoList.push(imageInfo);
+      }
+
+    });
   }
 }

@@ -133,6 +133,7 @@
   "CLEAR": "清空",
   "INSTASHOT": "随手拍",
   "VALI_REQUIRED": "有必填项未填写",
+  "VALI_REQUIRED_IMAGE": "有必填项未填写，请上传图片",
   "APPLICATION_REPORT": "申请单",
   "IS_ANONYMITY": "是否匿名",
   "REPORT_PERSION": "上报人",

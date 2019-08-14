@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>{{'APPLICATION_REPORT' | translate}}</ion-title>
     <ion-buttons end>
-      <button ion-button clear color="primary" (click)="submit()" [disabled]="isSubmit">
+      <button ion-button clear color="primary" (click)="beforeSubmit()" [disabled]="isSubmit">
         {{'SUBMIT' | translate}}
       </button>
     </ion-buttons>
@@ -116,23 +116,80 @@
       </div>
     </div>
   </ion-list>
-  <!-- 附件 -->
+  <!-- ios上传图片 -->
+  <div *ngIf="deviceType == null || deviceType == '' || deviceType == 'ios'">
+   <div *ngFor="let item of template">
+    <div *ngIf="item.type == 'image_list'">
+      <div class="gray-div">
+        {{'UPLOAD_ACCESSORY' | translate}}
+      </div>
+      <ion-list class="accessory-list">
+        <ion-item-sliding *ngFor="let photo of photoList">
+          <ion-item>
+            <ion-avatar item-left>
+              <img src="{{photo.imageUrl}}">
+            </ion-avatar>
+            <h2>{{photo.imageName}}</h2>
+          </ion-item>
+          <ion-item-options>
+            <button ion-button color="danger" (click)="deletePhoto(photo)">{{'DELETE' | translate}}</button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <!-- 拍照 -->
+      <div class="accessory-button" tappable (tap)="getPhotoFromCamera()">
+        <div class="inside-button">
+          <ion-icon name="camera"></ion-icon>
+          {{'PHOTOGRAPH' | translate}}...
+        </div>
+      </div>
+      <!-- 相册 -->
+      <div class="accessory-button" tappable (tap)="getPhotoFromAlbum()">
+        <div class="inside-button">
+          <ion-icon name="image"></ion-icon>
+          {{'ALBUM' | translate}}...
+        </div>
+      </div>
+      <div class="gray-div">
+        {{'INSTASHOT_INFO' | translate}}
+      </div>
+    </div>
+   </div>
+  </div>
+  <!-- 安卓附件 -->
   <div *ngIf="deviceType == null || deviceType == '' || deviceType == 'android'">
     <div *ngFor="let item of template">
-      <div *ngIf="item.type == 'file'">
-        <div class="icmp-list-header file-header">
+      <div>
+        <div *ngIf="item.type == 'file'" class="icmp-list-header file-header">
           <span>{{item.label}}</span>
           <button ion-button color="primary" small (click)="fileChoose(item)">
             {{'CHOOSE_FILE' | translate}}
           </button>
         </div>
-        <ion-list class="icmp-list-bottom-none">
+        <div *ngIf="item.type == 'image_list'"  class="icmp-list-header file-header">
+          <ion-label [innerHtml]="getSafeHtml(item.label)"></ion-label>
+          <button ion-button small (click)="getPhotoFromCamera('imageList', item)">
+            {{'PHOTOGRAPH' | translate}}
+          </button>
+          <button ion-button color="primary" small (click)="fileChoose(item)">
+            {{'CHOOSE_FILE' | translate}}
+          </button>
+        </div>
+        <ion-list *ngIf="item.type == 'image_list' || item.type == 'file'" class="icmp-list-bottom-none accessory-list">
           <ion-item class="file-item" *ngIf="inputTemp[item.model] == null || inputTemp[item.model].length == 0"></ion-item>
-          <ion-item *ngFor="let file of inputTemp[item.model]; let i = index">
-            <h2>{{file.name}}</h2>
-            <ion-spinner *ngIf="file.id == null" item-end></ion-spinner>
+          <ion-item-sliding *ngFor="let file of inputTemp[item.model]; let i = index"> 
+            <ion-item  *ngIf="file.type === 'file'">
+              <h2>{{file.name}}</h2>
+              <button *ngIf="file.id != null" ion-button clear item-end color="danger" (click)="deleteFile(item, file)">删除</button>
+            </ion-item>
+            <ion-item *ngIf="file.type === 'image'">
+            <ion-avatar item-left>
+              <img src="{{file.imageUrl}}">
+            </ion-avatar>
+            <h2>{{file.imageName}}</h2>
             <button *ngIf="file.id != null" ion-button clear item-end color="danger" (click)="deleteFile(item, file)">删除</button>
-          </ion-item>
+            </ion-item>
+          </ion-item-sliding>
         </ion-list>
       </div>
     </div>
