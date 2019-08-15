@@ -13,7 +13,7 @@ import { PhotoService } from '../../app/services/photo.service';
 import { FileService } from '../../app/services/file.service';
 import { FileTransferObject, FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer';
 import { ConfigsService } from '../../app/services/configs.service';
-import { UserService } from '../../app/services/user.service';
+import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 
 /**
  * 申请单
@@ -39,6 +39,8 @@ export class ApplicationPage {
   private tempPhotoList: any[] = [];
   // 图片 url 数组
   private photoUrlArray: string[] = [];
+  // 用户信息（用户名、密码、昵称等）
+  private userInfo: UserInfoState = initUserInfo;
   // 是否显示遮罩
   private isShowSpinner: boolean = false;
   private serviceName: string = '';
@@ -67,6 +69,7 @@ export class ApplicationPage {
 
   ionViewDidLoad(): void {
     this.deviceType = this.deviceService.getDeviceInfo().deviceType;
+    this.userInfo = this.userService.getUserInfo();
     this.getInitData();
   }
 
@@ -756,13 +759,12 @@ export class ApplicationPage {
       fileName: filePath.substr(filePath.lastIndexOf('/') + 1),
       mimeType: 'multipart/form-data'
     };
-    let userInfo = this.userService.getUserInfo();
     let upUrl = '';
     if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+      upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
     } else {
       // 不使用streamline
-      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
     }
     fileTransfer.upload(filePath, upUrl, options).then((data) => {
       if (this.input[item['model']] == null) {
@@ -867,9 +869,13 @@ export class ApplicationPage {
          fileName: this.tempPhotoList[i]['imageName'],
          mimeType: 'multipart/form-data'
        };
-       let userInfo = this.userService.getUserInfo();
        let upUrl = '';
-       upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+       if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+          upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+       } else {
+          // 不使用streamline
+          upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+       }
        fileTransfer.upload(this.tempPhotoList[i]['imageUrl'], upUrl, options)
          .then((data) => {
            // 每传一张图，就往 photoUrlArray 添加一张
@@ -909,9 +915,13 @@ export class ApplicationPage {
         fileName: this.photoList[i]['imageName'],
         mimeType: 'multipart/form-data'
       };
-      let userInfo = this.userService.getUserInfo();
       let upUrl = '';
-      upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + userInfo.loginName;
+      if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
+        upUrl = this.configsService.getBaseUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+      } else {
+        // 不使用streamline
+        upUrl = this.configsService.getMobileplatformUrl() + '/webController/uploadFile?loginName=' + this.userInfo.loginName + '&service_key=' + localStorage['serviceheader'];
+      }
       fileTransfer.upload(this.photoList[i]['imageUrl'], upUrl, options)
         .then((data) => {
           // 每传一张图，就往 photoUrlArray 添加一张
