@@ -10,6 +10,9 @@ export interface DeviceInfoState {
   versionCode: string;
   versionNumber: string;
   deviceVersion: string;
+  deviceModel: string;
+  deviceUuid: string;
+  manufacturer: string;
 }
 
 let initDeviceInfo: DeviceInfoState = {
@@ -17,6 +20,9 @@ let initDeviceInfo: DeviceInfoState = {
   deviceId: '',
   versionCode: '',
   versionNumber: '',
+  deviceModel: '',
+  deviceUuid: '',
+  manufacturer: '',
   deviceVersion: ''
 };
 
@@ -42,8 +48,10 @@ export class DeviceService {
    */
   setDeviceInfo(): void {
     let deviceInfo: DeviceInfoState = initDeviceInfo;
+    deviceInfo.deviceModel = this.device.model;
     deviceInfo.deviceType = this.device.platform;
-    if (deviceInfo.deviceType != null && deviceInfo.deviceType !== '') {
+    deviceInfo.deviceUuid = this.device.uuid;
+    deviceInfo.manufacturer = this.device.manufacturer;    if (deviceInfo.deviceType != null && deviceInfo.deviceType !== '') {
       deviceInfo.deviceType = deviceInfo.deviceType.toLowerCase();
     }
     if ((<any>window).plugins != null) {

@@ -1,5 +1,4 @@
 import { Http } from '@angular/http';
-import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GeneralPage } from './general/general';
 import { AboutPage } from './about/about';
@@ -20,6 +19,8 @@ import { Platform } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { ToastService } from '../../app/services/toast.service';
 import { WebSocketService } from '../../app/services/webSocket.service';
+import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
+import { Component, Inject } from '@angular/core';
 
 declare let cordova: any;
 /**
@@ -63,6 +64,7 @@ export class SettingPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     public alertCtrl: AlertController,
     private toastService: ToastService,
     private configsService: ConfigsService,
@@ -180,6 +182,28 @@ export class SettingPage {
     this.pushService.unBindUserid(this.userInfo.userId);
     // 取消自动登录
     this.userService.logout();
+    // 极光推送需要的参数
+    let pushParams: URLSearchParams = new URLSearchParams();
+    let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+    pushParams.append('appKey', '01fe306a9d34c102eb144698');
+    pushParams.append('deviceId', deviceInfo.deviceId);
+    pushParams.append('userId', this.userInfo.userId);
+    pushParams.append('deviceType', deviceInfo.deviceType);
+    pushParams.append('phoneType', deviceInfo.deviceModel);
+    pushParams.append('manufacturer', deviceInfo.manufacturer);
+    this.http.post('/webController/afterLogoutRegisterForJiGuang', pushParams).subscribe((res: any) => {
+      let data = res.json();
+      if (data.result === this.icmpConstant.reqResultSuccess) {
+        console.log('推送信息成功');
+      }else{
+        this.toastService.show(data.errMsg);
+      }
+    }, (res: any) => {
+      this.toastService.show(res.text());
+    });
+
+
+
     this.wsService.disconnection(() => {
       localStorage.setItem('sock', '0');
     });

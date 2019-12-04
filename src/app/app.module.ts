@@ -130,6 +130,7 @@ import { ChoosePage } from '../pages/choose/choose';
 import { WebSocketService } from '../app/services/webSocket.service';
 import { ScanConnectPage } from '../pages/scan/scanConnect';
 import { ScanDetailPage } from '../pages/scan/scanDetail';
+import { JPush } from '@jiguang-ionic/jpush';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -329,6 +330,7 @@ export function createTranslateLoader(http: Http) {
   ],
   providers: [
     BarcodeScanner,
+    JPush,
     StatusBar,
     SpellService,
     File,

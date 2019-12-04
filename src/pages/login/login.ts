@@ -20,6 +20,9 @@ import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { DeviceInfoState } from '../../app/services/device.service';
 import { WebSocketService } from '../../app/services/webSocket.service';
+import { SecureStorageService } from '../../app/services/secureStorage.service';
+import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
+
 declare let cordova: any;
 
 /**
@@ -40,6 +43,7 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private secureStorageService: SecureStorageService,
     private nativeStorage: NativeStorage,
     private pushService: PushService,
     private cryptoService: CryptoService,
@@ -48,6 +52,7 @@ export class LoginPage {
     private alertCtrl: AlertController,
     private navParams: NavParams,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private configsService: ConfigsService,
     private translate: TranslateService,
     private toastService: ToastService,
@@ -70,6 +75,7 @@ export class LoginPage {
     // 通过推送通知打开应用事
     document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    document.addEventListener('jpush.openNotification', this.doOpenNotification.bind(this), false);
   }
 
   /**
@@ -245,6 +251,28 @@ export class LoginPage {
         this.wsService.connection(localStorage.token, () => {
           localStorage.setItem('sock', '1');
           console.log('连接成功');
+        });
+        // 极光推送需要的参数
+        let pushParams: URLSearchParams = new URLSearchParams();
+        let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+        pushParams.append('appKey', '95183265e6d2173b2375cdf3');
+        pushParams.append('deviceId', deviceInfo.deviceId);
+        pushParams.append('userId', data['userId']);
+        pushParams.append('deviceType', deviceInfo.deviceType);
+        pushParams.append('phoneType', deviceInfo.deviceModel);
+        pushParams.append('manufacturer', deviceInfo.manufacturer);
+        pushParams.append('phoneModel', deviceInfo.deviceModel);
+        let jpushRegisterId = this.secureStorageService.getObject('registerId');
+        pushParams.append('registerID', jpushRegisterId);
+        this.http.post('/webController/afterLoginRegisterForJiGuang', pushParams).subscribe((res1: Response) => {
+          let data1 = res1.json();
+          if (data1.result === this.icmpConstant.reqResultSuccess) {
+            console.log('推送信息成功');
+          } else {
+            this.toastService.show(data1.errMsg);
+          }
+        }, (res1: Response) => {
+          this.toastService.show(res1.text());
         });
         // 获取底部tabs
         this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
