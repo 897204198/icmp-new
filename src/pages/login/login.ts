@@ -257,7 +257,7 @@ export class LoginPage {
         let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
         pushParams.append('appKey', '95183265e6d2173b2375cdf3');
         pushParams.append('deviceId', deviceInfo.deviceId);
-        pushParams.append('userId', data['userId']);
+        pushParams.append('userId', userData['id']);
         pushParams.append('deviceType', deviceInfo.deviceType);
         pushParams.append('phoneType', deviceInfo.deviceModel);
         pushParams.append('manufacturer', deviceInfo.manufacturer);
