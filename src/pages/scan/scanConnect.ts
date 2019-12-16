@@ -56,15 +56,18 @@ export class ScanConnectPage {
    * 点击扫一扫按钮
    */
   manageMenus(): void {
+    const navParams = this.navParams;
+    const navCtrl = this.navCtrl;    
     this.photoService.openScan(function(rfidInfo){
       if (rfidInfo) {
-        const addInfo = Object.assign(this.navParams, { 'rfid': rfidInfo['text'], 'scan': true});
+        let params: Object = { 'rfid': rfidInfo['text'], 'scan': true};
+        // const addInfo = Object.assign(navParams, { 'rfid': rfidInfo['text'], 'scan': true});
         if (!rfidInfo['cancelled']){
-          this.navCtrl.push(QueryDetailPage2, addInfo);
+          navCtrl.push(QueryDetailPage2, params);
           console.log('正确扫码 进入详情页');
         } else {
           console.log('未扫码 返回上一页');
-          this.navCtrl.pop();
+          navCtrl.pop();
         }
       }
     });
