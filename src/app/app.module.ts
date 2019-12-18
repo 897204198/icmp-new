@@ -131,6 +131,10 @@ import { WebSocketService } from '../app/services/webSocket.service';
 import { ScanConnectPage } from '../pages/scan/scanConnect';
 import { ScanDetailPage } from '../pages/scan/scanDetail';
 import { JPush } from '@jiguang-ionic/jpush';
+import { SQLite } from '@ionic-native/sqlite';
+import { SQLiteService } from './services/sqlite.service';
+import { MyDatabaseService } from './services/mydatabase';
+
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -366,6 +370,9 @@ export function createTranslateLoader(http: Http) {
     SearchFilterPipe,
     HttpService,
     WebSocketService,
+    SQLite,
+    SQLiteService,
+    MyDatabaseService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

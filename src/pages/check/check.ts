@@ -15,6 +15,7 @@ import { DeviceService } from '../../app/services/device.service';
 import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { LoginPage } from '../../pages/login/login';
+import { MyDatabaseService } from '../../app/services/mydatabase';
 
 /**
  * 登录页面
@@ -41,6 +42,7 @@ export class CheckPage {
     private platform: Platform,
     private alertCtrl: AlertController,
     private navParams: NavParams,
+    private mydatabase: MyDatabaseService,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private configsService: ConfigsService,
     private translate: TranslateService,
@@ -61,6 +63,7 @@ export class CheckPage {
    * 首次进入页面
    */
   ionViewDidLoad() {
+    this.mydatabase.initTable();
   }
 
   /**
@@ -96,7 +99,9 @@ export class CheckPage {
           localStorage.token = data['_body'];
           this.toastService.show(this.transateContent['CHECKCODE_SUCCEED']);
           this.navCtrl.push(LoginPage);
-          localStorage.setItem('checkUp', password.value);
+          this.mydatabase.insert(['1216', password.value], function(data){
+            console.log('插入成功' + data);
+          });
           // 设置设备信息
           this.deviceService.setDeviceInfo();
         }, (res2: Response) => {

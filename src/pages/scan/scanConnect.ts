@@ -56,8 +56,7 @@ export class ScanConnectPage {
    * 点击扫一扫按钮
    */
   manageMenus(): void {
-    const navParams = this.navParams;
-    const navCtrl = this.navCtrl;    
+    const navCtrl = this.navCtrl;
     this.photoService.openScan(function(rfidInfo){
       if (rfidInfo) {
         let params: Object = { 'rfid': rfidInfo['text'], 'scan': true};

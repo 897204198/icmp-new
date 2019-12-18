@@ -91,6 +91,7 @@ export class TabsPage {
     // 通过推送通知打开应用事件
     if (localStorage.getItem('addPushNotification') !== '1') {
       document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      document.addEventListener('jpush.openNotification', this.doOpenNotification.bind(this), false);
       localStorage.setItem('addPushNotification', '1');
     }
     platform.ready().then(() => {
@@ -99,6 +100,7 @@ export class TabsPage {
       this.autoLogin();
       if (localStorage.getItem('addPushNotification') !== '1') {
         document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+        document.addEventListener('jpush.openNotification', this.doOpenNotification.bind(this), false);
         localStorage.setItem('addPushNotification', '1');
       }
       // app icon角标个数
