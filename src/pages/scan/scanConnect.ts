@@ -12,21 +12,21 @@ import { QueryDetailPage2 } from '../../pages2/query/queryDetail/queryDetail';
 
 export class ScanConnectPage {
 
-   // 串口号列表
-   portNumberArray: Array<string> = [];
-   // 串口号
-   portNumber: string = '';
-   // 波特率
-   baudRate: number = 9600;
+  // 串口号列表
+  portNumberArray: Array<string> = [];
+  // 串口号
+  portNumber: string = '';
+  // 波特率
+  baudRate: number = 9600;
 
-   constructor(
+  constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private photoService: PhotoService,
     private toastService: ToastService,
     private zone: NgZone) { }
 
-      // 进入页面
+  // 进入页面
   ionViewDidLoad() {
     (<any>window).vorgea.serialPortList('', (retData) => {
       this.zone.run(() => {
@@ -56,17 +56,21 @@ export class ScanConnectPage {
    * 点击扫一扫按钮
    */
   manageMenus(): void {
-    const navCtrl = this.navCtrl;
-    this.photoService.openScan(function(rfidInfo){
+    this.photoService.openScan((rfidInfo) => {
       if (rfidInfo) {
-        let params: Object = { 'rfid': rfidInfo['text'], 'scan': true};
-        // const addInfo = Object.assign(navParams, { 'rfid': rfidInfo['text'], 'scan': true});
-        if (!rfidInfo['cancelled']){
-          navCtrl.push(QueryDetailPage2, params);
+        let params: Object = {
+          title: this.navParams.get('title'),
+          serviceName: this.navParams.get('serviceName'),
+          defaultTab: this.navParams.get('defaultTab'),
+          rfid: rfidInfo['text'],
+          scan: true
+        };
+        if (!rfidInfo['cancelled']) {
+          this.navCtrl.push(QueryDetailPage2, params);
           console.log('正确扫码 进入详情页');
         } else {
           console.log('未扫码 返回上一页');
-          navCtrl.pop();
+          this.navCtrl.pop();
         }
       }
     });
