@@ -133,9 +133,9 @@ export class LoginPage {
     } else if (password.value == null || password.value === '') {
       this.toastService.show(this.transateContent['PLEASE_ENTER_PASSWORD']);
     } else {
-
       if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-        // 取出激活码
+        if (!localStorage.getItem('checkUp')) {
+         // 取出激活码
         this.mydatabase.select(['1216'], (data: any) => {
           if (data.hasOwnProperty('err')) {
             this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
@@ -155,6 +155,15 @@ export class LoginPage {
             }
           }
         });
+      }else{
+          if (localStorage.getItem('pushinit') !== '1') {
+            this.pushService.init();
+            localStorage.setItem('pushinit', '1');
+          }
+          this.checkupStr = localStorage.getItem('checkUp');
+          this.deviceService.setDeviceInfo();
+          this.loginNetService(username.value, password.value);
+        }
       } else {
         if (localStorage.getItem('pushinit') !== '1') {
           this.pushService.init();

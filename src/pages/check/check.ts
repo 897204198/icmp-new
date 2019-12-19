@@ -99,6 +99,7 @@ export class CheckPage {
           localStorage.token = data['_body'];
           this.toastService.show(this.transateContent['CHECKCODE_SUCCEED']);
           this.navCtrl.push(LoginPage);
+          localStorage.setItem('checkUp', password.value);
           this.mydatabase.insert(['1216', password.value], function(data){
             console.log('插入成功' + data);
           });

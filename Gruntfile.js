@@ -65,7 +65,7 @@ module.exports = function(grunt) {
       },
       addAndroidPlugins: {
         command: [
-          'cordova plugin add cordova-plugin-proper-HuanXin-android@1.0.2 --save',
+          'cordova plugin add cordova-plugin-proper-HuanXin-android@1.1.1 --save',
           'cordova plugin add cordova-hot-code-push-plugin@1.5.3 --save',
           'cordova plugin add cordova-plugin-crosswalk-webview@2.4.0 --save',
           'cordova plugin add cordova-plugin-proper-update-version@1.0.4 --save',
