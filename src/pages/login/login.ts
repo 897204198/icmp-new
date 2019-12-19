@@ -20,6 +20,10 @@ import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { DeviceInfoState } from '../../app/services/device.service';
 import { WebSocketService } from '../../app/services/webSocket.service';
+import { SecureStorageService } from '../../app/services/secureStorage.service';
+import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
+import { MyDatabaseService } from '../../app/services/mydatabase';
+
 declare let cordova: any;
 
 /**
@@ -35,19 +39,24 @@ export class LoginPage {
   private userInfo: UserInfoState = initUserInfo;
   // 国际化文字
   private transateContent: Object;
+  // 激活码checkup
+  private checkupStr: string = '';
 
   /**
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private secureStorageService: SecureStorageService,
     private nativeStorage: NativeStorage,
     private pushService: PushService,
     private cryptoService: CryptoService,
     private backButtonService: BackButtonService,
     private platform: Platform,
     private alertCtrl: AlertController,
+    private mydatabase: MyDatabaseService,
     private navParams: NavParams,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
+    @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private configsService: ConfigsService,
     private translate: TranslateService,
     private toastService: ToastService,
@@ -70,6 +79,7 @@ export class LoginPage {
     // 通过推送通知打开应用事
     document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
     document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+    document.addEventListener('jpush.openNotification', this.doOpenNotification.bind(this), false);
   }
 
   /**
@@ -78,7 +88,7 @@ export class LoginPage {
   ionViewDidLoad() {
     let permissions = cordova.plugins.permissions;
     permissions.hasPermission(permissions.READ_PHONE_STATE, checkPermissionCallback, null);
-    function checkPermissionCallback( status: any) {
+    function checkPermissionCallback(status: any) {
       if (!status.hasPermission) {
         let errorCallback = function () {
           console.warn('电话权限没有打开');
@@ -88,7 +98,7 @@ export class LoginPage {
           function () {
             if (!status.hasPermission) {
               errorCallback();
-            console.log('获取权限成功！');
+              console.log('获取权限成功！');
             }
           },
           errorCallback);
@@ -125,12 +135,32 @@ export class LoginPage {
     } else {
       if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
         if (!localStorage.getItem('checkUp')) {
-          this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
-        } else {
+         // 取出激活码
+        this.mydatabase.select(['1216'], (data: any) => {
+          if (data.hasOwnProperty('err')) {
+            this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+          } else {
+            this.checkupStr = data.res.rows.item(0).checkup;
+            console.log('是否激活' + this.checkupStr);
+            // 判断是否激活
+            if (!this.checkupStr) {
+              this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+            } else {
+              if (localStorage.getItem('pushinit') !== '1') {
+                this.pushService.init();
+                localStorage.setItem('pushinit', '1');
+              }
+              this.deviceService.setDeviceInfo();
+              this.loginNetService(username.value, password.value);
+            }
+          }
+        });
+      }else{
           if (localStorage.getItem('pushinit') !== '1') {
             this.pushService.init();
             localStorage.setItem('pushinit', '1');
           }
+          this.checkupStr = localStorage.getItem('checkUp');
           this.deviceService.setDeviceInfo();
           this.loginNetService(username.value, password.value);
         }
@@ -164,9 +194,9 @@ export class LoginPage {
     if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
       let getServicekeyUrl;
       if (localStorage.getItem('getServiceKeyUrl')) {
-        getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + localStorage.getItem('checkUp') + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+        getServicekeyUrl = localStorage.getItem('getServiceKeyUrl') + this.checkupStr + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
       } else {
-        getServicekeyUrl = this.configsService.getServiceKeyUrl() + localStorage.getItem('checkUp') + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
+        getServicekeyUrl = this.configsService.getServiceKeyUrl() + this.checkupStr + '?access_token=8dc26ea2-e0ab-4fc5-a605-ff7a890ed026';
       }
       this.http.get(getServicekeyUrl).subscribe((res: Response) => {
         // 存储servicekey
@@ -175,9 +205,9 @@ export class LoginPage {
         this.nativeStorage.setItem('serviceKey', localStorage.getItem('serviceheader'));
         if (res.headers.get('x-service-key') === 'propersoft') {
           // 普日项目有环信
-          localStorage.setItem('properSoft' , '1');
-        }else{
-          localStorage.setItem('properSoft' , '0');
+          localStorage.setItem('properSoft', '1');
+        } else {
+          localStorage.setItem('properSoft', '0');
         }
         this.loginService(account, password);
       });
@@ -246,6 +276,31 @@ export class LoginPage {
           localStorage.setItem('sock', '1');
           console.log('连接成功');
         });
+        // 极光推送需要的参数
+        if (localStorage.getItem('properSoft') !== '1') {
+          // 普日项目不使用极光推送
+          let pushParams: URLSearchParams = new URLSearchParams();
+          let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+          pushParams.append('appKey', '95183265e6d2173b2375cdf3');
+          pushParams.append('deviceId', deviceInfo.deviceId);
+          pushParams.append('userId', userData['id']);
+          pushParams.append('deviceType', deviceInfo.deviceType);
+          pushParams.append('phoneType', deviceInfo.deviceModel);
+          pushParams.append('manufacturer', deviceInfo.manufacturer);
+          pushParams.append('phoneModel', deviceInfo.deviceModel);
+          let jpushRegisterId = this.secureStorageService.getObject('registerId');
+          pushParams.append('registerID', jpushRegisterId);
+          this.http.post('/webController/afterLoginRegisterForJiGuang', pushParams).subscribe((res1: Response) => {
+            let data1 = res1.json();
+            if (data1.result === this.icmpConstant.reqResultSuccess) {
+              console.log('推送信息成功');
+            } else {
+              this.toastService.show(data1.errMsg);
+            }
+          }, (res1: Response) => {
+            this.toastService.show(res1.text());
+          });
+        }
         // 获取底部tabs
         this.http.get('/application/tab', { params: tabParams }).subscribe((res4: Response) => {
           let tabsData = res4.json();
@@ -380,11 +435,22 @@ export class LoginPage {
    * 推送打开事件处理
    */
   doOpenNotification(event: any): void {
-    if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
-      this.appVersionUpdateService.checkAppVersion(true);
+    if (event.hasOwnProperty('properCustoms')) {
+      if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
+        this.appVersionUpdateService.checkAppVersion(true);
+      } else {
+        if (!this.userService.isLogin()) {
+          this.toastService.show(this.transateContent['PLEASE_LOGIN']);
+        }
+      }
     } else {
-      if (!this.userService.isLogin()) {
-        this.toastService.show(this.transateContent['PLEASE_LOGIN']);
+      // 极光推送
+      if ('updatesoftware' === event.extras.gdpr_mpage) {
+        this.appVersionUpdateService.checkAppVersion(true);
+      } else {
+        if (!this.userService.isLogin()) {
+          this.toastService.show(this.transateContent['PLEASE_LOGIN']);
+        }
       }
     }
   }

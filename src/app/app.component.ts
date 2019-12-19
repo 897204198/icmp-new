@@ -10,7 +10,9 @@ import { UserService } from './services/user.service';
 import { DeviceService } from './services/device.service';
 import { PushService } from './services/push.service';
 import { InitService } from './services/init.service';
-
+import { JPush } from '@jiguang-ionic/jpush';
+import { SecureStorageService } from './services/secureStorage.service';
+import { SQLiteService } from './services/sqlite.service';
 @Component({
   templateUrl: 'app.html'
 })
@@ -24,8 +26,11 @@ export class MyApp {
    */
   constructor(
     statusBar: StatusBar,
+    jpush: JPush,
+    secureStorageService2: SecureStorageService,
     splashScreen: SplashScreen,
     keyboard: Keyboard,
+    private sqlService: SQLiteService,
     private platform: Platform,
     private userService: UserService,
     private deviceService: DeviceService,
@@ -60,7 +65,23 @@ export class MyApp {
        localStorage.setItem('pushinit', '1');
        localStorage.setItem('addPushNotification', '0');
       }
+      // 极光推送代码
+      document.addEventListener('jpush.receiveRegistrationId', function (event: any) {
+        secureStorageService2.putObject('registerId', event.registrationId);
+        console.log('receiveRegistrationId' + event.registrationId);
+      }, false);
+      jpush.init();
+      jpush.setDebugMode(true);
+      let getRegistrationID = function () {
+         jpush.getRegistrationID().then((res: any) => {
+          console.log('存储极光id' + res);
+          secureStorageService2.putObject('registerId', res);
+        }).catch(err => alert(err));
+      };
+      window.setTimeout(getRegistrationID, 1000);
     });
+    // 初始化sqlite数据库
+    this.sqlService.initDB();
     // 初始国际化
     this.translate.setDefaultLang('zh-cn');
   }

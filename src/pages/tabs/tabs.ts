@@ -91,6 +91,7 @@ export class TabsPage {
     // 通过推送通知打开应用事件
     if (localStorage.getItem('addPushNotification') !== '1') {
       document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+      document.addEventListener('jpush.openNotification', this.doOpenNotification.bind(this), false);
       localStorage.setItem('addPushNotification', '1');
     }
     platform.ready().then(() => {
@@ -99,6 +100,7 @@ export class TabsPage {
       this.autoLogin();
       if (localStorage.getItem('addPushNotification') !== '1') {
         document.addEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
+        document.addEventListener('jpush.openNotification', this.doOpenNotification.bind(this), false);
         localStorage.setItem('addPushNotification', '1');
       }
       // app icon角标个数
@@ -246,75 +248,153 @@ export class TabsPage {
     }
     // 刷新首页待办角标和组件
     this.events.publish('refresh');
-    if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
-      this.appVersionUpdateService.checkAppVersion(true);
-    } else if (event.properCustoms.bean) {
-      if (event.properAlert) {
-        // 应用内
-      } else if (event.properCustoms.push_type === 'chat') {
-        let chatInfo: any = JSON.parse(event.properCustoms.bean);
-        let params: Object = {};
-        if (event.properCustoms.chatType === 'singleChat') {
-          params['to_user_id'] = chatInfo.from_user_id;
-          params['to_username'] = chatInfo.from_username;
-          params['to_headportrait'] = chatInfo.from_headportrait;
-          params['from_user_id'] = chatInfo.to_user_id;
-          params['from_username'] = chatInfo.to_username;
-          params['from_headportrait'] = chatInfo.to_headportrait;
-        } else {
-          params['from_user_id'] = this.userInfo.loginName;
-          params['from_username'] = this.userInfo.userName;
-          params['from_headportrait'] = this.userInfo.headImage;
-          params['to_user_id'] = chatInfo.to_user_id;
-          params['to_username'] = chatInfo.to_username;
-          params['to_headportrait'] = chatInfo.to_headportrait;
+
+    if (event.hasOwnProperty('properCustoms')) {
+      // 原来的推送
+      if ('updatesoftware' === event.properCustoms.gdpr_mpage) {
+        this.appVersionUpdateService.checkAppVersion(true);
+      } else if (event.properCustoms.bean) {
+        if (event.properAlert) {
+          // 应用内
+        } else if (event.properCustoms.push_type === 'chat') {
+          let chatInfo: any = JSON.parse(event.properCustoms.bean);
+          let params: Object = {};
+          if (event.properCustoms.chatType === 'singleChat') {
+            params['to_user_id'] = chatInfo.from_user_id;
+            params['to_username'] = chatInfo.from_username;
+            params['to_headportrait'] = chatInfo.from_headportrait;
+            params['from_user_id'] = chatInfo.to_user_id;
+            params['from_username'] = chatInfo.to_username;
+            params['from_headportrait'] = chatInfo.to_headportrait;
+          } else {
+            params['from_user_id'] = this.userInfo.loginName;
+            params['from_username'] = this.userInfo.userName;
+            params['from_headportrait'] = this.userInfo.headImage;
+            params['to_user_id'] = chatInfo.to_user_id;
+            params['to_username'] = chatInfo.to_username;
+            params['to_headportrait'] = chatInfo.to_headportrait;
+          }
+          params['chatType'] = event.properCustoms.chatType;
+          params['chatId'] = chatInfo.chatId;
+          params['isPush'] = '1';
+          if (localStorage.getItem('haveIM') === '1') {
+            (<any>window).huanxin.chat(params);
+          }
         }
-        params['chatType'] = event.properCustoms.chatType;
-        params['chatId'] = chatInfo.chatId;
-        params['isPush'] = '1';
-        if (localStorage.getItem('haveIM') === '1') {
-          (<any>window).huanxin.chat(params);
+      } else {
+        if (event.properAlert) {
+          let messagesPrompt = this.alertCtrl.create({
+            title: this.transateContent['PROMPT_INFO'],
+            message: this.transateContent['PUSH_OPEN_PROMPT_ONE'] + event.properCustoms._proper_title + this.transateContent['PUSH_OPEN_PROMPT_TWO'],
+            buttons: [
+              {
+                text: this.transateContent['CANCEL']
+              },
+              {
+                text: this.transateContent['VIEW'],
+                handler: data => {
+                  if ('todotasks' === event.properCustoms.gdpr_mpage) {
+                    this.doOpenNotificationTodo(event.properCustoms);
+                  } else if ('noticetasks' === event.properCustoms.gdpr_mpage) {
+                    this.doOpenNotificationNoticeQuery(event.properCustoms);
+                  } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
+                    this.doOpenNotificationQuery(event.properCustoms);
+                  } else if ('feedback' === event.properCustoms.gdpr_mpage) {
+                    this.doOpenNotificationFeedback(event.properCustoms);
+                  } else if ('examList' === event.properCustoms.gdpr_mpage) {
+                    this.doOpenNotificationExamlist(event.properCustoms);
+                  }
+                }
+              }
+            ]
+          });
+          messagesPrompt.present();
+        } else {
+          if ('todotasks' === event.properCustoms.gdpr_mpage) {
+            this.doOpenNotificationTodo(event.properCustoms);
+          } else if ('noticetasks' === event.properCustoms.gdpr_mpage) {
+            this.doOpenNotificationNoticeQuery(event.properCustoms);
+          } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
+            this.doOpenNotificationQuery(event.properCustoms);
+          } else if ('feedback' === event.properCustoms.gdpr_mpage) {
+            this.doOpenNotificationFeedback(event.properCustoms);
+          } else if ('examList' === event.properCustoms.gdpr_mpage) {
+            this.doOpenNotificationExamlist(event.properCustoms);
+          }
         }
       }
     } else {
-      if (event.properAlert) {
-        let messagesPrompt = this.alertCtrl.create({
-          title: this.transateContent['PROMPT_INFO'],
-          message: this.transateContent['PUSH_OPEN_PROMPT_ONE'] + event.properCustoms._proper_title + this.transateContent['PUSH_OPEN_PROMPT_TWO'],
-          buttons: [
-            {
-              text: this.transateContent['CANCEL']
-            },
-            {
-              text: this.transateContent['VIEW'],
-              handler: data => {
-                if ('todotasks' === event.properCustoms.gdpr_mpage) {
-                  this.doOpenNotificationTodo(event.properCustoms);
-                } else if ('noticetasks' === event.properCustoms.gdpr_mpage) {
-                  this.doOpenNotificationNoticeQuery(event.properCustoms);
-                } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
-                  this.doOpenNotificationQuery(event.properCustoms);
-                } else if ('feedback' === event.properCustoms.gdpr_mpage) {
-                  this.doOpenNotificationFeedback(event.properCustoms);
-                } else if ('examList' === event.properCustoms.gdpr_mpage) {
-                  this.doOpenNotificationExamlist(event.properCustoms);
+      // 极光推送
+      if ('updatesoftware' === event.extras.gdpr_mpage) {
+        this.appVersionUpdateService.checkAppVersion(true);
+      } else if (event.extras.bean) {
+        if (event.properAlert) {
+          // 应用内
+        } else if (event.extras.push_type === 'chat') {
+          let chatInfo: any = JSON.parse(event.extras.bean);
+          let params: Object = {};
+          if (event.extras.chatType === 'singleChat') {
+            params['to_user_id'] = chatInfo.from_user_id;
+            params['to_username'] = chatInfo.from_username;
+            params['to_headportrait'] = chatInfo.from_headportrait;
+            params['from_user_id'] = chatInfo.to_user_id;
+            params['from_username'] = chatInfo.to_username;
+            params['from_headportrait'] = chatInfo.to_headportrait;
+          } else {
+            params['from_user_id'] = this.userInfo.loginName;
+            params['from_username'] = this.userInfo.userName;
+            params['from_headportrait'] = this.userInfo.headImage;
+            params['to_user_id'] = chatInfo.to_user_id;
+            params['to_username'] = chatInfo.to_username;
+            params['to_headportrait'] = chatInfo.to_headportrait;
+          }
+          params['chatType'] = event.extras.chatType;
+          params['chatId'] = chatInfo.chatId;
+          params['isPush'] = '1';
+          if (localStorage.getItem('haveIM') === '1') {
+            (<any>window).huanxin.chat(params);
+          }
+        }
+      } else {
+        if (event.properAlert) {
+          let messagesPrompt = this.alertCtrl.create({
+            title: this.transateContent['PROMPT_INFO'],
+            message: this.transateContent['PUSH_OPEN_PROMPT_ONE'] + event.extras._proper_title + this.transateContent['PUSH_OPEN_PROMPT_TWO'],
+            buttons: [
+              {
+                text: this.transateContent['CANCEL']
+              },
+              {
+                text: this.transateContent['VIEW'],
+                handler: data => {
+                  if ('todotasks' === event.extras.gdpr_mpage) {
+                    this.doOpenNotificationTodo(event.extras);
+                  } else if ('noticetasks' === event.extras.gdpr_mpage) {
+                    this.doOpenNotificationNoticeQuery(event.extras);
+                  } else if ('querytasks' === event.extras.gdpr_mpage) {
+                    this.doOpenNotificationQuery(event.extras);
+                  } else if ('feedback' === event.extras.gdpr_mpage) {
+                    this.doOpenNotificationFeedback(event.extras);
+                  } else if ('examList' === event.extras.gdpr_mpage) {
+                    this.doOpenNotificationExamlist(event.extras);
+                  }
                 }
               }
-            }
-          ]
-        });
-        messagesPrompt.present();
-      } else {
-        if ('todotasks' === event.properCustoms.gdpr_mpage) {
-          this.doOpenNotificationTodo(event.properCustoms);
-        } else if ('noticetasks' === event.properCustoms.gdpr_mpage) {
-          this.doOpenNotificationNoticeQuery(event.properCustoms);
-        } else if ('querytasks' === event.properCustoms.gdpr_mpage) {
-          this.doOpenNotificationQuery(event.properCustoms);
-        } else if ('feedback' === event.properCustoms.gdpr_mpage) {
-          this.doOpenNotificationFeedback(event.properCustoms);
-        } else if ('examList' === event.properCustoms.gdpr_mpage) {
-          this.doOpenNotificationExamlist(event.properCustoms);
+            ]
+          });
+          messagesPrompt.present();
+        } else {
+          if ('todotasks' === event.extras.gdpr_mpage) {
+            this.doOpenNotificationTodo(event.extras);
+          } else if ('noticetasks' === event.extras.gdpr_mpage) {
+            this.doOpenNotificationNoticeQuery(event.extras);
+          } else if ('querytasks' === event.extras.gdpr_mpage) {
+            this.doOpenNotificationQuery(event.extras);
+          } else if ('feedback' === event.extras.gdpr_mpage) {
+            this.doOpenNotificationFeedback(event.extras);
+          } else if ('examList' === event.extras.gdpr_mpage) {
+            this.doOpenNotificationExamlist(event.extras);
+          }
         }
       }
     }

@@ -9,6 +9,7 @@ import { OopStormPage } from './oopStorm/oopStorm';
 import { ToastService } from '../../../app/services/toast.service';
 import { UserService } from '../../../app/services/user.service';
 import { APP_CONSTANT, AppConstant } from '../../../app/constants/app.constant';
+import { MyDatabaseService } from '../../../app/services/mydatabase';
 
 
 
@@ -45,6 +46,7 @@ export class AboutPage {
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private userService: UserService,
     private toastService: ToastService,
+    private mydatabase: MyDatabaseService,
     private http: Http,
     private translate: TranslateService,
     private deviceService: DeviceService,
@@ -63,7 +65,13 @@ export class AboutPage {
     if (deviceInfo !== null) {
       this.versionNumber = deviceInfo.versionNumber;
       this.deviceid = deviceInfo.deviceId;
-      this.checkUpCode = localStorage.getItem('checkUp');
+      this.mydatabase.select(['1216'], (data: any) => {
+        if (data.hasOwnProperty('err')) {
+          this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+         }else{
+          this.checkUpCode = data.res.rows.item(0).checkup;
+         }
+      });
       // 截取版本号
       let cutVersionCode: string = deviceInfo.versionCode.toString();
       if (deviceInfo.deviceType === 'android') {
