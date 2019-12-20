@@ -86,6 +86,6 @@ export class MyApp {
     this.translate.setDefaultLang('zh-cn');
   }
   ngOnInit() : void {
-    this.initService.getActivityInfo();
+    // this.initService.getActivityInfo();
   }
 }
