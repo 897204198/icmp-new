@@ -41,40 +41,41 @@ export class AppVersionUpdateService {
       this.transateContent = res;
     });
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-    this.http.get('/app/versions/latest').subscribe((res: Response) => {
-      let data = res.json();
-      // 截取版本号
-      this.appVersion.getVersionCode().then((versionCode: string) => {
-        let cutVersionCode: string = versionCode.toString();
-        // 安卓去2
-        if (deviceInfo.deviceType === 'android') {
-          let num = cutVersionCode.length - 1;
-          if (cutVersionCode.charAt(num) === '2') {
-            cutVersionCode = cutVersionCode.substring(0, num);
+    if (localStorage.getItem('properSoft') == '1') {
+      this.http.get('/app/versions/latest').subscribe((res: Response) => {
+        let data = res.json();
+        // 截取版本号
+        this.appVersion.getVersionCode().then((versionCode: string) => {
+          let cutVersionCode: string = versionCode.toString();
+          // 安卓去2
+          if (deviceInfo.deviceType === 'android') {
+            let num = cutVersionCode.length - 1;
+            if (cutVersionCode.charAt(num) === '2') {
+              cutVersionCode = cutVersionCode.substring(0, num);
+            }
           }
-        }
-        // 判断 ver 是否为空
-        if (data.ver != null && data.ver !== cutVersionCode) {
-          if (data.note == null || data.note === '') {
-            data.note = this.transateContent['APP_UPDATE_NOTE'];
-          }
-          // 是否为 forceUpdate
-          if (data.forceUpdate) {
-            let confirmAlert = this.alertCtrl.create({
-              title: this.transateContent['PROMPT_INFO'],
-              message: data.note,
-              enableBackdropDismiss: false,
-              buttons: [
-                {
-                  text: this.transateContent['UPDATE'],
-                  handler: () => {
-                    this.doUpdateVersion(deviceInfo.deviceType, data);
+          // 判断 ver 是否为空
+          if (data.ver != null && data.ver !== cutVersionCode) {
+            if (data.note == null || data.note === '') {
+              data.note = this.transateContent['APP_UPDATE_NOTE'];
+            }
+            // 是否为 forceUpdate
+            if (data.forceUpdate) {
+              let confirmAlert = this.alertCtrl.create({
+                title: this.transateContent['PROMPT_INFO'],
+                message: data.note,
+                enableBackdropDismiss: false,
+                buttons: [
+                  {
+                    text: this.transateContent['UPDATE'],
+                    handler: () => {
+                      this.doUpdateVersion(deviceInfo.deviceType, data);
+                    }
                   }
-                }
-              ]
-            });
-            confirmAlert.present();
-          } else {
+                ]
+              });
+              confirmAlert.present();
+            } else {
               let confirmAlert = this.alertCtrl.create({
                 title: this.transateContent['PROMPT_INFO'],
                 message: data.note,
@@ -97,17 +98,19 @@ export class AppVersionUpdateService {
                 ]
               });
               confirmAlert.present();
+            }
+          } else {
+            if (!hiddenToast) {
+              this.toastService.show(this.transateContent['NO_UPDATE']);
+            }
+            if (isFirst && deviceInfo.deviceType === 'android') {
+              this.autoRun();
+            }
           }
-        } else {
-          if (!hiddenToast) {
-            this.toastService.show(this.transateContent['NO_UPDATE']);
-          }
-          if (isFirst && deviceInfo.deviceType === 'android') {
-            this.autoRun();
-          }
-        }
+        });
       });
-    });
+    }
+
   }
 
   /**
