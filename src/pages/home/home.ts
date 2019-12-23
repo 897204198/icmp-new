@@ -206,35 +206,37 @@ export class HomePage {
    * 获取插件列表
    */
   getComponentList(): void {
-    this.http.get('/plugin/custom').subscribe((res: any) => {
-      if (res._body != null && res._body !== '') {
-        this.componentList = res.json();
-        this.zone.run(() => {
-          this.hasLoaded = true;
-        });
-      };
-    }, (res: Response) => {
-      if (res.status === 404) {
-        const confirm = this.alertCtrl.create({
-          title: '提示',
-          message: '您的App版本太低，请下载最新版本',
-          buttons: [
-            {
-              text: '确认',
-              handler: () => {
+    if (localStorage.getItem('properSoft') == '1') {
+      this.http.get('/plugin/custom').subscribe((res: any) => {
+        if (res._body != null && res._body !== '') {
+          this.componentList = res.json();
+          this.zone.run(() => {
+            this.hasLoaded = true;
+          });
+        };
+      }, (res: Response) => {
+        if (res.status === 404) {
+          const confirm = this.alertCtrl.create({
+            title: '提示',
+            message: '您的App版本太低，请下载最新版本',
+            buttons: [
+              {
+                text: '确认',
+                handler: () => {
+                }
               }
-            }
-          ]
-        });
-        confirm.present();
-        // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
-        this.navCtrl.push(LoginPage).then(() => {
-          const startIndex = this.navCtrl.getActive().index - 1;
-          this.navCtrl.remove(startIndex, 1);
-        });
-      }
-      this.toastService.show(res.text());
-    });
+            ]
+          });
+          confirm.present();
+          // alert('您的账号已在其他手机登录，如非本人操作请尽快重新登录后修改密码');
+          this.navCtrl.push(LoginPage).then(() => {
+            const startIndex = this.navCtrl.getActive().index - 1;
+            this.navCtrl.remove(startIndex, 1);
+          });
+        }
+        this.toastService.show(res.text());
+      });
+    }
   }
   componentInit(): void {
     Date.prototype.toLocaleString = function () {
