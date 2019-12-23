@@ -41,8 +41,8 @@ export class AppVersionUpdateService {
       this.transateContent = res;
     });
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-    if (localStorage.getItem('properSoft') == '1') {
-      this.http.get('/app/versions/latest').subscribe((res: Response) => {
+    if (deviceInfo.deviceType === 'android') {
+      this.http.get('http://icmp.propersoft.cn/propersoft/web/api/app/versions/latest').subscribe((res: Response) => {
         let data = res.json();
         // 截取版本号
         this.appVersion.getVersionCode().then((versionCode: string) => {
@@ -110,7 +110,6 @@ export class AppVersionUpdateService {
         });
       });
     }
-
   }
 
   /**
