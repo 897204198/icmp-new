@@ -29,7 +29,7 @@
       <!-- 文本域 -->
       <ion-item *ngIf="item.type == 'textarea'" class="item-textarea" [ngClass]="{'display-hidden': item.status == 'hidden'}">
         <ion-label [innerHtml]="getSafeHtml(item.label)" [ngClass]="{'label-disabled': item.disabled}"></ion-label>
-        <ion-textarea rows="5" [(ngModel)]="input[item.model]" [style.height]="item.height" [disabled]="item.disabled"></ion-textarea>
+        <ion-textarea  [placeholder]= "item.watermark ? item.watermark : ''" rows="5" [(ngModel)]="input[item.model]" [style.height]="item.height" [disabled]="item.disabled"></ion-textarea>
       </ion-item>
       <!-- 下拉选择 -->
       <ion-item *ngIf="item.type == 'select'" [ngClass]="{'display-hidden': item.status == 'hidden'}">
