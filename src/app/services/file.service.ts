@@ -9,6 +9,7 @@ import { LoadingController } from 'ionic-angular';
 import { ToastService } from './toast.service';
 import { UtilsService } from './utils.service';
 import { DeviceInfoState, DeviceService } from './device.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 /**
  * 文件服务
@@ -18,6 +19,7 @@ export class FileService {
 
   constructor(private configsService: ConfigsService,
     private userService: UserService,
+    private inAppBrowser: InAppBrowser,
     private transfer: FileTransfer,
     private fileOpener: FileOpener,
     public loadingCtrl: LoadingController,
@@ -48,6 +50,10 @@ export class FileService {
       // 不使用streamline
       fileUrl = this.configsService.getMobileplatformUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password + '&service_key=' + localStorage['serviceheader'];
     }
+    // 区分安卓10附件下载方式
+    if (deviceInfo.deviceType === 'android' && Number(deviceInfo.deviceVersion) === 10) {
+      this.inAppBrowser.create(fileUrl, '_system');
+    } else {
     // 本地文件保存位置
     let filePlace: string = this.file.dataDirectory + this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + fileType;
     // 安卓版本
@@ -84,6 +90,7 @@ export class FileService {
         }
       });
     });
+  }
   }
 
   /**
