@@ -14,7 +14,6 @@ import { SearchboxComponent } from '../../app/component/searchbox/searchbox.comp
   templateUrl: 'emergencyTreatment.html',
 })
 export class EmergencyTreatmentPage {
-
   title: string = '';
   statisticsDate: Object = {};
   searchData: Object = {};
@@ -45,16 +44,16 @@ export class EmergencyTreatmentPage {
     }
     let params: URLSearchParams = new URLSearchParams();
     params.append('serviceName', this.navParams.get('serviceName'));
-    if (this.navParams.get('data') != null) {
-      let datas = this.navParams.get('data');
+    let datas = this.navParams.get('data');
+    if ( datas != null) {
       for (let key in datas) {
         if (datas.hasOwnProperty(key)) {
           params.append(key, datas[key]);
         }
       }
     }
-    if (this.navParams.get('queryCondition') != null) {
-      this.searchData = this.navParams.get('queryCondition');
+    if (datas['queryCondition'] != null) {
+      this.searchData = datas['queryCondition'];
       if (this.isCustom) {
         if (this.startDate.length === 0 || this.endDate.length === 0) {
           this.toastService.show('请选择时间');
@@ -75,19 +74,22 @@ export class EmergencyTreatmentPage {
     }
     this.http.post('/webController/getStatisticsData', params).subscribe((res: Response) => {
       this.statisticsDate = res.json();
-      for (let i = 0; i < this.statisticsDate['components'].length; i++) {
-        if (this.statisticsDate['components'][i]['type'] === 'charts' && this.statisticsDate['components'][i]['content']) {
-          const data = this.statisticsDate['components'][i]['content'];
-          if (data['height'] == null || data['height'] === '') {
-            this.statisticsDate['components'][i]['content']['height'] = '300px';
+      if (Object.keys(this.statisticsDate).length > 0) {
+        const components = this.statisticsDate['components'];
+        for (let i = 0; i < components.length; i++) {
+          if (components[i]['type'] === 'charts' && components[i]['content']) {
+            const data = components[i]['content'];
+            if (data['height'] == null || data['height'] === '') {
+              components[i]['content']['height'] = '300px';
+            }
+            this.createChart(i, components[i]['content']['json']);
           }
-          this.createChart(i, this.statisticsDate['components'][i]['content']['json']);
-        }
-        // 补充占位配合table-tr-first
-        if (this.statisticsDate['components'][0]['content']['headers']){
-          const myHeaders = this.statisticsDate['components'][0]['content']['headers'];
-          if (myHeaders[0]['text'] != null &&  myHeaders[0]['text'] === ''){
-            myHeaders[0]['text'] = '占位';
+          // 补充[占位]配合table_tr
+          if (components[i]['type'] === 'table' && !components[i]['align']) {
+            const myHeaders = components[i]['content']['headers'][0]['text'];
+            if (myHeaders != null && myHeaders === '') {
+              components[i]['content']['headers'][0]['text'] = '占位';
+            }
           }
         }
       }

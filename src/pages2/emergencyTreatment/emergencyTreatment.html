@@ -20,9 +20,9 @@
           <p item-right class="text-value" style="width:54%;">{{item.default}}</p>
       </ion-item>
       <ion-item *ngIf="item.layout == 'layout_1' && item.type == 'label'">
-        <ion-label>{{item.label}}</ion-label>
-        <p item-right class="form_text_value">{{item.default}}</p>
-      </ion-item>
+          <ion-label>{{item.label}}</ion-label>
+          <p item-right class="form_text_value">{{item.default}}</p>
+        </ion-item>
       <ion-item *ngIf="item.layout == 'layout_2' && item.type == 'label' && isCustom == false">
         <h2>{{item.label}}</h2>
         <p class="textarea-value">
@@ -36,6 +36,19 @@
         </p>
       </ion-item>
       <!-- 时间 -->
+      <ion-item *ngIf="item.layout == 'layout_4' && isCustom == true">
+          <ion-label>开始时间</ion-label>
+          <ion-datetime placeholder="{{'PLEASE_SELECT_DATE' | translate}}" max="2100" displayFormat="YYYY-MM-D" [(ngModel)]="startDate"
+            cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}" (ionCancel)="clearStartDatetime(item)">
+          </ion-datetime>
+      </ion-item>
+      <ion-item *ngIf="item.layout == 'layout_4' && isCustom == true">
+        <ion-label>结束时间</ion-label>
+        <ion-datetime placeholder="{{'PLEASE_SELECT_DATE' | translate}}" max="2100" displayFormat="YYYY-MM-D" [(ngModel)]="endDate"
+          cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}"  (ionCancel)="clearEndDatetime(item)">
+        </ion-datetime>
+      </ion-item>
+      <!-- 时间2 -->
       <ion-item *ngIf="item.layout == 'layout_2' && item.type == 'label' && item.time == 'true' && isCustom == true">
         <ion-label>开始时间</ion-label>
         <ion-datetime placeholder="{{'PLEASE_SELECT_DATE' | translate}}" max="2100" displayFormat="YYYY-MM-D" [(ngModel)]="startDate"
@@ -76,11 +89,11 @@
 
   <ion-card *ngFor="let item of statisticsDate.components; let i = index">
     <!-- table -->
-    <ion-item *ngIf="item.type == 'table' && item.align != 'true'" class="form-table-list cutom-table">
+    <ion-item *ngIf="item.type == 'table'" class="form-table-list cutom-table">
       <h2>{{item.content.label}}</h2>
       <div class="form-table-content">
         <table>
-          <div class="form-table-head table-tr-first" id="form_table" style="position:fixed;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
+          <div class="form-table-head table_tr" [ngClass]="{'table_tr_align': !item.align}"  id="form_table" style="position:fixed;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
               <tr *ngFor="let head of item.content.headers; let j = index">
                 <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;"></td>
               </tr>
@@ -100,33 +113,6 @@
         </table>
       </div>
     </ion-item>
-
-    <!-- -->
-    <ion-item *ngIf="item.type == 'table' &&  item.align =='true'" class="form-table-list cutom-table">
-      <h2>{{item.content.label}}</h2>
-      <div class="form-table-content">
-        <table>
-          <div class="form-table-head table-tr-first" id="form_table" style="position:fixed;display:block;z-index: 99;background:#fff;box-sizing: border-box;margin-left: -1px;">
-              <tr *ngFor="let head of item.content.headers; let j = index">
-                <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;"></td>
-              </tr>
-          </div>
-          <tr *ngFor="let head of item.content.headers; let j = index" class="text_right">
-            <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;visibility: hidden;"></td>
-            <td *ngFor="let value of item.content.values">
-              <span *ngIf="value[j].type == null" style="white-space:nowrap;">{{value[j]}}</span>
-              <span *ngIf="value[j].type == 'filelist'">
-                <div *ngFor="let file of value[j].values" (click)="downloadFile(file)" class="tablelist-file">
-                  <icmp-file-type-image [fileType]="getFileType(file.name)"></icmp-file-type-image>
-                  <span>{{file.name}}</span>
-                </div>
-              </span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </ion-item>
-    <!--  -->
     <!-- chart -->
     <div *ngIf="item.type == 'charts'">
       <ion-card-header>
