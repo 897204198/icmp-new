@@ -36,13 +36,13 @@
         </p>
       </ion-item>
       <!-- 时间 -->
-      <ion-item *ngIf="item.layout == 'layout_4' && isCustom == true">
+      <ion-item *ngIf="item.layout == 'layout_2' && item.type == 'label' && item.time == 'true' && isCustom == true">
         <ion-label>开始时间</ion-label>
         <ion-datetime placeholder="{{'PLEASE_SELECT_DATE' | translate}}" max="2100" displayFormat="YYYY-MM-D" [(ngModel)]="startDate"
           cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}" (ionCancel)="clearStartDatetime(item)">
         </ion-datetime>
       </ion-item>
-      <ion-item *ngIf="item.layout == 'layout_4' && isCustom == true">
+      <ion-item *ngIf="item.layout == 'layout_2' && item.type == 'label' && item.time == 'true' && isCustom == true">
         <ion-label>结束时间</ion-label>
         <ion-datetime placeholder="{{'PLEASE_SELECT_DATE' | translate}}" max="2100" displayFormat="YYYY-MM-D" [(ngModel)]="endDate"
           cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}"  (ionCancel)="clearEndDatetime(item)">
