@@ -382,6 +382,7 @@ export class HomePage {
             data[i]['serviceName'] = data[i]['data']['serviceName'];
             data[i]['processName'] = data[i]['data']['processName'];
             data[i]['total'] = data[i]['data']['total'];
+            data[i]['queryCondition'] = data[i]['data']['queryCondition'];
           }
           // if (data[i].name === '待办') {
           //   data[i].total = this.waitNum;
