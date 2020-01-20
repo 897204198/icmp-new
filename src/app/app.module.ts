@@ -134,7 +134,7 @@ import { JPush } from '@jiguang-ionic/jpush';
 import { SQLite } from '@ionic-native/sqlite';
 import { SQLiteService } from './services/sqlite.service';
 import { MyDatabaseService } from './services/mydatabase';
-
+import { UserprivacyPage } from '../pages/setting/userprivacy/userprivacy';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
                                    userService: UserService, deviceService: DeviceService, store: Store<number>) {
@@ -232,6 +232,7 @@ export function createTranslateLoader(http: Http) {
     RfidOpinionPage,
     ChoosePage,
     ScanConnectPage,
+    UserprivacyPage,
     ScanDetailPage
   ],
   imports: [
@@ -330,6 +331,7 @@ export function createTranslateLoader(http: Http) {
     RfidOpinionPage,
     ChoosePage,
     ScanConnectPage,
+    UserprivacyPage,
     ScanDetailPage
   ],
   providers: [
