@@ -23,7 +23,7 @@ import { WebSocketService } from '../../app/services/webSocket.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
 import { MyDatabaseService } from '../../app/services/mydatabase';
-
+import { SQLiteService } from '../../app/services/sqlite.service';
 declare let cordova: any;
 
 /**
@@ -54,6 +54,7 @@ export class LoginPage {
     private platform: Platform,
     private alertCtrl: AlertController,
     private mydatabase: MyDatabaseService,
+    private sqlService: SQLiteService,
     private navParams: NavParams,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
@@ -74,6 +75,8 @@ export class LoginPage {
     // 注册安卓物理返回键
     // noinspection TypeScriptUnresolvedFunction
     this.platform.ready().then(() => {
+      // 初始化sqlite数据库
+      this.sqlService.initDB();
       this.backButtonService.registerBackButtonAction(null);
     });
     // 通过推送通知打开应用事
