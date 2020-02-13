@@ -21,6 +21,7 @@ import { ToastService } from '../../app/services/toast.service';
 import { WebSocketService } from '../../app/services/webSocket.service';
 import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
 import { Component, Inject } from '@angular/core';
+import { UserprivacyPage } from '../setting/userprivacy/userprivacy';
 
 declare let cordova: any;
 /**
@@ -221,6 +222,11 @@ export class SettingPage {
       this.navCtrl.remove(startIndex, 1);
     });
   }
+  pushUserPrivacy(): void {
+    this.navCtrl.push(UserprivacyPage).then(() => {
+    });
+  }
+
   shortCutsAction(): void {
 
     this.http.get('/icon').subscribe((res: any) => {

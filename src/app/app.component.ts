@@ -12,7 +12,6 @@ import { PushService } from './services/push.service';
 import { InitService } from './services/init.service';
 import { JPush } from '@jiguang-ionic/jpush';
 import { SecureStorageService } from './services/secureStorage.service';
-import { SQLiteService } from './services/sqlite.service';
 @Component({
   templateUrl: 'app.html'
 })
@@ -30,7 +29,6 @@ export class MyApp {
     secureStorageService2: SecureStorageService,
     splashScreen: SplashScreen,
     keyboard: Keyboard,
-    private sqlService: SQLiteService,
     private platform: Platform,
     private userService: UserService,
     private deviceService: DeviceService,
@@ -80,8 +78,6 @@ export class MyApp {
       };
       window.setTimeout(getRegistrationID, 1000);
     });
-    // 初始化sqlite数据库
-    this.sqlService.initDB();
     // 初始国际化
     this.translate.setDefaultLang('zh-cn');
   }

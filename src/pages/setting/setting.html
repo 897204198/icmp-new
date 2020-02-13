@@ -32,6 +32,9 @@
     <button id="e2e-aboutme" ion-item [navPush]="aboutPage">
       {{'ABOUT_US' | translate}}
     </button>
+    <button ion-item (tap)="pushUserPrivacy()">
+      {{'USERPRIVACY' | translate}}
+    </button>
     <button id="e2e-shortcutsplugin" ion-item (tap)="shortCutsAction()">
       {{'SHORTCUTS' | translate}}
     </button>
