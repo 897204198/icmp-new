@@ -93,7 +93,7 @@
       <h2>{{item.content.label}}</h2>
       <div class="form-table-content">
         <table>
-          <div class="form-table-head table_tr" [ngClass]="{'table_tr_align': !item.align}"  id="form_table" style="position:fixed;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
+          <div class="form-table-head table_tr" [ngClass]="{'table_tr_align': !item.align}"  id="form_table" style="position:absolute;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
               <tr *ngFor="let head of item.content.headers; let j = index">
                 <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;"></td>
               </tr>
