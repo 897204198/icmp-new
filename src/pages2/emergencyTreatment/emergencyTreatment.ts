@@ -21,6 +21,7 @@ export class EmergencyTreatmentPage {
   isCustom: boolean = false;
   startDate: string = '';
   endDate: string = '';
+  private isShow: boolean = false;
 
   constructor(public navParams: NavParams,
     private http: Http,
@@ -32,6 +33,8 @@ export class EmergencyTreatmentPage {
   ionViewDidLoad(): void {
     this.title = this.navParams.get('name');
     this.getInitData();
+    let u = navigator.userAgent;
+    this.isShow = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); // ios终端
   }
 
   /**

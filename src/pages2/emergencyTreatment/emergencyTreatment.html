@@ -93,13 +93,14 @@
       <h2>{{item.content.label}}</h2>
       <div class="form-table-content">
         <table>
-          <div class="form-table-head table_tr" [ngClass]="{'table_tr_align': !item.align}"  id="form_table" style="position:absolute;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
+          <div *ngIf = "!isShow" class="form-table-head table_tr" [ngClass]="{'table_tr_align': !item.align}"  id="form_table" style="position:absolute;display:block;z-index: 99;background: #fff;box-sizing: border-box;margin-left: -1px;">
               <tr *ngFor="let head of item.content.headers; let j = index">
                 <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;"></td>
               </tr>
           </div>
           <tr *ngFor="let head of item.content.headers; let j = index" class="text_right">
-            <td class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;visibility: hidden;"></td>
+            <td  *ngIf = "!isShow" class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;visibility: hidden;"></td>
+            <td  *ngIf = "isShow" class="form-table-head" [innerHtml]="getSafeHtml(head.text)" style="width:105px;display: inline-block;word-break: break-all;word-wrap: break-word;margin-left: -1px;text-align: left;"></td>
             <td *ngFor="let value of item.content.values">
               <span *ngIf="value[j].type == null" style="white-space:nowrap;">{{value[j]}}</span>
               <span *ngIf="value[j].type == 'filelist'">
