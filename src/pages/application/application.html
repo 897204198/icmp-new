@@ -24,7 +24,7 @@
       <!-- 文本框 -->
       <ion-item *ngIf="item.type == 'text'" [ngClass]="{'display-hidden': item.status == 'hidden'}">
         <ion-label fixed [innerHtml]="getSafeHtml(item.label)" [ngClass]="{'label-disabled': item.disabled}"></ion-label>
-        <ion-input type="text" class="form-text" [(ngModel)]="input[item.model]" [placeholder]="item.placeholder ? item.placeholder : ''" [disabled]="item.disabled" (ionBlur)="item.inputUrl ? onBlur(input[item.model], item) : ''"></ion-input>
+        <ion-input type="text" class="form-text" [(ngModel)]="input[item.model]" (ngModelChange)="calculateFunc(item, input)" [placeholder]="item.placeholder ? item.placeholder : ''" [disabled]="item.disabled" (ionBlur)="item.inputUrl ? onBlur(input[item.model], item) : ''"></ion-input>
       </ion-item>
       <!-- 文本域 -->
       <ion-item *ngIf="item.type == 'textarea'" class="item-textarea" [ngClass]="{'display-hidden': item.status == 'hidden'}">
@@ -85,7 +85,7 @@
             <ng-container *ngFor="let itemList of itemListAll">
               <ion-item>
                 <h2 item-start [innerHtml]="getSafeHtml(itemList.label)"></h2>
-                <ion-input *ngIf="itemList.type == 'text'" type="text" [(ngModel)]="input[item['model']][iList][itemList.model]" class="form-text"></ion-input>
+                <ion-input *ngIf="itemList.type == 'text'" type="text"   [(ngModel)]="input[item['model']][iList][itemList.model]" (ngModelChange)="calculateFunc(item, input)" class="form-text"></ion-input>
                 <ion-select *ngIf="itemList.type == 'select'" [(ngModel)]="input[item['model']][iList][itemList.model]" [selectOptions]="getListSelectOptions(itemList)"
                             placeholder="{{'PLEASE_SELECT' | translate}}" multiple="{{itemList.category == 'multi'}}"
                             cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}" (ngModelChange)="calculateFunc(item, input)">
@@ -98,7 +98,7 @@
                 </ion-datetime>
                 <ion-input *ngIf="itemList.type == 'searchbox'" type="text" class="form-text" [(ngModel)]="input[item['model']][iList][itemList.model + 'Name']" 
                            placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="searchboxSelect(item, iList, itemList)" disabled="true"></ion-input>
-                <input *ngIf="itemList.type == 'searchbox'" type="hidden" [(ngModel)]="input[item['model']][iList][itemList.model]">
+                <input *ngIf="itemList.type == 'searchbox'" type="hidden" [(ngModel)]="input[item['model']][iList][itemList.model]"  >
               </ion-item>
             </ng-container>
             <ion-item *ngIf="iList > 0 || (iList == 0 && !item.initRow)">
