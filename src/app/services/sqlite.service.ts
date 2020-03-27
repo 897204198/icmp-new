@@ -1,5 +1,7 @@
 import { SQLite, SQLiteObject, SQLiteTransaction } from '@ionic-native/sqlite';
 import { Injectable } from '@angular/core';
+import { DeviceInfoState, DeviceService } from './device.service';
+
 // //自定义服务
 // import { NativeService } from "./NativeService";
 // import { SQLITE } from './Constants';
@@ -11,27 +13,45 @@ export class SQLiteService {
     // 数据库对象
     private database: SQLiteObject;
 
-    constructor(private sqlite: SQLite) {
+    constructor(private sqlite: SQLite, private deviceService: DeviceService,
+    ) {
     }
     /**
   * 自动判断环境创建sqlite数据库
   * @memberof SQLService
   */
     public initDB() {
+        let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
         if (!this.win.sqlitePlugin) {
             // window.openDatabase("数据库名字", "版本","数据库描述",数据库大小);
             this.database = this.win.openDatabase('myapp.db', '1.0',
                 'icmpdb', '100kb');
             return;
         }
-        this.sqlite.create({
-            name: 'myapp.db',
-            location: 'default'
-        }).then((db) => {
-            this.database = db;
-        }).catch(err => {
-            console.log(err);
-        });
+        if (deviceInfo.deviceType === 'android') {
+            this.sqlite.create({
+                name: 'myapp.db',
+                location: 'default'
+            }).then((db) => {
+                console.log('创建成功啦');
+                this.database = db;
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+        else {
+            this.sqlite.create({
+                name: 'myapp.db',
+                iosDatabaseLocation: 'Documents'
+            }).then((db) => {
+                console.log('创建成功啦');
+                this.database = db;
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+
+
     }
 
 
