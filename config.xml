@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="205060" id="com.proper.icmp.online" ios-CFBundleVersion="205060" version="2.5.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="205070" id="com.proper.icmp.online" ios-CFBundleVersion="205070" version="2.5.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>普日掌上办公</name>
     <description>沈阳普日软件协同管理平台移动端程序.</description>
     <author email="gdpr@propersoft.cn" href="http://www.propersoft.cn/">Propersoft</author>
@@ -119,4 +119,5 @@
     <plugin name="ionic-plugin-keyboard" spec="2.2.1" />
     <plugin name="cordova-plugin-nativestorage" spec="2.3.1" />
     <plugin name="cordova-plugin-proper-device" spec="1.0.0" />
+    <plugin name="cordova-plugin-ios-keychain" spec="3.0.1" />
 </widget>

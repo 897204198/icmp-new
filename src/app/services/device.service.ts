@@ -51,7 +51,8 @@ export class DeviceService {
     deviceInfo.deviceModel = this.device.model;
     deviceInfo.deviceType = this.device.platform;
     deviceInfo.deviceUuid = this.device.uuid;
-    deviceInfo.manufacturer = this.device.manufacturer;    if (deviceInfo.deviceType != null && deviceInfo.deviceType !== '') {
+    deviceInfo.manufacturer = this.device.manufacturer; 
+    if (deviceInfo.deviceType != null && deviceInfo.deviceType !== '') {
       deviceInfo.deviceType = deviceInfo.deviceType.toLowerCase();
     }
     if ((<any>window).plugins != null) {
@@ -77,6 +78,7 @@ export class DeviceService {
    * 取得设备信息
    */
   getDeviceInfo(): DeviceInfoState {
-    return this.secureStorageService.getObject(DeviceService.SEC_KEY_DEVICE_INFO);
+    let deviceInfo: DeviceInfoState = this.secureStorageService.getObject(DeviceService.SEC_KEY_DEVICE_INFO);
+    return deviceInfo;
   }
 }

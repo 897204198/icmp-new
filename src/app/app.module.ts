@@ -11,6 +11,7 @@ import { File } from '@ionic-native/file';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FileOpener } from '@ionic-native/file-opener';
 import { FilePath } from '@ionic-native/file-path';
+import { Keychain } from '@ionic-native/keychain';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
@@ -132,8 +133,6 @@ import { ScanConnectPage } from '../pages/scan/scanConnect';
 import { ScanDetailPage } from '../pages/scan/scanDetail';
 import { JPush } from '@jiguang-ionic/jpush';
 import { SQLite } from '@ionic-native/sqlite';
-import { SQLiteService } from './services/sqlite.service';
-import { MyDatabaseService } from './services/mydatabase';
 import { UserprivacyPage } from '../pages/setting/userprivacy/userprivacy';
 
 export function interceptorFactory( xhrBackend: XHRBackend, requestOptions: RequestOptions, configsService: ConfigsService,
@@ -342,6 +341,7 @@ export function createTranslateLoader(http: Http) {
     File,
     FileChooser,
     FilePath,
+    Keychain,
     FileTransfer,
     FileTransferObject,
     FileOpener,
@@ -373,8 +373,6 @@ export function createTranslateLoader(http: Http) {
     HttpService,
     WebSocketService,
     SQLite,
-    SQLiteService,
-    MyDatabaseService,
     {provide: Http, useFactory: interceptorFactory, deps: [XHRBackend, RequestOptions, ConfigsService, UserService, DeviceService, Store]},
     {provide: APP_CONSTANT, useValue: appConstant},
     {provide: ICMP_CONSTANT, useValue: icmpConstant}

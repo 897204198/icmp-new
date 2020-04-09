@@ -22,10 +22,8 @@ import { DeviceInfoState } from '../../app/services/device.service';
 import { WebSocketService } from '../../app/services/webSocket.service';
 import { SecureStorageService } from '../../app/services/secureStorage.service';
 import { ICMP_CONSTANT, IcmpConstant } from '../../app/constants/icmp.constant';
-import { MyDatabaseService } from '../../app/services/mydatabase';
-import { SQLiteService } from '../../app/services/sqlite.service';
 declare let cordova: any;
-
+import { Keychain } from '@ionic-native/keychain';
 /**
  * 登录页面
  */
@@ -46,6 +44,7 @@ export class LoginPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private keychain: Keychain,
     private secureStorageService: SecureStorageService,
     private nativeStorage: NativeStorage,
     private pushService: PushService,
@@ -53,8 +52,6 @@ export class LoginPage {
     private backButtonService: BackButtonService,
     private platform: Platform,
     private alertCtrl: AlertController,
-    private mydatabase: MyDatabaseService,
-    private sqlService: SQLiteService,
     private navParams: NavParams,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     @Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
@@ -75,10 +72,8 @@ export class LoginPage {
     // 注册安卓物理返回键
     // noinspection TypeScriptUnresolvedFunction
     this.platform.ready().then(() => {
-      // 初始化sqlite数据库
-      this.sqlService.initDB();
       this.backButtonService.registerBackButtonAction(null);
-      
+
     });
     // 通过推送通知打开应用事
     document.removeEventListener('Properpush.openNotification', this.doOpenNotification.bind(this), false);
@@ -138,35 +133,40 @@ export class LoginPage {
       this.toastService.show(this.transateContent['PLEASE_ENTER_PASSWORD']);
     } else {
       if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
-        if (!localStorage.getItem('checkUp')) {
-         // 取出激活码
-        this.mydatabase.select(['1216'], (data: any) => {
-          if (data.hasOwnProperty('err')) {
-            this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
-          } else {
-            this.checkupStr = data.res.rows.item(0).checkup;
-            console.log('是否激活' + this.checkupStr);
-            // 判断是否激活
-            if (!this.checkupStr) {
-              this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
-            } else {
-              if (localStorage.getItem('pushinit') !== '1') {
-                this.pushService.init();
-                localStorage.setItem('pushinit', '1');
-              }
-              this.deviceService.setDeviceInfo();
-              this.loginNetService(username.value, password.value);
-            }
-          }
-        });
-      }else{
+        let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+        if (deviceInfo.deviceType === 'android') {
           if (localStorage.getItem('pushinit') !== '1') {
             this.pushService.init();
             localStorage.setItem('pushinit', '1');
           }
           this.checkupStr = localStorage.getItem('checkUp');
-          this.deviceService.setDeviceInfo();
-          this.loginNetService(username.value, password.value);
+          if (!this.checkupStr) {
+            this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+          } else {
+            this.deviceService.setDeviceInfo();
+            this.loginNetService(username.value, password.value);
+          }
+        } else {
+          this.keychain.get('checkUp')
+            .then(
+              (value) => {
+                this.checkupStr = value;
+                // 判断是否激活
+                if (!this.checkupStr) {
+                  this.toastService.show(this.transateContent['PLEASE_ENTER_CHECKCODEFIRST']);
+                } else {
+                  if (localStorage.getItem('pushinit') !== '1') {
+                    this.pushService.init();
+                    localStorage.setItem('pushinit', '1');
+                  }
+                  this.deviceService.setDeviceInfo();
+                  this.loginNetService(username.value, password.value);
+                }
+              }
+            )
+            .catch(
+              err => console.error('Error getting', err)
+            );
         }
       } else {
         if (localStorage.getItem('pushinit') !== '1') {

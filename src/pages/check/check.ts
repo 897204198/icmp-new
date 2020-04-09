@@ -11,12 +11,11 @@ import { CryptoService } from '../../app/services/crypto.service';
 import { PushService } from '../../app/services/push.service';
 import { UserInfoState, initUserInfo, UserService } from '../../app/services/user.service';
 import { AppVersionUpdateService } from '../../app/services/appVersionUpdate.service';
-import { DeviceService } from '../../app/services/device.service';
+import { DeviceInfoState, DeviceService } from '../../app/services/device.service';
 import { ConfigsService } from '../../app/services/configs.service';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { LoginPage } from '../../pages/login/login';
-import { MyDatabaseService } from '../../app/services/mydatabase';
-
+import { Keychain } from '@ionic-native/keychain';
 /**
  * 登录页面
  */
@@ -35,6 +34,7 @@ export class CheckPage {
    * 构造函数
    */
   constructor(private navCtrl: NavController,
+    private keychain: Keychain,
     private nativeStorage: NativeStorage,
     private pushService: PushService,
     private cryptoService: CryptoService,
@@ -42,7 +42,6 @@ export class CheckPage {
     private platform: Platform,
     private alertCtrl: AlertController,
     private navParams: NavParams,
-    private mydatabase: MyDatabaseService,
     @Inject(APP_CONSTANT) private appConstant: AppConstant,
     private configsService: ConfigsService,
     private translate: TranslateService,
@@ -57,13 +56,6 @@ export class CheckPage {
     this.translate.get(translateKeys).subscribe((res: Object) => {
       this.transateContent = res;
     });
-  }
-
-  /**
-   * 首次进入页面
-   */
-  ionViewDidLoad() {
-    this.mydatabase.initTable();
   }
 
   /**
@@ -96,19 +88,29 @@ export class CheckPage {
         localStorage.removeItem('__proper_SecureStorage_deviceInfo');
         localStorage.removeItem('serviceheader');
         this.http.post(url, password.value).subscribe((data) => {
+          this.deviceService.setDeviceInfo();
           localStorage.token = data['_body'];
+          //储存激活码
+          let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+          if (deviceInfo.deviceType === 'android') {
+            localStorage.setItem('checkUp', password.value);
+          } else {
+            // iOS
+            this.keychain.set('checkUp', password.value, true).then(() => {
+              this.keychain.get('checkUp')
+                .then(value => console.log('Got value', value))
+                .catch(err => console.error('Error getting', err));
+            })
+              .catch(err => console.error('Error setting', err));
+          }
           this.toastService.show(this.transateContent['CHECKCODE_SUCCEED']);
           this.navCtrl.push(LoginPage);
-          localStorage.setItem('checkUp', password.value);
-          this.mydatabase.insert(['1216', password.value], function(data){
-            console.log('插入成功' + data);
-          });
           // 设置设备信息
           this.deviceService.setDeviceInfo();
         }, (res2: Response) => {
           this.toastService.show(res2.text());
         });
-      }else{
+      } else {
         this.toastService.show(this.transateContent['ERROR_ACCOUNT_CHECKCODE']);
       }
     }
