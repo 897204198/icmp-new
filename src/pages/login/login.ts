@@ -134,7 +134,7 @@ export class LoginPage {
     } else {
       if (!JSON.parse(localStorage.getItem('stopStreamline'))) {
         let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-        if (deviceInfo.deviceType === 'android') {
+        if (deviceInfo.deviceType === 'android' || deviceInfo.deviceType === null) {
           if (localStorage.getItem('pushinit') !== '1') {
             this.pushService.init();
             localStorage.setItem('pushinit', '1');

@@ -41,75 +41,112 @@ export class AppVersionUpdateService {
       this.transateContent = res;
     });
     let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-    this.http.get('http://icmp.propersoft.cn/propersoft/web/api/app/versions/latest').subscribe((res: Response) => {
-      let data = res.json();
-      // 截取版本号
-      this.appVersion.getVersionCode().then((versionCode: string) => {
-        let cutVersionCode: string = versionCode.toString();
-        // 安卓去2
-        if (deviceInfo.deviceType === 'android') {
-          let num = cutVersionCode.length - 1;
-          if (cutVersionCode.charAt(num) === '2') {
-            cutVersionCode = cutVersionCode.substring(0, num);
+    if (deviceInfo.deviceType === 'android') {
+      this.http.get('http://icmp.propersoft.cn/propersoft/web/api/app/versions/latest').subscribe((res: Response) => {
+        let data = res.json();
+        // 截取版本号
+        this.appVersion.getVersionCode().then((versionCode: string) => {
+          let cutVersionCode: string = versionCode.toString();
+          // 安卓去2
+            let num = cutVersionCode.length - 1;
+            if (cutVersionCode.charAt(num) === '2') {
+              cutVersionCode = cutVersionCode.substring(0, num);
+            }
+          
+          // 判断 ver 是否为空
+          let currentVer: number = Number(cutVersionCode);
+          if (data.ver != null && Number(data.ver) > currentVer) {
+            if (data.note == null || data.note === '') {
+              data.note = this.transateContent['APP_UPDATE_NOTE'];
+            }
+            // 是否为 forceUpdate
+            if (data.forceUpdate) {
+              let confirmAlert = this.alertCtrl.create({
+                title: this.transateContent['PROMPT_INFO'],
+                message: data.note,
+                enableBackdropDismiss: false,
+                buttons: [
+                  {
+                    text: this.transateContent['UPDATE'],
+                    handler: () => {
+                      this.doUpdateVersion(deviceInfo.deviceType, data);
+                    }
+                  }
+                ]
+              });
+              confirmAlert.present();
+            } else {
+              let confirmAlert = this.alertCtrl.create({
+                title: this.transateContent['PROMPT_INFO'],
+                message: data.note,
+                buttons: [
+                  {
+                    text: this.transateContent['NEXT_TIME'],
+                    role: 'cancel',
+                    handler: () => {
+                      if (isFirst && deviceInfo.deviceType === 'android') {
+                        this.autoRun();
+                      }
+                    }
+                  },
+                  {
+                    text: this.transateContent['UPDATE'],
+                    handler: () => {
+                      this.doUpdateVersion(deviceInfo.deviceType, data);
+                    }
+                  }
+                ]
+              });
+              confirmAlert.present();
+            }
+          } else {
+            if (!hiddenToast) {
+              this.toastService.show(this.transateContent['NO_UPDATE']);
+            }
+            if (isFirst && deviceInfo.deviceType === 'android') {
+              this.autoRun();
+            }
           }
-        }
-        // 判断 ver 是否为空
-        let currentVer: number = Number(cutVersionCode);
-        if (data.ver != null && Number(data.ver) > currentVer) {
-          if (data.note == null || data.note === '') {
-            data.note = this.transateContent['APP_UPDATE_NOTE'];
-          }
-          // 是否为 forceUpdate
-          if (data.forceUpdate) {
+        });
+      });
+    } else {
+      // iOS从商店获取版本号
+      this.http.get('https://itunes.apple.com/cn/lookup?id=1443707088').subscribe((res: Response) => {
+        let data = res.json();
+        let appstoreData = data.results[0];
+        // 获取当前版本号
+        this.appVersion.getVersionCode().then((versionCode: string) => {
+          let cutVersionCode: string = versionCode.toString();
+          let currentVer: number = Number(cutVersionCode);
+          // 比对版本号
+          if (appstoreData.version != null && Number(appstoreData.version) > currentVer) {
             let confirmAlert = this.alertCtrl.create({
               title: this.transateContent['PROMPT_INFO'],
-              message: data.note,
-              enableBackdropDismiss: false,
+              message: appstoreData.releaseNotes,
               buttons: [
+                {
+                  text: this.transateContent['NEXT_TIME'],
+                  role: 'cancel',
+                  handler: () => {
+                  }
+                },
                 {
                   text: this.transateContent['UPDATE'],
                   handler: () => {
-                    this.doUpdateVersion(deviceInfo.deviceType, data);
+                    this.doUpdateVersion(deviceInfo.deviceType, appstoreData);
                   }
                 }
               ]
             });
             confirmAlert.present();
           } else {
-            let confirmAlert = this.alertCtrl.create({
-              title: this.transateContent['PROMPT_INFO'],
-              message: data.note,
-              buttons: [
-                {
-                  text: this.transateContent['NEXT_TIME'],
-                  role: 'cancel',
-                  handler: () => {
-                    if (isFirst && deviceInfo.deviceType === 'android') {
-                      this.autoRun();
-                    }
-                  }
-                },
-                {
-                  text: this.transateContent['UPDATE'],
-                  handler: () => {
-                    this.doUpdateVersion(deviceInfo.deviceType, data);
-                  }
-                }
-              ]
-            });
-            confirmAlert.present();
+            if (!hiddenToast) {
+              this.toastService.show(this.transateContent['NO_UPDATE']);
+            }
           }
-        } else {
-          if (!hiddenToast) {
-            this.toastService.show(this.transateContent['NO_UPDATE']);
-          }
-          if (isFirst && deviceInfo.deviceType === 'android') {
-            this.autoRun();
-          }
-        }
-      });
-    });
-
+        });
+      })
+    }
   }
 
   /**

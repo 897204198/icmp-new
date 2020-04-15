@@ -92,7 +92,7 @@ export class CheckPage {
           localStorage.token = data['_body'];
           //储存激活码
           let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
-          if (deviceInfo.deviceType === 'android') {
+          if (deviceInfo.deviceType === 'android'|| deviceInfo.deviceType === null) {
             localStorage.setItem('checkUp', password.value);
           } else {
             // iOS
