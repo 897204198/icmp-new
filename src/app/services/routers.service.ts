@@ -23,6 +23,9 @@ import { RfidPage } from '../../pages/rfid/rfid';
 import { PhotoService } from './photo.service';
 import { ChoosePage } from '../../pages/choose/choose';
 import { ScanConnectPage } from '../../pages/scan/scanConnect';
+import { UserService, UserInfoState } from '../../app/services/user.service';
+
+declare let cordova: any;
 
 /**
  * 路由服务
@@ -38,6 +41,7 @@ export class RoutersService {
    */
   constructor(@Inject(ICMP_CONSTANT) private icmpConstant: IcmpConstant,
     private configsService: ConfigsService,
+    private userService: UserService,
     private toastService: ToastService,
     private translate: TranslateService,
     private deviceService: DeviceService,
@@ -56,6 +60,27 @@ export class RoutersService {
   pageForward(navCtrl: NavController, menu: any): void {
     if (menu.page === this.icmpConstant.page.queryList) {
       navCtrl.push(QueryListPage2, menu);
+    } else if (menu.page === this.icmpConstant.page.punchclock) { // 打卡页面
+      const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+      let userInfo: UserInfoState = this.userService.getUserInfo();
+      let imparams = {
+        name: userInfo.loginName,
+        password: userInfo.password,
+        baseUrl: this.configsService.getBaseUrl(),
+        serviceKey: localStorage.getItem('serviceheader')
+      };
+      if (deviceInfo.deviceType === 'android') {
+        cordova.plugins.clockPlugin.coolMethod(userInfo.loginName, userInfo.password, "punchclock", imparams.baseUrl,imparams.serviceKey,
+          function () { },
+          function () { }
+        )
+      } else {
+        cordova.plugins.baidumap_location.showMap(imparams,
+          function (msg) {
+            console.log(msg);
+            // document.getElementById('testde').innerHTML = msg;
+          });
+      }
     } else if (menu.page === this.icmpConstant.page.queryDetail) { // 查询详细页
       if (menu.style === 'notice_style') {
         navCtrl.push(QueryNoticeDetailPage2, menu);
@@ -74,7 +99,7 @@ export class RoutersService {
       navCtrl.push(StatisticsQueryPage, menu);
     } else if (menu.page === this.icmpConstant.page.statisticsView) {
       navCtrl.push(StatisticsViewPage, menu);
-    }else if (menu.page === this.icmpConstant.page.emergency) {
+    } else if (menu.page === this.icmpConstant.page.emergency) {
       navCtrl.push(EmergencyTreatmentPage, menu);
     } else if (menu.page === this.icmpConstant.page.examList) {
       const deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
@@ -87,7 +112,7 @@ export class RoutersService {
         } else {
           if (localStorage.getItem('serviceheader') === 'null' || localStorage.getItem('serviceheader') === '') {
             menuStr = this.configsService.getBaseWebUrl() + 'standard' + menuStr;
-          }else{
+          } else {
             menuStr = this.configsService.getBaseWebUrl() + localStorage.getItem('serviceheader') + menuStr;
           }
         }
@@ -125,28 +150,28 @@ export class RoutersService {
     } else if (menu.page === this.icmpConstant.page.choose) {
       navCtrl.push(ChoosePage, menu);
     } else if (menu.page === this.icmpConstant.page.macAddress) {
-      navCtrl.push(MacAddressPage, {menu});
+      navCtrl.push(MacAddressPage, { menu });
     } else if (menu.page === this.icmpConstant.page.email) {
       navCtrl.push(EmailPage, menu);
-    }else if (menu.page === this.icmpConstant.page.rfid) {
+    } else if (menu.page === this.icmpConstant.page.rfid) {
       navCtrl.push(RfidPage, menu);
     } else if (menu.page === this.icmpConstant.page.scan) {
       navCtrl.push(ScanConnectPage, menu);
-    //   this.photoService.openScan(function(rfidInfo){
-    //     if (rfidInfo) {
-    //       const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
-    //       if (!rfidInfo['cancelled']){
-    //         navCtrl.push(QueryDetailPage2, addInfo);
-    //         console.log('正确扫码 进入详情页');
-    //       } else {
-    //         console.log('未扫码 返回上一页');
-    //         navCtrl.pop();
-    //       }
-    //     }
-    //   });
-    // } else {
-    //   this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
-    // }
+      //   this.photoService.openScan(function(rfidInfo){
+      //     if (rfidInfo) {
+      //       const addInfo = Object.assign(menu, { 'rfid': rfidInfo['text'], 'scan': true});
+      //       if (!rfidInfo['cancelled']){
+      //         navCtrl.push(QueryDetailPage2, addInfo);
+      //         console.log('正确扫码 进入详情页');
+      //       } else {
+      //         console.log('未扫码 返回上一页');
+      //         navCtrl.pop();
+      //       }
+      //     }
+      //   });
+      // } else {
+      //   this.toastService.show(this.transateContent['NO_DETAILED_INFO']);
+      // }
+    }
   }
-}
 }

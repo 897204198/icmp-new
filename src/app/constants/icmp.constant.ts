@@ -40,6 +40,8 @@ export interface PageIdConstant {
 
   // 资产管理页面
   rfid: string;
+  // 打卡页面
+  punchclock: string;
 }
 
 /**
@@ -79,6 +81,7 @@ export const pageIdConstant: PageIdConstant = {
   scan: 'scan',
   rfid: 'rfid',
   email: 'email',
+  punchclock: 'punchclock',
   choose: 'choose'
 };
 
