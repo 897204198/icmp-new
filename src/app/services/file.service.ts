@@ -51,14 +51,14 @@ export class FileService {
       fileUrl = this.configsService.getMobileplatformUrl() + '/webController/downloadFile?fileId=' + fileId + '&loginName=' + userInfo.loginName + '&password=' + userInfo.password + '&service_key=' + localStorage['serviceheader'];
     }
     // 区分安卓10附件下载方式
-    if (deviceInfo.deviceType === 'android' && Number(deviceInfo.deviceVersion) === 10) {
-      this.inAppBrowser.create(fileUrl, '_system');
-    } else {
+    // if (deviceInfo.deviceType === 'android' && Number(deviceInfo.deviceVersion) === 10) {
+    //   this.inAppBrowser.create(fileUrl, '_system');
+    // } else {
     // 本地文件保存位置
-    let filePlace: string = this.file.dataDirectory + this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + fileType;
+    let filePlace: string = this.file.dataDirectory + fileName;
     // 安卓版本
     if (deviceInfo.deviceType === 'android' && deviceFirstVersionNumber < 6) {
-      filePlace = 'file:///storage/sdcard0/Download/' + this.utilsService.formatDate(new Date(), 'YYYYMMDDHHmmss') + '.' + fileType;
+      filePlace = 'file:///storage/sdcard0/Download/' + fileName;
     }
     let loading = this.loadingCtrl.create({
       content: '下载中...'
@@ -90,7 +90,7 @@ export class FileService {
         }
       });
     });
-  }
+  // }
   }
 
   /**

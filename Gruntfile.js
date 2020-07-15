@@ -75,7 +75,7 @@ module.exports = function(grunt) {
           'cordova plugin add cordova-plugin-android-permissions',
           'cordova plugin add cordova-android-support-gradle-release@1.4.2 --save',
           'cordova plugin add cordova-plugin-unifiedv4version@1.0.0 --save',
-          'cordova plugin add clockplugin@1.0.2 --save'
+          'cordova plugin add clockplugin@1.0.3 --save'
         ].join('&&')
       },
       addIosPlugins: {

@@ -96,11 +96,11 @@
     <plugin name="cordova-plugin-x5-webview" spec="3.2.0" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
     <plugin name="cordova-plugin-file" spec="6.0.1" />
-    <plugin name="cordova-plugin-file-opener2" spec="3.0.3" />
-    <plugin name="cordova-plugin-file-transfer" spec="2.0.1" />
+    <plugin name="cordova-plugin-file-opener2" spec="3.0.4" />
+    <plugin name="cordova-plugin-file-transfer" spec="2.0.2" />
     <plugin name="cordova-plugin-filechooser" spec="1.0.1" />
     <plugin name="cordova-plugin-filepath" spec="1.6.0" />
-    <plugin name="tbs_plugin" spec="1.0.5" />
+    <plugin name="tbs_plugin" spec="1.0.6" />
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
     <plugin name="cordova-plugin-proper-shortcut" spec="1.0.1" />
         <plugin name="jpush-phonegap-plugin" spec="3.7.3">
