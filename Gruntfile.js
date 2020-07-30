@@ -67,7 +67,7 @@ module.exports = function(grunt) {
         command: [
           'cordova plugin add cordova-plugin-proper-HuanXin-android@1.1.1 --save',
           'cordova plugin add cordova-hot-code-push-plugin@1.5.3 --save',
-          'cordova plugin add cordova-plugin-x5-webview@3.2.0 --save',
+          'cordova plugin add cordova-plugin-x5-webview@3.2.1 --save',
           'cordova plugin add cordova-plugin-proper-update-version@1.0.4 --save',
           'cordova plugin add cordova-plugin-appminimize@1.0.0 --save',
           'cordova plugin add cordova-plugin-getMacaddress@1.0.0 --save',
@@ -75,14 +75,14 @@ module.exports = function(grunt) {
           'cordova plugin add cordova-plugin-android-permissions',
           'cordova plugin add cordova-android-support-gradle-release@1.4.2 --save',
           'cordova plugin add cordova-plugin-unifiedv4version@1.0.0 --save',
-          'cordova plugin add clockplugin@1.0.3 --save'
+          'cordova plugin add clockplugin@1.0.9 --save'
         ].join('&&')
       },
       addIosPlugins: {
         command: [
           'cordova plugin add cordova-plugin-proper-HuanXin-iOS@1.0.4 --save',
           'cordova plugin add cordova-hot-code-push-plugin@1.5.3 --save',
-          'cordova plugin add cordova-plugin-baidumaplocation@1.1.0 --save'
+          'cordova plugin add cordova-plugin-baidumaplocation@1.0.4 --save'
         ].join('&&')
       },
       hcpBuild: {

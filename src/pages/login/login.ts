@@ -73,6 +73,13 @@ export class LoginPage {
     // noinspection TypeScriptUnresolvedFunction
     this.platform.ready().then(() => {
       this.backButtonService.registerBackButtonAction(null);
+      let deviceInfo: DeviceInfoState = this.deviceService.getDeviceInfo();
+      if (deviceInfo.deviceType === 'android') {
+        cordova.plugins.tbsPlugin.install("",
+            function () { },
+            function () { }
+          )
+      }
 
     });
     // 通过推送通知打开应用事
