@@ -194,8 +194,19 @@ export class LoginPage {
     });
   }
   forget(): void {
-    this.navCtrl.push(SetPasswordPage, { isAutoLogin: false }).then(() => {
+    let confirmAlert = this.alertCtrl.create({
+      title: '请联系人事科',
+      message: '电话:8286737；内线:8737',
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: '确定',
+          handler: () => {
+          }
+        }
+      ]
     });
+    confirmAlert.present();
   }
   /**
    * 登录请求

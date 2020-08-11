@@ -29,6 +29,10 @@ export class TodoOpinionPage2 {
   private opinionHelpList: Object[];
   // 审批协办其他填写项目
   private opinionHelpOtherList: Object[];
+  // 审批请领明细
+  receiveItem: Object = {};
+  // 审批请领数组项目
+  private receiveList: Object[];
   // 是否显示内容
   private addListShow: boolean;
   // 是否显示添加按钮
@@ -204,10 +208,10 @@ export class TodoOpinionPage2 {
         // 添加默认选中报修科室
         for (let i = 0; i < this.opinionHelpOtherList.length; i++) {
           let item = this.opinionHelpOtherList[i];
-          for (let k = 0; k < item['control_data'].length; k++){
+          for (let k = 0; k < item['control_data'].length; k++) {
             let kItem = item['control_data'][k];
             this.approvalInputTemps['selectGroup'][kItem['control_number']][kItem['control_name']] = kItem['control_default'];
-            if (kItem['control_type'] === 'select_group' || kItem['control_type'] === 'select'){
+            if (kItem['control_type'] === 'select_group' || kItem['control_type'] === 'select') {
               this.selectChange(kItem);
             }
           }
@@ -216,6 +220,14 @@ export class TodoOpinionPage2 {
     } else {
       this.opinionHelpOtherList = [];
     }
+    if (approval[4] != null) {
+      this.receiveItem = approval[4];
+      this.receiveList = this.receiveItem['default']
+      console.log(this.receiveList);
+    } else {
+      this.receiveItem = [];
+    }
+
   }
 
   /**
@@ -274,20 +286,20 @@ export class TodoOpinionPage2 {
           }
         }
       }
-     // 调度表单验证
-     if (this.opinionHelpOtherList != null && this.opinionHelpOtherList.length > 0){
-      if (this.opinionHelpOtherList[0]['control_data'] != null && this.opinionHelpOtherList[0]['control_name'] === 'selectGroup'){
-        for (let i = 0; i <  this.opinionHelpOtherList[0]['control_data'].length; i++) {
-          let itemOther = this.opinionHelpOtherList[0]['control_data'][i];
-          if (itemOther['validate'] != null && itemOther['validate']['required']) {
-              if (Object.keys(this.approvalInputTemps['selectGroup'][0])[i] === itemOther['control_name'] && this.approvalInputTemps['selectGroup'][0][itemOther['control_name']] == null){
+      // 调度表单验证
+      if (this.opinionHelpOtherList != null && this.opinionHelpOtherList.length > 0) {
+        if (this.opinionHelpOtherList[0]['control_data'] != null && this.opinionHelpOtherList[0]['control_name'] === 'selectGroup') {
+          for (let i = 0; i < this.opinionHelpOtherList[0]['control_data'].length; i++) {
+            let itemOther = this.opinionHelpOtherList[0]['control_data'][i];
+            if (itemOther['validate'] != null && itemOther['validate']['required']) {
+              if (Object.keys(this.approvalInputTemps['selectGroup'][0])[i] === itemOther['control_name'] && this.approvalInputTemps['selectGroup'][0][itemOther['control_name']] == null) {
                 this.toastService.show(this.transateContent['VALI_REQUIRED']);
                 return false;
               }
+            }
           }
         }
       }
-    }
     }
     return true;
   }
@@ -307,11 +319,29 @@ export class TodoOpinionPage2 {
       params.append('processName', this.navParams.get('processName'));
       params.append('taskId', this.navParams.get('taskId'));
       params.append('step', this.navParams.get('step'));
+      let data = {};
+      for (let i = 0; i < this.receiveItem['default'].length; i++) {
+        let temp = this.receiveItem['default'][i];
+        for (let key2 in temp) {
+          if (temp.hasOwnProperty(key2)) {
+            if (data[key2] == null) {
+              data[key2] = [temp[key2]];
+            } else {
+              data[key2].push(temp[key2]);
+            }
+          }
+        }
+      }
+      for (let key2 in data) {
+        if (data.hasOwnProperty(key2)) {
+          params.append(key2, data[key2]);
+        }
+      }
       // 添加调度审批表单信息
       const approvalAttemperInfo = this.approvalInputTemps['selectGroup'];
-      if (approvalAttemperInfo != null && approvalAttemperInfo.length > 0){
+      if (approvalAttemperInfo != null && approvalAttemperInfo.length > 0) {
         const keys = Object.keys(approvalAttemperInfo[0]);
-        for (let k = 0; k < keys.length; k++){
+        for (let k = 0; k < keys.length; k++) {
           params.append(keys[k], approvalAttemperInfo[0][keys[k]]);
         }
       }
@@ -500,8 +530,8 @@ export class TodoOpinionPage2 {
           }
         } else if (control['type'] === 'initSelect') {
           let flg: boolean = false;
-          let approval =  this.navParams.get('approval');
-          if (approval[3] != null && approval[3].length > 0){
+          let approval = this.navParams.get('approval');
+          if (approval[3] != null && approval[3].length > 0) {
             if (this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']] != null && this.approvalInputTemps['selectGroup'][item['control_number']][item['control_name']].indexOf(option['id']) >= 0) {
               flg = true;
             }
@@ -651,8 +681,8 @@ export class TodoOpinionPage2 {
       this.approvalInputTemps['selectGroup'].splice(iList, 1);
       this.opinionHelpOtherList[index]['control_data'] = listItemTempArray;
     } else {
-      this.approvalInputTemps['joinOpinions'].splice(iList, 1);
-      this.opinionHelpOtherList.splice(iList, 1);
+      // this.approvalInputTemps['joinOpinions'].splice(iList, 1);
+      this.receiveItem['default'].splice(iList, 1);
     }
   }
 

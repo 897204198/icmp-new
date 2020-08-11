@@ -20,90 +20,153 @@
       <ion-item class="e2e-item" *ngIf="isDisplayFormItem(item)">
         <ion-label *ngIf="item.control_type == 'text'" fixed>{{item.control_label}}</ion-label>
         <ion-label *ngIf="item.control_type != 'text'">{{item.control_label}}</ion-label>
-        <ion-input *ngIf="item.control_type == 'text'" type="text" [(ngModel)]="approvalInput[item.control_name]" [disabled]="item.control_disabled"></ion-input>
-        <ion-datetime *ngIf="item.control_type == 'date'"  (ionCancel)="clearDatetime(item)"
-                      placeholder="{{'PLEASE_SELECT_DATE' | translate}}"
-                      max="2100" (touchstart)="setDatetime(item)"
-                      displayFormat="{{item.control_formatter}}"
-                      [(ngModel)]="approvalInput[item.control_name]"
-                      cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}">
+        <ion-input *ngIf="item.control_type == 'text'" type="text" [(ngModel)]="approvalInput[item.control_name]"
+          [disabled]="item.control_disabled"></ion-input>
+        <ion-datetime *ngIf="item.control_type == 'date'" (ionCancel)="clearDatetime(item)"
+          placeholder="{{'PLEASE_SELECT_DATE' | translate}}" max="2100" (touchstart)="setDatetime(item)"
+          displayFormat="{{item.control_formatter}}" [(ngModel)]="approvalInput[item.control_name]"
+          cancelText="{{'CLEAR' | translate}}" doneText="{{'CONFIRM' | translate}}">
         </ion-datetime>
-        <ion-select *ngIf="item.control_type == 'select'" [(ngModel)]="approvalInput[item.control_name]" (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-select *ngIf="item.control_type == 'select'" [(ngModel)]="approvalInput[item.control_name]"
+          (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
           <ion-option *ngFor="let option of item.control_list" [value]="option.id">{{option.name}}</ion-option>
         </ion-select>
-        <ion-select *ngIf="item.control_type == 'select_group'" [(ngModel)]="approvalInput[item.control_name]" (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-select *ngIf="item.control_type == 'select_group'" [(ngModel)]="approvalInput[item.control_name]"
+          (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
           <ion-option *ngFor="let option of item.control_list" [value]="option.id">{{option.name}}</ion-option>
         </ion-select>
-        <ion-select *ngIf="item.control_type == 'select_more'" multiple="true" [(ngModel)]="approvalInput[item.control_name]" (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+        <ion-select *ngIf="item.control_type == 'select_more'" multiple="true"
+          [(ngModel)]="approvalInput[item.control_name]" (ionChange)="selectChange(item)"
+          cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
           <ion-option *ngFor="let option of item.control_list" [value]="option.id">{{option.name}}</ion-option>
         </ion-select>
-        <ion-input *ngIf="item.control_type == 'select_searchbox' || item.control_type == 'select_person'" class="searchbox-name" type="text" placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="searchboxSelect(item)" [(ngModel)]="approvalInput[item.control_name + '_name']" disabled="true"></ion-input>
-        <ion-input *ngIf="item.control_type == 'select_searchbox' || item.control_type == 'select_person'" class="searchbox-value" type="text" [(ngModel)]="approvalInput[item.control_name]"></ion-input>
+        <ion-input *ngIf="item.control_type == 'select_searchbox' || item.control_type == 'select_person'"
+          class="searchbox-name" type="text" placeholder="{{'PLEASE_SELECT' | translate}}" tappable
+          (click)="searchboxSelect(item)" [(ngModel)]="approvalInput[item.control_name + '_name']" disabled="true">
+        </ion-input>
+        <ion-input *ngIf="item.control_type == 'select_searchbox' || item.control_type == 'select_person'"
+          class="searchbox-value" type="text" [(ngModel)]="approvalInput[item.control_name]"></ion-input>
       </ion-item>
     </div>
   </ion-list>
-  <ion-list *ngIf="opinionList !=null && opinionList.length > 0" radio-group [(ngModel)]="approvalInput.opinion" (ionChange)="opinionChange()">
+  <ion-list *ngIf="opinionList !=null && opinionList.length > 0" radio-group [(ngModel)]="approvalInput.opinion"
+    (ionChange)="opinionChange()">
     <ion-item *ngFor="let opinion of opinionList">
       <ion-label>{{opinion.name}}</ion-label>
       <ion-radio value="{{opinion.value}}"></ion-radio>
     </ion-item>
     <ion-item>
-      <ion-textarea rows="4" *ngIf="!hideComment" placeholder="{{(subApproval ? 'PLEASE_ENTER_EVALUATE' : 'PLEASE_ENTER_APPROVAL_OPINION') | translate}}" [(ngModel)]="approvalInput.comments"></ion-textarea>
+      <ion-textarea rows="4" *ngIf="!hideComment"
+        placeholder="{{(subApproval ? 'PLEASE_ENTER_EVALUATE' : 'PLEASE_ENTER_APPROVAL_OPINION') | translate}}"
+        [(ngModel)]="approvalInput.comments"></ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="opinionHelpList != null && opinionHelpList.length > 0" radio-group [(ngModel)]="approvalInput.opinion" (ngModelChange)="opinionModelChange(approvalInput.opinion)" [ngStyle]="{'margin': '0'}">
+  <ion-list *ngIf="opinionHelpList != null && opinionHelpList.length > 0" radio-group
+    [(ngModel)]="approvalInput.opinion" (ngModelChange)="opinionModelChange(approvalInput.opinion)"
+    [ngStyle]="{'margin': '0'}">
     <ion-item *ngFor="let opinion of opinionHelpList" [ngClass]="{'help-list-title': opinion.type === 'title'}">
       <ion-label *ngIf="opinion.type === 'text'">{{opinion.approval_title}}</ion-label>
       <ion-label *ngIf="opinion.type === 'title'">{{opinion.approval_title}}</ion-label>
       <ion-label *ngIf="opinion.type === 'select'">{{opinion.label}}</ion-label>
-      <button *ngIf="addBtnShow && opinion.type === 'text'" ion-button color="primary" small item-end (click)="addListRow(opinion)">
+      <button *ngIf="addBtnShow && opinion.type === 'text'" ion-button color="primary" small item-end
+        (click)="addListRow(opinion)">
         {{'ADD' | translate}}
       </button>
-      <ion-select *ngIf="opinion.type === 'select'" [(ngModel)]="approvalInput[opinion.name]" (ionChange)="selectChange(opinion)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+      <ion-select *ngIf="opinion.type === 'select'" [(ngModel)]="approvalInput[opinion.name]"
+        (ionChange)="selectChange(opinion)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
         <ion-option *ngFor="let option of opinion.control_list" [value]="option.id">{{option.name}}</ion-option>
       </ion-select>
       <ion-label *ngIf="opinion.type === 'radio'">{{opinion.name}}</ion-label>
       <ion-radio *ngIf="opinion.type === 'radio'" value="{{opinion.value}}"></ion-radio>
     </ion-item>
-    <ion-item *ngIf="!addListShow && opinionTextare && opinionTextare.showTextarea == '1' && !hideComment && opinionTextare.type == 'textarea'">
-      <ion-textarea rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="approvalInput.comments"></ion-textarea>
+    <ion-item
+      *ngIf="!addListShow && opinionTextare && opinionTextare.showTextarea == '1' && !hideComment && opinionTextare.type == 'textarea'">
+      <ion-textarea rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}"
+        [(ngModel)]="approvalInput.comments"></ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-list class="opinion_other icmp-list-top-margin" *ngIf="opinionHelpOtherList != null && opinionHelpOtherList.length > 0">
+  <ion-list class="opinion_other icmp-list-top-margin"
+    *ngIf="opinionHelpOtherList != null && opinionHelpOtherList.length > 0">
     <div class="item-margin-bottom" *ngFor="let item of opinionHelpOtherList; let iList = index">
       <div *ngIf="item.control_data == null && isDisplayFormItem(item)">
         <ion-item class="e2e-item">
           <ion-label *ngIf="item.control_type != 'text'">{{item.control_label}}</ion-label>
-          <ion-input *ngIf="item.control_type == 'select_searchbox' || item.control_type == 'select_person'" class="searchbox-name" type="text" placeholder="{{'PLEASE_SELECT' | translate}}" tappable (click)="helpSearchboxSelect(item, iList)" [(ngModel)]="approvalInputTemps['joinOpinions'][iList]['name']" disabled="true"></ion-input>
-          <ion-select *ngIf="item.control_type === 'select'" [(ngModel)]="approvalInput[item.control_name]" (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+          <ion-input *ngIf="item.control_type == 'select_searchbox' || item.control_type == 'select_person'"
+            class="searchbox-name" type="text" placeholder="{{'PLEASE_SELECT' | translate}}" tappable
+            (click)="helpSearchboxSelect(item, iList)" [(ngModel)]="approvalInputTemps['joinOpinions'][iList]['name']"
+            disabled="true"></ion-input>
+          <ion-select *ngIf="item.control_type === 'select'" [(ngModel)]="approvalInput[item.control_name]"
+            (ionChange)="selectChange(item)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
             <ion-option *ngFor="let x of item.control_list" [value]="x.id">{{x.name}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item *ngIf="isDisplayFormItem(item) && item.textarea_type == 'single'">
-          <ion-textarea class="item-texttarea" rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="approvalInputTemps['feedbackComments']"></ion-textarea>
+          <ion-textarea class="item-texttarea" rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}"
+            [(ngModel)]="approvalInputTemps['feedbackComments']"></ion-textarea>
         </ion-item>
         <ion-item *ngIf="isDisplayFormItem(item) && (item.textarea_type == null || item.textarea_type != 'single')">
-          <ion-textarea class="item-texttarea" rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}" [(ngModel)]="approvalInputTemps['joinOpinions'][iList]['comments']"></ion-textarea>
+          <ion-textarea class="item-texttarea" rows="4" placeholder="{{'PLEASE_ENTER_APPROVAL_OPINION' | translate}}"
+            [(ngModel)]="approvalInputTemps['joinOpinions'][iList]['comments']"></ion-textarea>
         </ion-item>
         <ion-item *ngIf="iList > 0">
           <h2>{{'CONTROL' | translate}}</h2>
-            <button ion-button color="danger" small item-end (click)="deleteListRow(x, iList)">
-              {{'DELETE' | translate}}
-            </button>
-        </ion-item> 
+          <button ion-button color="danger" small item-end (click)="deleteListRow(x, iList)">
+            {{'DELETE' | translate}}
+          </button>
+        </ion-item>
       </div>
       <div *ngIf="item.control_data != null && isDisplayFormItem(item)">
         <ion-item class="e2e-item" *ngFor="let x of item.control_data">
           <ion-label *ngIf="x.control_type != 'text'">{{x.control_label}}</ion-label>
-          <ion-select *ngIf="x.control_type === 'select_group'" [(ngModel)]="approvalInputTemps['selectGroup'][x.control_number][x.control_name]" (ionChange)="selectChange(x)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
+          <ion-select *ngIf="x.control_type === 'select_group'"
+            [(ngModel)]="approvalInputTemps['selectGroup'][x.control_number][x.control_name]"
+            (ionChange)="selectChange(x)" cancelText="{{'CANCEL' | translate}}" okText="{{'CONFIRM' | translate}}">
             <ion-option *ngFor="let y of x.control_list" [value]="y.id">{{y.name}}</ion-option>
           </ion-select>
-          <button *ngIf="x.control_type === 'control'" [disabled]="x.control_number == 0" ion-button color="danger" small item-end (click)="deleteListRow(x, x.control_number, 'control')">
+          <button *ngIf="x.control_type === 'control'" [disabled]="x.control_number == 0" ion-button color="danger"
+            small item-end (click)="deleteListRow(x, x.control_number, 'control')">
             {{'DELETE' | translate}}
           </button>
         </ion-item>
       </div>
     </div>
+  </ion-list>
+
+
+
+
+  <ion-list class="application-form icmp-list-bottom-non" *ngIf="receiveItem != null">
+    <!-- 嵌套表格 -->
+    <ng-container *ngIf="receiveItem.control_type == 'list'">
+      <div>
+      <ion-item>
+        <ion-label>{{receiveItem.control_label}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-list *ngFor="let defaultItem of receiveItem['default']; let iList = index"
+          >
+          <div *ngFor="let componentsItem of receiveItem['components'] ; let iLists = index">
+            <ion-item *ngIf="componentsItem.control_status != 'hidden'">
+              <h2 item-start>{{componentsItem.control_label}}</h2>
+              <ion-input *ngIf="componentsItem.control_type == 'label'" type="text"
+                [(ngModel)]="receiveItem['default'][iList]['goodsName']" class="form-text" [disabled]="true">
+              </ion-input>
+              <ion-input *ngIf="componentsItem.control_type == 'text'" type="text"
+                [(ngModel)]="receiveItem['default'][iList]['applyNumber']" class="form-text"></ion-input>
+            </ion-item>
+          </div>
+          <ion-item *ngIf="iList > 0 || (iList == 0 && !defaultItem.initRow)">
+            <h2>操作</h2>
+            <button ion-button color="danger" small item-end (click)="deleteListRow(defaultItem, iList)">
+              删除
+            </button>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+    </div>
+    </ng-container>
+
+    <!-- </div> -->
   </ion-list>
   <!-- 附件 -->
   <div *ngIf="deviceType == null || deviceType == '' || deviceType == 'android'">
@@ -116,11 +179,13 @@
           </button>
         </div>
         <ion-list class="icmp-list-bottom-none">
-          <ion-item class="file-item" *ngIf="approvalInputTemp[item.model] == null || approvalInputTemp[item.model].length == 0"></ion-item>
+          <ion-item class="file-item"
+            *ngIf="approvalInputTemp[item.model] == null || approvalInputTemp[item.model].length == 0"></ion-item>
           <ion-item *ngFor="let file of approvalInputTemp[item.model]; let i = index">
             <h2>{{file.name}}</h2>
             <ion-spinner *ngIf="file.id == null" item-end></ion-spinner>
-            <button *ngIf="file.id != null" ion-button clear item-end color="danger" (click)="deleteFile(item, file)">{{'DELETE' | translate}}</button>
+            <button *ngIf="file.id != null" ion-button clear item-end color="danger"
+              (click)="deleteFile(item, file)">{{'DELETE' | translate}}</button>
           </ion-item>
         </ion-list>
       </div>

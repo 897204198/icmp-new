@@ -16,7 +16,16 @@ page-todo-opinion {
       display: none !important;
     }
   }
+  .nested-list {
+    .item-block:last-child {
+      border-bottom: 0;
+    }
 
+    ion-select, ion-datetime {
+      position: absolute;
+      right: 0;
+    }
+  }
   .item-margin-bottom {
     margin-bottom: 5px;
 
@@ -46,6 +55,31 @@ page-todo-opinion {
     background-color: #efeeee;
     .item-inner {
       border-bottom: none !important;
+    }
+  }
+  .application-form .item {
+    &.item-textarea .input-wrapper {
+      flex-direction: column;
+
+      .text-input {
+        margin: 0;
+        width: 100%;
+      }
+
+      .label {
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+        max-width: none;
+      }
+    }
+
+    .form-text .text-input {
+      text-align: right;
+    }
+
+    .form-text .text-input[disabled] {
+      opacity: 1 !important;
     }
   }
 }
