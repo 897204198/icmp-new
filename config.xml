@@ -101,7 +101,7 @@
     <plugin name="cordova-plugin-filechooser" spec="1.0.1" />
     <plugin name="cordova-plugin-filepath" spec="1.6.0" />
     <plugin name="tbs_plugin" spec="1.0.7" />
-    <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="4.0.0" />
     <plugin name="cordova-plugin-proper-shortcut" spec="1.0.1" />
         <plugin name="jpush-phonegap-plugin" spec="3.7.3">
         <variable name="APP_KEY" value="95183265e6d2173b2375cdf3" />

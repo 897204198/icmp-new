@@ -76,7 +76,7 @@
         "cordova-plugin-filechooser": "1.0.1",
         "cordova-plugin-filepath": "1.6.0",
         "tbs_plugin": "1.0.7",
-        "cordova-plugin-inappbrowser": "3.0.0",
+        "cordova-plugin-inappbrowser": "4.0.0",
         "cordova-plugin-nativestorage": "2.3.1",
         "cordova-plugin-proper-device": "1.0.0",
         "cordova-plugin-proper-shortcut": "1.0.1",

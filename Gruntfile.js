@@ -82,7 +82,7 @@ module.exports = function(grunt) {
         command: [
           'cordova plugin add cordova-plugin-proper-HuanXin-iOS@1.0.4 --save',
           'cordova plugin add cordova-hot-code-push-plugin@1.5.3 --save',
-          'cordova plugin add cordova-plugin-baidumaplocation@1.0.4 --save'
+          'cordova plugin add cordova-plugin-baidumaplocation@1.0.5 --save'
         ].join('&&')
       },
       hcpBuild: {
