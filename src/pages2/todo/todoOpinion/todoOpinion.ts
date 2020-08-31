@@ -320,22 +320,24 @@ export class TodoOpinionPage2 {
       params.append('taskId', this.navParams.get('taskId'));
       params.append('step', this.navParams.get('step'));
       let data = {};
-      for (let i = 0; i < this.receiveItem['default'].length; i++) {
-        let temp = this.receiveItem['default'][i];
-        for (let key2 in temp) {
-          if (temp.hasOwnProperty(key2)) {
-            if (data[key2] == null) {
-              data[key2] = [temp[key2]];
-            } else {
-              data[key2].push(temp[key2]);
+      if (this.receiveItem != null && this.receiveItem['control_type'] == 'list') {
+        for (let i = 0; i < this.receiveItem['default'].length; i++) {
+          let temp = this.receiveItem['default'][i];
+          for (let key2 in temp) {
+            if (temp.hasOwnProperty(key2)) {
+              if (data[key2] == null) {
+                data[key2] = [temp[key2]];
+              } else {
+                data[key2].push(temp[key2]);
+              }
             }
           }
         }
-      }
-      for (let key2 in data) {
-        if (data.hasOwnProperty(key2)) {
-          params.append(key2, data[key2]);
-        }
+        for (let key2 in data) {
+          if (data.hasOwnProperty(key2)) {
+            params.append(key2, data[key2]);
+          }
+        } 
       }
       // 添加调度审批表单信息
       const approvalAttemperInfo = this.approvalInputTemps['selectGroup'];
